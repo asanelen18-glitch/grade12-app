@@ -23,7 +23,7 @@
             background: #4f46e5;
             color: white;
             text-align: center;
-            padding: 25px 20px;
+            padding: 28px 20px;
         }
 
         header h1 {
@@ -45,9 +45,27 @@
             background: white;
             padding: 20px;
             border-radius: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .paper {
+            background: #111827;
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 30px 0 15px;
+            text-align: center;
+        }
+
+        .paper h2 {
+            font-size: 24px;
+        }
+
+        .paper p {
+            margin-top: 6px;
+            font-size: 14px;
         }
 
         .topic {
@@ -58,34 +76,35 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
-        .topic h2 {
+        .topic h3 {
             color: #4f46e5;
             margin-bottom: 10px;
+            font-size: 21px;
         }
 
         .topic p {
             color: #555;
             line-height: 1.6;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .topic ul {
             margin-left: 20px;
-            line-height: 1.8;
             color: #444;
+            line-height: 1.8;
         }
 
         .formula {
             background: #f0f0ff;
             padding: 12px;
-            border-radius: 8px;
             margin-top: 12px;
+            border-radius: 8px;
             font-weight: bold;
         }
 
         .back {
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 20px;
             color: #4f46e5;
             text-decoration: none;
             font-weight: bold;
@@ -104,69 +123,70 @@
 
 <header>
     <h1>📐 Grade 12 Mathematics</h1>
-    <p>Notes, formulas and revision</p>
+    <p>Paper 1 & Paper 2 Notes and Revision</p>
 </header>
 
 <div class="container">
 
     <div class="intro">
-        <h2>Mathematics Topics</h2>
+        <h2>Mathematics Revision</h2>
         <p>
-            Choose a topic below and revise the important concepts and formulas.
+            Select a topic below to revise important Grade 12
+            Mathematics concepts, formulas and skills.
         </p>
     </div>
 
-    <!-- Algebra -->
+
+    <!-- ========================= -->
+    <!-- PAPER 1 -->
+    <!-- ========================= -->
+
+    <div class="paper">
+        <h2>📘 PAPER 1</h2>
+        <p>Algebra, Functions, Finance, Calculus and Probability</p>
+    </div>
+
+
+    <!-- 1 -->
     <div class="topic">
-        <h2>1. Algebra</h2>
+        <h3>1. Algebra</h3>
 
         <p>
-            Algebra involves working with variables, expressions and equations.
+            Algebra deals with expressions, equations and solving for unknown
+            values.
         </p>
 
         <ul>
-            <li>Simplifying expressions</li>
-            <li>Solving equations</li>
+            <li>Algebraic expressions</li>
             <li>Factorisation</li>
+            <li>Exponents</li>
+            <li>Surds</li>
+            <li>Equations and inequalities</li>
             <li>Quadratic equations</li>
-            <li>Inequalities</li>
         </ul>
 
         <div class="formula">
-            Quadratic formula: x = (-b ± √(b² - 4ac)) / 2a
+            x = (-b ± √(b² - 4ac)) / 2a
         </div>
     </div>
 
-    <!-- Functions -->
+
+    <!-- 2 -->
     <div class="topic">
-        <h2>2. Functions</h2>
+        <h3>2. Patterns, Sequences and Series</h3>
 
         <p>
-            Functions describe relationships between input and output values.
-        </p>
-
-        <ul>
-            <li>Linear functions</li>
-            <li>Quadratic functions</li>
-            <li>Exponential functions</li>
-            <li>Hyperbolic functions</li>
-            <li>Graph transformations</li>
-        </ul>
-    </div>
-
-    <!-- Sequences -->
-    <div class="topic">
-        <h2>3. Sequences and Series</h2>
-
-        <p>
-            Sequences are ordered lists of numbers that follow a particular pattern.
+            Study number patterns, arithmetic sequences and geometric
+            sequences.
         </p>
 
         <ul>
             <li>Arithmetic sequences</li>
             <li>Geometric sequences</li>
             <li>General term</li>
-            <li>Sum of sequences</li>
+            <li>Arithmetic series</li>
+            <li>Geometric series</li>
+            <li>Infinite geometric series</li>
         </ul>
 
         <div class="formula">
@@ -176,19 +196,49 @@
         <div class="formula">
             Geometric: Tₙ = arⁿ⁻¹
         </div>
+
+        <div class="formula">
+            Sum of arithmetic series:
+            Sₙ = n/2[2a + (n - 1)d]
+        </div>
     </div>
 
-    <!-- Finance -->
+
+    <!-- 3 -->
     <div class="topic">
-        <h2>4. Finance, Growth and Decay</h2>
+        <h3>3. Functions and Graphs</h3>
 
         <p>
-            This topic deals with financial calculations and changes in value over time.
+            Functions describe relationships between variables and can be
+            represented using graphs.
+        </p>
+
+        <ul>
+            <li>Linear functions</li>
+            <li>Quadratic functions</li>
+            <li>Exponential functions</li>
+            <li>Hyperbolic functions</li>
+            <li>Inverse functions</li>
+            <li>Graph transformations</li>
+            <li>Domain and range</li>
+        </ul>
+    </div>
+
+
+    <!-- 4 -->
+    <div class="topic">
+        <h3>4. Finance, Growth and Decay</h3>
+
+        <p>
+            This topic involves financial mathematics and situations where
+            quantities increase or decrease over time.
         </p>
 
         <ul>
             <li>Simple interest</li>
             <li>Compound interest</li>
+            <li>Depreciation</li>
+            <li>Inflation</li>
             <li>Present value</li>
             <li>Future value</li>
             <li>Growth and decay</li>
@@ -199,83 +249,23 @@
         </div>
     </div>
 
-    <!-- Probability -->
+
+    <!-- 5 -->
     <div class="topic">
-        <h2>5. Probability</h2>
+        <h3>5. Differential Calculus</h3>
 
         <p>
-            Probability measures how likely an event is to occur.
-        </p>
-
-        <ul>
-            <li>Sample spaces</li>
-            <li>Events</li>
-            <li>Independent events</li>
-            <li>Mutually exclusive events</li>
-            <li>Probability rules</li>
-        </ul>
-
-        <div class="formula">
-            P(A) = Number of favourable outcomes / Total number of outcomes
-        </div>
-    </div>
-
-    <!-- Analytical Geometry -->
-    <div class="topic">
-        <h2>6. Analytical Geometry</h2>
-
-        <p>
-            Analytical geometry uses coordinates and equations to study geometric shapes.
-        </p>
-
-        <ul>
-            <li>Distance between points</li>
-            <li>Midpoint</li>
-            <li>Gradient</li>
-            <li>Equation of a straight line</li>
-            <li>Circle geometry</li>
-        </ul>
-
-        <div class="formula">
-            Gradient: m = (y₂ - y₁) / (x₂ - x₁)
-        </div>
-    </div>
-
-    <!-- Trigonometry -->
-    <div class="topic">
-        <h2>7. Trigonometry</h2>
-
-        <p>
-            Trigonometry studies relationships between angles and sides of triangles.
-        </p>
-
-        <ul>
-            <li>Trigonometric ratios</li>
-            <li>Trigonometric identities</li>
-            <li>Reduction formulae</li>
-            <li>Trigonometric equations</li>
-            <li>Graphs of trigonometric functions</li>
-        </ul>
-
-        <div class="formula">
-            sin²θ + cos²θ = 1
-        </div>
-    </div>
-
-    <!-- Calculus -->
-    <div class="topic">
-        <h2>8. Calculus</h2>
-
-        <p>
-            Calculus is used to study rates of change and areas under curves.
+            Calculus studies rates of change and gradients of functions.
         </p>
 
         <ul>
             <li>Limits</li>
-            <li>Differentiation</li>
+            <li>First principles</li>
+            <li>Derivatives</li>
             <li>Gradient functions</li>
+            <li>Increasing and decreasing functions</li>
+            <li>Stationary points</li>
             <li>Maximum and minimum points</li>
-            <li>Integration</li>
         </ul>
 
         <div class="formula">
@@ -283,9 +273,44 @@
         </div>
     </div>
 
-    <!-- Statistics -->
+
+    <!-- 6 -->
     <div class="topic">
-        <h2>9. Statistics</h2>
+        <h3>6. Probability</h3>
+
+        <p>
+            Probability measures the likelihood that an event will occur.
+        </p>
+
+        <ul>
+            <li>Sample spaces</li>
+            <li>Events</li>
+            <li>Mutually exclusive events</li>
+            <li>Independent events</li>
+            <li>Dependent events</li>
+            <li>Conditional probability</li>
+            <li>Probability rules</li>
+        </ul>
+
+        <div class="formula">
+            P(A) = Number of favourable outcomes ÷ Total outcomes
+        </div>
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- PAPER 2 -->
+    <!-- ========================= -->
+
+    <div class="paper">
+        <h2>📕 PAPER 2</h2>
+        <p>Statistics, Analytical Geometry, Trigonometry and Geometry</p>
+    </div>
+
+
+    <!-- 1 -->
+    <div class="topic">
+        <h3>1. Statistics</h3>
 
         <p>
             Statistics involves collecting, analysing and interpreting data.
@@ -295,11 +320,118 @@
             <li>Mean</li>
             <li>Median</li>
             <li>Mode</li>
+            <li>Quartiles</li>
+            <li>Percentiles</li>
             <li>Variance</li>
             <li>Standard deviation</li>
-            <li>Data interpretation</li>
+            <li>Box-and-whisker diagrams</li>
+            <li>Scatter plots</li>
         </ul>
     </div>
+
+
+    <!-- 2 -->
+    <div class="topic">
+        <h3>2. Analytical Geometry</h3>
+
+        <p>
+            Analytical geometry uses coordinates and equations to solve
+            geometric problems.
+        </p>
+
+        <ul>
+            <li>Distance between two points</li>
+            <li>Midpoint</li>
+            <li>Gradient</li>
+            <li>Equation of a straight line</li>
+            <li>Parallel lines</li>
+            <li>Perpendicular lines</li>
+            <li>Inclination</li>
+            <li>Circle geometry</li>
+        </ul>
+
+        <div class="formula">
+            Gradient:
+            m = (y₂ - y₁) / (x₂ - x₁)
+        </div>
+
+        <div class="formula">
+            Distance:
+            AB = √[(x₂ - x₁)² + (y₂ - y₁)²]
+        </div>
+    </div>
+
+
+    <!-- 3 -->
+    <div class="topic">
+        <h3>3. Trigonometry</h3>
+
+        <p>
+            Trigonometry deals with relationships between angles and sides
+            and the properties of trigonometric functions.
+        </p>
+
+        <ul>
+            <li>Trigonometric ratios</li>
+            <li>Trigonometric identities</li>
+            <li>Reduction formulae</li>
+            <li>Compound angles</li>
+            <li>Double angles</li>
+            <li>Trigonometric equations</li>
+            <li>Trigonometric graphs</li>
+            <li>General solutions</li>
+        </ul>
+
+        <div class="formula">
+            sin²θ + cos²θ = 1
+        </div>
+
+        <div class="formula">
+            sin(A ± B) = sinA cosB ± cosA sinB
+        </div>
+    </div>
+
+
+    <!-- 4 -->
+    <div class="topic">
+        <h3>4. Euclidean Geometry</h3>
+
+        <p>
+            Euclidean geometry focuses on geometric theorems and relationships
+            between angles, lines and shapes.
+        </p>
+
+        <ul>
+            <li>Geometric theorems</li>
+            <li>Similarity</li>
+            <li>Congruency</li>
+            <li>Triangles</li>
+            <li>Parallel lines</li>
+            <li>Circle geometry</li>
+            <li>Proofs</li>
+        </ul>
+    </div>
+
+
+    <!-- 5 -->
+    <div class="topic">
+        <h3>5. Measurement</h3>
+
+        <p>
+            Measurement involves calculating lengths, areas, volumes and
+            related quantities.
+        </p>
+
+        <ul>
+            <li>Perimeter</li>
+            <li>Area</li>
+            <li>Surface area</li>
+            <li>Volume</li>
+            <li>Circles</li>
+            <li>Three-dimensional shapes</li>
+        </ul>
+    </div>
+
 
     <a href="notes.html" class="back">
         ← Back to Notes
@@ -307,11 +439,11 @@
 
 </div>
 
+
 <footer>
     <p>© 2026 Grade 12 Hub</p>
     <p>Study smart. Stay focused. Succeed.</p>
 </footer>
 
 </body>
-</html>
-     
+    </html>
