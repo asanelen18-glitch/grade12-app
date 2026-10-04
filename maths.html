@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Mathematics Notes</title>
+    <title>Grade 12 Mathematics</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
             color: #222;
         }
 
@@ -18,30 +23,64 @@
             background: #4f46e5;
             color: white;
             text-align: center;
-            padding: 25px;
+            padding: 25px 20px;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 16px;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
             padding: 20px;
+        }
+
+        .intro {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
         .topic {
             background: white;
             padding: 20px;
             margin-bottom: 15px;
-            border-radius: 12px;
+            border-radius: 15px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
         .topic h2 {
             color: #4f46e5;
+            margin-bottom: 10px;
         }
 
         .topic p {
-            line-height: 1.6;
             color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .topic ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .formula {
+            background: #f0f0ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-weight: bold;
         }
 
         .back {
@@ -51,51 +90,215 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+            font-size: 14px;
+        }
     </style>
 </head>
 
 <body>
 
 <header>
-    <h1>📐 Mathematics Notes</h1>
-    <p>Grade 12 Mathematics</p>
+    <h1>📐 Grade 12 Mathematics</h1>
+    <p>Notes, formulas and revision</p>
 </header>
 
 <div class="container">
 
-    <div class="topic">
-        <h2>Algebra</h2>
+    <div class="intro">
+        <h2>Mathematics Topics</h2>
         <p>
-            Revise algebraic expressions, equations and inequalities.
+            Choose a topic below and revise the important concepts and formulas.
         </p>
     </div>
 
+    <!-- Algebra -->
     <div class="topic">
-        <h2>Functions</h2>
+        <h2>1. Algebra</h2>
+
         <p>
-            Study different types of functions, graphs and transformations.
+            Algebra involves working with variables, expressions and equations.
         </p>
+
+        <ul>
+            <li>Simplifying expressions</li>
+            <li>Solving equations</li>
+            <li>Factorisation</li>
+            <li>Quadratic equations</li>
+            <li>Inequalities</li>
+        </ul>
+
+        <div class="formula">
+            Quadratic formula: x = (-b ± √(b² - 4ac)) / 2a
+        </div>
     </div>
 
+    <!-- Functions -->
     <div class="topic">
-        <h2>Calculus</h2>
+        <h2>2. Functions</h2>
+
         <p>
-            Learn about differentiation, integration and applications of calculus.
+            Functions describe relationships between input and output values.
         </p>
+
+        <ul>
+            <li>Linear functions</li>
+            <li>Quadratic functions</li>
+            <li>Exponential functions</li>
+            <li>Hyperbolic functions</li>
+            <li>Graph transformations</li>
+        </ul>
     </div>
 
+    <!-- Sequences -->
     <div class="topic">
-        <h2>Probability</h2>
+        <h2>3. Sequences and Series</h2>
+
         <p>
-            Review probability rules, events and probability calculations.
+            Sequences are ordered lists of numbers that follow a particular pattern.
         </p>
+
+        <ul>
+            <li>Arithmetic sequences</li>
+            <li>Geometric sequences</li>
+            <li>General term</li>
+            <li>Sum of sequences</li>
+        </ul>
+
+        <div class="formula">
+            Arithmetic: Tₙ = a + (n - 1)d
+        </div>
+
+        <div class="formula">
+            Geometric: Tₙ = arⁿ⁻¹
+        </div>
     </div>
 
+    <!-- Finance -->
     <div class="topic">
-        <h2>Statistics</h2>
+        <h2>4. Finance, Growth and Decay</h2>
+
         <p>
-            Study data handling, averages, distributions and statistical concepts.
+            This topic deals with financial calculations and changes in value over time.
         </p>
+
+        <ul>
+            <li>Simple interest</li>
+            <li>Compound interest</li>
+            <li>Present value</li>
+            <li>Future value</li>
+            <li>Growth and decay</li>
+        </ul>
+
+        <div class="formula">
+            A = P(1 + i)ⁿ
+        </div>
+    </div>
+
+    <!-- Probability -->
+    <div class="topic">
+        <h2>5. Probability</h2>
+
+        <p>
+            Probability measures how likely an event is to occur.
+        </p>
+
+        <ul>
+            <li>Sample spaces</li>
+            <li>Events</li>
+            <li>Independent events</li>
+            <li>Mutually exclusive events</li>
+            <li>Probability rules</li>
+        </ul>
+
+        <div class="formula">
+            P(A) = Number of favourable outcomes / Total number of outcomes
+        </div>
+    </div>
+
+    <!-- Analytical Geometry -->
+    <div class="topic">
+        <h2>6. Analytical Geometry</h2>
+
+        <p>
+            Analytical geometry uses coordinates and equations to study geometric shapes.
+        </p>
+
+        <ul>
+            <li>Distance between points</li>
+            <li>Midpoint</li>
+            <li>Gradient</li>
+            <li>Equation of a straight line</li>
+            <li>Circle geometry</li>
+        </ul>
+
+        <div class="formula">
+            Gradient: m = (y₂ - y₁) / (x₂ - x₁)
+        </div>
+    </div>
+
+    <!-- Trigonometry -->
+    <div class="topic">
+        <h2>7. Trigonometry</h2>
+
+        <p>
+            Trigonometry studies relationships between angles and sides of triangles.
+        </p>
+
+        <ul>
+            <li>Trigonometric ratios</li>
+            <li>Trigonometric identities</li>
+            <li>Reduction formulae</li>
+            <li>Trigonometric equations</li>
+            <li>Graphs of trigonometric functions</li>
+        </ul>
+
+        <div class="formula">
+            sin²θ + cos²θ = 1
+        </div>
+    </div>
+
+    <!-- Calculus -->
+    <div class="topic">
+        <h2>8. Calculus</h2>
+
+        <p>
+            Calculus is used to study rates of change and areas under curves.
+        </p>
+
+        <ul>
+            <li>Limits</li>
+            <li>Differentiation</li>
+            <li>Gradient functions</li>
+            <li>Maximum and minimum points</li>
+            <li>Integration</li>
+        </ul>
+
+        <div class="formula">
+            If y = xⁿ, then dy/dx = nxⁿ⁻¹
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="topic">
+        <h2>9. Statistics</h2>
+
+        <p>
+            Statistics involves collecting, analysing and interpreting data.
+        </p>
+
+        <ul>
+            <li>Mean</li>
+            <li>Median</li>
+            <li>Mode</li>
+            <li>Variance</li>
+            <li>Standard deviation</li>
+            <li>Data interpretation</li>
+        </ul>
     </div>
 
     <a href="notes.html" class="back">
@@ -104,5 +307,11 @@
 
 </div>
 
+<footer>
+    <p>© 2026 Grade 12 Hub</p>
+    <p>Study smart. Stay focused. Succeed.</p>
+</footer>
+
 </body>
-  </html>
+</html>
+     
