@@ -37,13 +37,16 @@
             padding: 20px;
         }
 
-        .profile-card {
+        .card {
             background: white;
-            padding: 25px;
-            border-radius: 18px;
-            text-align: center;
+            padding: 22px;
+            border-radius: 16px;
+            margin-bottom: 18px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
+        }
+
+        .profile {
+            text-align: center;
         }
 
         .profile-icon {
@@ -59,25 +62,71 @@
             margin: 0 auto 15px;
         }
 
-        .profile-card h2 {
-            margin-bottom: 5px;
+        .profile h2 {
+            margin-bottom: 6px;
         }
 
-        .profile-card p {
+        .profile p {
             color: #666;
         }
 
-        .section {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-
-        .section h3 {
+        h3 {
             color: #4f46e5;
             margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .subjects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .subject-option {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .subject-option label {
+            display: inline;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button:active {
+            transform: scale(0.98);
         }
 
         .info {
@@ -98,48 +147,19 @@
             color: #666;
         }
 
-        .subjects {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .subject {
-            background: #eef2ff;
-            color: #4f46e5;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .progress-box {
-            margin-top: 10px;
-        }
-
         .progress-bar {
             width: 100%;
             height: 15px;
             background: #e5e7eb;
             border-radius: 10px;
             overflow: hidden;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .progress {
-            width: 35%;
+            width: 0%;
             height: 100%;
             background: #4f46e5;
-        }
-
-        .button {
-            display: inline-block;
-            background: #4f46e5;
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-top: 10px;
         }
 
         .back {
@@ -147,7 +167,15 @@
             color: #4f46e5;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 20px;
+            margin: 20px 0;
+        }
+
+        .message {
+            text-align: center;
+            color: #16a34a;
+            font-weight: bold;
+            margin-top: 12px;
+            display: none;
         }
 
         footer {
@@ -163,63 +191,142 @@
 
 <header>
     <h1>👤 My Profile</h1>
-    <p>Manage your Grade 12 study progress</p>
+    <p>Your Grade 12 study profile</p>
 </header>
 
 <div class="container">
 
-    <!-- PROFILE -->
+    <!-- PROFILE DISPLAY -->
 
-    <div class="profile-card">
+    <div class="card profile">
 
         <div class="profile-icon">
             👤
         </div>
 
-        <h2>Grade 12 Learner</h2>
+        <h2 id="displayName">Grade 12 Learner</h2>
 
-        <p>Welcome to your study profile</p>
-
-        <a href="#" class="button">
-            Edit Profile
-        </a>
+        <p id="displayGoal">
+            Set your study goal below
+        </p>
 
     </div>
 
 
-    <!-- PERSONAL INFORMATION -->
+    <!-- EDIT PROFILE -->
 
-    <div class="section">
+    <div class="card">
 
-        <h3>🎓 My Information</h3>
+        <h3>✏️ Edit Profile</h3>
+
+        <label for="name">Your Name</label>
+
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+        >
+
+
+        <label for="grade">Grade</label>
+
+        <input
+            type="text"
+            id="grade"
+            value="Grade 12"
+        >
+
+
+        <label>📚 My Subjects</label>
+
+        <div class="subjects">
+
+            <div class="subject-option">
+                <input type="checkbox" id="maths" value="Mathematics">
+                <label for="maths">Mathematics</label>
+            </div>
+
+            <div class="subject-option">
+                <input type="checkbox" id="science" value="Physical Sciences">
+                <label for="science">Physical Sciences</label>
+            </div>
+
+            <div class="subject-option">
+                <input type="checkbox" id="life" value="Life Sciences">
+                <label for="life">Life Sciences</label>
+            </div>
+
+            <div class="subject-option">
+                <input type="checkbox" id="english" value="English">
+                <label for="english">English</label>
+            </div>
+
+            <div class="subject-option">
+                <input type="checkbox" id="geography" value="Geography">
+                <label for="geography">Geography</label>
+            </div>
+
+            <div class="subject-option">
+                <input type="checkbox" id="accounting" value="Accounting">
+                <label for="accounting">Accounting</label>
+            </div>
+
+            <div class="subject-option">
+                <input type="checkbox" id="business" value="Business Studies">
+                <label for="business">Business Studies</label>
+            </div>
+
+            <div class="subject-option">
+                <input type="checkbox" id="history" value="History">
+                <label for="history">History</label>
+            </div>
+
+        </div>
+
+
+        <label for="goal">🎯 Study Goal</label>
+
+        <textarea
+            id="goal"
+            placeholder="Example: Get 70% or higher in Mathematics"
+        ></textarea>
+
+
+        <button onclick="saveProfile()">
+            💾 Save Profile
+        </button>
+
+        <div class="message" id="message">
+            ✅ Profile saved successfully!
+        </div>
+
+    </div>
+
+
+    <!-- PROFILE INFORMATION -->
+
+    <div class="card">
+
+        <h3>📋 My Information</h3>
+
+        <div class="info">
+            <strong>Name</strong>
+            <span id="savedName">Not set</span>
+        </div>
 
         <div class="info">
             <strong>Grade</strong>
-            <span>Grade 12</span>
+            <span id="savedGrade">Grade 12</span>
+        </div>
+
+        <div class="info">
+            <strong>Subjects</strong>
+            <span id="savedSubjects">No subjects selected</span>
         </div>
 
         <div class="info">
             <strong>Study Goal</strong>
-            <span>Improve my marks and prepare for final exams</span>
-        </div>
-
-    </div>
-
-
-    <!-- SUBJECTS -->
-
-    <div class="section">
-
-        <h3>📚 My Subjects</h3>
-
-        <div class="subjects">
-
-            <span class="subject">Mathematics</span>
-            <span class="subject">Physical Sciences</span>
-            <span class="subject">Life Sciences</span>
-            <span class="subject">English</span>
-            <span class="subject">Geography</span>
-
+            <span id="savedGoal">Not set</span>
         </div>
 
     </div>
@@ -227,18 +334,20 @@
 
     <!-- QUIZ PROGRESS -->
 
-    <div class="section">
+    <div class="card">
 
         <h3>🧠 Quiz Progress</h3>
 
-        <p>Overall quiz progress: <strong>35%</strong></p>
+        <p>
+            Overall progress:
+            <strong id="quizPercent">0%</strong>
+        </p>
 
-        <div class="progress-box">
-
-            <div class="progress-bar">
-                <div class="progress"></div>
+        <div class="progress-bar">
+            <div
+                class="progress"
+                id="quizProgress">
             </div>
-
         </div>
 
     </div>
@@ -246,18 +355,18 @@
 
     <!-- SAVED MATERIAL -->
 
-    <div class="section">
+    <div class="card">
 
         <h3>💾 Saved Material</h3>
 
         <div class="info">
             <strong>Saved Papers</strong>
-            <span>0 papers saved</span>
+            <span id="savedPapers">0 papers saved</span>
         </div>
 
         <div class="info">
             <strong>Saved Notes</strong>
-            <span>0 notes saved</span>
+            <span id="savedNotes">0 notes saved</span>
         </div>
 
     </div>
@@ -278,5 +387,141 @@
 
 </footer>
 
+
+<script>
+
+function saveProfile() {
+
+    const name = document.getElementById("name").value;
+
+    const grade = document.getElementById("grade").value;
+
+    const goal = document.getElementById("goal").value;
+
+
+    const subjects = [];
+
+    const checkboxes =
+        document.querySelectorAll(
+            '.subject-option input[type="checkbox"]'
+        );
+
+
+    checkboxes.forEach(function(checkbox) {
+
+        if (checkbox.checked) {
+            subjects.push(checkbox.value);
+        }
+
+    });
+
+
+    localStorage.setItem(
+        "grade12_name",
+        name
+    );
+
+    localStorage.setItem(
+        "grade12_grade",
+        grade
+    );
+
+    localStorage.setItem(
+        "grade12_goal",
+        goal
+    );
+
+    localStorage.setItem(
+        "grade12_subjects",
+        JSON.stringify(subjects)
+    );
+
+
+    displayProfile();
+
+
+    const message =
+        document.getElementById("message");
+
+    message.style.display = "block";
+
+
+    setTimeout(function() {
+        message.style.display = "none";
+    }, 3000);
+
+}
+
+
+function displayProfile() {
+
+    const name =
+        localStorage.getItem("grade12_name") || "";
+
+    const grade =
+        localStorage.getItem("grade12_grade") || "Grade 12";
+
+    const goal =
+        localStorage.getItem("grade12_goal") || "";
+
+    const subjects =
+        JSON.parse(
+            localStorage.getItem("grade12_subjects") || "[]"
+        );
+
+
+    document.getElementById("name").value = name;
+
+    document.getElementById("grade").value = grade;
+
+    document.getElementById("goal").value = goal;
+
+
+    document.getElementById("displayName").textContent =
+        name || "Grade 12 Learner";
+
+
+    document.getElementById("displayGoal").textContent =
+        goal || "Set your study goal below";
+
+
+    document.getElementById("savedName").textContent =
+        name || "Not set";
+
+
+    document.getElementById("savedGrade").textContent =
+        grade;
+
+
+    document.getElementById("savedSubjects").textContent =
+        subjects.length > 0
+        ? subjects.join(", ")
+        : "No subjects selected";
+
+
+    document.getElementById("savedGoal").textContent =
+        goal || "Not set";
+
+
+    const checkboxes =
+        document.querySelectorAll(
+            '.subject-option input[type="checkbox"]'
+        );
+
+
+    checkboxes.forEach(function(checkbox) {
+
+        checkbox.checked =
+            subjects.includes(checkbox.value);
+
+    });
+
+}
+
+
+displayProfile();
+
+</script>
+
 </body>
-  </html>
+</html>
