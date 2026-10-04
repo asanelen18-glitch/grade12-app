@@ -13,6 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -127,40 +128,209 @@
             color: #666;
             font-size: 14px;
         }
+
+
+        /* GOAL POP-UP */
+
+        .goal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.65);
+
+            display: none;
+
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+
+            z-index: 9999;
+        }
+
+        .goal-popup {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+
+            padding: 30px 25px;
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        .goal-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .goal-popup h2 {
+            margin-bottom: 10px;
+            color: #4f46e5;
+        }
+
+        .goal-popup p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .goal-text {
+            background: #eef2ff;
+            color: #3730a3;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            font-weight: bold;
+
+            margin: 15px 0 20px;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .popup-button {
+            border: none;
+
+            padding: 12px 18px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            font-size: 15px;
+        }
+
+        .start-button {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .close-button {
+            background: #e5e7eb;
+            color: #333;
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- GOAL POP-UP -->
+
+<div class="goal-overlay" id="goalOverlay">
+
+    <div class="goal-popup">
+
+        <div class="goal-icon">
+            🎯
+        </div>
+
+        <h2 id="goalWelcome">
+            Welcome back!
+        </h2>
+
+        <p>
+            Remember why you started.
+            Keep working towards your goal!
+        </p>
+
+        <div class="goal-text" id="goalMessage">
+            Your study goal
+        </div>
+
+        <p>
+            💪 Stay focused.  
+            📚 Keep studying.  
+            🌟 You can do it!
+        </p>
+
+        <div class="popup-buttons">
+
+            <button
+                class="popup-button start-button"
+                onclick="startStudying()">
+                📚 Start Studying
+            </button>
+
+            <button
+                class="popup-button close-button"
+                onclick="closeGoalPopup()">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <header>
+
     <h1>🎓 Grade 12 Hub</h1>
-    <p>Your study companion for Grade 12</p>
+
+    <p>
+        Your study companion for Grade 12
+    </p>
+
 </header>
+
 
 <div class="container">
 
+
+    <!-- WELCOME -->
+
     <div class="welcome">
-        <h2>Welcome to Grade 12 Hub</h2>
+
+        <h2 id="homeWelcome">
+            Welcome to Grade 12 Hub
+        </h2>
 
         <p>
-            Access past papers, study notes, motivation and university
-            application information all in one place.
+            Access past papers, study notes,
+            motivation and university application
+            information all in one place.
         </p>
+
     </div>
+
+
+    <!-- MAIN CARDS -->
 
     <div class="cards">
 
+
         <!-- PAST PAPERS -->
+
         <div class="card">
 
             <h3>📚 Past Papers</h3>
 
             <p>
-                Practice with Grade 12 past question papers
-                from different subjects and years.
+                Practice with Grade 12 past question
+                papers from different subjects and years.
             </p>
 
-            <a href="past-papers.html" class="button">
+            <a
+                href="past-papers.html"
+                class="button">
                 Open Past Papers
             </a>
 
@@ -168,16 +338,19 @@
 
 
         <!-- NOTES -->
+
         <div class="card">
 
             <h3>📝 Notes</h3>
 
             <p>
-                Find useful Grade 12 study notes and
-                revision material for your subjects.
+                Find useful Grade 12 study notes
+                and revision material for your subjects.
             </p>
 
-            <a href="notes.html" class="button">
+            <a
+                href="notes.html"
+                class="button">
                 Open Notes
             </a>
 
@@ -185,16 +358,19 @@
 
 
         <!-- MOTIVATION -->
+
         <div class="card">
 
             <h3>💪 Motivation</h3>
 
             <p>
-                Get motivation, study tips and reminders
-                to help you stay focused.
+                Get motivation, study tips and
+                reminders to help you stay focused.
             </p>
 
-            <a href="#" class="button">
+            <a
+                href="#"
+                class="button">
                 Get Motivation
             </a>
 
@@ -202,37 +378,46 @@
 
 
         <!-- VARSITY -->
+
         <div class="card">
 
             <h3>🎓 Apply to Varsity</h3>
 
             <p>
-                Find information and useful links for
-                applying to universities and colleges.
+                Find information and useful links
+                for applying to universities and colleges.
             </p>
 
-            <a href="#" class="button">
+            <a
+                href="#"
+                class="button">
                 Apply to Varsity
             </a>
 
         </div>
 
+
+        <!-- USER PROFILE -->
+
+        <div class="card">
+
+            <h3>👤 My Profile</h3>
+
+            <p>
+                View your subjects, study goals,
+                quiz progress and saved material.
+            </p>
+
+            <a
+                href="profile.html"
+                class="button">
+                Open My Profile
+            </a>
+
+        </div>
+
+
     </div>
-    <!-- USER PROFILE -->
-<div class="card">
-
-    <h3>👤 My Profile</h3>
-
-    <p>
-        View your subjects, study goals, quiz progress
-        and saved study material.
-    </p>
-
-    <a href="profile.html" class="button">
-        Open My Profile
-    </a>
-
-</div>
 
 
     <!-- MOTIVATION SECTION -->
@@ -248,12 +433,15 @@
 
     </div>
 
+
 </div>
 
 
 <footer>
 
-    <p>© 2026 Grade 12 Hub</p>
+    <p>
+        © 2026 Grade 12 Hub
+    </p>
 
     <p>
         Built to help Grade 12 learners succeed.
@@ -262,23 +450,158 @@
 </footer>
 
 
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+
+/*
+    LOAD THE LEARNER'S PROFILE
+*/
+
+function loadProfile() {
+
+    const name =
+        localStorage.getItem("grade12_name") || "";
+
+    const goal =
+        localStorage.getItem("grade12_goal") || "";
+
+
+    /*
+        If the learner has a name,
+        change the Home welcome message.
+    */
+
+    if (name !== "") {
+
+        document.getElementById(
+            "homeWelcome"
+        ).textContent =
+            "Welcome back, " + name + "! 👋";
+
+    }
+
+
+    /*
+        If the learner has saved a goal,
+        show the goal popup.
+    */
+
+    if (goal !== "") {
+
+        document.getElementById(
+            "goalWelcome"
+        ).textContent =
+            "Welcome back, " +
+            (name || "Learner") +
+            "! 👋";
+
+
+        document.getElementById(
+            "goalMessage"
+        ).textContent =
+            "🎯 Your goal: " + goal;
+
+
+        document.getElementById(
+            "goalOverlay"
+        ).style.display =
+            "flex";
+
+    }
+
+}
+
+
+
+/*
+    CLOSE POP-UP
+*/
+
+function closeGoalPopup() {
+
+    document.getElementById(
+        "goalOverlay"
+    ).style.display =
+        "none";
+
+}
+
+
+
+/*
+    START STUDYING
+*/
+
+function startStudying() {
+
+    /*
+        Close the message first.
+    */
+
+    closeGoalPopup();
+
+
+    /*
+        Take the learner to
+        the Past Papers page.
+    */
+
+    window.location.href =
+        "past-papers.html";
+
+}
+
+
+
+/*
+    RUN WHEN THE HOME PAGE OPENS
+*/
+
+window.addEventListener(
+    "load",
+    loadProfile
+);
+
+
+</script>
+
+
+
 <!-- SERVICE WORKER -->
 
 <script>
 
 if ("serviceWorker" in navigator) {
 
-    navigator.serviceWorker.register("service-worker.js")
-        .then(function() {
-            console.log("Grade 12 Hub service worker registered.");
-        })
-        .catch(function(error) {
-            console.log("Service worker registration failed:", error);
-        });
+    navigator.serviceWorker.register(
+        "service-worker.js"
+    )
+
+    .then(function() {
+
+        console.log(
+            "Grade 12 Hub service worker registered."
+        );
+
+    })
+
+    .catch(function(error) {
+
+        console.log(
+            "Service worker registration failed:",
+            error
+        );
+
+    });
 
 }
 
 </script>
 
+
 </body>
+
 </html>
