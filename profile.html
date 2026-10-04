@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - Grade 12 Hub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #4f46e5;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .profile-icon {
+            width: 90px;
+            height: 90px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            margin: 0 auto 15px;
+        }
+
+        .profile-card h2 {
+            margin-bottom: 5px;
+        }
+
+        .profile-card p {
+            color: #666;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .section h3 {
+            color: #4f46e5;
+            margin-bottom: 15px;
+        }
+
+        .info {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info:last-child {
+            border-bottom: none;
+        }
+
+        .info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info span {
+            color: #666;
+        }
+
+        .subjects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .subject {
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .progress-box {
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 15px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress {
+            width: 35%;
+            height: 100%;
+            background: #4f46e5;
+        }
+
+        .button {
+            display: inline-block;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .back {
+            display: block;
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>👤 My Profile</h1>
+    <p>Manage your Grade 12 study progress</p>
+</header>
+
+<div class="container">
+
+    <!-- PROFILE -->
+
+    <div class="profile-card">
+
+        <div class="profile-icon">
+            👤
+        </div>
+
+        <h2>Grade 12 Learner</h2>
+
+        <p>Welcome to your study profile</p>
+
+        <a href="#" class="button">
+            Edit Profile
+        </a>
+
+    </div>
+
+
+    <!-- PERSONAL INFORMATION -->
+
+    <div class="section">
+
+        <h3>🎓 My Information</h3>
+
+        <div class="info">
+            <strong>Grade</strong>
+            <span>Grade 12</span>
+        </div>
+
+        <div class="info">
+            <strong>Study Goal</strong>
+            <span>Improve my marks and prepare for final exams</span>
+        </div>
+
+    </div>
+
+
+    <!-- SUBJECTS -->
+
+    <div class="section">
+
+        <h3>📚 My Subjects</h3>
+
+        <div class="subjects">
+
+            <span class="subject">Mathematics</span>
+            <span class="subject">Physical Sciences</span>
+            <span class="subject">Life Sciences</span>
+            <span class="subject">English</span>
+            <span class="subject">Geography</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUIZ PROGRESS -->
+
+    <div class="section">
+
+        <h3>🧠 Quiz Progress</h3>
+
+        <p>Overall quiz progress: <strong>35%</strong></p>
+
+        <div class="progress-box">
+
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SAVED MATERIAL -->
+
+    <div class="section">
+
+        <h3>💾 Saved Material</h3>
+
+        <div class="info">
+            <strong>Saved Papers</strong>
+            <span>0 papers saved</span>
+        </div>
+
+        <div class="info">
+            <strong>Saved Notes</strong>
+            <span>0 notes saved</span>
+        </div>
+
+    </div>
+
+
+    <a href="index.html" class="back">
+        ← Back to Home
+    </a>
+
+</div>
+
+
+<footer>
+
+    <p>© 2026 Grade 12 Hub</p>
+
+    <p>Study smart. Stay focused. Succeed.</p>
+
+</footer>
+
+</body>
+  </html>
