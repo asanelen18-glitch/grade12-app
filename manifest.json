@@ -1,0 +1,10 @@
+{
+  "name": "Grade 12 Hub",
+  "short_name": "Grade 12 Hub",
+  "start_url": "/grade12-app/",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#4f46e5",
+  "description": "Grade 12 past papers, notes, motivation and university information.",
+  "orientation": "portrait"
+}
