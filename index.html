@@ -1,1057 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade 12 Hub</title>
 
-    <title>Grade 12 Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <link rel="manifest" href="manifest.json">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    <meta name="theme-color" content="#4f46e5">
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    header {
+      background: #173b73;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #222;
-        }
+    header h1 {
+      margin: 0;
+    }
 
-        header {
-            background: #4f46e5;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 25px;
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 26px;
-        }
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 20px;
-        }
+    h2 {
+      text-align: center;
+      margin-top: 0;
+    }
 
-        .welcome {
-            background: white;
-            padding: 20px;
-            border-radius: 14px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
 
-        .welcome h2 {
-            margin-top: 0;
-        }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
 
-        .goal {
-            background: #eef2ff;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 12px;
-            margin-bottom: 15px;
-        }
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 20px;
+      background: #173b73;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
+    button:hover {
+      background: #0f2b55;
+    }
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: 0.2s;
-        }
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+    }
 
-        .card:hover {
-            transform: translateY(-3px);
-        }
+    .login-link a {
+      color: #173b73;
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-        .card h3 {
-            margin-top: 0;
-        }
+    #message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
 
-        .card p {
-            color: #666;
-        }
+    .terms {
+      margin-top: 15px;
+      font-size: 14px;
+    }
 
-        button {
-            border: none;
-            background: #4f46e5;
-            color: white;
-            padding: 12px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        button:hover {
-            background: #3730a3;
-        }
-
-        .logout {
-            background: #dc2626;
-            margin-left: 8px;
-        }
-
-        .logout:hover {
-            background: #991b1b;
-        }
-
-        .creator {
-            background: white;
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 14px;
-            text-align: center;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #666;
-        }
-
-        /* PROFILE SETUP */
-
-        #setupScreen {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #f4f6f8;
-            z-index: 9999;
-            overflow-y: auto;
-        }
-
-        .setup-box {
-            max-width: 600px;
-            margin: 30px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.12);
-        }
-
-        .setup-box h2 {
-            margin-top: 0;
-            color: #4f46e5;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 6px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        .grade-display {
-            background: #eef2ff;
-            padding: 13px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .subjects {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .subject-option {
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 8px;
-            background: #fafafa;
-        }
-
-        .subject-option input {
-            width: auto;
-            margin-right: 8px;
-        }
-
-        .message {
-            margin-top: 12px;
-            padding: 10px;
-            border-radius: 8px;
-            background: #fee2e2;
-            color: #991b1b;
-            display: none;
-        }
-
-        @media (max-width: 500px) {
-
-            .subjects {
-                grid-template-columns: 1fr;
-            }
-
-            .logout {
-                margin-left: 0;
-                margin-top: 10px;
-            }
-        }
-    </style>
+    .terms input {
+      width: auto;
+      margin-right: 8px;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-    <h1>🎓 Grade 12 Hub</h1>
+  <h1>Grade 12 Hub</h1>
+  <p>Past Papers • Notes • Motivation • University Applications</p>
 </header>
 
-
 <div class="container">
-
-    <!-- WELCOME -->
-
-    <div class="welcome">
-
-        <h2 id="welcomeText">
-            Welcome to Grade 12 Hub! 👋
-        </h2>
-
-        <p>
-            Your place for Grade 12 past papers, notes,
-            study help, university information and more.
-        </p>
-
-        <div
-            class="goal"
-            id="goalDisplay"
-            style="display:none;">
-        </div>
-
-        <button onclick="openProfile()">
-            👤 My Profile
-        </button>
-
-        <button
-            class="logout"
-            onclick="logout()">
-            Log Out
-        </button>
-
-    </div>
-
-
-    <!-- MAIN FEATURES -->
-
-    <div class="grid">
-
-        <div
-            class="card"
-            onclick="goTo('past-papers.html')">
-
-            <h3>📚 Past Papers</h3>
-
-            <p>
-                Practice with previous Grade 12
-                examination papers.
-            </p>
-
-        </div>
-
-
-        <div
-            class="card"
-            onclick="goTo('notes.html')">
-
-            <h3>📝 Study Notes</h3>
-
-            <p>
-                Access notes, summaries and
-                revision material.
-            </p>
-
-        </div>
-
-
-        <div
-            class="card"
-            onclick="goTo('ai-helper.html')">
-
-            <h3>🤖 AI Study Helper</h3>
-
-            <p>
-                Get help solving questions and
-                understanding your work.
-            </p>
-
-        </div>
-
-
-        <div
-            class="card"
-            onclick="goTo('study-groups.html')">
-
-            <h3>👥 Study Groups</h3>
-
-            <p>
-                Study and discuss subjects with
-                other learners.
-            </p>
-
-        </div>
-
-
-        <div
-            class="card"
-            onclick="comingSoon()">
-
-            <h3>💪 Motivation</h3>
-
-            <p>
-                Daily motivation and exam
-                encouragement.
-            </p>
-
-        </div>
-
-
-        <div
-            class="card"
-            onclick="comingSoon()">
-
-            <h3>🎓 Apply to Varsity</h3>
-
-            <p>
-                Find university application
-                information and links.
-            </p>
-
-        </div>
-
-
-        <div
-            class="card"
-            onclick="comingSoon()">
-
-            <h3>💼 Career Guidance</h3>
-
-            <p>
-                Explore careers, subjects and
-                study opportunities.
-            </p>
-
-        </div>
-
-
-        <div
-            class="card"
-            onclick="comingSoon()">
-
-            <h3>📅 Study Planner</h3>
-
-            <p>
-                Plan your study time and
-                revision goals.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- CREATOR -->
-
-    <div class="creator">
-
-        <h3>Created by</h3>
-
-        <p>
-            <strong>MH Masina</strong>
-        </p>
-
-        <p>
-            <strong>NP Machete</strong>
-        </p>
-
-    </div>
-
-</div>
-
-
-<footer>
-    Created by MH Masina & NP Machete
-</footer>
-
-
-<!-- FIRST-TIME PROFILE SETUP -->
-
-<div id="setupScreen">
-
-    <div class="setup-box">
-
-        <h2>🎓 Complete Your Learner Profile</h2>
-
-        <p>
-            Please complete your profile before entering
-            Grade 12 Hub.
-        </p>
-
-
-        <div
-            id="setupMessage"
-            class="message">
-        </div>
-
-
-        <!-- NAME -->
-
-        <label for="fullName">
-            Full Name *
-        </label>
-
-        <input
-            type="text"
-            id="fullName"
-            placeholder="Enter your full name"
-        >
-
-
-        <!-- EMAIL -->
-
-        <label for="email">
-            Email
-        </label>
-
-        <input
-            type="email"
-            id="email"
-            readonly
-        >
-
-
-        <!-- GRADE -->
-
+  <div class="card">
+
+    <h2>Create Account</h2>
+
+    <form id="signupForm">
+
+      <label for="email">Email *</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+      >
+
+      <label for="password">Password *</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Create a password"
+        minlength="6"
+        required
+      >
+
+      <label for="confirmPassword">Confirm Password *</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm your password"
+        minlength="6"
+        required
+      >
+
+      <div class="terms">
         <label>
-            Grade
+          <input type="checkbox" id="terms" required>
+          I agree to the Grade 12 Hub Terms & Community Rules.
         </label>
+      </div>
 
-        <div class="grade-display">
-            🎓 Grade 12
-        </div>
+      <button type="submit">Create Account</button>
 
+      <div id="message"></div>
 
-        <!-- SCHOOL -->
+    </form>
 
-        <label for="school">
-            School *
-        </label>
-
-        <input
-            type="text"
-            id="school"
-            placeholder="Enter your school name"
-        >
-
-
-        <!-- SUBJECTS -->
-
-        <label>
-            Subjects *
-        </label>
-
-        <div class="subjects">
-
-            <label class="subject-option">
-                <input
-                    type="checkbox"
-                    value="Mathematics">
-                Mathematics
-            </label>
-
-
-            <label class="subject-option">
-                <input
-                    type="checkbox"
-                    value="Physical Sciences">
-                Physical Sciences
-            </label>
-
-
-            <label class="subject-option">
-                <input
-                    type="checkbox"
-                    value="Life Sciences">
-                Life Sciences
-            </label>
-
-
-            <label class="subject-option">
-                <input
-                    type="checkbox"
-                    value="English">
-                English
-            </label>
-
-
-            <label class="subject-option">
-                <input
-                    type="checkbox"
-                    value="Geography">
-                Geography
-            </label>
-
-
-            <label class="subject-option">
-                <input
-                    type="checkbox"
-                    value="Accounting">
-                Accounting
-            </label>
-
-
-            <label class="subject-option">
-                <input
-                    type="checkbox"
-                    value="Business Studies">
-                Business Studies
-            </label>
-
-
-            <label class="subject-option">
-                <input
-                    type="checkbox"
-                    value="History">
-                History
-            </label>
-
-        </div>
-
-
-        <!-- STUDY GOAL -->
-
-        <label for="studyGoal">
-            Study Goal
-        </label>
-
-        <textarea
-            id="studyGoal"
-            placeholder="Example: I want to improve my Mathematics mark.">
-        </textarea>
-
-
-        <br><br>
-
-
-        <button onclick="saveProfile()">
-            Save & Enter App
-        </button>
-
+    <div class="login-link">
+      Already have an account?
+      <a href="login.html">Log in</a>
     </div>
 
+  </div>
 </div>
-
-
-<!-- SUPABASE -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+  // ==========================================
+  // SUPABASE CONNECTION
+  // ==========================================
 
-    /* =========================================
-       SUPABASE CONNECTION
-       ========================================= */
+  const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
-    const SUPABASE_URL =
-        "https://hdlhhbnawltisszzsbvw.supabase.co";
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
+  // ==========================================
+  // CREATE ACCOUNT
+  // ==========================================
 
-    const SUPABASE_KEY =
-        "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+  const signupForm = document.getElementById("signupForm");
+  const message = document.getElementById("message");
 
+  signupForm.addEventListener("submit", async function(event) {
+    event.preventDefault();
 
-    const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const terms = document.getElementById("terms").checked;
 
+    message.textContent = "";
 
-    /* =========================================
-       START APP
-       ========================================= */
-
-    window.addEventListener(
-        "load",
-        async function () {
-
-            await checkUser();
-
-        }
-    );
-
-
-    /* =========================================
-       CHECK LOGIN
-       ========================================= */
-
-    async function checkUser() {
-
-        const result =
-            await supabaseClient.auth.getSession();
-
-
-        if (result.error) {
-
-            console.log(result.error);
-
-            window.location.href =
-                "login.html";
-
-            return;
-        }
-
-
-        const session =
-            result.data.session;
-
-
-        /*
-         No logged-in learner
-         */
-
-        if (!session) {
-
-            window.location.href =
-                "login.html";
-
-            return;
-        }
-
-
-        /*
-         Logged-in learner
-         */
-
-        const user =
-            session.user;
-
-
-        document.getElementById(
-            "email"
-        ).value =
-            user.email || "";
-
-
-        await loadProfile(
-            user.id
-        );
-
+    if (!terms) {
+      message.textContent = "Please agree to the Terms & Community Rules.";
+      return;
     }
 
-
-    /* =========================================
-       LOAD PROFILE
-       ========================================= */
-
-    async function loadProfile(userId) {
-
-        const result =
-            await supabaseClient
-                .from("profiles")
-                .select("*")
-                .eq("id", userId)
-                .maybeSingle();
-
-
-        if (result.error) {
-
-            console.log(
-                "Profile error:",
-                result.error
-            );
-
-
-            document.getElementById(
-                "setupScreen"
-            ).style.display =
-                "block";
-
-
-            return;
-        }
-
-
-        const profile =
-            result.data;
-
-
-        /*
-         No profile yet
-         */
-
-        if (!profile) {
-
-            document.getElementById(
-                "setupScreen"
-            ).style.display =
-                "block";
-
-
-            return;
-        }
-
-
-        /*
-         Profile exists
-         */
-
-        document.getElementById(
-            "setupScreen"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "welcomeText"
-        ).textContent =
-            "Welcome back, " +
-            profile.full_name +
-            "! 👋";
-
-
-        if (profile.study_goal) {
-
-            document.getElementById(
-                "goalDisplay"
-            ).style.display =
-                "block";
-
-
-            document.getElementById(
-                "goalDisplay"
-            ).textContent =
-                "🎯 Your goal: " +
-                profile.study_goal;
-        }
-
+    if (password !== confirmPassword) {
+      message.textContent = "Passwords do not match.";
+      return;
     }
 
-
-    /* =========================================
-       SAVE PROFILE
-       ========================================= */
-
-    async function saveProfile() {
-
-        const name =
-            document.getElementById(
-                "fullName"
-            ).value.trim();
-
-
-        const email =
-            document.getElementById(
-                "email"
-            ).value.trim();
-
-
-        const school =
-            document.getElementById(
-                "school"
-            ).value.trim();
-
-
-        const goal =
-            document.getElementById(
-                "studyGoal"
-            ).value.trim();
-
-
-        const subjectBoxes =
-            document.querySelectorAll(
-                '.subject-option input[type="checkbox"]'
-            );
-
-
-        const subjects = [];
-
-
-        subjectBoxes.forEach(
-            function (box) {
-
-                if (box.checked) {
-
-                    subjects.push(
-                        box.value
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* VALIDATION */
-
-        if (name === "") {
-
-            showSetupMessage(
-                "Please enter your full name."
-            );
-
-            return;
-        }
-
-
-        if (school === "") {
-
-            showSetupMessage(
-                "Please enter your school."
-            );
-
-            return;
-        }
-
-
-        if (subjects.length === 0) {
-
-            showSetupMessage(
-                "Please select at least one subject."
-            );
-
-            return;
-        }
-
-
-        const sessionResult =
-            await supabaseClient.auth.getSession();
-
-
-        const session =
-            sessionResult.data.session;
-
-
-        if (!session) {
-
-            window.location.href =
-                "login.html";
-
-            return;
-        }
-
-
-        const userId =
-            session.user.id;
-
-
-        /* SAVE PROFILE */
-
-        const profileResult =
-            await supabaseClient
-                .from("profiles")
-                .upsert({
-
-                    id: userId,
-
-                    full_name: name,
-
-                    email: email,
-
-                    grade: "Grade 12",
-
-                    school: school,
-
-                    subjects: subjects,
-
-                    study_goal:
-                        goal || null
-
-                });
-
-
-        if (profileResult.error) {
-
-            console.log(
-                profileResult.error
-            );
-
-
-            showSetupMessage(
-                "Could not save your profile. Please try again."
-            );
-
-            return;
-        }
-
-
-        /* SUCCESS */
-
-        document.getElementById(
-            "setupScreen"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "welcomeText"
-        ).textContent =
-            "Welcome back, " +
-            name +
-            "! 👋";
-
-
-        if (goal !== "") {
-
-            document.getElementById(
-                "goalDisplay"
-            ).style.display =
-                "block";
-
-
-            document.getElementById(
-                "goalDisplay"
-            ).textContent =
-                "🎯 Your goal: " +
-                goal;
-
-        }
-
-
-        alert(
-            "Welcome to Grade 12 Hub, " +
-            name +
-            "! 🎓"
-        );
-
+    if (password.length < 6) {
+      message.textContent = "Password must be at least 6 characters.";
+      return;
     }
 
+    message.textContent = "Creating your account...";
 
-    /* =========================================
-       PROFILE PAGE
-       ========================================= */
+    try {
+      const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+      });
 
-    function openProfile() {
+      if (error) {
+        message.textContent = error.message;
+        return;
+      }
 
-        window.location.href =
-            "profile.html";
+      if (data.user) {
+        if (data.session) {
+          message.textContent = "Account created successfully!";
 
-    }
+          setTimeout(function() {
+            window.location.href = "home.html";
+          }, 1000);
 
-
-    /* =========================================
-       LOGOUT
-       ========================================= */
-
-    async function logout() {
-
-        const result =
-            await supabaseClient.auth.signOut();
-
-
-        if (result.error) {
-
-            alert(
-                "Could not log out. Please try again."
-            );
-
-            return;
+        } else {
+          message.textContent =
+            "Account created! Please check your email to confirm your account.";
         }
+      }
 
-
-        window.location.href =
-            "login.html";
-
+    } catch (error) {
+      message.textContent = "Something went wrong. Please try again.";
+      console.error(error);
     }
-
-
-    /* =========================================
-       NAVIGATION
-       ========================================= */
-
-    function goTo(page) {
-
-        window.location.href =
-            page;
-
-    }
-
-
-    /* =========================================
-       COMING SOON
-       ========================================= */
-
-    function comingSoon() {
-
-        alert(
-            "This feature is coming soon. 🚀"
-        );
-
-    }
-
-
-    /* =========================================
-       SETUP MESSAGE
-       ========================================= */
-
-    function showSetupMessage(message) {
-
-        const box =
-            document.getElementById(
-                "setupMessage"
-            );
-
-
-        box.textContent =
-            message;
-
-
-        box.style.display =
-            "block";
-
-    }
-
-
-    /* =========================================
-       SERVICE WORKER
-       ========================================= */
-
-    if ("serviceWorker" in navigator) {
-
-        navigator.serviceWorker.register(
-            "service-worker.js"
-        ).catch(
-            function (error) {
-
-                console.log(
-                    "Service worker error:",
-                    error
-                );
-
-            }
-        );
-
-    }
-
+  });
 </script>
 
 </body>
