@@ -509,6 +509,69 @@ async function checkUser() {
 
 
 // ------------------------------------
+// CHECK SUBJECT ACCESS
+// ------------------------------------
+
+async function canAccessSubject(subject) {
+
+    if (!currentUser) {
+
+        const loggedIn =
+            await checkUser();
+
+
+        if (!loggedIn) {
+            return false;
+        }
+    }
+
+
+    const { data: profile, error } =
+        await supabaseClient
+            .from("learner_profiles")
+            .select(
+                "subjects, subjects_locked"
+            )
+            .eq(
+                "user_id",
+                currentUser.id
+            )
+            .single();
+
+
+    if (error || !profile) {
+
+        console.error(error);
+
+        alert(
+            "Your learner profile could not be loaded."
+        );
+
+        return false;
+    }
+
+
+    const selectedSubjects =
+        profile.subjects || [];
+
+
+    if (
+        !selectedSubjects.includes(subject)
+    ) {
+
+        alert(
+            "You cannot join this subject group because you did not select this subject when creating your profile."
+        );
+
+        return false;
+    }
+
+
+    return true;
+}
+
+
+// ------------------------------------
 // JOIN GROUP
 // ------------------------------------
 
@@ -552,6 +615,16 @@ async function openGroup(subject) {
     }
 
 
+    // Check the learner's selected subjects
+    const allowed =
+        await canAccessSubject(subject);
+
+
+    if (!allowed) {
+        return;
+    }
+
+
     currentGroup =
         subject;
 
@@ -570,6 +643,33 @@ async function openGroup(subject) {
 
         alert(
             "Could not open this study group."
+        );
+
+        return;
+    }
+
+
+    // Database security check
+    const { data: databaseAllowed, error: accessError } =
+        await supabaseClient
+            .rpc(
+                "can_access_subject_group",
+                {
+                    requested_group_id:
+                        data.id
+                }
+            );
+
+
+    if (
+        accessError ||
+        databaseAllowed !== true
+    ) {
+
+        console.error(accessError);
+
+        alert(
+            "Access denied. This subject is not in your selected subjects."
         );
 
         return;
