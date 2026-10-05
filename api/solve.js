@@ -1,7 +1,5 @@
 export default async function handler(req, res) {
-    const allowedOrigin = "https://asanelen18-glitch.github.io";
-
-    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -48,45 +46,33 @@ export default async function handler(req, res) {
         let task;
 
         if (mode === "hint") {
-            task =
-                "Give the learner a useful hint. Do not immediately give the final answer.";
+            task = "Give a helpful hint without immediately giving the final answer.";
         } else if (mode === "check") {
-            task =
-                "Check the learner's answer. Explain whether it is correct and show how to correct it if necessary.";
+            task = "Check the learner's answer and explain whether it is correct.";
         } else {
-            task =
-                "Solve the question and explain the answer step by step. Show important calculations and reasoning.";
+            task = "Solve the question and explain the answer step by step.";
         }
 
         const response = await fetch(
             "https://api.openai.com/v1/responses",
             {
                 method: "POST",
-
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization":
-                        `Bearer ${process.env.OPENAI_API_KEY}`
+                    "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
                 },
-
                 body: JSON.stringify({
                     model: "gpt-6-luna",
-
-                    instructions:
-                        `You are the Grade 12 Hub AI Study Helper.
+                    instructions: `You are the Grade 12 Hub AI Study Helper.
 
 Help Grade 12 learners understand their schoolwork.
 
 ${task}
 
-Use simple and clear language.
-Explain difficult ideas in a way a Grade 12 learner can understand.
-Do not skip important steps.
-For mathematics and science, show calculations clearly.
-If the uploaded image is unclear, tell the learner.
-
-Respond in ${language}.`,
-
+Use simple language.
+Show important calculations and reasoning.
+Respond in ${language}.
+If an uploaded image is unclear, say so.`,
                     input: [
                         {
                             role: "user",
@@ -101,23 +87,19 @@ Respond in ${language}.`,
 
         if (!response.ok) {
             return res.status(response.status).json({
-                error:
-                    data.error?.message ||
-                    "The OpenAI request failed."
+                error: data.error?.message || "OpenAI request failed."
             });
         }
 
         return res.status(200).json({
-            answer:
-                data.output_text ||
-                "The AI did not return an answer."
+            answer: data.output_text || "No answer was returned."
         });
 
     } catch (error) {
-        console.error("Server error:", error);
+        console.error(error);
 
         return res.status(500).json({
-            error: "Something went wrong on the server."
+            error: "Server error: " + error.message
         });
     }
 }
