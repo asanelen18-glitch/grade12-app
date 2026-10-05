@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Study Groups - Grade 12 Hub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #4f46e5;
+            color: white;
+            text-align: center;
+            padding: 22px 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #4f46e5;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .join {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .send {
+            background: #16a34a;
+            color: white;
+        }
+
+        .leave {
+            background: #ef4444;
+            color: white;
+        }
+
+        .group {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .group strong {
+            display: block;
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .group span {
+            color: #666;
+            font-size: 14px;
+        }
+
+        #chatSection {
+            display: none;
+        }
+
+        .chat-header {
+            background: #4f46e5;
+            color: white;
+            padding: 15px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+        }
+
+        #messages {
+            height: 350px;
+            overflow-y: auto;
+            background: #f8fafc;
+            padding: 15px;
+            border: 1px solid #ddd;
+        }
+
+        .message {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+        .message-name {
+            font-weight: bold;
+            color: #4f46e5;
+            font-size: 13px;
+        }
+
+        .message-text {
+            margin-top: 5px;
+        }
+
+        .message-time {
+            color: #888;
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 8px;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .chat-input input {
+            margin: 0;
+            flex: 1;
+        }
+
+        .chat-input button {
+            width: 90px;
+            margin: 0;
+        }
+
+        .notice {
+            background: #fff7ed;
+            border-left: 5px solid #f97316;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 25px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>👥 Study Groups</h1>
+    <p>Learn together with other Grade 12 learners</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>📚 Choose a Subject</h2>
+
+        <select id="subject">
+            <option value="">Select a subject</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physical Sciences">Physical Sciences</option>
+            <option value="Life Sciences">Life Sciences</option>
+            <option value="English">English</option>
+            <option value="Afrikaans">Afrikaans</option>
+            <option value="Geography">Geography</option>
+            <option value="History">History</option>
+            <option value="Accounting">Accounting</option>
+            <option value="Business Studies">Business Studies</option>
+        </select>
+
+        <button class="join" onclick="joinGroup()">
+            ➕ Join Study Group
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>👥 Available Groups</h2>
+
+        <div class="group">
+            <strong>📐 Mathematics Group</strong>
+            <span>Discuss Mathematics questions and revision.</span>
+            <button class="join" onclick="openGroup('Mathematics')">
+                Join
+            </button>
+        </div>
+
+        <div class="group">
+            <strong>⚛️ Physical Sciences Group</strong>
+            <span>Physics and Chemistry study discussions.</span>
+            <button class="join" onclick="openGroup('Physical Sciences')">
+                Join
+            </button>
+        </div>
+
+        <div class="group">
+            <strong>🧬 Life Sciences Group</strong>
+            <span>Biology and Life Sciences revision.</span>
+            <button class="join" onclick="openGroup('Life Sciences')">
+                Join
+            </button>
+        </div>
+
+        <div class="group">
+            <strong>🌍 Geography Group</strong>
+            <span>Geography questions and exam preparation.</span>
+            <button class="join" onclick="openGroup('Geography')">
+                Join
+            </button>
+        </div>
+
+    </div>
+
+
+    <div class="card" id="chatSection">
+
+        <div class="chat-header">
+            <h3 id="groupTitle">Study Group</h3>
+            <p id="memberCount">👥 Members: 0</p>
+        </div>
+
+        <div id="messages">
+
+            <div class="message">
+
+                <div class="message-name">
+                    Grade 12 Hub
+                </div>
+
+                <div class="message-text">
+                    Welcome to the study group! 🎓
+                </div>
+
+                <div class="message-time">
+                    Now
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="chat-input">
+
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Type your message..."
+                onkeypress="handleEnter(event)"
+            >
+
+            <button class="send" onclick="sendMessage()">
+                Send
+            </button>
+
+        </div>
+
+        <button class="leave" onclick="leaveGroup()">
+            Leave Group
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🛡️ Community Rules</h2>
+
+        <div class="notice">
+            Be respectful to other learners. Do not share personal information,
+            passwords, phone numbers, or inappropriate content. Use the group
+            for learning and school-related discussions.
+        </div>
+
+    </div>
+
+
+    <a href="index.html" class="back">
+        ← Back to Home
+    </a>
+
+</div>
+
+
+<script>
+
+let currentGroup = "";
+
+
+function joinGroup() {
+
+    const subject =
+        document.getElementById("subject").value;
+
+    if (subject === "") {
+
+        alert("Please choose a subject first.");
+
+        return;
+    }
+
+    openGroup(subject);
+}
+
+
+function openGroup(subject) {
+
+    currentGroup = subject;
+
+    document.getElementById("groupTitle").textContent =
+        "📚 " + subject + " Study Group";
+
+    document.getElementById("memberCount").textContent =
+        "👥 Study Group";
+
+    document.getElementById("chatSection").style.display =
+        "block";
+
+    document.getElementById("chatSection").scrollIntoView({
+        behavior: "smooth"
+    });
+
+    document.getElementById("messageInput").focus();
+
+}
+
+
+function sendMessage() {
+
+    const input =
+        document.getElementById("messageInput");
+
+    const message =
+        input.value.trim();
+
+    if (message === "") {
+        return;
+    }
+
+    let name =
+        localStorage.getItem("grade12_name");
+
+    if (!name) {
+        name = "Learner";
+    }
+
+    const messages =
+        document.getElementById("messages");
+
+    const newMessage =
+        document.createElement("div");
+
+    newMessage.className = "message";
+
+    newMessage.innerHTML =
+
+        '<div class="message-name">' +
+        escapeHTML(name) +
+        '</div>' +
+
+        '<div class="message-text">' +
+        escapeHTML(message) +
+        '</div>' +
+
+        '<div class="message-time">' +
+        new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        }) +
+        '</div>';
+
+    messages.appendChild(newMessage);
+
+    input.value = "";
+
+    messages.scrollTop = messages.scrollHeight;
+}
+
+
+function handleEnter(event) {
+
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+
+}
+
+
+function leaveGroup() {
+
+    document.getElementById("chatSection").style.display =
+        "none";
+
+    currentGroup = "";
+
+}
+
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+</script>
+
+</body>
+</html>
