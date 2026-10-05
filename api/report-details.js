@@ -15,67 +15,97 @@ export default async function handler(req, res) {
             message_id
         } = req.body || {};
 
+
         if (!access_token) {
+
             return res.status(401).json({
                 error: "You must be logged in."
             });
+
         }
+
 
         const serviceKey =
             process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+
         if (!serviceKey) {
+
             return res.status(500).json({
                 error:
                     "SUPABASE_SERVICE_ROLE_KEY is missing in Vercel."
             });
+
         }
+
 
         const supabaseUrl =
             "https://hdlhhbnawltisszzsbvw.supabase.co";
+
 
         const adminId =
             "a11226b7-7463-497f-9e90-837d6ec16d60";
 
 
-        /* CHECK LOGGED-IN USER */
+        /* =================================
+           VERIFY ADMIN LOGIN
+        ================================= */
 
-        const currentUserResponse =
+        const userResponse =
             await fetch(
-                supabaseUrl +
-                "/auth/v1/user",
+                supabaseUrl + "/auth/v1/user",
                 {
                     method: "GET",
+
                     headers: {
+
                         "apikey":
                             serviceKey,
 
                         "Authorization":
                             "Bearer " +
                             access_token
+
                     }
                 }
             );
 
 
-        const currentUser =
-            await currentUserResponse.json();
+        if (!userResponse.ok) {
 
+            const errorText =
+                await userResponse.text();
 
-        if (
-            !currentUserResponse.ok ||
-            !currentUser.id
-        ) {
+            console.error(
+                "User verification error:",
+                errorText
+            );
 
             return res.status(401).json({
                 error:
-                    "Invalid login session."
+                    "Could not verify your login session."
             });
 
         }
 
 
-        /* CHECK ADMIN */
+        const currentUser =
+            await userResponse.json();
+
+
+        if (!currentUser.id) {
+
+            return res.status(401).json({
+                error:
+                    "Your login session is invalid."
+            });
+
+        }
+
+
+        /* =================================
+           CHECK ADMIN ID
+        ================================= */
 
         if (
             currentUser.id !== adminId
@@ -89,7 +119,9 @@ export default async function handler(req, res) {
         }
 
 
-        /* GET REPORTING STUDENT */
+        /* =================================
+           REPORTING STUDENT EMAIL
+        ================================= */
 
         let reporterEmail =
             "Email not available";
@@ -101,17 +133,21 @@ export default async function handler(req, res) {
                 await fetch(
                     supabaseUrl +
                     "/auth/v1/admin/users/" +
-                    reporter_id,
+                    encodeURIComponent(
+                        reporter_id
+                    ),
                     {
                         method: "GET",
 
                         headers: {
+
                             "apikey":
                                 serviceKey,
 
                             "Authorization":
                                 "Bearer " +
                                 serviceKey
+
                         }
                     }
                 );
@@ -119,6 +155,12 @@ export default async function handler(req, res) {
 
             const user =
                 await response.json();
+
+
+            console.log(
+                "Reporting student response:",
+                user
+            );
 
 
             if (
@@ -134,7 +176,9 @@ export default async function handler(req, res) {
         }
 
 
-        /* GET REPORTED STUDENT */
+        /* =================================
+           REPORTED STUDENT EMAIL
+        ================================= */
 
         let reportedEmail =
             "Email not available";
@@ -146,17 +190,21 @@ export default async function handler(req, res) {
                 await fetch(
                     supabaseUrl +
                     "/auth/v1/admin/users/" +
-                    reported_user_id,
+                    encodeURIComponent(
+                        reported_user_id
+                    ),
                     {
                         method: "GET",
 
                         headers: {
+
                             "apikey":
                                 serviceKey,
 
                             "Authorization":
                                 "Bearer " +
                                 serviceKey
+
                         }
                     }
                 );
@@ -164,6 +212,12 @@ export default async function handler(req, res) {
 
             const user =
                 await response.json();
+
+
+            console.log(
+                "Reported student response:",
+                user
+            );
 
 
             if (
@@ -179,7 +233,9 @@ export default async function handler(req, res) {
         }
 
 
-        /* GET REPORTED MESSAGE */
+        /* =================================
+           REPORTED MESSAGE
+        ================================= */
 
         let message = null;
 
@@ -188,6 +244,7 @@ export default async function handler(req, res) {
 
             const response =
                 await fetch(
+
                     supabaseUrl +
                     "/rest/v1/study_messages" +
                     "?id=eq." +
@@ -195,23 +252,36 @@ export default async function handler(req, res) {
                         message_id
                     ) +
                     "&select=*",
+
                     {
                         method: "GET",
 
                         headers: {
+
                             "apikey":
                                 serviceKey,
 
                             "Authorization":
                                 "Bearer " +
-                                serviceKey
+                                serviceKey,
+
+                            "Content-Type":
+                                "application/json"
+
                         }
                     }
+
                 );
 
 
             const messages =
                 await response.json();
+
+
+            console.log(
+                "Reported message response:",
+                messages
+            );
 
 
             if (
@@ -228,7 +298,9 @@ export default async function handler(req, res) {
         }
 
 
-        /* SEND RESULT */
+        /* =================================
+           RETURN RESULTS
+        ================================= */
 
         return res.status(200).json({
 
@@ -264,4 +336,4 @@ export default async function handler(req, res) {
 
     }
 
-}
+            }
