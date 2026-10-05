@@ -148,6 +148,10 @@ const ADMIN_ID =
     "a11226b7-7463-497f-9e90-837d6ec16d60";
 
 
+/* ================================
+   CHECK ADMIN
+================================ */
+
 async function checkAdmin() {
 
     const {
@@ -185,6 +189,10 @@ async function checkAdmin() {
     return true;
 }
 
+
+/* ================================
+   LOAD REPORTS
+================================ */
 
 async function loadReports() {
 
@@ -227,7 +235,7 @@ async function loadReports() {
         html += `
             <div class="report">
 
-                <h3>Report #${report.id}</h3>
+                <h3>Report #${escapeHTML(report.id)}</h3>
 
                 <p>
                     <strong>Reason:</strong>
@@ -244,6 +252,14 @@ async function loadReports() {
                 <p>
                     <strong>Status:</strong>
                     ${escapeHTML(report.status)}
+                </p>
+
+                <p>
+                    <strong>Reported User:</strong>
+                    ${escapeHTML(
+                        report.reported_user_id ||
+                        "Not available"
+                    )}
                 </p>
 
                 <p>
@@ -294,7 +310,8 @@ async function loadReports() {
         `;
     });
 
-    document.getElementById("reports").innerHTML = html;
+    document.getElementById("reports").innerHTML =
+        html;
 }
 
 
@@ -419,46 +436,336 @@ async function moderationAction(
         .eq("id", reportId)
         .single();
 
-    if (reportError) {
+    if (reportError || !report) {
 
-        alert("Could not find this report.");
+        alert("❌ Could not find this report.");
+
+        console.error(reportError);
 
         return;
     }
+
+    if (!report.reported_user_id) {
+
+        alert(
+            "❌ This report does not contain a reported user."
+        );
+
+        return;
+    }
+
+
+    /* ================================
+       CONFIRM ACTION
+    ================================ */
+
+    let confirmationMessage = "";
+
+    if (action === "warning") {
+
+        confirmationMessage =
+            "Are you sure you want to issue a WARNING to this learner?";
+
+    } else if (action === "suspension") {
+
+        confirmationMessage =
+            "Are you sure you want to SUSPEND this learner?";
+
+    } else if (action === "removal") {
+
+        confirmationMessage =
+            "Are you sure you want to REMOVE this learner?";
+    }
+
+    const confirmed =
+        confirm(confirmationMessage);
+
+    if (!confirmed) return;
+
+
+    /* ================================
+       ENTER REASON
+    ================================ */
 
     const reason =
         prompt(
             "Enter the reason for this moderation action:"
         );
 
-    if (!reason) return;
+    if (!reason || !reason.trim()) {
+
+        alert(
+            "A reason is required."
+        );
+
+        return;
+    }
+
+
+    /* ================================
+       RECORD MODERATION ACTION
+    ================================ */
 
     const {
-        error
+        error: actionError
     } = await supabaseClient
         .from("moderation_actions")
         .insert({
             user_id: report.reported_user_id,
             report_id: report.id,
             action: action,
-            reason: reason
+            reason: reason.trim()
         });
 
-    if (error) {
+    if (actionError) {
 
-        console.error(error);
+        console.error(actionError);
 
         alert(
-            "The action could not be recorded. " +
-            "The secure admin backend still needs to be connected."
+            "❌ The moderation action could not be recorded."
         );
 
         return;
     }
 
+
+    /* ================================
+       GET CURRENT MODERATION STATUS
+    ================================ */
+
+    const {
+        data: existingStatus,
+        error: statusError
+    } = await supabaseClient
+        .from("user_moderation_status")
+        .select("*")
+        .eq(
+            "user_id",
+            report.reported_user_id
+        )
+        .maybeSingle();
+
+    if (statusError) {
+
+        console.error(statusError);
+
+        alert(
+            "⚠️ Action was recorded, but the learner status could not be updated."
+        );
+
+        return;
+    }
+
+
+    /* ================================
+       WARNING
+    ================================ */
+
+    if (action === "warning") {
+
+        const warningCount =
+            existingStatus
+                ? existingStatus.warning_count + 1
+                : 1;
+
+        const {
+            error
+        } = await supabaseClient
+            .from("user_moderation_status")
+            .upsert({
+                user_id: report.reported_user_id,
+                warning_count: warningCount,
+                is_suspended:
+                    existingStatus
+                        ? existingStatus.is_suspended
+                        : false,
+                is_removed:
+                    existingStatus
+                        ? existingStatus.is_removed
+                        : false,
+                suspended_until:
+                    existingStatus
+                        ? existingStatus.suspended_until
+                        : null,
+                last_action_at:
+                    new Date().toISOString(),
+                updated_at:
+                    new Date().toISOString()
+            });
+
+        if (error) {
+
+            console.error(error);
+
+            alert(
+                "⚠️ Warning recorded, but status update failed."
+            );
+
+            return;
+        }
+    }
+
+
+    /* ================================
+       SUSPENSION
+    ================================ */
+
+    if (action === "suspension") {
+
+        const suspensionDays =
+            prompt(
+                "How many days should the suspension last?"
+            );
+
+        const days =
+            parseInt(
+                suspensionDays,
+                10
+            );
+
+        if (
+            isNaN(days) ||
+            days <= 0
+        ) {
+
+            alert(
+                "❌ Please enter a valid number of days."
+            );
+
+            return;
+        }
+
+        const suspendedUntil =
+            new Date(
+                Date.now() +
+                days * 24 * 60 * 60 * 1000
+            ).toISOString();
+
+        const {
+            error
+        } = await supabaseClient
+            .from("user_moderation_status")
+            .upsert({
+                user_id: report.reported_user_id,
+                warning_count:
+                    existingStatus
+                        ? existingStatus.warning_count
+                        : 0,
+                is_suspended: true,
+                is_removed:
+                    existingStatus
+                        ? existingStatus.is_removed
+                        : false,
+                suspended_until:
+                    suspendedUntil,
+                last_action_at:
+                    new Date().toISOString(),
+                updated_at:
+                    new Date().toISOString()
+            });
+
+        if (error) {
+
+            console.error(error);
+
+            alert(
+                "⚠️ Suspension recorded, but status update failed."
+            );
+
+            return;
+        }
+    }
+
+
+    /* ================================
+       REMOVAL
+    ================================ */
+
+    if (action === "removal") {
+
+        const {
+            error
+        } = await supabaseClient
+            .from("user_moderation_status")
+            .upsert({
+                user_id: report.reported_user_id,
+                warning_count:
+                    existingStatus
+                        ? existingStatus.warning_count
+                        : 0,
+                is_suspended: false,
+                is_removed: true,
+                suspended_until: null,
+                last_action_at:
+                    new Date().toISOString(),
+                updated_at:
+                    new Date().toISOString()
+            });
+
+        if (error) {
+
+            console.error(error);
+
+            alert(
+                "⚠️ Removal recorded, but status update failed."
+            );
+
+            return;
+        }
+    }
+
+
+    /* ================================
+       UPDATE REPORT STATUS
+    ================================ */
+
+    const {
+        error: reportUpdateError
+    } = await supabaseClient
+        .from("user_reports")
+        .update({
+            status: "confirmed",
+            reviewed_at:
+                new Date().toISOString()
+        })
+        .eq("id", reportId);
+
+    if (reportUpdateError) {
+
+        console.error(
+            reportUpdateError
+        );
+
+        alert(
+            "⚠️ Moderation action completed, but the report status could not be updated."
+        );
+
+        return;
+    }
+
+
+    /* ================================
+       SUCCESS
+    ================================ */
+
+    let actionName = "";
+
+    if (action === "warning") {
+        actionName = "WARNING";
+    }
+
+    if (action === "suspension") {
+        actionName = "SUSPENSION";
+    }
+
+    if (action === "removal") {
+        actionName = "REMOVAL";
+    }
+
     alert(
-        "Moderation action recorded: " +
-        action
+        "✅ " +
+        actionName +
+        " completed successfully."
     );
 
     loadReports();
@@ -475,8 +782,7 @@ function sendEmail(reportId) {
         "Email system selected for report " +
         reportId +
         ".\n\n" +
-        "We will connect this button to the " +
-        "secure Vercel email backend next."
+        "We will connect this button to the secure Vercel email backend next."
     );
 }
 
@@ -495,7 +801,7 @@ async function logout() {
 
 
 /* ================================
-   SECURITY / DISPLAY HELPERS
+   HELPERS
 ================================ */
 
 function escapeHTML(value) {
@@ -517,7 +823,7 @@ function formatDate(date) {
 
 
 /* ================================
-   START ADMIN DASHBOARD
+   START
 ================================ */
 
 checkAdmin();
