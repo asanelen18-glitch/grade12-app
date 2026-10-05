@@ -57,6 +57,7 @@
             padding: 12px;
             border-radius: 10px;
             margin-top: 12px;
+            margin-bottom: 15px;
         }
 
         .grid {
@@ -102,7 +103,7 @@
 
         .logout {
             background: #dc2626;
-            margin-top: 15px;
+            margin-left: 8px;
         }
 
         .logout:hover {
@@ -123,7 +124,7 @@
             color: #666;
         }
 
-        /* Setup screen */
+        /* PROFILE SETUP */
 
         #setupScreen {
             display: none;
@@ -206,8 +207,14 @@
         }
 
         @media (max-width: 500px) {
+
             .subjects {
                 grid-template-columns: 1fr;
+            }
+
+            .logout {
+                margin-left: 0;
+                margin-top: 10px;
             }
         }
     </style>
@@ -219,73 +226,177 @@
     <h1>🎓 Grade 12 Hub</h1>
 </header>
 
+
 <div class="container">
 
+    <!-- WELCOME -->
+
     <div class="welcome">
-        <h2 id="welcomeText">Welcome to Grade 12 Hub! 👋</h2>
+
+        <h2 id="welcomeText">
+            Welcome to Grade 12 Hub! 👋
+        </h2>
 
         <p>
-            Your place for Grade 12 past papers, notes, study help,
-            university information and more.
+            Your place for Grade 12 past papers, notes,
+            study help, university information and more.
         </p>
 
-        <div class="goal" id="goalDisplay" style="display:none;"></div>
+        <div
+            class="goal"
+            id="goalDisplay"
+            style="display:none;">
+        </div>
 
-        <button onclick="openProfile()">👤 My Profile</button>
-        <button class="logout" onclick="logout()">Log Out</button>
+        <button onclick="openProfile()">
+            👤 My Profile
+        </button>
+
+        <button
+            class="logout"
+            onclick="logout()">
+            Log Out
+        </button>
+
     </div>
+
+
+    <!-- MAIN FEATURES -->
 
     <div class="grid">
 
-        <div class="card" onclick="goTo('past-papers.html')">
+        <div
+            class="card"
+            onclick="goTo('past-papers.html')">
+
             <h3>📚 Past Papers</h3>
-            <p>Practice with previous Grade 12 examination papers.</p>
+
+            <p>
+                Practice with previous Grade 12
+                examination papers.
+            </p>
+
         </div>
 
-        <div class="card" onclick="goTo('notes.html')">
+
+        <div
+            class="card"
+            onclick="goTo('notes.html')">
+
             <h3>📝 Study Notes</h3>
-            <p>Access notes, summaries and revision material.</p>
+
+            <p>
+                Access notes, summaries and
+                revision material.
+            </p>
+
         </div>
 
-        <div class="card" onclick="goTo('ai-helper.html')">
+
+        <div
+            class="card"
+            onclick="goTo('ai-helper.html')">
+
             <h3>🤖 AI Study Helper</h3>
-            <p>Get help solving questions and understanding your work.</p>
+
+            <p>
+                Get help solving questions and
+                understanding your work.
+            </p>
+
         </div>
 
-        <div class="card" onclick="goTo('study-groups.html')">
+
+        <div
+            class="card"
+            onclick="goTo('study-groups.html')">
+
             <h3>👥 Study Groups</h3>
-            <p>Study and discuss subjects with other learners.</p>
+
+            <p>
+                Study and discuss subjects with
+                other learners.
+            </p>
+
         </div>
 
-        <div class="card" onclick="comingSoon()">
+
+        <div
+            class="card"
+            onclick="comingSoon()">
+
             <h3>💪 Motivation</h3>
-            <p>Daily motivation and exam encouragement.</p>
+
+            <p>
+                Daily motivation and exam
+                encouragement.
+            </p>
+
         </div>
 
-        <div class="card" onclick="comingSoon()">
+
+        <div
+            class="card"
+            onclick="comingSoon()">
+
             <h3>🎓 Apply to Varsity</h3>
-            <p>Find university application information and links.</p>
+
+            <p>
+                Find university application
+                information and links.
+            </p>
+
         </div>
 
-        <div class="card" onclick="comingSoon()">
+
+        <div
+            class="card"
+            onclick="comingSoon()">
+
             <h3>💼 Career Guidance</h3>
-            <p>Explore careers, subjects and study opportunities.</p>
+
+            <p>
+                Explore careers, subjects and
+                study opportunities.
+            </p>
+
         </div>
 
-        <div class="card" onclick="comingSoon()">
+
+        <div
+            class="card"
+            onclick="comingSoon()">
+
             <h3>📅 Study Planner</h3>
-            <p>Plan your study time and revision goals.</p>
+
+            <p>
+                Plan your study time and
+                revision goals.
+            </p>
+
         </div>
 
     </div>
 
+
+    <!-- CREATOR -->
+
     <div class="creator">
+
         <h3>Created by</h3>
-        <p><strong>MH Masina</strong></p>
-        <p><strong>NP Machete</strong></p>
+
+        <p>
+            <strong>MH Masina</strong>
+        </p>
+
+        <p>
+            <strong>NP Machete</strong>
+        </p>
+
     </div>
 
 </div>
+
 
 <footer>
     Created by MH Masina & NP Machete
@@ -298,95 +409,158 @@
 
     <div class="setup-box">
 
-        <h2>🎓 Welcome to Grade 12 Hub</h2>
+        <h2>🎓 Complete Your Learner Profile</h2>
 
         <p>
-            Create your learner profile to continue.
+            Please complete your profile before entering
+            Grade 12 Hub.
         </p>
 
-        <div id="setupMessage" class="message"></div>
 
-        <label for="fullName">Full Name *</label>
+        <div
+            id="setupMessage"
+            class="message">
+        </div>
+
+
+        <!-- NAME -->
+
+        <label for="fullName">
+            Full Name *
+        </label>
+
         <input
             type="text"
             id="fullName"
             placeholder="Enter your full name"
         >
 
-        <label>Email</label>
+
+        <!-- EMAIL -->
+
+        <label for="email">
+            Email
+        </label>
+
         <input
             type="email"
             id="email"
             readonly
         >
 
-        <label>Grade</label>
+
+        <!-- GRADE -->
+
+        <label>
+            Grade
+        </label>
 
         <div class="grade-display">
             🎓 Grade 12
         </div>
 
-        <label for="school">School *</label>
+
+        <!-- SCHOOL -->
+
+        <label for="school">
+            School *
+        </label>
+
         <input
             type="text"
             id="school"
             placeholder="Enter your school name"
         >
 
-        <label>Subjects *</label>
+
+        <!-- SUBJECTS -->
+
+        <label>
+            Subjects *
+        </label>
 
         <div class="subjects">
 
             <label class="subject-option">
-                <input type="checkbox" value="Mathematics">
+                <input
+                    type="checkbox"
+                    value="Mathematics">
                 Mathematics
             </label>
 
+
             <label class="subject-option">
-                <input type="checkbox" value="Physical Sciences">
+                <input
+                    type="checkbox"
+                    value="Physical Sciences">
                 Physical Sciences
             </label>
 
+
             <label class="subject-option">
-                <input type="checkbox" value="Life Sciences">
+                <input
+                    type="checkbox"
+                    value="Life Sciences">
                 Life Sciences
             </label>
 
+
             <label class="subject-option">
-                <input type="checkbox" value="English">
+                <input
+                    type="checkbox"
+                    value="English">
                 English
             </label>
 
+
             <label class="subject-option">
-                <input type="checkbox" value="Geography">
+                <input
+                    type="checkbox"
+                    value="Geography">
                 Geography
             </label>
 
+
             <label class="subject-option">
-                <input type="checkbox" value="Accounting">
+                <input
+                    type="checkbox"
+                    value="Accounting">
                 Accounting
             </label>
 
+
             <label class="subject-option">
-                <input type="checkbox" value="Business Studies">
+                <input
+                    type="checkbox"
+                    value="Business Studies">
                 Business Studies
             </label>
 
+
             <label class="subject-option">
-                <input type="checkbox" value="History">
+                <input
+                    type="checkbox"
+                    value="History">
                 History
             </label>
 
         </div>
 
-        <label for="studyGoal">Study Goal</label>
+
+        <!-- STUDY GOAL -->
+
+        <label for="studyGoal">
+            Study Goal
+        </label>
 
         <textarea
             id="studyGoal"
-            placeholder="Example: I want to improve my Mathematics mark."
-        ></textarea>
+            placeholder="Example: I want to improve my Mathematics mark.">
+        </textarea>
+
 
         <br><br>
+
 
         <button onclick="saveProfile()">
             Save & Enter App
@@ -397,6 +571,8 @@
 </div>
 
 
+<!-- SUPABASE -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -405,9 +581,13 @@
        SUPABASE CONNECTION
        ========================================= */
 
-    const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co/rest/v1/";
+    const SUPABASE_URL =
+        "https://hdlhhbnawltisszzsbvw.supabase.co/rest/v1/";
 
-    const SUPABASE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+    const SUPABASE_KEY =
+        "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
 
     const supabaseClient =
         window.supabase.createClient(
@@ -420,15 +600,18 @@
        START APP
        ========================================= */
 
-    window.addEventListener("load", async function () {
+    window.addEventListener(
+        "load",
+        async function () {
 
-        await checkUser();
+            await checkUser();
 
-    });
+        }
+    );
 
 
     /* =========================================
-       CHECK LOGGED-IN USER
+       CHECK LOGIN
        ========================================= */
 
     async function checkUser() {
@@ -436,26 +619,52 @@
         const result =
             await supabaseClient.auth.getSession();
 
-        const session = result.data.session;
 
-        if (!session) {
+        if (result.error) {
 
-            showSetupMessage(
-                "You are not logged in. Please log in first."
-            );
+            console.log(result.error);
 
-            document.getElementById("setupScreen").style.display =
-                "block";
+            window.location.href =
+                "login.html";
 
             return;
         }
 
-        const user = session.user;
 
-        document.getElementById("email").value =
+        const session =
+            result.data.session;
+
+
+        /*
+         No logged-in learner
+         */
+
+        if (!session) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        /*
+         Logged-in learner
+         */
+
+        const user =
+            session.user;
+
+
+        document.getElementById(
+            "email"
+        ).value =
             user.email || "";
 
-        await loadProfile(user.id);
+
+        await loadProfile(
+            user.id
+        );
 
     }
 
@@ -473,43 +682,78 @@
                 .eq("id", userId)
                 .maybeSingle();
 
+
         if (result.error) {
 
-            console.log(result.error);
+            console.log(
+                "Profile error:",
+                result.error
+            );
 
-            document.getElementById("setupScreen").style.display =
+
+            document.getElementById(
+                "setupScreen"
+            ).style.display =
                 "block";
+
 
             return;
         }
 
-        const profile = result.data;
+
+        const profile =
+            result.data;
+
+
+        /*
+         No profile yet
+         */
 
         if (!profile) {
 
-            document.getElementById("setupScreen").style.display =
+            document.getElementById(
+                "setupScreen"
+            ).style.display =
                 "block";
+
 
             return;
         }
 
-        document.getElementById("setupScreen").style.display =
+
+        /*
+         Profile exists
+         */
+
+        document.getElementById(
+            "setupScreen"
+        ).style.display =
             "none";
 
-        document.getElementById("welcomeText").textContent =
+
+        document.getElementById(
+            "welcomeText"
+        ).textContent =
             "Welcome back, " +
             profile.full_name +
             "! 👋";
 
+
         if (profile.study_goal) {
 
-            document.getElementById("goalDisplay").style.display =
+            document.getElementById(
+                "goalDisplay"
+            ).style.display =
                 "block";
 
-            document.getElementById("goalDisplay").textContent =
+
+            document.getElementById(
+                "goalDisplay"
+            ).textContent =
                 "🎯 Your goal: " +
                 profile.study_goal;
         }
+
     }
 
 
@@ -520,16 +764,27 @@
     async function saveProfile() {
 
         const name =
-            document.getElementById("fullName").value.trim();
+            document.getElementById(
+                "fullName"
+            ).value.trim();
+
 
         const email =
-            document.getElementById("email").value.trim();
+            document.getElementById(
+                "email"
+            ).value.trim();
+
 
         const school =
-            document.getElementById("school").value.trim();
+            document.getElementById(
+                "school"
+            ).value.trim();
+
 
         const goal =
-            document.getElementById("studyGoal").value.trim();
+            document.getElementById(
+                "studyGoal"
+            ).value.trim();
 
 
         const subjectBoxes =
@@ -537,18 +792,26 @@
                 '.subject-option input[type="checkbox"]'
             );
 
+
         const subjects = [];
 
-        subjectBoxes.forEach(function (box) {
 
-            if (box.checked) {
-                subjects.push(box.value);
+        subjectBoxes.forEach(
+            function (box) {
+
+                if (box.checked) {
+
+                    subjects.push(
+                        box.value
+                    );
+
+                }
+
             }
+        );
 
-        });
 
-
-        /* Validation */
+        /* VALIDATION */
 
         if (name === "") {
 
@@ -559,6 +822,7 @@
             return;
         }
 
+
         if (school === "") {
 
             showSetupMessage(
@@ -567,6 +831,7 @@
 
             return;
         }
+
 
         if (subjects.length === 0) {
 
@@ -578,58 +843,78 @@
         }
 
 
-        const result =
+        const sessionResult =
             await supabaseClient.auth.getSession();
 
-        const session = result.data.session;
+
+        const session =
+            sessionResult.data.session;
+
 
         if (!session) {
 
-            showSetupMessage(
-                "Your login session has expired. Please log in again."
-            );
+            window.location.href =
+                "login.html";
 
             return;
         }
 
 
-        const userId = session.user.id;
+        const userId =
+            session.user.id;
 
 
-        /* Save to Supabase */
+        /* SAVE PROFILE */
 
         const profileResult =
             await supabaseClient
                 .from("profiles")
                 .upsert({
+
                     id: userId,
+
                     full_name: name,
+
                     email: email,
+
                     grade: "Grade 12",
+
                     school: school,
+
                     subjects: subjects,
-                    study_goal: goal || null
+
+                    study_goal:
+                        goal || null
+
                 });
 
 
         if (profileResult.error) {
 
-            console.log(profileResult.error);
+            console.log(
+                profileResult.error
+            );
+
 
             showSetupMessage(
-                "Could not save your profile. Check your Supabase profiles table and RLS policies."
+                "Could not save your profile. Please try again."
             );
 
             return;
         }
 
 
-        /* Profile saved */
+        /* SUCCESS */
 
-        document.getElementById("setupScreen").style.display =
+        document.getElementById(
+            "setupScreen"
+        ).style.display =
             "none";
 
-        document.getElementById("welcomeText").textContent =
+
+        document.getElementById(
+            "welcomeText"
+        ).textContent =
             "Welcome back, " +
             name +
             "! 👋";
@@ -637,11 +922,18 @@
 
         if (goal !== "") {
 
-            document.getElementById("goalDisplay").style.display =
+            document.getElementById(
+                "goalDisplay"
+            ).style.display =
                 "block";
 
-            document.getElementById("goalDisplay").textContent =
-                "🎯 Your goal: " + goal;
+
+            document.getElementById(
+                "goalDisplay"
+            ).textContent =
+                "🎯 Your goal: " +
+                goal;
+
         }
 
 
@@ -655,7 +947,7 @@
 
 
     /* =========================================
-       PROFILE
+       PROFILE PAGE
        ========================================= */
 
     function openProfile() {
@@ -675,6 +967,7 @@
         const result =
             await supabaseClient.auth.signOut();
 
+
         if (result.error) {
 
             alert(
@@ -684,7 +977,9 @@
             return;
         }
 
-        window.location.reload();
+
+        window.location.href =
+            "login.html";
 
     }
 
@@ -695,7 +990,8 @@
 
     function goTo(page) {
 
-        window.location.href = page;
+        window.location.href =
+            page;
 
     }
 
@@ -714,17 +1010,23 @@
 
 
     /* =========================================
-       ERROR MESSAGE
+       SETUP MESSAGE
        ========================================= */
 
     function showSetupMessage(message) {
 
         const box =
-            document.getElementById("setupMessage");
+            document.getElementById(
+                "setupMessage"
+            );
 
-        box.textContent = message;
 
-        box.style.display = "block";
+        box.textContent =
+            message;
+
+
+        box.style.display =
+            "block";
 
     }
 
@@ -737,18 +1039,20 @@
 
         navigator.serviceWorker.register(
             "service-worker.js"
-        ).catch(function (error) {
+        ).catch(
+            function (error) {
 
-            console.log(
-                "Service worker error:",
-                error
-            );
+                console.log(
+                    "Service worker error:",
+                    error
+                );
 
-        });
+            }
+        );
 
     }
 
 </script>
 
 </body>
-    </html>
+</html>
