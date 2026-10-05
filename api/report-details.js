@@ -21,161 +21,214 @@ export default async function handler(req, res) {
             });
         }
 
-        if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        const serviceKey =
+            process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+        if (!serviceKey) {
             return res.status(500).json({
-                error: "SUPABASE_SERVICE_ROLE_KEY is not configured."
+                error:
+                    "SUPABASE_SERVICE_ROLE_KEY is missing in Vercel."
             });
         }
 
-        /* =====================================
-           CHECK LOGGED-IN USER
-        ===================================== */
+        const supabaseUrl =
+            "https://hdlhhbnawltisszzsbvw.supabase.co";
 
-        const userResponse = await fetch(
-            "https://hdlhhbnawltisszzsbvw.supabase.co/auth/v1/user",
-            {
-                headers: {
-                    "apikey":
-                        process.env.SUPABASE_SERVICE_ROLE_KEY,
-
-                    "Authorization":
-                        `Bearer ${access_token}`
-                }
-            }
-        );
-
-        const currentUser =
-            await userResponse.json();
-
-        if (
-            !userResponse.ok ||
-            !currentUser ||
-            !currentUser.id
-        ) {
-            return res.status(401).json({
-                error: "Invalid login session."
-            });
-        }
-
-        /* =====================================
-           ADMIN CHECK
-        ===================================== */
-
-        const ADMIN_ID =
+        const adminId =
             "a11226b7-7463-497f-9e90-837d6ec16d60";
 
-        if (currentUser.id !== ADMIN_ID) {
-            return res.status(403).json({
-                error: "Administrator access required."
+
+        /* CHECK LOGGED-IN USER */
+
+        const currentUserResponse =
+            await fetch(
+                supabaseUrl +
+                "/auth/v1/user",
+                {
+                    method: "GET",
+                    headers: {
+                        "apikey":
+                            serviceKey,
+
+                        "Authorization":
+                            "Bearer " +
+                            access_token
+                    }
+                }
+            );
+
+
+        const currentUser =
+            await currentUserResponse.json();
+
+
+        if (
+            !currentUserResponse.ok ||
+            !currentUser.id
+        ) {
+
+            return res.status(401).json({
+                error:
+                    "Invalid login session."
             });
+
         }
 
-        /* =====================================
-           GET REPORTING STUDENT EMAIL
-        ===================================== */
+
+        /* CHECK ADMIN */
+
+        if (
+            currentUser.id !== adminId
+        ) {
+
+            return res.status(403).json({
+                error:
+                    "Administrator access required."
+            });
+
+        }
+
+
+        /* GET REPORTING STUDENT */
 
         let reporterEmail =
             "Email not available";
+
 
         if (reporter_id) {
 
             const response =
                 await fetch(
-                    `https://hdlhhbnawltisszzsbvw.supabase.co/auth/v1/admin/users/${reporter_id}`,
+                    supabaseUrl +
+                    "/auth/v1/admin/users/" +
+                    reporter_id,
                     {
+                        method: "GET",
+
                         headers: {
                             "apikey":
-                                process.env.SUPABASE_SERVICE_ROLE_KEY,
+                                serviceKey,
 
                             "Authorization":
-                                `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
+                                "Bearer " +
+                                serviceKey
                         }
                     }
                 );
 
+
             const user =
                 await response.json();
 
-            if (response.ok && user.email) {
+
+            if (
+                response.ok &&
+                user.email
+            ) {
+
                 reporterEmail =
                     user.email;
+
             }
+
         }
 
-        /* =====================================
-           GET REPORTED STUDENT EMAIL
-        ===================================== */
+
+        /* GET REPORTED STUDENT */
 
         let reportedEmail =
             "Email not available";
+
 
         if (reported_user_id) {
 
             const response =
                 await fetch(
-                    `https://hdlhhbnawltisszzsbvw.supabase.co/auth/v1/admin/users/${reported_user_id}`,
+                    supabaseUrl +
+                    "/auth/v1/admin/users/" +
+                    reported_user_id,
                     {
+                        method: "GET",
+
                         headers: {
                             "apikey":
-                                process.env.SUPABASE_SERVICE_ROLE_KEY,
+                                serviceKey,
 
                             "Authorization":
-                                `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
+                                "Bearer " +
+                                serviceKey
                         }
                     }
                 );
+
 
             const user =
                 await response.json();
 
-            if (response.ok && user.email) {
+
+            if (
+                response.ok &&
+                user.email
+            ) {
+
                 reportedEmail =
                     user.email;
+
             }
+
         }
 
-        /* =====================================
-           GET REPORTED MESSAGE
-        ===================================== */
 
-        let message =
-            null;
+        /* GET REPORTED MESSAGE */
+
+        let message = null;
+
 
         if (message_id) {
 
-            const encodedId =
-                encodeURIComponent(message_id);
-
             const response =
                 await fetch(
-                    `https://hdlhhbnawltisszzsbvw.supabase.co/rest/v1/study_messages?id=eq.${encodedId}&select=*`,
+                    supabaseUrl +
+                    "/rest/v1/study_messages" +
+                    "?id=eq." +
+                    encodeURIComponent(
+                        message_id
+                    ) +
+                    "&select=*",
                     {
+                        method: "GET",
+
                         headers: {
                             "apikey":
-                                process.env.SUPABASE_SERVICE_ROLE_KEY,
+                                serviceKey,
 
                             "Authorization":
-                                `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
+                                "Bearer " +
+                                serviceKey
                         }
                     }
                 );
 
+
             const messages =
                 await response.json();
+
 
             if (
                 response.ok &&
                 Array.isArray(messages) &&
                 messages.length > 0
             ) {
+
                 message =
                     messages[0];
+
             }
+
         }
 
-        /* =====================================
-           RETURN INFORMATION
-        ===================================== */
+
+        /* SEND RESULT */
 
         return res.status(200).json({
 
@@ -192,6 +245,7 @@ export default async function handler(req, res) {
 
         });
 
+
     } catch (error) {
 
         console.error(
@@ -199,10 +253,15 @@ export default async function handler(req, res) {
             error
         );
 
+
         return res.status(500).json({
+
             error:
                 error.message ||
                 "Could not load report details."
+
         });
+
     }
-          }
+
+}
