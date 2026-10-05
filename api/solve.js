@@ -49,26 +49,29 @@ export default async function handler(req, res) {
 
         if (mode === "hint") {
             task =
-                "Give the learner a helpful hint without immediately giving the final answer.";
+                "Give the learner a useful hint. Do not immediately give the final answer.";
         } else if (mode === "check") {
             task =
-                "Check the learner's answer. Explain whether it is correct and show what should be changed if necessary.";
+                "Check the learner's answer. Explain whether it is correct and show how to correct it if necessary.";
         } else {
             task =
-                "Solve the question and explain the solution step by step. Show the important calculations and reasoning.";
+                "Solve the question and explain the answer step by step. Show important calculations and reasoning.";
         }
 
         const response = await fetch(
             "https://api.openai.com/v1/responses",
             {
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization":
                         `Bearer ${process.env.OPENAI_API_KEY}`
                 },
+
                 body: JSON.stringify({
                     model: "gpt-6-luna",
+
                     instructions:
                         `You are the Grade 12 Hub AI Study Helper.
 
@@ -76,10 +79,11 @@ Help Grade 12 learners understand their schoolwork.
 
 ${task}
 
-Use simple, clear language.
+Use simple and clear language.
+Explain difficult ideas in a way a Grade 12 learner can understand.
 Do not skip important steps.
-If mathematics or science calculations are needed, show them clearly.
-If the uploaded image is unclear, tell the learner that you cannot read it clearly.
+For mathematics and science, show calculations clearly.
+If the uploaded image is unclear, tell the learner.
 
 Respond in ${language}.`,
 
@@ -99,7 +103,7 @@ Respond in ${language}.`,
             return res.status(response.status).json({
                 error:
                     data.error?.message ||
-                    "The AI request failed."
+                    "The OpenAI request failed."
             });
         }
 
@@ -110,7 +114,7 @@ Respond in ${language}.`,
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Server error:", error);
 
         return res.status(500).json({
             error: "Something went wrong on the server."
