@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - Grade 12 Hub</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .report {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .review {
+            background: #2563eb;
+            color: white;
+        }
+
+        .warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .suspend {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .remove {
+            background: #dc2626;
+            color: white;
+        }
+
+        .email {
+            background: #059669;
+            color: white;
+        }
+
+        .logout {
+            background: #374151;
+            color: white;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #e5e7eb;
+        }
+
+        #reports {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛡️ Grade 12 Hub Admin Dashboard</h1>
+    <p>Reports and Moderation</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Admin</h2>
+        <div id="adminInfo" class="status">
+            Checking administrator access...
+        </div>
+
+        <button class="logout" onclick="logout()">
+            Log Out
+        </button>
+    </div>
+
+    <div class="card">
+        <h2>📋 Reports</h2>
+
+        <button class="review" onclick="loadReports()">
+            Refresh Reports
+        </button>
+
+        <div id="reports">
+            Loading reports...
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://hdlhhbnawltisszzsbvw.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+const ADMIN_ID =
+    "a11226b7-7463-497f-9e90-837d6ec16d60";
+
+
+async function checkAdmin() {
+
+    const {
+        data: { user },
+        error
+    } = await supabaseClient.auth.getUser();
+
+    if (error || !user) {
+
+        document.getElementById("adminInfo").innerHTML =
+            "❌ You must be logged in.";
+
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1500);
+
+        return false;
+    }
+
+    if (user.id !== ADMIN_ID) {
+
+        document.getElementById("adminInfo").innerHTML =
+            "❌ Access denied. You are not an administrator.";
+
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 2000);
+
+        return false;
+    }
+
+    document.getElementById("adminInfo").innerHTML =
+        "✅ Administrator access confirmed.";
+
+    return true;
+}
+
+
+async function loadReports() {
+
+    const allowed = await checkAdmin();
+
+    if (!allowed) return;
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("user_reports")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+
+        document.getElementById("reports").innerHTML =
+            "❌ Could not load reports.";
+
+        console.error(error);
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        document.getElementById("reports").innerHTML =
+            "No reports found.";
+
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(report => {
+
+        html += `
+            <div class="report">
+
+                <h3>Report #${report.id}</h3>
+
+                <p>
+                    <strong>Reason:</strong>
+                    ${escapeHTML(report.reason)}
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    ${escapeHTML(report.description || "No description")}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${escapeHTML(report.status)}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${formatDate(report.created_at)}
+                </p>
+
+                <button
+                    class="review"
+                    onclick="reviewReport('${report.id}')">
+                    🔎 Review
+                </button>
+
+                <button
+                    class="warning"
+                    onclick="moderationAction('${report.id}', 'warning')">
+                    ⚠️ Warning
+                </button>
+
+                <button
+                    class="suspend"
+                    onclick="moderationAction('${report.id}', 'suspension')">
+                    ⏸️ Suspend
+                </button>
+
+                <button
+                    class="remove"
+                    onclick="moderationAction('${report.id}', 'removal')">
+                    🚫 Remove
+                </button>
+
+                <button
+                    class="email"
+                    onclick="sendEmail('${report.id}')">
+                    📧 Send Email
+                </button>
+
+            </div>
+        `;
+    });
+
+    document.getElementById("reports").innerHTML = html;
+}
+
+
+function reviewReport(reportId) {
+
+    alert(
+        "Report selected: " + reportId +
+        "\\n\\nThe detailed review system will be connected next."
+    );
+}
+
+
+async function moderationAction(reportId, action) {
+
+    const allowed = await checkAdmin();
+
+    if (!allowed) return;
+
+    const {
+        data: report,
+        error: reportError
+    } = await supabaseClient
+        .from("user_reports")
+        .select("*")
+        .eq("id", reportId)
+        .single();
+
+    if (reportError) {
+
+        alert("Could not find this report.");
+        return;
+    }
+
+    const reason =
+        prompt(
+            "Enter the reason for this moderation action:"
+        );
+
+    if (!reason) return;
+
+    const {
+        error
+    } = await supabaseClient
+        .from("moderation_actions")
+        .insert({
+            user_id: report.reported_user_id,
+            report_id: report.id,
+            action: action,
+            reason: reason
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "The action could not be recorded. " +
+            "The secure admin backend still needs to be connected."
+        );
+
+        return;
+    }
+
+    alert(
+        "Moderation action recorded: " +
+        action
+    );
+
+    loadReports();
+}
+
+
+function sendEmail(reportId) {
+
+    alert(
+        "Email system selected for report " +
+        reportId +
+        ".\\n\\nWe will connect this button to the secure Vercel email backend next."
+    );
+}
+
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "login.html";
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function formatDate(date) {
+
+    return new Date(date).toLocaleString();
+}
+
+
+checkAdmin();
+
+</script>
+
+</body>
+      </html>
