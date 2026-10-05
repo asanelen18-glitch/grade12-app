@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Grade 12 Hub - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4f46e5;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #e5e7eb;
+            color: #333;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .tab.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .main-button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .main-button:hover {
+            background: #3730a3;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .terms {
+            margin-top: 18px;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .terms input {
+            width: auto;
+            margin-right: 6px;
+        }
+
+        .terms a {
+            color: #4f46e5;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        #signupForm {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">🎓</div>
+
+    <h1>Grade 12 Hub</h1>
+
+    <p class="subtitle">
+        Your Grade 12 study platform
+    </p>
+
+    <div class="box">
+
+        <div class="tabs">
+
+            <button
+                class="tab active"
+                id="loginTab"
+                onclick="showLogin()">
+                Login
+            </button>
+
+            <button
+                class="tab"
+                id="signupTab"
+                onclick="showSignup()">
+                Sign Up
+            </button>
+
+        </div>
+
+        <div id="message" class="message"></div>
+
+
+        <!-- LOGIN -->
+
+        <div id="loginForm">
+
+            <label for="loginEmail">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Enter your email"
+                autocomplete="email"
+            >
+
+            <label for="loginPassword">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+            >
+
+            <button
+                class="main-button"
+                onclick="login()">
+                Login
+            </button>
+
+        </div>
+
+
+        <!-- SIGN UP -->
+
+        <div id="signupForm">
+
+            <label for="signupEmail">
+                Email *
+            </label>
+
+            <input
+                type="email"
+                id="signupEmail"
+                placeholder="Enter your email"
+                autocomplete="email"
+            >
+
+            <label for="signupPassword">
+                Password *
+            </label>
+
+            <input
+                type="password"
+                id="signupPassword"
+                placeholder="Create a password"
+                autocomplete="new-password"
+            >
+
+            <label for="confirmPassword">
+                Confirm Password *
+            </label>
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Enter your password again"
+                autocomplete="new-password"
+            >
+
+            <div class="terms">
+
+                <label>
+                    <input
+                        type="checkbox"
+                        id="termsAccepted"
+                    >
+
+                    I agree to the Grade 12 Hub
+                    Terms & Community Rules.
+                </label>
+
+            </div>
+
+            <button
+                class="main-button"
+                onclick="signup()">
+                Create Account
+            </button>
+
+        </div>
+
+    </div>
+
+    <a
+        class="back"
+        href="index.html">
+        ← Back to Grade 12 Hub
+    </a>
+
+</div>
+
+
+<!-- Supabase -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+    /* =====================================
+       SUPABASE CONNECTION
+       ===================================== */
+
+    const SUPABASE_URL =
+        "https://hdlhhbnawltisszzsbvw.supabase.co/rest/v1/";
+
+    const SUPABASE_KEY =
+        "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+    /* =====================================
+       SHOW LOGIN
+       ===================================== */
+
+    function showLogin() {
+
+        document.getElementById("loginForm").style.display =
+            "block";
+
+        document.getElementById("signupForm").style.display =
+            "none";
+
+        document.getElementById("loginTab").classList.add("active");
+
+        document.getElementById("signupTab").classList.remove("active");
+
+        clearMessage();
+    }
+
+
+    /* =====================================
+       SHOW SIGN UP
+       ===================================== */
+
+    function showSignup() {
+
+        document.getElementById("loginForm").style.display =
+            "none";
+
+        document.getElementById("signupForm").style.display =
+            "block";
+
+        document.getElementById("loginTab").classList.remove("active");
+
+        document.getElementById("signupTab").classList.add("active");
+
+        clearMessage();
+    }
+
+
+    /* =====================================
+       SIGN UP
+       ===================================== */
+
+    async function signup() {
+
+        const email =
+            document.getElementById("signupEmail")
+                .value.trim();
+
+        const password =
+            document.getElementById("signupPassword")
+                .value;
+
+        const confirmPassword =
+            document.getElementById("confirmPassword")
+                .value;
+
+        const termsAccepted =
+            document.getElementById("termsAccepted")
+                .checked;
+
+
+        if (email === "") {
+
+            showMessage(
+                "Please enter your email address."
+            );
+
+            return;
+        }
+
+
+        if (password === "") {
+
+            showMessage(
+                "Please create a password."
+            );
+
+            return;
+        }
+
+
+        if (password.length < 6) {
+
+            showMessage(
+                "Your password must contain at least 6 characters."
+            );
+
+            return;
+        }
+
+
+        if (password !== confirmPassword) {
+
+            showMessage(
+                "The passwords do not match."
+            );
+
+            return;
+        }
+
+
+        if (!termsAccepted) {
+
+            showMessage(
+                "Please accept the Terms & Community Rules."
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            "Creating your account...",
+            true
+        );
+
+
+        const result =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password
+
+            });
+
+
+        if (result.error) {
+
+            showMessage(
+                result.error.message
+            );
+
+            return;
+        }
+
+
+        /*
+         If email confirmation is enabled,
+         Supabase may require the learner
+         to confirm their email first.
+        */
+
+        if (!result.data.session) {
+
+            showMessage(
+                "Account created! Please check your email and confirm your account before logging in.",
+                true
+            );
+
+            return;
+        }
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+    /* =====================================
+       LOGIN
+       ===================================== */
+
+    async function login() {
+
+        const email =
+            document.getElementById("loginEmail")
+                .value.trim();
+
+        const password =
+            document.getElementById("loginPassword")
+                .value;
+
+
+        if (email === "") {
+
+            showMessage(
+                "Please enter your email address."
+            );
+
+            return;
+        }
+
+
+        if (password === "") {
+
+            showMessage(
+                "Please enter your password."
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            "Logging in...",
+            true
+        );
+
+
+        const result =
+            await supabaseClient.auth.signInWithPassword({
+
+                email: email,
+
+                password: password
+
+            });
+
+
+        if (result.error) {
+
+            showMessage(
+                result.error.message
+            );
+
+            return;
+        }
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+    /* =====================================
+       MESSAGE
+       ===================================== */
+
+    function showMessage(message, success = false) {
+
+        const box =
+            document.getElementById("message");
+
+        box.textContent = message;
+
+        box.className = "message";
+
+        if (success) {
+            box.classList.add("success");
+        }
+
+        box.style.display = "block";
+
+    }
+
+
+    function clearMessage() {
+
+        const box =
+            document.getElementById("message");
+
+        box.style.display = "none";
+
+        box.textContent = "";
+
+    }
+
+</script>
+
+</body>
+  </html>
