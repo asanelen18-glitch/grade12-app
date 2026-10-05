@@ -1,290 +1,1286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grade 12 Hub - Create Account</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Grade 12 Hub</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    <link rel="manifest" href="manifest.json">
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #222;
-    }
+    <meta name="theme-color" content="#4f46e5">
 
-    header {
-      background: #173b73;
-      color: white;
-      text-align: center;
-      padding: 25px 15px;
-    }
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    header h1 {
-      margin: 0 0 8px;
-    }
+    <style>
 
-    .container {
-      max-width: 500px;
-      margin: 35px auto;
-      padding: 20px;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
 
-    h2 {
-      text-align: center;
-    }
+        header {
+            background: #4f46e5;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
 
-    label {
-      display: block;
-      margin: 15px 0 6px;
-      font-weight: bold;
-    }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
 
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-    }
+        header p {
+            margin: 8px 0 0;
+            font-size: 15px;
+        }
 
-    .terms {
-      margin-top: 15px;
-      font-size: 14px;
-    }
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 25px auto;
+        }
 
-    .terms label {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-      font-weight: normal;
-    }
+        .welcome {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
 
-    .terms input {
-      margin-top: 3px;
-    }
+        .welcome h2 {
+            margin-top: 0;
+            color: #4f46e5;
+        }
 
-    button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 20px;
-      background: #173b73;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+        .welcome p {
+            color: #555;
+        }
 
-    button:hover {
-      background: #0f2b55;
-    }
+        .goal {
+            background: #eef2ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            color: #333;
+        }
 
-    #message {
-      margin-top: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
 
-    .link {
-      text-align: center;
-      margin-top: 20px;
-    }
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #222;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: 0.2s;
+        }
 
-    .link a {
-      color: #173b73;
-      font-weight: bold;
-      text-decoration: none;
-    }
-  </style>
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card .icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            margin: 5px 0;
+            color: #4f46e5;
+        }
+
+        .card p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .coming-soon {
+            cursor: pointer;
+        }
+
+        .creator {
+            background: white;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .creator h3 {
+            color: #4f46e5;
+            margin-top: 0;
+        }
+
+        .creator p {
+            margin: 8px 0;
+        }
+
+        /* ACCOUNT AREA */
+
+        .account-area {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .account-email {
+            font-size: 13px;
+            opacity: 0.9;
+            word-break: break-word;
+        }
+
+        .logout-button {
+            margin-top: 10px;
+            padding: 9px 18px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #4f46e5;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background: #eef2ff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+            font-size: 13px;
+        }
+
+
+        /* =====================================
+           FIRST-TIME PROFILE SETUP
+           ===================================== */
+
+        #profileSetupOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f4f6f8;
+            z-index: 9999;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .setup-container {
+            width: 92%;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .setup-box {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        .setup-box h2 {
+            color: #4f46e5;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 7px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+
+        /* GRADE 12 DISPLAY */
+
+        .grade-display {
+            width: 100%;
+            padding: 14px;
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 10px;
+            color: #4f46e5;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+
+        /* SUBJECTS */
+
+        .subjects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .subject-option {
+            background: #f4f6f8;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: normal;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .subject-option:hover {
+            background: #eef2ff;
+        }
+
+        .subject-option input {
+            margin-right: 8px;
+        }
+
+
+        /* SAVE BUTTON */
+
+        .save-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background: #4338ca;
+        }
+
+        .required-note {
+            color: #777;
+            font-size: 13px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 500px) {
+
+            .subjects {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            .setup-box {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-<header>
-  <h1>Grade 12 Hub</h1>
-  <p>Your Grade 12 study platform</p>
-</header>
 
-<div class="container">
-  <div class="card">
+    <!-- =====================================
+         HEADER
+         ===================================== -->
 
-    <h2>Create Account</h2>
+    <header>
 
-    <form id="signupForm">
+        <h1>🎓 Grade 12 Hub</h1>
 
-      <label for="email">Email *</label>
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-        required
-      >
+        <p>
+            Your study companion for Grade 12
+        </p>
 
-      <label for="password">Password *</label>
-      <input
-        type="password"
-        id="password"
-        placeholder="Create a password"
-        minlength="6"
-        required
-      >
+        <div class="account-area">
 
-      <label for="confirmPassword">Confirm Password *</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        placeholder="Confirm your password"
-        minlength="6"
-        required
-      >
+            <div
+                class="account-email"
+                id="accountEmail">
+                Checking account...
+            </div>
 
-      <div class="terms">
-        <label>
-          <input type="checkbox" id="terms" required>
-          <span>I agree to the Grade 12 Hub Terms & Community Rules.</span>
-        </label>
-      </div>
+            <button
+                class="logout-button"
+                id="logoutButton">
+                Logout
+            </button>
 
-      <button type="submit">Create Account</button>
+        </div>
 
-      <div id="message"></div>
+    </header>
 
-    </form>
 
-    <div class="link">
-      Already have an account?
-      <a href="login.html">Login</a>
+
+    <!-- =====================================
+         HOME PAGE
+         ===================================== -->
+
+    <main class="container">
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome">
+
+            <h2 id="welcomeMessage">
+                Welcome to Grade 12 Hub! 👋
+            </h2>
+
+            <p>
+                Learn, revise, practise and prepare for your future.
+            </p>
+
+
+            <div class="goal" id="homeGoal">
+
+                🎯 Set your study goal when you first enter the app.
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             APP FEATURES
+             ===================================== -->
+
+        <section class="cards">
+
+
+            <!-- PAST PAPERS -->
+
+            <a class="card" href="past-papers.html">
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <h3>
+                    Past Papers
+                </h3>
+
+                <p>
+                    Access Grade 12 past question papers and memoranda.
+                </p>
+
+            </a>
+
+
+
+            <!-- STUDY NOTES -->
+
+            <a class="card" href="notes.html">
+
+                <div class="icon">
+                    📝
+                </div>
+
+                <h3>
+                    Study Notes
+                </h3>
+
+                <p>
+                    Revise important topics, definitions and formulas.
+                </p>
+
+            </a>
+
+
+
+            <!-- AI HELPER -->
+
+            <a class="card" href="ai-helper.html">
+
+                <div class="icon">
+                    🤖
+                </div>
+
+                <h3>
+                    AI Study Helper
+                </h3>
+
+                <p>
+                    Ask questions and get step-by-step explanations.
+                </p>
+
+            </a>
+
+
+
+            <!-- STUDY GROUPS -->
+
+            <a class="card" href="study-groups.html">
+
+                <div class="icon">
+                    👥
+                </div>
+
+                <h3>
+                    Study Groups
+                </h3>
+
+                <p>
+                    Join subject groups and study with other learners.
+                </p>
+
+            </a>
+
+
+
+            <!-- MOTIVATION -->
+
+            <div
+                class="card coming-soon"
+                onclick="showComingSoon('Motivation')"
+            >
+
+                <div class="icon">
+                    🔥
+                </div>
+
+                <h3>
+                    Motivation
+                </h3>
+
+                <p>
+                    Get study motivation and exam tips.
+                </p>
+
+            </div>
+
+
+
+            <!-- VARSITY -->
+
+            <div
+                class="card coming-soon"
+                onclick="showComingSoon('Varsity Applications')"
+            >
+
+                <div class="icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Apply to Varsity
+                </h3>
+
+                <p>
+                    Find university application information.
+                </p>
+
+            </div>
+
+
+
+            <!-- PROFILE -->
+
+            <a class="card" href="profile.html">
+
+                <div class="icon">
+                    👤
+                </div>
+
+                <h3>
+                    My Profile
+                </h3>
+
+                <p>
+                    View and update your learner profile and goals.
+                </p>
+
+            </a>
+
+
+
+            <!-- CAREER GUIDANCE -->
+
+            <div
+                class="card coming-soon"
+                onclick="showComingSoon('Career Guidance')"
+            >
+
+                <div class="icon">
+                    💼
+                </div>
+
+                <h3>
+                    Career Guidance
+                </h3>
+
+                <p>
+                    Explore careers and possible study choices.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             CREATOR CREDIT
+             ===================================== -->
+
+        <section class="creator">
+
+            <h3>
+                Created By
+            </h3>
+
+            <p>
+                <strong>MH Masina</strong>
+            </p>
+
+            <p>
+                <strong>NP Machete</strong>
+            </p>
+
+            <p>
+                Grade 12 Hub
+            </p>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================
+         FOOTER
+         ===================================== -->
+
+    <footer>
+
+        Created by MH Masina & NP Machete
+
+    </footer>
+
+
+
+    <!-- =====================================
+         FIRST-TIME PROFILE SETUP
+         ===================================== -->
+
+    <div id="profileSetupOverlay">
+
+
+        <div class="setup-container">
+
+
+            <div class="setup-box">
+
+
+                <h2>
+                    👋 Welcome to Grade 12 Hub
+                </h2>
+
+
+                <p class="intro">
+                    Let's set up your profile before you enter the app.
+                </p>
+
+
+
+                <!-- FULL NAME -->
+
+                <label for="fullName">
+
+                    Full Name
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Enter your full name"
+                >
+
+
+
+                <!-- GRADE -->
+
+                <label>
+
+                    Grade
+
+                </label>
+
+
+                <div class="grade-display">
+
+                    🎓 Grade 12
+
+                </div>
+
+
+
+                <!-- SUBJECTS -->
+
+                <label>
+
+                    Your Subjects
+
+                </label>
+
+
+                <div class="subjects">
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Mathematics"
+                        >
+
+                        Mathematics
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Physical Sciences"
+                        >
+
+                        Physical Sciences
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Life Sciences"
+                        >
+
+                        Life Sciences
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="English"
+                        >
+
+                        English
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Geography"
+                        >
+
+                        Geography
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Accounting"
+                        >
+
+                        Accounting
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Business Studies"
+                        >
+
+                        Business Studies
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="History"
+                        >
+
+                        History
+
+                    </label>
+
+
+                </div>
+
+
+
+                <!-- STUDY GOAL -->
+
+                <label for="studyGoal">
+
+                    What is your study goal?
+
+                </label>
+
+
+                <textarea
+                    id="studyGoal"
+                    placeholder="Example: I want to improve my Mathematics mark and pass Grade 12 with good results."
+                ></textarea>
+
+
+
+                <!-- SAVE -->
+
+                <button
+                    class="save-button"
+                    onclick="saveFirstProfile()"
+                >
+
+                    Save & Enter App
+
+                </button>
+
+
+
+                <p class="required-note">
+
+                    Your information is saved on this device.
+
+                </p>
+
+
+            </div>
+
+        </div>
+
     </div>
 
-  </div>
-</div>
 
-<script>
-  // ==========================================
-  // SUPABASE SETTINGS
-  // ==========================================
 
-  const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+    <script>
 
-  // ==========================================
-  // EMAIL REDIRECT
-  // ==========================================
+        /* =====================================
+           SUPABASE SETTINGS
+           ===================================== */
 
-  const EMAIL_REDIRECT_URL =
-    "https://asanelen18-glitch.github.io/grade12-app/login.html";
+        const SUPABASE_URL =
+            "https://hdlhhbnawltisszzsbvw.supabase.co";
 
-  // ==========================================
-  // CREATE SUPABASE CLIENT
-  // ==========================================
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
 
-  // ==========================================
-  // CREATE ACCOUNT
-  // ==========================================
+        /* =====================================
+           CREATE SUPABASE CLIENT
+           ===================================== */
 
-  const signupForm = document.getElementById("signupForm");
-  const message = document.getElementById("message");
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
 
-  signupForm.addEventListener("submit", async function(event) {
 
-    event.preventDefault();
+        /* =====================================
+           CHECK SUPABASE LOGIN
+           ===================================== */
 
-    const email =
-      document.getElementById("email").value.trim();
+        async function checkSupabaseUser() {
 
-    const password =
-      document.getElementById("password").value;
+            const {
+                data,
+                error
+            } = await supabaseClient.auth.getUser();
 
-    const confirmPassword =
-      document.getElementById("confirmPassword").value;
 
-    const terms =
-      document.getElementById("terms").checked;
+            if (error || !data.user) {
 
-    // Check terms
-    if (!terms) {
-      message.textContent =
-        "Please agree to the Terms & Community Rules.";
-      return;
-    }
+                window.location.href =
+                    "login.html";
 
-    // Check passwords
-    if (password !== confirmPassword) {
-      message.textContent =
-        "Passwords do not match.";
-      return;
-    }
+                return null;
 
-    // Check password length
-    if (password.length < 6) {
-      message.textContent =
-        "Password must be at least 6 characters.";
-      return;
-    }
+            }
 
-    message.textContent =
-      "Creating your account...";
 
-    try {
+            /*
+             * Display logged-in email.
+             */
 
-      const { data, error } =
-        await supabaseClient.auth.signUp({
+            document.getElementById(
+                "accountEmail"
+            ).textContent =
+                "Logged in as: " +
+                data.user.email;
 
-          email: email,
 
-          password: password,
+            return data.user;
 
-          options: {
-            emailRedirectTo: EMAIL_REDIRECT_URL
-          }
+        }
 
-        });
 
-      if (error) {
-        message.textContent =
-          error.message;
-        return;
-      }
+        /* =====================================
+           LOGOUT
+           ===================================== */
 
-      if (data.user) {
+        document.getElementById(
+            "logoutButton"
+        ).addEventListener(
+            "click",
+            async function() {
 
-        message.textContent =
-          "Account created! Check your email and click the confirmation link.";
+                const {
+                    error
+                } = await supabaseClient.auth.signOut();
 
-        signupForm.reset();
-      }
 
-    } catch (error) {
+                if (error) {
 
-      console.error(error);
+                    alert(error.message);
 
-      message.textContent =
-        "Something went wrong. Please try again.";
-    }
+                    return;
 
-  });
-</script>
+                }
+
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
+
+
+        /* =====================================
+           CHECK FIRST-TIME USER
+           ===================================== */
+
+        function checkFirstTimeUser() {
+
+
+            const profileCreated =
+                localStorage.getItem(
+                    "grade12_profile_created"
+                );
+
+
+            if (profileCreated !== "true") {
+
+
+                document.getElementById(
+                    "profileSetupOverlay"
+                ).style.display = "block";
+
+
+                document.body.style.overflow = "hidden";
+
+
+            } else {
+
+
+                loadHomeProfile();
+
+
+            }
+
+        }
+
+
+
+        /* =====================================
+           SAVE FIRST PROFILE
+           ===================================== */
+
+        function saveFirstProfile() {
+
+
+            const name =
+                document.getElementById(
+                    "fullName"
+                ).value.trim();
+
+
+
+            const goal =
+                document.getElementById(
+                    "studyGoal"
+                ).value.trim();
+
+
+
+            const subjectCheckboxes =
+                document.querySelectorAll(
+                    '.subject-option input[type="checkbox"]'
+                );
+
+
+
+            const subjects = [];
+
+
+
+            subjectCheckboxes.forEach(
+                function(checkbox) {
+
+
+                    if (checkbox.checked) {
+
+                        subjects.push(
+                            checkbox.value
+                        );
+
+                    }
+
+                }
+            );
+
+
+
+            /* VALIDATE NAME */
+
+            if (name === "") {
+
+                alert(
+                    "Please enter your full name."
+                );
+
+                return;
+
+            }
+
+
+
+            /* VALIDATE SUBJECTS */
+
+            if (subjects.length === 0) {
+
+                alert(
+                    "Please select at least one subject."
+                );
+
+                return;
+
+            }
+
+
+
+            /* VALIDATE GOAL */
+
+            if (goal === "") {
+
+                alert(
+                    "Please enter your study goal."
+                );
+
+                return;
+
+            }
+
+
+
+            /* =================================
+               SAVE PROFILE INFORMATION
+               ================================= */
+
+
+            localStorage.setItem(
+                "grade12_name",
+                name
+            );
+
+
+
+            /* GRADE 12 ONLY */
+
+            localStorage.setItem(
+                "grade12_grade",
+                "Grade 12"
+            );
+
+
+
+            localStorage.setItem(
+                "grade12_subjects",
+                JSON.stringify(subjects)
+            );
+
+
+
+            localStorage.setItem(
+                "grade12_goal",
+                goal
+            );
+
+
+
+            /*
+             * Mark profile setup as completed.
+             */
+
+            localStorage.setItem(
+                "grade12_profile_created",
+                "true"
+            );
+
+
+
+            /*
+             * Close setup screen.
+             */
+
+            document.getElementById(
+                "profileSetupOverlay"
+            ).style.display = "none";
+
+
+            document.body.style.overflow = "auto";
+
+
+
+            /*
+             * Update Home page.
+             */
+
+            loadHomeProfile();
+
+
+
+            /*
+             * Show the goal message once.
+             */
+
+            alert(
+                "Welcome to Grade 12 Hub, " +
+                name +
+                "! 🎯\n\n" +
+                "Remember your goal:\n" +
+                goal
+            );
+
+        }
+
+
+
+        /* =====================================
+           LOAD PROFILE ON HOME
+           ===================================== */
+
+        function loadHomeProfile() {
+
+
+            const name =
+                localStorage.getItem(
+                    "grade12_name"
+                );
+
+
+            const goal =
+                localStorage.getItem(
+                    "grade12_goal"
+                );
+
+
+
+            if (name) {
+
+
+                document.getElementById(
+                    "welcomeMessage"
+                ).textContent =
+                    "Welcome back, " +
+                    name +
+                    "! 👋";
+
+            }
+
+
+
+            if (goal) {
+
+
+                document.getElementById(
+                    "homeGoal"
+                ).textContent =
+                    "🎯 Your goal: " +
+                    goal;
+
+            }
+
+        }
+
+
+
+        /* =====================================
+           COMING SOON
+           ===================================== */
+
+        function showComingSoon(feature) {
+
+
+            alert(
+                feature +
+                " is coming soon! 🚀"
+            );
+
+        }
+
+
+
+        /* =====================================
+           START APP
+           ===================================== */
+
+        window.addEventListener(
+            "load",
+            async function() {
+
+                /*
+                 * First check Supabase login.
+                 * Only logged-in users can enter
+                 * the Grade 12 Hub.
+                 */
+
+                const user =
+                    await checkSupabaseUser();
+
+
+                if (!user) {
+
+                    return;
+
+                }
+
+
+                /*
+                 * User is logged in,
+                 * so load the original app.
+                 */
+
+                checkFirstTimeUser();
+
+            }
+        );
+
+
+
+        /* =====================================
+           SERVICE WORKER
+           ===================================== */
+
+        if ("serviceWorker" in navigator) {
+
+
+            window.addEventListener(
+                "load",
+                function() {
+
+
+                    navigator.serviceWorker
+                        .register("service-worker.js")
+                        .then(
+                            function() {
+
+
+                                console.log(
+                                    "Service Worker registered."
+                                );
+
+
+                            }
+                        )
+                        .catch(
+                            function(error) {
+
+
+                                console.log(
+                                    "Service Worker registration failed:",
+                                    error
+                                );
+
+
+                            }
+                        );
+
+                }
+            );
+
+        }
+
+
+    </script>
+
 
 </body>
-</html>
+  </html>
