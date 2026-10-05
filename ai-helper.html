@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>AI Study Helper - Grade 12 Hub</title>
 
     <style>
@@ -20,10 +21,26 @@
             text-align: center;
         }
 
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        header p {
+            margin: 0;
+        }
+
         .container {
             max-width: 700px;
             margin: 20px auto;
             padding: 20px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         .card {
@@ -31,7 +48,18 @@
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 6px;
         }
 
         textarea,
@@ -50,6 +78,10 @@
         textarea {
             min-height: 130px;
             resize: vertical;
+        }
+
+        #studentAnswer {
+            min-height: 90px;
         }
 
         button {
@@ -71,6 +103,10 @@
             background: #64748b;
         }
 
+        .check-button {
+            background: #16a34a;
+        }
+
         #imagePreview {
             display: none;
             width: 100%;
@@ -89,8 +125,9 @@
             background: #f8fafc;
             padding: 15px;
             border-radius: 10px;
-            line-height: 1.6;
+            line-height: 1.7;
             white-space: pre-wrap;
+            overflow-wrap: break-word;
         }
 
         .warning {
@@ -99,11 +136,27 @@
             margin-top: 15px;
         }
 
-        .back {
-            display: inline-block;
-            margin-bottom: 10px;
-            color: #4f46e5;
-            text-decoration: none;
+        .answer-box {
+            background: #f0fdf4;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 1px solid #bbf7d0;
+        }
+
+        .answer-box h3 {
+            margin-top: 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px;
+            }
+
+            button {
+                width: 100%;
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
@@ -112,16 +165,24 @@
 
 <header>
     <h1>🤖 AI Study Helper</h1>
-    <p>Ask questions, upload a problem and get a step-by-step explanation.</p>
+    <p>Ask questions, upload problems and learn step by step.</p>
 </header>
+
 
 <div class="container">
 
     <a class="back" href="index.html">← Back to Home</a>
 
+
+    <!-- QUESTION CARD -->
+
     <div class="card">
 
-        <h2>📸 Upload a Question</h2>
+        <h2>📸 Your Question</h2>
+
+        <p>
+            Type your question or take a photo of your question.
+        </p>
 
         <input
             type="file"
@@ -131,16 +192,25 @@
             onchange="showImage(event)"
         >
 
-        <img id="imagePreview" alt="Question preview">
+        <img
+            id="imagePreview"
+            alt="Question preview"
+        >
 
-        <h2>✏️ Type Your Question</h2>
+
+        <label for="questionText">
+            ✏️ Type Your Question
+        </label>
 
         <textarea
             id="questionText"
-            placeholder="Example: Solve 2x + 5 = 15 and explain each step."
+            placeholder="Example: Solve 3x + 2 = 5 and explain each step."
         ></textarea>
 
-        <h2>🌍 Choose Language</h2>
+
+        <label for="language">
+            🌍 Choose Language
+        </label>
 
         <select id="language">
             <option>English</option>
@@ -152,17 +222,59 @@
             <option>isiXhosa</option>
         </select>
 
-        <button onclick="solveQuestion()">🤖 Solve & Explain</button>
+    </div>
 
-        <button onclick="getHint()" class="secondary">
+
+    <!-- CHECK ANSWER CARD -->
+
+    <div class="card">
+
+        <div class="answer-box">
+
+            <h3>✍️ My Answer</h3>
+
+            <p>
+                Enter your answer here if you want the AI to check it.
+            </p>
+
+            <textarea
+                id="studentAnswer"
+                placeholder="Example: x = 1"
+            ></textarea>
+
+            <button
+                class="check-button"
+                onclick="checkAnswer()"
+            >
+                ✅ Check My Answer
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- OTHER AI OPTIONS -->
+
+    <div class="card">
+
+        <h2>🤖 AI Help</h2>
+
+        <button onclick="solveQuestion()">
+            🤖 Solve & Explain
+        </button>
+
+        <button
+            onclick="getHint()"
+            class="secondary"
+        >
             💡 Give Me a Hint
         </button>
 
-        <button onclick="checkAnswer()" class="secondary">
-            ✅ Check My Answer
-        </button>
-
-        <button onclick="clearQuestion()" class="secondary">
+        <button
+            onclick="clearQuestion()"
+            class="secondary"
+        >
             🗑️ Clear
         </button>
 
@@ -170,9 +282,12 @@
 
     </div>
 
+
+    <!-- RESULT -->
+
     <div class="card">
 
-        <h2>📚 AI Explanation</h2>
+        <h2>📚 AI Response</h2>
 
         <div id="result">
             Your AI explanation will appear here.
@@ -187,34 +302,56 @@
 
 </div>
 
+
 <script>
 
-const API_URL = "https://grade12-app.vercel.app/api/solve";
 
+/* --------------------------------
+   VERCEL API
+-------------------------------- */
+
+const API_URL =
+    "https://grade12-app.vercel.app/api/solve";
+
+
+/* --------------------------------
+   SHOW IMAGE
+-------------------------------- */
 
 function showImage(event) {
 
-    const file = event.target.files[0];
+    const file =
+        event.target.files[0];
 
     if (!file) {
         return;
     }
 
-    const image = document.getElementById("imagePreview");
+    const image =
+        document.getElementById(
+            "imagePreview"
+        );
 
-    const reader = new FileReader();
+    const reader =
+        new FileReader();
 
-    reader.onload = function(e) {
+    reader.onload =
+        function(e) {
 
-        image.src = e.target.result;
+            image.src =
+                e.target.result;
 
-        image.style.display = "block";
-
-    };
+            image.style.display =
+                "block";
+        };
 
     reader.readAsDataURL(file);
 }
 
+
+/* --------------------------------
+   GET QUESTION
+-------------------------------- */
 
 function getQuestionText() {
 
@@ -222,114 +359,449 @@ function getQuestionText() {
         .getElementById("questionText")
         .value
         .trim();
-
 }
 
+
+/* --------------------------------
+   GET STUDENT ANSWER
+-------------------------------- */
+
+function getStudentAnswer() {
+
+    return document
+        .getElementById("studentAnswer")
+        .value
+        .trim();
+}
+
+
+/* --------------------------------
+   GET LANGUAGE
+-------------------------------- */
 
 function getSelectedLanguage() {
 
     return document
         .getElementById("language")
         .value;
-
 }
 
+
+/* --------------------------------
+   RESIZE IMAGE
+-------------------------------- */
 
 function resizeImage(file) {
 
-    return new Promise((resolve, reject) => {
+    return new Promise(
+        (resolve, reject) => {
 
-        const reader = new FileReader();
+            const reader =
+                new FileReader();
 
-        reader.onload = function(event) {
+            reader.onload =
+                function(event) {
 
-            const img = new Image();
+                    const img =
+                        new Image();
 
-            img.onload = function() {
+                    img.onload =
+                        function() {
 
-                const maxSize = 1600;
+                            const maxSize =
+                                1600;
 
-                let width = img.width;
-                let height = img.height;
+                            let width =
+                                img.width;
 
-                if (width > maxSize || height > maxSize) {
+                            let height =
+                                img.height;
 
-                    if (width > height) {
 
-                        height = height * maxSize / width;
-                        width = maxSize;
+                            if (
+                                width > maxSize ||
+                                height > maxSize
+                            ) {
 
-                    } else {
+                                if (
+                                    width > height
+                                ) {
 
-                        width = width * maxSize / height;
-                        height = maxSize;
+                                    height =
+                                        height *
+                                        maxSize /
+                                        width;
 
-                    }
+                                    width =
+                                        maxSize;
 
-                }
+                                } else {
 
-                const canvas = document.createElement("canvas");
+                                    width =
+                                        width *
+                                        maxSize /
+                                        height;
 
-                canvas.width = width;
-                canvas.height = height;
+                                    height =
+                                        maxSize;
+                                }
+                            }
 
-                const ctx = canvas.getContext("2d");
 
-                ctx.drawImage(
-                    img,
-                    0,
-                    0,
-                    width,
-                    height
-                );
+                            const canvas =
+                                document.createElement(
+                                    "canvas"
+                                );
 
-                const compressedImage =
-                    canvas.toDataURL("image/jpeg", 0.75);
+                            canvas.width =
+                                width;
 
-                resolve(compressedImage);
+                            canvas.height =
+                                height;
 
-            };
 
-            img.onerror = reject;
+                            const ctx =
+                                canvas.getContext(
+                                    "2d"
+                                );
 
-            img.src = event.target.result;
 
-        };
+                            ctx.drawImage(
+                                img,
+                                0,
+                                0,
+                                width,
+                                height
+                            );
 
-        reader.onerror = reject;
 
-        reader.readAsDataURL(file);
+                            const compressedImage =
+                                canvas.toDataURL(
+                                    "image/jpeg",
+                                    0.75
+                                );
 
-    });
 
+                            resolve(
+                                compressedImage
+                            );
+                        };
+
+
+                    img.onerror =
+                        reject;
+
+                    img.src =
+                        event.target.result;
+                };
+
+
+            reader.onerror =
+                reject;
+
+            reader.readAsDataURL(file);
+        }
+    );
 }
 
+
+/* --------------------------------
+   CLEAN AI MATHEMATICS
+-------------------------------- */
+
+function cleanMathText(text) {
+
+    if (!text) {
+        return "";
+    }
+
+    let cleaned = text;
+
+
+    /* Remove LaTeX math brackets */
+
+    cleaned =
+        cleaned.replace(
+            /\\\[/g,
+            ""
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\\]/g,
+            ""
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\\(/g,
+            ""
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\\)/g,
+            ""
+        );
+
+
+    /* Remove dollar signs */
+
+    cleaned =
+        cleaned.replace(
+            /\$\$/g,
+            ""
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\$/g,
+            ""
+        );
+
+
+    /* Remove boxed */
+
+    cleaned =
+        cleaned.replace(
+            /\\boxed\{([^{}]*)\}/g,
+            "$1"
+        );
+
+
+    /* Remove common text commands */
+
+    cleaned =
+        cleaned.replace(
+            /\\text\{([^{}]*)\}/g,
+            "$1"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\mathrm\{([^{}]*)\}/g,
+            "$1"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\mathbf\{([^{}]*)\}/g,
+            "$1"
+        );
+
+
+    /* Fractions */
+
+    cleaned =
+        cleaned.replace(
+            /\\frac\{([^{}]*)\}\{([^{}]*)\}/g,
+            "$1/$2"
+        );
+
+
+    /* Square root */
+
+    cleaned =
+        cleaned.replace(
+            /\\sqrt\{([^{}]*)\}/g,
+            "√($1)"
+        );
+
+
+    /* Symbols */
+
+    cleaned =
+        cleaned.replace(
+            /\\times/g,
+            "×"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\cdot/g,
+            "×"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\div/g,
+            "÷"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\pm/g,
+            "±"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\leq/g,
+            "≤"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\geq/g,
+            "≥"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\neq/g,
+            "≠"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\approx/g,
+            "≈"
+        );
+
+
+    /* Greek letters */
+
+    cleaned =
+        cleaned.replace(
+            /\\pi/g,
+            "π"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\theta/g,
+            "θ"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\alpha/g,
+            "α"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\beta/g,
+            "β"
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\Delta/g,
+            "Δ"
+        );
+
+
+    /* Remove left/right commands */
+
+    cleaned =
+        cleaned.replace(
+            /\\left/g,
+            ""
+        );
+
+    cleaned =
+        cleaned.replace(
+            /\\right/g,
+            ""
+        );
+
+
+    /* Remove remaining backslashes */
+
+    cleaned =
+        cleaned.replace(
+            /\\/g,
+            ""
+        );
+
+
+    /* Remove excessive spaces */
+
+    cleaned =
+        cleaned.replace(
+            /[ \t]+/g,
+            " "
+        );
+
+
+    /* Keep normal paragraph spacing */
+
+    cleaned =
+        cleaned.replace(
+            /\n{3,}/g,
+            "\n\n"
+        );
+
+
+    return cleaned.trim();
+}
+
+
+/* --------------------------------
+   SEND TO AI
+-------------------------------- */
 
 async function sendToAI(mode) {
 
     const question =
         getQuestionText();
 
+    const studentAnswer =
+        getStudentAnswer();
+
     const language =
         getSelectedLanguage();
 
     const imageFile =
-        document.getElementById("questionImage").files[0];
+        document
+            .getElementById(
+                "questionImage"
+            )
+            .files[0];
 
     const status =
-        document.getElementById("status");
+        document.getElementById(
+            "status"
+        );
 
     const result =
-        document.getElementById("result");
+        document.getElementById(
+            "result"
+        );
 
 
-    if (!question && !imageFile) {
+    /* Question is required */
+
+    if (
+        !question &&
+        !imageFile
+    ) {
 
         result.textContent =
             "Please type a question or upload a question image first.";
 
         return;
+    }
 
+
+    /* Student answer required for checking */
+
+    if (
+        mode === "check" &&
+        !studentAnswer
+    ) {
+
+        result.textContent =
+            "Please enter your answer first.";
+
+        document
+            .getElementById(
+                "studentAnswer"
+            )
+            .focus();
+
+        return;
     }
 
 
@@ -337,43 +809,75 @@ async function sendToAI(mode) {
         "⏳ AI is working on your question...";
 
     result.textContent =
-        "";
+        "Please wait...";
 
 
     try {
 
         let image = null;
 
+
         if (imageFile) {
 
             image =
-                await resizeImage(imageFile);
+                await resizeImage(
+                    imageFile
+                );
+        }
 
+
+        /*
+           For Check My Answer,
+           send the student's answer
+           together with the question.
+        */
+
+        let fullQuestion =
+            question;
+
+
+        if (mode === "check") {
+
+            fullQuestion =
+                "Question:\n" +
+                question +
+                "\n\n" +
+                "Student's answer:\n" +
+                studentAnswer +
+                "\n\n" +
+                "Check the student's answer. " +
+                "Say clearly whether it is correct or incorrect. " +
+                "If it is incorrect, explain the mistake and give the correct answer.";
         }
 
 
         const response =
-            await fetch(API_URL, {
+            await fetch(
+                API_URL,
+                {
+                    method: "POST",
 
-                method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    body: JSON.stringify({
 
-                body: JSON.stringify({
+                        question:
+                            fullQuestion,
 
-                    question: question,
+                        image:
+                            image,
 
-                    image: image,
+                        language:
+                            language,
 
-                    language: language,
-
-                    mode: mode
-
-                })
-
-            });
+                        mode:
+                            mode
+                    })
+                }
+            );
 
 
         const data =
@@ -386,15 +890,23 @@ async function sendToAI(mode) {
                 data.error ||
                 "The AI request failed."
             );
-
         }
+
+
+        /* Clean the AI response */
+
+        const cleanedAnswer =
+            cleanMathText(
+                data.answer
+            );
 
 
         status.textContent =
             "✅ AI response received.";
 
+
         result.textContent =
-            data.answer ||
+            cleanedAnswer ||
             "No answer was returned.";
 
     }
@@ -407,52 +919,100 @@ async function sendToAI(mode) {
             "❌ Something went wrong.";
 
         result.textContent =
-            "Error: " + error.message;
-
+            "Error: " +
+            error.message;
     }
-
 }
 
+
+/* --------------------------------
+   SOLVE
+-------------------------------- */
 
 function solveQuestion() {
 
     sendToAI("solve");
-
 }
 
+
+/* --------------------------------
+   HINT
+-------------------------------- */
 
 function getHint() {
 
     sendToAI("hint");
-
 }
 
+
+/* --------------------------------
+   CHECK ANSWER
+-------------------------------- */
 
 function checkAnswer() {
 
     sendToAI("check");
-
 }
 
 
+/* --------------------------------
+   CLEAR
+-------------------------------- */
+
 function clearQuestion() {
 
-    document.getElementById("questionText").value = "";
+    document
+        .getElementById(
+            "questionText"
+        )
+        .value = "";
 
-    document.getElementById("questionImage").value = "";
 
-    document.getElementById("imagePreview").style.display = "none";
+    document
+        .getElementById(
+            "studentAnswer"
+        )
+        .value = "";
 
-    document.getElementById("imagePreview").src = "";
 
-    document.getElementById("status").textContent = "";
+    document
+        .getElementById(
+            "questionImage"
+        )
+        .value = "";
 
-    document.getElementById("result").textContent =
+
+    document
+        .getElementById(
+            "imagePreview"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "imagePreview"
+        )
+        .src = "";
+
+
+    document
+        .getElementById(
+            "status"
+        )
+        .textContent = "";
+
+
+    document
+        .getElementById(
+            "result"
+        )
+        .textContent =
         "Your AI explanation will appear here.";
-
 }
 
 </script>
 
 </body>
-</html>
+    </html>
