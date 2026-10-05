@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Grade 12 Hub - Create Account</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    header {
+      background: #4f46e5;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+    }
+
+    header p {
+      margin: 0;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 500px;
+      margin: 35px auto;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #4f46e5;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 7px;
+      font-weight: bold;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .terms {
+      margin-top: 18px;
+      font-size: 14px;
+    }
+
+    .terms label {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-weight: normal;
+      margin: 0;
+    }
+
+    .terms input {
+      margin-top: 3px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 22px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #4338ca;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .link a {
+      color: #4f46e5;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .back a {
+      color: #555;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎓 Grade 12 Hub</h1>
+  <p>Your Grade 12 study companion</p>
+</header>
+
+
+<div class="container">
+
+  <div class="card">
+
+    <h2>Create Account</h2>
+
+    <form id="signupForm">
+
+      <!-- EMAIL -->
+
+      <label for="email">
+        Email *
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+      >
+
+
+      <!-- PASSWORD -->
+
+      <label for="password">
+        Password *
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Create a password"
+        minlength="6"
+        required
+      >
+
+
+      <!-- CONFIRM PASSWORD -->
+
+      <label for="confirmPassword">
+        Confirm Password *
+      </label>
+
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm your password"
+        minlength="6"
+        required
+      >
+
+
+      <!-- TERMS -->
+
+      <div class="terms">
+
+        <label>
+
+          <input
+            type="checkbox"
+            id="terms"
+            required
+          >
+
+          <span>
+            I agree to the Grade 12 Hub Terms & Community Rules.
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <!-- BUTTON -->
+
+      <button
+        type="submit"
+        id="signupButton"
+      >
+        Create Account
+      </button>
+
+
+      <!-- MESSAGE -->
+
+      <div id="message"></div>
+
+    </form>
+
+
+    <!-- LOGIN LINK -->
+
+    <div class="link">
+
+      Already have an account?
+
+      <a href="login.html">
+        Login
+      </a>
+
+    </div>
+
+
+    <!-- BACK TO APP -->
+
+    <div class="back">
+
+      <a href="index.html">
+        ← Back to Grade 12 Hub
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  // ==========================================
+  // SUPABASE SETTINGS
+  // ==========================================
+
+  const SUPABASE_URL =
+    "https://hdlhhbnawltisszzsbvw.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+
+  // ==========================================
+  // EMAIL REDIRECT
+  // ==========================================
+
+  const EMAIL_REDIRECT_URL =
+    "https://asanelen18-glitch.github.io/grade12-app/login.html";
+
+
+  // ==========================================
+  // CREATE SUPABASE CLIENT
+  // ==========================================
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  // ==========================================
+  // FORM
+  // ==========================================
+
+  const signupForm =
+    document.getElementById("signupForm");
+
+  const message =
+    document.getElementById("message");
+
+  const signupButton =
+    document.getElementById("signupButton");
+
+
+  // ==========================================
+  // CREATE ACCOUNT
+  // ==========================================
+
+  signupForm.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const email =
+        document.getElementById("email")
+          .value
+          .trim();
+
+
+      const password =
+        document.getElementById("password")
+          .value;
+
+
+      const confirmPassword =
+        document.getElementById("confirmPassword")
+          .value;
+
+
+      const terms =
+        document.getElementById("terms")
+          .checked;
+
+
+      // TERMS
+
+      if (!terms) {
+
+        message.textContent =
+          "Please agree to the Terms & Community Rules.";
+
+        return;
+      }
+
+
+      // PASSWORD MATCH
+
+      if (password !== confirmPassword) {
+
+        message.textContent =
+          "Passwords do not match.";
+
+        return;
+      }
+
+
+      // PASSWORD LENGTH
+
+      if (password.length < 6) {
+
+        message.textContent =
+          "Password must be at least 6 characters.";
+
+        return;
+      }
+
+
+      // DISABLE BUTTON
+
+      signupButton.disabled = true;
+
+      signupButton.textContent =
+        "Creating account...";
+
+      message.textContent = "";
+
+
+      try {
+
+        const { data, error } =
+          await supabaseClient.auth.signUp({
+
+            email: email,
+
+            password: password,
+
+            options: {
+
+              emailRedirectTo:
+                EMAIL_REDIRECT_URL
+
+            }
+
+          });
+
+
+        // ERROR
+
+        if (error) {
+
+          message.textContent =
+            error.message;
+
+          signupButton.disabled = false;
+
+          signupButton.textContent =
+            "Create Account";
+
+          return;
+        }
+
+
+        // SUCCESS
+
+        if (data.user) {
+
+          message.textContent =
+            "Account created! 📧 Check your email and click the confirmation link.";
+
+          signupForm.reset();
+
+          signupButton.disabled = false;
+
+          signupButton.textContent =
+            "Create Account";
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+          "Something went wrong. Please try again.";
+
+        signupButton.disabled = false;
+
+        signupButton.textContent =
+          "Create Account";
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+  </html>
