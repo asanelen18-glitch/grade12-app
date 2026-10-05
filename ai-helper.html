@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Study Helper - Grade 12 Hub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #4f46e5;
+            color: white;
+            padding: 22px 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #4f46e5;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        select,
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .upload-box {
+            border: 2px dashed #4f46e5;
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            margin-bottom: 15px;
+            background: #f8f8ff;
+        }
+
+        .upload-box p {
+            margin: 8px 0;
+        }
+
+        #imagePreview {
+            display: none;
+            width: 100%;
+            max-height: 350px;
+            object-fit: contain;
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .solve {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .hint {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .check {
+            background: #16a34a;
+            color: white;
+        }
+
+        .clear {
+            background: #e5e7eb;
+            color: #222;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .result {
+            background: #f8fafc;
+            border-left: 5px solid #4f46e5;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 100px;
+            line-height: 1.6;
+        }
+
+        .warning {
+            background: #fff7ed;
+            border-left: 5px solid #f97316;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: #4f46e5;
+            font-weight: bold;
+            margin: 25px 0;
+        }
+
+        .status {
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🤖 AI Study Helper</h1>
+    <p>Your Grade 12 learning assistant</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>📷 Upload Your Question</h2>
+
+        <div class="upload-box">
+            <p><strong>Take a photo or choose an image</strong></p>
+            <p>Upload a clear picture of your question.</p>
+
+            <input
+                type="file"
+                id="questionImage"
+                accept="image/*"
+                capture="environment"
+                onchange="showImage(event)"
+            >
+
+            <img id="imagePreview" alt="Question preview">
+        </div>
+
+        <label for="questionText">
+            Or type your question
+        </label>
+
+        <textarea
+            id="questionText"
+            placeholder="Example: Solve 2x + 5 = 15"
+        ></textarea>
+    </div>
+
+
+    <div class="card">
+
+        <h2>🌍 Choose Language</h2>
+
+        <label for="language">
+            Explanation language
+        </label>
+
+        <select id="language">
+
+            <option value="English">
+                English
+            </option>
+
+            <option value="isiZulu">
+                isiZulu
+            </option>
+
+            <option value="Setswana">
+                Setswana
+            </option>
+
+            <option value="Afrikaans">
+                Afrikaans
+            </option>
+
+            <option value="Sesotho">
+                Sesotho
+            </option>
+
+            <option value="Sepedi">
+                Sepedi
+            </option>
+
+            <option value="Xhosa">
+                isiXhosa
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🧠 What do you need?</h2>
+
+        <button class="solve" onclick="solveQuestion()">
+            🧠 Solve & Explain
+        </button>
+
+        <button class="hint" onclick="giveHint()">
+            💡 Give Me a Hint
+        </button>
+
+        <button class="check" onclick="checkAnswer()">
+            ✅ Check My Answer
+        </button>
+
+        <button class="clear" onclick="clearQuestion()">
+            🗑️ Clear
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📚 AI Explanation</h2>
+
+        <div id="status" class="status"></div>
+
+        <div id="result" class="result">
+            Your answer and step-by-step explanation will appear here.
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>⚠️ Important</h2>
+
+        <div class="warning">
+            AI can sometimes make mistakes. Always check important answers
+            against your textbook, teacher, memorandum, or other trusted
+            learning material.
+        </div>
+
+    </div>
+
+
+    <a href="index.html" class="back">
+        ← Back to Home
+    </a>
+
+</div>
+
+
+<script>
+
+function showImage(event) {
+
+    const image = document.getElementById("imagePreview");
+
+    const file = event.target.files[0];
+
+    if (file) {
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            image.src = e.target.result;
+
+            image.style.display = "block";
+
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+
+function getQuestion() {
+
+    const text =
+        document.getElementById("questionText").value.trim();
+
+    if (text !== "") {
+        return text;
+    }
+
+    const image =
+        document.getElementById("questionImage").files[0];
+
+    if (image) {
+        return "image";
+    }
+
+    return "";
+}
+
+
+function solveQuestion() {
+
+    const question = getQuestion();
+
+    const language =
+        document.getElementById("language").value;
+
+    const result =
+        document.getElementById("result");
+
+    const status =
+        document.getElementById("status");
+
+    if (question === "") {
+
+        result.innerHTML =
+            "Please upload a question or type one first.";
+
+        return;
+    }
+
+    status.innerHTML = "⏳ AI is preparing your solution...";
+
+    setTimeout(function() {
+
+        status.innerHTML = "";
+
+        result.innerHTML =
+            "<strong>AI Study Helper</strong><br><br>" +
+
+            "Your question has been received.<br><br>" +
+
+            "🌍 Language: " + language + "<br><br>" +
+
+            "The full AI solution will be connected here. " +
+
+            "It will show the answer followed by a " +
+
+            "clear step-by-step explanation.";
+
+    }, 1000);
+}
+
+
+function giveHint() {
+
+    const question = getQuestion();
+
+    const result =
+        document.getElementById("result");
+
+    if (question === "") {
+
+        result.innerHTML =
+            "Please upload or type your question first.";
+
+        return;
+    }
+
+    result.innerHTML =
+        "<strong>💡 Hint</strong><br><br>" +
+
+        "The AI will give you a useful hint " +
+
+        "without immediately giving away the complete answer.";
+
+}
+
+
+function checkAnswer() {
+
+    const question = getQuestion();
+
+    const result =
+        document.getElementById("result");
+
+    if (question === "") {
+
+        result.innerHTML =
+            "Please upload or type your question first.";
+
+        return;
+    }
+
+    result.innerHTML =
+        "<strong>✅ Answer Checker</strong><br><br>" +
+
+        "The AI will check your answer and explain " +
+
+        "where you are correct and where you need to improve.";
+
+}
+
+
+function clearQuestion() {
+
+    document.getElementById("questionImage").value = "";
+
+    document.getElementById("questionText").value = "";
+
+    document.getElementById("imagePreview").style.display = "none";
+
+    document.getElementById("imagePreview").src = "";
+
+    document.getElementById("result").innerHTML =
+        "Your answer and step-by-step explanation will appear here.";
+
+    document.getElementById("status").innerHTML = "";
+
+}
+
+</script>
+
+</body>
+  </html>
