@@ -192,6 +192,56 @@
             font-weight: bold;
             margin: 25px 0;
         }
+
+        /* ADDED: upload area */
+
+        .upload-area {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .upload-label {
+            display: block;
+            font-weight: bold;
+            color: #4f46e5;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        #fileInput {
+            margin-bottom: 5px;
+            background: white;
+        }
+
+        #selectedFile {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+            word-break: break-word;
+        }
+
+        .file-link {
+            display: inline-block;
+            margin-top: 7px;
+            color: #4f46e5;
+            font-weight: bold;
+            text-decoration: none;
+            word-break: break-word;
+        }
+
+        .file-icon {
+            font-size: 22px;
+            margin-right: 5px;
+        }
+
+        .upload-status {
+            font-size: 13px;
+            margin-top: 8px;
+            color: #666;
+        }
     </style>
 </head>
 
@@ -309,6 +359,43 @@
 
         </div>
 
+        <!-- ADDED: PHOTO/DOCUMENT UPLOAD -->
+
+        <div class="upload-area">
+
+            <label
+                class="upload-label"
+                for="fileInput"
+            >
+                📎 Share a photo or document
+            </label>
+
+            <input
+                type="file"
+                id="fileInput"
+                accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt"
+                onchange="showSelectedFile()"
+            >
+
+            <div id="selectedFile">
+                No file selected
+            </div>
+
+            <button
+                class="send"
+                onclick="uploadFile()"
+            >
+                📤 Upload & Send
+            </button>
+
+            <div
+                id="uploadStatus"
+                class="upload-status"
+            ></div>
+
+        </div>
+
+
         <button class="leave" onclick="leaveGroup()">
             Leave Group
         </button>
@@ -336,12 +423,58 @@
 </div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
+const SUPABASE_URL =
+    "https://hdlhhbnawltisszzsbvw.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
 let currentGroup = "";
+let currentGroupId = null;
+let currentUser = null;
+let messageChannel = null;
 
 
-function joinGroup() {
+// ------------------------------------
+// CHECK LOGIN
+// ------------------------------------
+
+async function checkUser() {
+
+    const { data, error } =
+        await supabaseClient.auth.getUser();
+
+    if (error || !data.user) {
+
+        alert("Please log in to use Study Groups.");
+
+        window.location.href = "login.html";
+
+        return false;
+    }
+
+    currentUser = data.user;
+
+    return true;
+}
+
+
+// ------------------------------------
+// JOIN GROUP
+// ------------------------------------
+
+async function joinGroup() {
 
     const subject =
         document.getElementById("subject").value;
@@ -353,115 +486,893 @@ function joinGroup() {
         return;
     }
 
-    openGroup(subject);
+    await openGroup(subject);
 }
 
 
-function openGroup(subject) {
+// ------------------------------------
+// OPEN GROUP
+// ------------------------------------
+
+async function openGroup(subject) {
+
+    if (!currentUser) {
+
+        const loggedIn =
+            await checkUser();
+
+        if (!loggedIn) {
+            return;
+        }
+    }
+
 
     currentGroup = subject;
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("study_groups")
+            .select("id, subject")
+            .eq("subject", subject)
+            .single();
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert("Could not open this study group.");
+
+        return;
+    }
+
+
+    currentGroupId = data.id;
+
 
     document.getElementById("groupTitle").textContent =
         "📚 " + subject + " Study Group";
 
+
     document.getElementById("memberCount").textContent =
         "👥 Study Group";
+
 
     document.getElementById("chatSection").style.display =
         "block";
 
+
+    await loadMessages();
+
+
+    subscribeToMessages();
+
+
     document.getElementById("chatSection").scrollIntoView({
         behavior: "smooth"
     });
+
 
     document.getElementById("messageInput").focus();
 
 }
 
 
-function sendMessage() {
+// ------------------------------------
+// LOAD MESSAGES
+// ------------------------------------
+
+async function loadMessages() {
+
+    const messages =
+        document.getElementById("messages");
+
+
+    messages.innerHTML = "";
+
+
+    const { data, error } =
+        await supabaseClient
+            .from("study_messages")
+            .select("*")
+            .eq("group_id", currentGroupId)
+            .order("created_at", {
+                ascending: true
+            });
+
+
+    if (error) {
+
+        console.error(error);
+
+        messages.innerHTML =
+            '<div class="message">' +
+            '<div class="message-name">Grade 12 Hub</div>' +
+            '<div class="message-text">' +
+            'Could not load messages.' +
+            '</div>' +
+            '</div>';
+
+        return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+        messages.innerHTML =
+            '<div class="message">' +
+
+            '<div class="message-name">' +
+            'Grade 12 Hub' +
+            '</div>' +
+
+            '<div class="message-text">' +
+            'Welcome to the study group! 🎓' +
+            '</div>' +
+
+            '<div class="message-time">' +
+            'Now' +
+            '</div>' +
+
+            '</div>';
+
+        return;
+    }
+
+
+    data.forEach(function(message) {
+
+        displayMessage(message);
+
+    });
+
+
+    messages.scrollTop =
+        messages.scrollHeight;
+
+}
+
+
+// ------------------------------------
+// DISPLAY MESSAGE
+// ------------------------------------
+
+function displayMessage(message) {
+
+    const messages =
+        document.getElementById("messages");
+
+
+    const newMessage =
+        document.createElement("div");
+
+
+    newMessage.className =
+        "message";
+
+
+    let attachmentHTML = "";
+
+
+    if (message.attachment_url) {
+
+        const fileName =
+            message.attachment_name ||
+            "Shared file";
+
+
+        const fileType =
+            message.attachment_type ||
+            "";
+
+
+        let icon = "📎";
+
+
+        if (fileType.startsWith("image/")) {
+            icon = "📷";
+        }
+
+        if (fileType === "application/pdf") {
+            icon = "📄";
+        }
+
+
+        attachmentHTML =
+
+            '<div>' +
+
+            '<span class="file-icon">' +
+            icon +
+            '</span>' +
+
+            '<a class="file-link" ' +
+            'href="' +
+            escapeAttribute(message.attachment_url) +
+            '" target="_blank" rel="noopener">' +
+
+            escapeHTML(fileName) +
+
+            '</a>' +
+
+            '</div>';
+    }
+
+
+    newMessage.innerHTML =
+
+        '<div class="message-name">' +
+        escapeHTML(message.user_name) +
+        '</div>' +
+
+        '<div class="message-text">' +
+        escapeHTML(message.message || "") +
+        '</div>' +
+
+        attachmentHTML +
+
+        '<div class="message-time">' +
+        formatTime(message.created_at) +
+        '</div>';
+
+
+    messages.appendChild(newMessage);
+
+}
+
+
+// ------------------------------------
+// SEND MESSAGE
+// ------------------------------------
+
+async function sendMessage() {
 
     const input =
         document.getElementById("messageInput");
 
+
     const message =
         input.value.trim();
+
 
     if (message === "") {
         return;
     }
 
-    let name =
-        localStorage.getItem("grade12_name");
 
-    if (!name) {
-        name = "Learner";
+    if (!currentUser) {
+
+        const loggedIn =
+            await checkUser();
+
+        if (!loggedIn) {
+            return;
+        }
     }
 
-    const messages =
-        document.getElementById("messages");
 
-    const newMessage =
-        document.createElement("div");
+    if (!currentGroupId) {
 
-    newMessage.className = "message";
+        alert("Please join a study group first.");
 
-    newMessage.innerHTML =
+        return;
+    }
 
-        '<div class="message-name">' +
-        escapeHTML(name) +
-        '</div>' +
 
-        '<div class="message-text">' +
-        escapeHTML(message) +
-        '</div>' +
+    // Basic safety checks
 
-        '<div class="message-time">' +
-        new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit"
-        }) +
-        '</div>';
+    if (containsPhoneNumber(message)) {
 
-    messages.appendChild(newMessage);
+        alert(
+            "Please do not share phone numbers in the study group."
+        );
+
+        return;
+    }
+
+
+    if (containsBlockedWords(message)) {
+
+        alert(
+            "Please keep the study group respectful and school-related."
+        );
+
+        return;
+    }
+
+
+    const name =
+        localStorage.getItem("grade12_name") ||
+        "Learner";
+
+
+    input.disabled = true;
+
+
+    const { error } =
+        await supabaseClient
+            .from("study_messages")
+            .insert({
+
+                group_id: currentGroupId,
+
+                user_id: currentUser.id,
+
+                user_name: name,
+
+                message: message
+
+            });
+
+
+    input.disabled = false;
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Your message could not be sent."
+        );
+
+        return;
+    }
+
 
     input.value = "";
 
-    messages.scrollTop = messages.scrollHeight;
 }
 
+
+// ------------------------------------
+// FILE SELECTION
+// ------------------------------------
+
+function showSelectedFile() {
+
+    const input =
+        document.getElementById("fileInput");
+
+    const selected =
+        document.getElementById("selectedFile");
+
+
+    if (!input.files || input.files.length === 0) {
+
+        selected.textContent =
+            "No file selected";
+
+        return;
+    }
+
+
+    const file =
+        input.files[0];
+
+
+    selected.textContent =
+        "Selected: " +
+        file.name +
+        " (" +
+        formatFileSize(file.size) +
+        ")";
+}
+
+
+// ------------------------------------
+// UPLOAD PHOTO / DOCUMENT
+// ------------------------------------
+
+async function uploadFile() {
+
+    if (!currentUser) {
+
+        const loggedIn =
+            await checkUser();
+
+        if (!loggedIn) {
+            return;
+        }
+    }
+
+
+    if (!currentGroupId) {
+
+        alert(
+            "Please join a study group first."
+        );
+
+        return;
+    }
+
+
+    const input =
+        document.getElementById("fileInput");
+
+
+    const status =
+        document.getElementById("uploadStatus");
+
+
+    if (!input.files || input.files.length === 0) {
+
+        alert(
+            "Please choose a photo or document first."
+        );
+
+        return;
+    }
+
+
+    const file =
+        input.files[0];
+
+
+    // Maximum file size: 10 MB
+
+    if (file.size > 10 * 1024 * 1024) {
+
+        alert(
+            "The file is too large. Maximum size is 10 MB."
+        );
+
+        return;
+    }
+
+
+    if (containsBlockedFileType(file)) {
+
+        alert(
+            "This type of file is not allowed."
+        );
+
+        return;
+    }
+
+
+    status.textContent =
+        "Uploading...";
+
+
+    try {
+
+        const safeName =
+            file.name
+                .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+
+        const filePath =
+            currentUser.id +
+            "/" +
+            currentGroupId +
+            "/" +
+            Date.now() +
+            "_" +
+            safeName;
+
+
+        const { error: uploadError } =
+            await supabaseClient
+                .storage
+                .from("study-files")
+                .upload(
+                    filePath,
+                    file,
+                    {
+                        cacheControl: "3600",
+                        upsert: false
+                    }
+                );
+
+
+        if (uploadError) {
+
+            console.error(uploadError);
+
+            status.textContent =
+                "Upload failed.";
+
+            alert(
+                "The file could not be uploaded."
+            );
+
+            return;
+        }
+
+
+        const { data: publicData } =
+            supabaseClient
+                .storage
+                .from("study-files")
+                .getPublicUrl(filePath);
+
+
+        const fileURL =
+            publicData.publicUrl;
+
+
+        const name =
+            localStorage.getItem("grade12_name") ||
+            "Learner";
+
+
+        const { error: messageError } =
+            await supabaseClient
+                .from("study_messages")
+                .insert({
+
+                    group_id: currentGroupId,
+
+                    user_id: currentUser.id,
+
+                    user_name: name,
+
+                    message:
+                        "📎 Shared: " +
+                        file.name,
+
+                    attachment_url:
+                        fileURL,
+
+                    attachment_name:
+                        file.name,
+
+                    attachment_type:
+                        file.type
+
+                });
+
+
+        if (messageError) {
+
+            console.error(messageError);
+
+            status.textContent =
+                "File uploaded but message could not be created.";
+
+            alert(
+                "The file uploaded, but it could not be shared in the group."
+            );
+
+            return;
+        }
+
+
+        status.textContent =
+            "File uploaded successfully.";
+
+
+        input.value = "";
+
+
+        document.getElementById(
+            "selectedFile"
+        ).textContent =
+            "No file selected";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "Upload failed.";
+
+        alert(
+            "Something went wrong while uploading the file."
+        );
+
+    }
+
+}
+
+
+// ------------------------------------
+// ALLOWED FILE TYPES
+// ------------------------------------
+
+function containsBlockedFileType(file) {
+
+    const allowedTypes = [
+
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+
+        "application/pdf",
+
+        "application/msword",
+
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+
+        "application/vnd.ms-powerpoint",
+
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+
+        "application/vnd.ms-excel",
+
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+
+        "text/plain"
+
+    ];
+
+
+    return !allowedTypes.includes(
+        file.type
+    );
+
+}
+
+
+// ------------------------------------
+// PHONE NUMBER CHECK
+// ------------------------------------
+
+function containsPhoneNumber(text) {
+
+    const phonePattern =
+        /(?:\+27|0)\s?\d{2}\s?\d{3}\s?\d{4}/;
+
+    return phonePattern.test(text);
+
+}
+
+
+// ------------------------------------
+// BASIC INAPPROPRIATE WORD CHECK
+// ------------------------------------
+
+function containsBlockedWords(text) {
+
+    const lower =
+        text.toLowerCase();
+
+
+    const blockedWords = [
+
+        "porn",
+
+        "fuck",
+
+        "fucking",
+
+        "sex"
+
+    ];
+
+
+    return blockedWords.some(
+        function(word) {
+
+            return lower.includes(word);
+
+        }
+    );
+
+}
+
+
+// ------------------------------------
+// REAL-TIME MESSAGES
+// ------------------------------------
+
+function subscribeToMessages() {
+
+    if (messageChannel) {
+
+        supabaseClient
+            .removeChannel(
+                messageChannel
+            );
+
+    }
+
+
+    messageChannel =
+        supabaseClient
+            .channel(
+                "study-group-" +
+                currentGroupId
+            )
+            .on(
+                "postgres_changes",
+                {
+                    event: "INSERT",
+                    schema: "public",
+                    table: "study_messages",
+                    filter:
+                        "group_id=eq." +
+                        currentGroupId
+                },
+                function(payload) {
+
+                    displayMessage(
+                        payload.new
+                    );
+
+
+                    const messages =
+                        document.getElementById(
+                            "messages"
+                        );
+
+
+                    messages.scrollTop =
+                        messages.scrollHeight;
+
+                }
+            )
+            .subscribe();
+
+}
+
+
+// ------------------------------------
+// ENTER KEY
+// ------------------------------------
 
 function handleEnter(event) {
 
     if (event.key === "Enter") {
+
         sendMessage();
+
     }
 
 }
 
 
+// ------------------------------------
+// LEAVE GROUP
+// ------------------------------------
+
 function leaveGroup() {
 
-    document.getElementById("chatSection").style.display =
-        "none";
+    if (messageChannel) {
+
+        supabaseClient
+            .removeChannel(
+                messageChannel
+            );
+
+        messageChannel = null;
+
+    }
+
+
+    document.getElementById(
+        "chatSection"
+    ).style.display = "none";
+
 
     currentGroup = "";
 
+    currentGroupId = null;
+
+
+    document.getElementById(
+        "fileInput"
+    ).value = "";
+
+
+    document.getElementById(
+        "selectedFile"
+    ).textContent =
+        "No file selected";
+
+
+    document.getElementById(
+        "uploadStatus"
+    ).textContent = "";
+
 }
 
+
+// ------------------------------------
+// FORMAT TIME
+// ------------------------------------
+
+function formatTime(dateString) {
+
+    return new Date(
+        dateString
+    ).toLocaleTimeString([], {
+
+        hour: "2-digit",
+
+        minute: "2-digit"
+
+    });
+
+}
+
+
+// ------------------------------------
+// FORMAT FILE SIZE
+// ------------------------------------
+
+function formatFileSize(bytes) {
+
+    if (bytes < 1024) {
+
+        return bytes + " B";
+
+    }
+
+
+    if (bytes < 1024 * 1024) {
+
+        return (
+            bytes / 1024
+        ).toFixed(1) +
+        " KB";
+
+    }
+
+
+    return (
+        bytes /
+        (1024 * 1024)
+    ).toFixed(1) +
+    " MB";
+
+}
+
+
+// ------------------------------------
+// PROTECT MESSAGE HTML
+// ------------------------------------
 
 function escapeHTML(text) {
 
     const div =
         document.createElement("div");
 
-    div.textContent = text;
+    div.textContent =
+        text;
 
     return div.innerHTML;
 
 }
 
+
+// ------------------------------------
+// PROTECT URL
+// ------------------------------------
+
+function escapeAttribute(text) {
+
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+
+// ------------------------------------
+// START PAGE
+// ------------------------------------
+
+window.addEventListener(
+    "load",
+    async function() {
+
+        const loggedIn =
+            await checkUser();
+
+        if (!loggedIn) {
+            return;
+        }
+
+    }
+);
+
 </script>
 
 </body>
-</html>
+                                                                       </html>
