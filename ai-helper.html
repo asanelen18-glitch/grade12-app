@@ -3,17 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>AI Study Helper - Grade 12 Hub</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
+            margin: 0;
             background: #f4f6f8;
             color: #222;
         }
@@ -21,72 +16,59 @@
         header {
             background: #4f46e5;
             color: white;
-            padding: 22px 15px;
+            padding: 20px;
             text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 25px;
-        }
-
-        header p {
-            margin: 8px 0 0;
-            font-size: 14px;
         }
 
         .container {
             max-width: 700px;
-            margin: auto;
+            margin: 20px auto;
             padding: 20px;
         }
 
         .card {
             background: white;
-            border-radius: 15px;
             padding: 20px;
-            margin-bottom: 18px;
+            border-radius: 15px;
+            margin-bottom: 20px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
-        .card h2 {
-            margin-top: 0;
-            color: #4f46e5;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        select,
         textarea,
+        select,
         input[type="file"] {
             width: 100%;
+            box-sizing: border-box;
             padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 15px;
+            font-size: 16px;
         }
 
         textarea {
-            min-height: 110px;
+            min-height: 130px;
             resize: vertical;
         }
 
-        .upload-box {
-            border: 2px dashed #4f46e5;
-            border-radius: 15px;
-            padding: 25px 15px;
-            text-align: center;
-            margin-bottom: 15px;
-            background: #f8f8ff;
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            background: #4f46e5;
+            color: white;
         }
 
-        .upload-box p {
-            margin: 8px 0;
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .secondary {
+            background: #64748b;
         }
 
         #imagePreview {
@@ -94,76 +76,34 @@
             width: 100%;
             max-height: 350px;
             object-fit: contain;
-            border-radius: 12px;
-            margin-top: 15px;
-        }
-
-        button {
-            width: 100%;
-            border: none;
+            margin-top: 10px;
             border-radius: 10px;
-            padding: 14px;
-            margin-top: 8px;
-            font-size: 16px;
+        }
+
+        #status {
+            margin-top: 15px;
             font-weight: bold;
-            cursor: pointer;
         }
 
-        .solve {
-            background: #4f46e5;
-            color: white;
-        }
-
-        .hint {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .check {
-            background: #16a34a;
-            color: white;
-        }
-
-        .clear {
-            background: #e5e7eb;
-            color: #222;
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .result {
+        #result {
             background: #f8fafc;
-            border-left: 5px solid #4f46e5;
             padding: 15px;
-            border-radius: 8px;
-            min-height: 100px;
+            border-radius: 10px;
             line-height: 1.6;
+            white-space: pre-wrap;
         }
 
         .warning {
-            background: #fff7ed;
-            border-left: 5px solid #f97316;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 13px;
+            color: #555;
+            margin-top: 15px;
         }
 
         .back {
-            display: block;
-            text-align: center;
-            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 10px;
             color: #4f46e5;
-            font-weight: bold;
-            margin: 25px 0;
-        }
-
-        .status {
-            text-align: center;
-            margin: 10px 0;
-            font-weight: bold;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -172,296 +112,347 @@
 
 <header>
     <h1>🤖 AI Study Helper</h1>
-    <p>Your Grade 12 learning assistant</p>
+    <p>Ask questions, upload a problem and get a step-by-step explanation.</p>
 </header>
 
 <div class="container">
 
+    <a class="back" href="index.html">← Back to Home</a>
+
     <div class="card">
-        <h2>📷 Upload Your Question</h2>
 
-        <div class="upload-box">
-            <p><strong>Take a photo or choose an image</strong></p>
-            <p>Upload a clear picture of your question.</p>
+        <h2>📸 Upload a Question</h2>
 
-            <input
-                type="file"
-                id="questionImage"
-                accept="image/*"
-                capture="environment"
-                onchange="showImage(event)"
-            >
+        <input
+            type="file"
+            id="questionImage"
+            accept="image/*"
+            capture="environment"
+            onchange="showImage(event)"
+        >
 
-            <img id="imagePreview" alt="Question preview">
-        </div>
+        <img id="imagePreview" alt="Question preview">
 
-        <label for="questionText">
-            Or type your question
-        </label>
+        <h2>✏️ Type Your Question</h2>
 
         <textarea
             id="questionText"
-            placeholder="Example: Solve 2x + 5 = 15"
+            placeholder="Example: Solve 2x + 5 = 15 and explain each step."
         ></textarea>
-    </div>
-
-
-    <div class="card">
 
         <h2>🌍 Choose Language</h2>
 
-        <label for="language">
-            Explanation language
-        </label>
-
         <select id="language">
-
-            <option value="English">
-                English
-            </option>
-
-            <option value="isiZulu">
-                isiZulu
-            </option>
-
-            <option value="Setswana">
-                Setswana
-            </option>
-
-            <option value="Afrikaans">
-                Afrikaans
-            </option>
-
-            <option value="Sesotho">
-                Sesotho
-            </option>
-
-            <option value="Sepedi">
-                Sepedi
-            </option>
-
-            <option value="Xhosa">
-                isiXhosa
-            </option>
-
+            <option>English</option>
+            <option>isiZulu</option>
+            <option>Setswana</option>
+            <option>Afrikaans</option>
+            <option>Sesotho</option>
+            <option>Sepedi</option>
+            <option>isiXhosa</option>
         </select>
 
-    </div>
+        <button onclick="solveQuestion()">🤖 Solve & Explain</button>
 
-
-    <div class="card">
-
-        <h2>🧠 What do you need?</h2>
-
-        <button class="solve" onclick="solveQuestion()">
-            🧠 Solve & Explain
-        </button>
-
-        <button class="hint" onclick="giveHint()">
+        <button onclick="getHint()" class="secondary">
             💡 Give Me a Hint
         </button>
 
-        <button class="check" onclick="checkAnswer()">
+        <button onclick="checkAnswer()" class="secondary">
             ✅ Check My Answer
         </button>
 
-        <button class="clear" onclick="clearQuestion()">
+        <button onclick="clearQuestion()" class="secondary">
             🗑️ Clear
         </button>
 
-    </div>
+        <div id="status"></div>
 
+    </div>
 
     <div class="card">
 
         <h2>📚 AI Explanation</h2>
 
-        <div id="status" class="status"></div>
-
-        <div id="result" class="result">
-            Your answer and step-by-step explanation will appear here.
+        <div id="result">
+            Your AI explanation will appear here.
         </div>
 
-    </div>
-
-
-    <div class="card">
-
-        <h2>⚠️ Important</h2>
-
-        <div class="warning">
-            AI can sometimes make mistakes. Always check important answers
-            against your textbook, teacher, memorandum, or other trusted
-            learning material.
-        </div>
+        <p class="warning">
+            ⚠️ AI can make mistakes. Always compare important schoolwork
+            with your teacher, textbook or official study material.
+        </p>
 
     </div>
-
-
-    <a href="index.html" class="back">
-        ← Back to Home
-    </a>
 
 </div>
 
-
 <script>
+
+const API_URL = "https://grade12-app.vercel.app/api/solve";
+
 
 function showImage(event) {
 
-    const image = document.getElementById("imagePreview");
-
     const file = event.target.files[0];
 
-    if (file) {
-
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-
-            image.src = e.target.result;
-
-            image.style.display = "block";
-
-        };
-
-        reader.readAsDataURL(file);
+    if (!file) {
+        return;
     }
+
+    const image = document.getElementById("imagePreview");
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        image.src = e.target.result;
+
+        image.style.display = "block";
+
+    };
+
+    reader.readAsDataURL(file);
 }
 
 
-function getQuestion() {
+function getQuestionText() {
 
-    const text =
-        document.getElementById("questionText").value.trim();
+    return document
+        .getElementById("questionText")
+        .value
+        .trim();
 
-    if (text !== "") {
-        return text;
-    }
+}
 
-    const image =
+
+function getSelectedLanguage() {
+
+    return document
+        .getElementById("language")
+        .value;
+
+}
+
+
+function resizeImage(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+
+            const img = new Image();
+
+            img.onload = function() {
+
+                const maxSize = 1600;
+
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxSize || height > maxSize) {
+
+                    if (width > height) {
+
+                        height = height * maxSize / width;
+                        width = maxSize;
+
+                    } else {
+
+                        width = width * maxSize / height;
+                        height = maxSize;
+
+                    }
+
+                }
+
+                const canvas = document.createElement("canvas");
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext("2d");
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+                const compressedImage =
+                    canvas.toDataURL("image/jpeg", 0.75);
+
+                resolve(compressedImage);
+
+            };
+
+            img.onerror = reject;
+
+            img.src = event.target.result;
+
+        };
+
+        reader.onerror = reject;
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+async function sendToAI(mode) {
+
+    const question =
+        getQuestionText();
+
+    const language =
+        getSelectedLanguage();
+
+    const imageFile =
         document.getElementById("questionImage").files[0];
 
-    if (image) {
-        return "image";
+    const status =
+        document.getElementById("status");
+
+    const result =
+        document.getElementById("result");
+
+
+    if (!question && !imageFile) {
+
+        result.textContent =
+            "Please type a question or upload a question image first.";
+
+        return;
+
     }
 
-    return "";
+
+    status.textContent =
+        "⏳ AI is working on your question...";
+
+    result.textContent =
+        "";
+
+
+    try {
+
+        let image = null;
+
+        if (imageFile) {
+
+            image =
+                await resizeImage(imageFile);
+
+        }
+
+
+        const response =
+            await fetch(API_URL, {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    question: question,
+
+                    image: image,
+
+                    language: language,
+
+                    mode: mode
+
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "The AI request failed."
+            );
+
+        }
+
+
+        status.textContent =
+            "✅ AI response received.";
+
+        result.textContent =
+            data.answer ||
+            "No answer was returned.";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "❌ Something went wrong.";
+
+        result.textContent =
+            "Error: " + error.message;
+
+    }
+
 }
 
 
 function solveQuestion() {
 
-    const question = getQuestion();
+    sendToAI("solve");
 
-    const language =
-        document.getElementById("language").value;
-
-    const result =
-        document.getElementById("result");
-
-    const status =
-        document.getElementById("status");
-
-    if (question === "") {
-
-        result.innerHTML =
-            "Please upload a question or type one first.";
-
-        return;
-    }
-
-    status.innerHTML = "⏳ AI is preparing your solution...";
-
-    setTimeout(function() {
-
-        status.innerHTML = "";
-
-        result.innerHTML =
-            "<strong>AI Study Helper</strong><br><br>" +
-
-            "Your question has been received.<br><br>" +
-
-            "🌍 Language: " + language + "<br><br>" +
-
-            "The full AI solution will be connected here. " +
-
-            "It will show the answer followed by a " +
-
-            "clear step-by-step explanation.";
-
-    }, 1000);
 }
 
 
-function giveHint() {
+function getHint() {
 
-    const question = getQuestion();
-
-    const result =
-        document.getElementById("result");
-
-    if (question === "") {
-
-        result.innerHTML =
-            "Please upload or type your question first.";
-
-        return;
-    }
-
-    result.innerHTML =
-        "<strong>💡 Hint</strong><br><br>" +
-
-        "The AI will give you a useful hint " +
-
-        "without immediately giving away the complete answer.";
+    sendToAI("hint");
 
 }
 
 
 function checkAnswer() {
 
-    const question = getQuestion();
-
-    const result =
-        document.getElementById("result");
-
-    if (question === "") {
-
-        result.innerHTML =
-            "Please upload or type your question first.";
-
-        return;
-    }
-
-    result.innerHTML =
-        "<strong>✅ Answer Checker</strong><br><br>" +
-
-        "The AI will check your answer and explain " +
-
-        "where you are correct and where you need to improve.";
+    sendToAI("check");
 
 }
 
 
 function clearQuestion() {
 
-    document.getElementById("questionImage").value = "";
-
     document.getElementById("questionText").value = "";
+
+    document.getElementById("questionImage").value = "";
 
     document.getElementById("imagePreview").style.display = "none";
 
     document.getElementById("imagePreview").src = "";
 
-    document.getElementById("result").innerHTML =
-        "Your answer and step-by-step explanation will appear here.";
+    document.getElementById("status").textContent = "";
 
-    document.getElementById("status").innerHTML = "";
+    document.getElementById("result").textContent =
+        "Your AI explanation will appear here.";
 
 }
 
 </script>
 
 </body>
-  </html>
+</html>
