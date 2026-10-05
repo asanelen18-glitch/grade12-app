@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>AI Study Helper - Grade 12 Hub</title>
 
     <style>
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -149,6 +155,7 @@
         }
 
         @media (max-width: 600px) {
+
             .container {
                 padding: 12px;
             }
@@ -157,32 +164,55 @@
                 width: 100%;
                 margin: 5px 0;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <header>
-    <h1>🤖 AI Study Helper</h1>
-    <p>Ask questions, upload problems and learn step by step.</p>
+
+    <h1>
+        🤖 AI Study Helper
+    </h1>
+
+    <p>
+        Ask questions, upload problems and learn step by step.
+    </p>
+
 </header>
+
 
 
 <div class="container">
 
-    <a class="back" href="index.html">← Back to Home</a>
+
+    <a
+        class="back"
+        href="index.html"
+    >
+        ← Back to Home
+    </a>
 
 
-    <!-- QUESTION CARD -->
+
+    <!-- QUESTION -->
 
     <div class="card">
 
-        <h2>📸 Your Question</h2>
+        <h2>
+            📸 Your Question
+        </h2>
 
         <p>
             Type your question or take a photo of your question.
         </p>
+
 
         <input
             type="file"
@@ -192,15 +222,18 @@
             onchange="showImage(event)"
         >
 
+
         <img
             id="imagePreview"
             alt="Question preview"
         >
 
 
+
         <label for="questionText">
             ✏️ Type Your Question
         </label>
+
 
         <textarea
             id="questionText"
@@ -208,39 +241,69 @@
         ></textarea>
 
 
+
         <label for="language">
             🌍 Choose Language
         </label>
 
+
         <select id="language">
-            <option>English</option>
-            <option>isiZulu</option>
-            <option>Setswana</option>
-            <option>Afrikaans</option>
-            <option>Sesotho</option>
-            <option>Sepedi</option>
-            <option>isiXhosa</option>
+
+            <option value="English">
+                English
+            </option>
+
+            <option value="isiZulu">
+                isiZulu
+            </option>
+
+            <option value="Setswana">
+                Setswana
+            </option>
+
+            <option value="Afrikaans">
+                Afrikaans
+            </option>
+
+            <option value="Sesotho">
+                Sesotho
+            </option>
+
+            <option value="Sepedi">
+                Sepedi
+            </option>
+
+            <option value="isiXhosa">
+                isiXhosa
+            </option>
+
         </select>
 
     </div>
 
 
-    <!-- CHECK ANSWER CARD -->
+
+
+    <!-- STUDENT ANSWER -->
 
     <div class="card">
 
         <div class="answer-box">
 
-            <h3>✍️ My Answer</h3>
+            <h3>
+                ✍️ My Answer
+            </h3>
 
             <p>
-                Enter your answer here if you want the AI to check it.
+                Enter your own answer here and the AI will check it.
             </p>
+
 
             <textarea
                 id="studentAnswer"
                 placeholder="Example: x = 1"
             ></textarea>
+
 
             <button
                 class="check-button"
@@ -254,15 +317,21 @@
     </div>
 
 
-    <!-- OTHER AI OPTIONS -->
+
+
+    <!-- AI HELP -->
 
     <div class="card">
 
-        <h2>🤖 AI Help</h2>
+        <h2>
+            🤖 AI Help
+        </h2>
+
 
         <button onclick="solveQuestion()">
             🤖 Solve & Explain
         </button>
+
 
         <button
             onclick="getHint()"
@@ -271,6 +340,7 @@
             💡 Give Me a Hint
         </button>
 
+
         <button
             onclick="clearQuestion()"
             class="secondary"
@@ -278,45 +348,60 @@
             🗑️ Clear
         </button>
 
+
         <div id="status"></div>
 
     </div>
+
+
 
 
     <!-- RESULT -->
 
     <div class="card">
 
-        <h2>📚 AI Response</h2>
+        <h2>
+            📚 AI Response
+        </h2>
+
 
         <div id="result">
+
             Your AI explanation will appear here.
+
         </div>
 
+
         <p class="warning">
-            ⚠️ AI can make mistakes. Always compare important schoolwork
-            with your teacher, textbook or official study material.
+
+            ⚠️ AI can make mistakes. Always compare important
+            schoolwork with your teacher, textbook or official
+            study material.
+
         </p>
 
     </div>
 
+
 </div>
+
 
 
 <script>
 
 
-/* --------------------------------
+/* =====================================
    VERCEL API
--------------------------------- */
+===================================== */
 
 const API_URL =
     "https://grade12-app.vercel.app/api/solve";
 
 
-/* --------------------------------
+
+/* =====================================
    SHOW IMAGE
--------------------------------- */
+===================================== */
 
 function showImage(event) {
 
@@ -327,13 +412,16 @@ function showImage(event) {
         return;
     }
 
+
     const image =
         document.getElementById(
             "imagePreview"
         );
 
+
     const reader =
         new FileReader();
+
 
     reader.onload =
         function(e) {
@@ -343,53 +431,69 @@ function showImage(event) {
 
             image.style.display =
                 "block";
+
         };
 
+
     reader.readAsDataURL(file);
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    GET QUESTION
--------------------------------- */
+===================================== */
 
 function getQuestionText() {
 
     return document
-        .getElementById("questionText")
+        .getElementById(
+            "questionText"
+        )
         .value
         .trim();
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    GET STUDENT ANSWER
--------------------------------- */
+===================================== */
 
 function getStudentAnswer() {
 
     return document
-        .getElementById("studentAnswer")
+        .getElementById(
+            "studentAnswer"
+        )
         .value
         .trim();
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    GET LANGUAGE
--------------------------------- */
+===================================== */
 
 function getSelectedLanguage() {
 
     return document
-        .getElementById("language")
+        .getElementById(
+            "language"
+        )
         .value;
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    RESIZE IMAGE
--------------------------------- */
+===================================== */
 
 function resizeImage(file) {
 
@@ -399,11 +503,13 @@ function resizeImage(file) {
             const reader =
                 new FileReader();
 
+
             reader.onload =
                 function(event) {
 
                     const img =
                         new Image();
+
 
                     img.onload =
                         function() {
@@ -411,11 +517,13 @@ function resizeImage(file) {
                             const maxSize =
                                 1600;
 
+
                             let width =
                                 img.width;
 
                             let height =
                                 img.height;
+
 
 
                             if (
@@ -435,7 +543,9 @@ function resizeImage(file) {
                                     width =
                                         maxSize;
 
-                                } else {
+                                }
+
+                                else {
 
                                     width =
                                         width *
@@ -444,8 +554,11 @@ function resizeImage(file) {
 
                                     height =
                                         maxSize;
+
                                 }
+
                             }
+
 
 
                             const canvas =
@@ -453,11 +566,13 @@ function resizeImage(file) {
                                     "canvas"
                                 );
 
+
                             canvas.width =
                                 width;
 
                             canvas.height =
                                 height;
+
 
 
                             const ctx =
@@ -475,6 +590,7 @@ function resizeImage(file) {
                             );
 
 
+
                             const compressedImage =
                                 canvas.toDataURL(
                                     "image/jpeg",
@@ -485,29 +601,36 @@ function resizeImage(file) {
                             resolve(
                                 compressedImage
                             );
+
                         };
 
 
                     img.onerror =
                         reject;
 
+
                     img.src =
                         event.target.result;
+
                 };
 
 
             reader.onerror =
                 reject;
 
+
             reader.readAsDataURL(file);
+
         }
     );
+
 }
 
 
-/* --------------------------------
-   CLEAN AI MATHEMATICS
--------------------------------- */
+
+/* =====================================
+   CLEAN AI RESPONSE
+===================================== */
 
 function cleanMathText(text) {
 
@@ -515,10 +638,84 @@ function cleanMathText(text) {
         return "";
     }
 
+
     let cleaned = text;
 
 
-    /* Remove LaTeX math brackets */
+
+    /*
+       REMOVE ALL MARKDOWN BOLD
+
+       **answer**
+       becomes
+
+       answer
+    */
+
+    cleaned =
+        cleaned.replace(
+            /\*\*/g,
+            ""
+        );
+
+
+
+    /*
+       REMOVE ALL ASTERISKS
+
+       *answer*
+       becomes
+
+       answer
+    */
+
+    cleaned =
+        cleaned.replace(
+            /\*/g,
+            ""
+        );
+
+
+
+    /*
+       REMOVE MARKDOWN HEADINGS
+
+       ### Answer
+       becomes
+
+       Answer
+    */
+
+    cleaned =
+        cleaned.replace(
+            /^#{1,6}\s*/gm,
+            ""
+        );
+
+
+
+    /*
+       REMOVE CODE BACKTICKS
+    */
+
+    cleaned =
+        cleaned.replace(
+            /```/g,
+            ""
+        );
+
+
+    cleaned =
+        cleaned.replace(
+            /`/g,
+            ""
+        );
+
+
+
+    /*
+       REMOVE LATEX MATH BRACKETS
+    */
 
     cleaned =
         cleaned.replace(
@@ -526,17 +723,20 @@ function cleanMathText(text) {
             ""
         );
 
+
     cleaned =
         cleaned.replace(
             /\\\]/g,
             ""
         );
 
+
     cleaned =
         cleaned.replace(
             /\\\(/g,
             ""
         );
+
 
     cleaned =
         cleaned.replace(
@@ -545,13 +745,17 @@ function cleanMathText(text) {
         );
 
 
-    /* Remove dollar signs */
+
+    /*
+       REMOVE DOLLAR MATH
+    */
 
     cleaned =
         cleaned.replace(
             /\$\$/g,
             ""
         );
+
 
     cleaned =
         cleaned.replace(
@@ -560,7 +764,10 @@ function cleanMathText(text) {
         );
 
 
-    /* Remove boxed */
+
+    /*
+       REMOVE BOXED ANSWERS
+    */
 
     cleaned =
         cleaned.replace(
@@ -569,7 +776,10 @@ function cleanMathText(text) {
         );
 
 
-    /* Remove common text commands */
+
+    /*
+       REMOVE COMMON LATEX COMMANDS
+    */
 
     cleaned =
         cleaned.replace(
@@ -577,11 +787,13 @@ function cleanMathText(text) {
             "$1"
         );
 
+
     cleaned =
         cleaned.replace(
             /\\mathrm\{([^{}]*)\}/g,
             "$1"
         );
+
 
     cleaned =
         cleaned.replace(
@@ -590,7 +802,22 @@ function cleanMathText(text) {
         );
 
 
-    /* Fractions */
+    cleaned =
+        cleaned.replace(
+            /\\operatorname\{([^{}]*)\}/g,
+            "$1"
+        );
+
+
+
+    /*
+       FRACTIONS
+
+       \frac{3}{4}
+       becomes
+
+       3/4
+    */
 
     cleaned =
         cleaned.replace(
@@ -599,7 +826,15 @@ function cleanMathText(text) {
         );
 
 
-    /* Square root */
+
+    /*
+       SQUARE ROOTS
+
+       \sqrt{x}
+       becomes
+
+       √(x)
+    */
 
     cleaned =
         cleaned.replace(
@@ -608,7 +843,10 @@ function cleanMathText(text) {
         );
 
 
-    /* Symbols */
+
+    /*
+       MATH SYMBOLS
+    */
 
     cleaned =
         cleaned.replace(
@@ -616,11 +854,13 @@ function cleanMathText(text) {
             "×"
         );
 
+
     cleaned =
         cleaned.replace(
             /\\cdot/g,
             "×"
         );
+
 
     cleaned =
         cleaned.replace(
@@ -628,11 +868,13 @@ function cleanMathText(text) {
             "÷"
         );
 
+
     cleaned =
         cleaned.replace(
             /\\pm/g,
             "±"
         );
+
 
     cleaned =
         cleaned.replace(
@@ -640,17 +882,20 @@ function cleanMathText(text) {
             "≤"
         );
 
+
     cleaned =
         cleaned.replace(
             /\\geq/g,
             "≥"
         );
 
+
     cleaned =
         cleaned.replace(
             /\\neq/g,
             "≠"
         );
+
 
     cleaned =
         cleaned.replace(
@@ -659,7 +904,10 @@ function cleanMathText(text) {
         );
 
 
-    /* Greek letters */
+
+    /*
+       GREEK LETTERS
+    */
 
     cleaned =
         cleaned.replace(
@@ -667,11 +915,13 @@ function cleanMathText(text) {
             "π"
         );
 
+
     cleaned =
         cleaned.replace(
             /\\theta/g,
             "θ"
         );
+
 
     cleaned =
         cleaned.replace(
@@ -679,11 +929,13 @@ function cleanMathText(text) {
             "α"
         );
 
+
     cleaned =
         cleaned.replace(
             /\\beta/g,
             "β"
         );
+
 
     cleaned =
         cleaned.replace(
@@ -692,13 +944,17 @@ function cleanMathText(text) {
         );
 
 
-    /* Remove left/right commands */
+
+    /*
+       REMOVE LEFT AND RIGHT
+    */
 
     cleaned =
         cleaned.replace(
             /\\left/g,
             ""
         );
+
 
     cleaned =
         cleaned.replace(
@@ -707,7 +963,10 @@ function cleanMathText(text) {
         );
 
 
-    /* Remove remaining backslashes */
+
+    /*
+       REMOVE REMAINING BACKSLASHES
+    */
 
     cleaned =
         cleaned.replace(
@@ -716,7 +975,22 @@ function cleanMathText(text) {
         );
 
 
-    /* Remove excessive spaces */
+
+    /*
+       REMOVE UNNECESSARY BRACES
+    */
+
+    cleaned =
+        cleaned.replace(
+            /[{}]/g,
+            ""
+        );
+
+
+
+    /*
+       CLEAN EXTRA SPACES
+    */
 
     cleaned =
         cleaned.replace(
@@ -725,7 +999,10 @@ function cleanMathText(text) {
         );
 
 
-    /* Keep normal paragraph spacing */
+
+    /*
+       CLEAN EXCESSIVE EMPTY LINES
+    */
 
     cleaned =
         cleaned.replace(
@@ -735,23 +1012,28 @@ function cleanMathText(text) {
 
 
     return cleaned.trim();
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    SEND TO AI
--------------------------------- */
+===================================== */
 
 async function sendToAI(mode) {
 
     const question =
         getQuestionText();
 
+
     const studentAnswer =
         getStudentAnswer();
 
+
     const language =
         getSelectedLanguage();
+
 
     const imageFile =
         document
@@ -760,10 +1042,12 @@ async function sendToAI(mode) {
             )
             .files[0];
 
+
     const status =
         document.getElementById(
             "status"
         );
+
 
     const result =
         document.getElementById(
@@ -771,7 +1055,10 @@ async function sendToAI(mode) {
         );
 
 
-    /* Question is required */
+
+    /*
+       QUESTION REQUIRED
+    */
 
     if (
         !question &&
@@ -782,10 +1069,14 @@ async function sendToAI(mode) {
             "Please type a question or upload a question image first.";
 
         return;
+
     }
 
 
-    /* Student answer required for checking */
+
+    /*
+       ANSWER REQUIRED FOR CHECK
+    */
 
     if (
         mode === "check" &&
@@ -802,14 +1093,18 @@ async function sendToAI(mode) {
             .focus();
 
         return;
+
     }
+
 
 
     status.textContent =
         "⏳ AI is working on your question...";
 
+
     result.textContent =
         "Please wait...";
+
 
 
     try {
@@ -817,26 +1112,33 @@ async function sendToAI(mode) {
         let image = null;
 
 
+
+        /*
+           COMPRESS IMAGE
+        */
+
         if (imageFile) {
 
             image =
                 await resizeImage(
                     imageFile
                 );
+
         }
 
 
+
         /*
-           For Check My Answer,
-           send the student's answer
-           together with the question.
+           PREPARE CHECK ANSWER
         */
 
         let fullQuestion =
             question;
 
 
-        if (mode === "check") {
+        if (
+            mode === "check"
+        ) {
 
             fullQuestion =
                 "Question:\n" +
@@ -845,21 +1147,31 @@ async function sendToAI(mode) {
                 "Student's answer:\n" +
                 studentAnswer +
                 "\n\n" +
-                "Check the student's answer. " +
-                "Say clearly whether it is correct or incorrect. " +
-                "If it is incorrect, explain the mistake and give the correct answer.";
+                "Check the student's answer carefully. " +
+                "Clearly say whether it is correct or incorrect. " +
+                "Explain why. " +
+                "If it is incorrect, show the correct answer and explain the mistake.";
+
         }
 
+
+
+        /*
+           SEND TO VERCEL
+        */
 
         const response =
             await fetch(
                 API_URL,
                 {
+
                     method: "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body: JSON.stringify({
@@ -875,14 +1187,22 @@ async function sendToAI(mode) {
 
                         mode:
                             mode
+
                     })
+
                 }
             );
+
 
 
         const data =
             await response.json();
 
+
+
+        /*
+           ERROR
+        */
 
         if (!response.ok) {
 
@@ -890,15 +1210,20 @@ async function sendToAI(mode) {
                 data.error ||
                 "The AI request failed."
             );
+
         }
 
 
-        /* Clean the AI response */
+
+        /*
+           CLEAN RESPONSE
+        */
 
         const cleanedAnswer =
             cleanMathText(
                 data.answer
             );
+
 
 
         status.textContent =
@@ -911,53 +1236,65 @@ async function sendToAI(mode) {
 
     }
 
+
     catch (error) {
 
         console.error(error);
 
+
         status.textContent =
             "❌ Something went wrong.";
+
 
         result.textContent =
             "Error: " +
             error.message;
+
     }
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    SOLVE
--------------------------------- */
+===================================== */
 
 function solveQuestion() {
 
     sendToAI("solve");
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    HINT
--------------------------------- */
+===================================== */
 
 function getHint() {
 
     sendToAI("hint");
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    CHECK ANSWER
--------------------------------- */
+===================================== */
 
 function checkAnswer() {
 
     sendToAI("check");
+
 }
 
 
-/* --------------------------------
+
+/* =====================================
    CLEAR
--------------------------------- */
+===================================== */
 
 function clearQuestion() {
 
@@ -1010,9 +1347,12 @@ function clearQuestion() {
         )
         .textContent =
         "Your AI explanation will appear here.";
+
 }
 
 </script>
 
+
 </body>
+
     </html>
