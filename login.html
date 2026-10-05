@@ -1,238 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Grade 12 Hub - Login</title>
+    <title>Login - Grade 12 Hub</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #222;
+        }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #222;
-    }
+        .container {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 20px;
+        }
 
-    header {
-      background: #173b73;
-      color: white;
-      text-align: center;
-      padding: 25px 15px;
-    }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
 
-    header h1 {
-      margin: 0 0 8px;
-    }
+        h1 {
+            text-align: center;
+            color: #4f46e5;
+        }
 
-    .container {
-      max-width: 500px;
-      margin: 35px auto;
-      padding: 20px;
-    }
+        p {
+            text-align: center;
+            color: #555;
+        }
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 6px;
+        }
 
-    h2 {
-      text-align: center;
-    }
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
 
-    label {
-      display: block;
-      margin: 15px 0 6px;
-      font-weight: bold;
-    }
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 20px;
+            background: #4f46e5;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
 
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-    }
+        button:hover {
+            opacity: 0.9;
+        }
 
-    button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 20px;
-      background: #173b73;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+        .signup {
+            margin-top: 20px;
+            text-align: center;
+        }
 
-    button:hover {
-      background: #0f2b55;
-    }
+        .signup a {
+            color: #4f46e5;
+            font-weight: bold;
+            text-decoration: none;
+        }
 
-    #message {
-      margin-top: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #555;
+            text-decoration: none;
+        }
 
-    .link {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .link a {
-      color: #173b73;
-      font-weight: bold;
-      text-decoration: none;
-    }
-  </style>
+        #message {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Grade 12 Hub</h1>
-  <p>Welcome back</p>
-</header>
-
 <div class="container">
-  <div class="card">
 
-    <h2>Login</h2>
+    <div class="card">
 
-    <form id="loginForm">
+        <h1>🎓 Grade 12 Hub</h1>
 
-      <label for="email">Email *</label>
+        <h2 style="text-align:center;">Welcome Back 👋</h2>
 
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-        required
-      >
+        <p>Login to continue to your Grade 12 Hub.</p>
 
-      <label for="password">Password *</label>
+        <form id="loginForm">
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter your password"
-        required
-      >
+            <label for="email">
+                📧 Email
+            </label>
 
-      <button type="submit">
-        Login
-      </button>
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
 
-      <div id="message"></div>
+            <label for="password">
+                🔐 Password
+            </label>
 
-    </form>
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
 
-    <div class="link">
-      Don't have an account?
-      <a href="index.html">Create Account</a>
+            <button type="submit">
+                🔓 Login
+            </button>
+
+        </form>
+
+        <div id="message"></div>
+
+        <div class="signup">
+            Don't have an account?
+            <a href="signup.html">
+                Create Account
+            </a>
+        </div>
+
+        <a class="back" href="index.html">
+            ← Back to Grade 12 Hub
+        </a>
+
     </div>
 
-  </div>
 </div>
 
 <script>
-  // ==========================================
-  // SUPABASE SETTINGS
-  // ==========================================
 
-  const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
+const SUPABASE_URL =
+    "https://hdlhhbnawltisszzsbvw.supabase.co";
 
-  const SUPABASE_PUBLISHABLE_KEY =
+const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
-  // ==========================================
-  // SUPABASE CLIENT
-  // ==========================================
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
-  const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
 
-  // ==========================================
-  // LOGIN
-  // ==========================================
+document
+    .getElementById("loginForm")
+    .addEventListener("submit", async function(event) {
 
-  const loginForm =
-    document.getElementById("loginForm");
+        event.preventDefault();
 
-  const message =
-    document.getElementById("message");
+        const email =
+            document
+                .getElementById("email")
+                .value
+                .trim();
 
-  loginForm.addEventListener(
-    "submit",
-    async function(event) {
+        const password =
+            document
+                .getElementById("password")
+                .value;
 
-      event.preventDefault();
-
-      const email =
-        document.getElementById("email").value.trim();
-
-      const password =
-        document.getElementById("password").value;
-
-      message.textContent =
-        "Logging in...";
-
-      try {
-
-        const { data, error } =
-          await supabaseClient.auth.signInWithPassword({
-
-            email: email,
-
-            password: password
-
-          });
-
-        if (error) {
-
-          message.textContent =
-            error.message;
-
-          return;
-        }
-
-        if (data.user) {
-
-          message.textContent =
-            "Login successful!";
-
-          setTimeout(function() {
-
-            window.location.href =
-              "index.html";
-
-          }, 700);
-
-        }
-
-      } catch (error) {
-
-        console.error(error);
+        const message =
+            document
+                .getElementById("message");
 
         message.textContent =
-          "Something went wrong. Please try again.";
-      }
+            "⏳ Logging in...";
 
-    }
-  );
+        try {
+
+            const { data, error } =
+                await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+            if (error) {
+                throw error;
+            }
+
+            message.textContent =
+                "✅ Login successful!";
+
+            setTimeout(function() {
+
+                window.location.href =
+                    "index.html";
+
+            }, 500);
+
+        } catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                "❌ " + error.message;
+        }
+
+    });
+
 </script>
 
 </body>
+
 </html>
