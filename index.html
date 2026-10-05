@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grade 12 Hub</title>
+  <title>Grade 12 Hub - Create Account</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -22,45 +22,60 @@
     header {
       background: #173b73;
       color: white;
-      padding: 20px;
       text-align: center;
+      padding: 25px 15px;
     }
 
     header h1 {
-      margin: 0;
+      margin: 0 0 8px;
     }
 
     .container {
       max-width: 500px;
-      margin: 40px auto;
-      padding: 25px;
+      margin: 35px auto;
+      padding: 20px;
     }
 
     .card {
       background: white;
       padding: 25px;
       border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
       text-align: center;
-      margin-top: 0;
     }
 
     label {
       display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
+      margin: 15px 0 6px;
       font-weight: bold;
     }
 
-    input {
+    input[type="email"],
+    input[type="password"] {
       width: 100%;
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 16px;
+    }
+
+    .terms {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .terms label {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-weight: normal;
+    }
+
+    .terms input {
+      margin-top: 3px;
     }
 
     button {
@@ -79,31 +94,21 @@
       background: #0f2b55;
     }
 
-    .login-link {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .login-link a {
-      color: #173b73;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
     #message {
       margin-top: 15px;
       text-align: center;
       font-weight: bold;
     }
 
-    .terms {
-      margin-top: 15px;
-      font-size: 14px;
+    .link {
+      text-align: center;
+      margin-top: 20px;
     }
 
-    .terms input {
-      width: auto;
-      margin-right: 8px;
+    .link a {
+      color: #173b73;
+      font-weight: bold;
+      text-decoration: none;
     }
   </style>
 </head>
@@ -112,7 +117,7 @@
 
 <header>
   <h1>Grade 12 Hub</h1>
-  <p>Past Papers • Notes • Motivation • University Applications</p>
+  <p>Your Grade 12 study platform</p>
 </header>
 
 <div class="container">
@@ -151,7 +156,7 @@
       <div class="terms">
         <label>
           <input type="checkbox" id="terms" required>
-          I agree to the Grade 12 Hub Terms & Community Rules.
+          <span>I agree to the Grade 12 Hub Terms & Community Rules.</span>
         </label>
       </div>
 
@@ -161,9 +166,9 @@
 
     </form>
 
-    <div class="login-link">
+    <div class="link">
       Already have an account?
-      <a href="login.html">Log in</a>
+      <a href="login.html">Login</a>
     </div>
 
   </div>
@@ -171,11 +176,23 @@
 
 <script>
   // ==========================================
-  // SUPABASE CONNECTION
+  // SUPABASE SETTINGS
   // ==========================================
 
   const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
-  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+  // ==========================================
+  // EMAIL REDIRECT
+  // ==========================================
+
+  const EMAIL_REDIRECT_URL =
+    "https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/login.html";
+
+  // ==========================================
+  // CREATE SUPABASE CLIENT
+  // ==========================================
 
   const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
@@ -190,61 +207,82 @@
   const message = document.getElementById("message");
 
   signupForm.addEventListener("submit", async function(event) {
+
     event.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-    const terms = document.getElementById("terms").checked;
+    const email =
+      document.getElementById("email").value.trim();
 
-    message.textContent = "";
+    const password =
+      document.getElementById("password").value;
 
+    const confirmPassword =
+      document.getElementById("confirmPassword").value;
+
+    const terms =
+      document.getElementById("terms").checked;
+
+    // Check terms
     if (!terms) {
-      message.textContent = "Please agree to the Terms & Community Rules.";
+      message.textContent =
+        "Please agree to the Terms & Community Rules.";
       return;
     }
 
+    // Check passwords
     if (password !== confirmPassword) {
-      message.textContent = "Passwords do not match.";
+      message.textContent =
+        "Passwords do not match.";
       return;
     }
 
+    // Check password length
     if (password.length < 6) {
-      message.textContent = "Password must be at least 6 characters.";
+      message.textContent =
+        "Password must be at least 6 characters.";
       return;
     }
 
-    message.textContent = "Creating your account...";
+    message.textContent =
+      "Creating your account...";
 
     try {
-      const { data, error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-      });
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+
+          email: email,
+
+          password: password,
+
+          options: {
+            emailRedirectTo: EMAIL_REDIRECT_URL
+          }
+
+        });
 
       if (error) {
-        message.textContent = error.message;
+        message.textContent =
+          error.message;
         return;
       }
 
       if (data.user) {
-        if (data.session) {
-          message.textContent = "Account created successfully!";
 
-          setTimeout(function() {
-            window.location.href = "home.html";
-          }, 1000);
+        message.textContent =
+          "Account created! Check your email and click the confirmation link.";
 
-        } else {
-          message.textContent =
-            "Account created! Please check your email to confirm your account.";
-        }
+        signupForm.reset();
       }
 
     } catch (error) {
-      message.textContent = "Something went wrong. Please try again.";
+
       console.error(error);
+
+      message.textContent =
+        "Something went wrong. Please try again.";
     }
+
   });
 </script>
 
