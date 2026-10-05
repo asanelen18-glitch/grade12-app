@@ -6,22 +6,18 @@
 
     <title>Grade 12 Hub</title>
 
-    <!-- PWA SETTINGS -->
     <link rel="manifest" href="manifest.json">
+
     <meta name="theme-color" content="#4f46e5">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <style>
-
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
         }
 
         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
             background: #f4f6f8;
             color: #222;
         }
@@ -29,23 +25,24 @@
         header {
             background: #4f46e5;
             color: white;
-            padding: 25px 20px;
+            padding: 20px;
             text-align: center;
         }
 
         header h1 {
-            font-size: 30px;
-            margin-bottom: 8px;
+            margin: 0;
+            font-size: 28px;
         }
 
         header p {
-            font-size: 16px;
+            margin: 8px 0 0;
+            font-size: 15px;
         }
 
         .container {
+            width: 92%;
             max-width: 900px;
-            margin: auto;
-            padding: 20px;
+            margin: 25px auto;
         }
 
         .welcome {
@@ -53,671 +50,787 @@
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 20px;
-            text-align: center;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
         .welcome h2 {
-            margin-bottom: 10px;
+            margin-top: 0;
+            color: #4f46e5;
         }
 
-        .welcome p {
-            line-height: 1.5;
-            color: #555;
+        .goal {
+            background: #eef2ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
         }
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
         }
 
         .card {
             background: white;
-            padding: 25px 20px;
+            padding: 22px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #222;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card .icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            margin: 5px 0;
+            color: #4f46e5;
+        }
+
+        .card p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .coming-soon {
+            cursor: pointer;
+        }
+
+        .creator {
+            background: white;
+            margin-top: 25px;
+            padding: 20px;
             border-radius: 15px;
             text-align: center;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
-        .card h3 {
-            margin-bottom: 10px;
-            font-size: 21px;
-        }
-
-        .card p {
-            color: #666;
-            margin-bottom: 18px;
-            line-height: 1.5;
-        }
-
-        .button {
-            display: inline-block;
-            background: #4f46e5;
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .button:hover {
-            background: #3730a3;
-        }
-
-        .ai-card {
-            border: 2px solid #4f46e5;
-        }
-
-        .group-card {
-            border: 2px solid #4f46e5;
-        }
-
-        .motivation {
-            margin-top: 20px;
-            background: #111827;
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .motivation h2 {
-            margin-bottom: 10px;
-        }
-
-        .motivation p {
-            line-height: 1.5;
+        .creator h3 {
+            color: #4f46e5;
+            margin-top: 0;
         }
 
         footer {
             text-align: center;
             padding: 25px;
-            color: #666;
-            font-size: 14px;
+            color: #777;
+            font-size: 13px;
         }
 
+        /* FIRST-TIME SETUP */
 
-        /* GOAL POP-UP */
-
-        .goal-overlay {
+        #profileSetupOverlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-
-            background: rgba(0,0,0,0.65);
-
-            display: none;
-
-            justify-content: center;
-            align-items: center;
-
-            padding: 20px;
-
+            background: #f4f6f8;
             z-index: 9999;
+            overflow-y: auto;
+            display: none;
         }
 
-        .goal-popup {
+        .setup-container {
+            width: 92%;
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .setup-box {
             background: white;
-
-            width: 100%;
-            max-width: 450px;
-
-            padding: 30px 25px;
-
-            border-radius: 20px;
-
-            text-align: center;
-
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
         }
 
-        .goal-icon {
-            font-size: 50px;
-            margin-bottom: 10px;
-        }
-
-        .goal-popup h2 {
-            margin-bottom: 10px;
+        .setup-box h2 {
             color: #4f46e5;
+            margin-top: 0;
+            text-align: center;
         }
 
-        .goal-popup p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 15px;
+        .setup-box .intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
         }
 
-        .goal-text {
-            background: #eef2ff;
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 7px;
+        }
 
-            color: #3730a3;
-
-            padding: 15px;
-
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
             border-radius: 10px;
-
-            font-weight: bold;
-
-            margin: 15px 0 20px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
         }
 
-        .popup-buttons {
-            display: flex;
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
 
+        .subjects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-
-            justify-content: center;
+            margin-top: 10px;
         }
 
-        .popup-button {
-            border: none;
-
-            padding: 12px 18px;
-
-            border-radius: 8px;
-
-            font-weight: bold;
-
+        .subject-option {
+            background: #f4f6f8;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: normal;
+            margin: 0;
             cursor: pointer;
-
-            font-size: 15px;
         }
 
-        .start-button {
+        .subject-option input {
+            margin-right: 8px;
+        }
+
+        .save-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
             background: #4f46e5;
-
             color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
-        .close-button {
-            background: #e5e7eb;
-
-            color: #333;
+        .save-button:hover {
+            background: #4338ca;
         }
 
+        .required-note {
+            color: #777;
+            font-size: 13px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            .subjects {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            .setup-box {
+                padding: 20px;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
+    <!-- HEADER -->
+    <header>
+        <h1>🎓 Grade 12 Hub</h1>
+        <p>Your study companion for Grade 12</p>
+    </header>
 
-<!-- ============================= -->
-<!-- GOAL POP-UP -->
-<!-- ============================= -->
 
-<div
-    class="goal-overlay"
-    id="goalOverlay">
+    <!-- MAIN HOME -->
+    <main class="container">
 
-    <div class="goal-popup">
+        <section class="welcome">
+            <h2 id="welcomeMessage">
+                Welcome to Grade 12 Hub! 👋
+            </h2>
 
-        <div class="goal-icon">
-            🎯
-        </div>
+            <p>
+                Learn, revise, practise and prepare for your future.
+            </p>
 
-        <h2 id="goalWelcome">
-            Welcome back!
-        </h2>
+            <div class="goal" id="homeGoal">
+                🎯 Set your study goal when you first enter the app.
+            </div>
+        </section>
 
-        <p>
-            Remember why you started.
-            Keep working towards your goal!
-        </p>
 
-        <div
-            class="goal-text"
-            id="goalMessage">
+        <!-- APP FEATURES -->
+        <section class="cards">
 
-            Your study goal
+            <a class="card" href="past-papers.html">
+                <div class="icon">📚</div>
+                <h3>Past Papers</h3>
+                <p>
+                    Access Grade 12 past question papers and memoranda.
+                </p>
+            </a>
 
-        </div>
 
-        <p>
-            💪 Stay focused.<br>
-            📚 Keep studying.<br>
-            🌟 You can do it!
-        </p>
+            <a class="card" href="notes.html">
+                <div class="icon">📝</div>
+                <h3>Study Notes</h3>
+                <p>
+                    Revise important topics, definitions and formulas.
+                </p>
+            </a>
 
-        <div class="popup-buttons">
 
-            <button
-                class="popup-button start-button"
-                onclick="startStudying()">
+            <a class="card" href="ai-helper.html">
+                <div class="icon">🤖</div>
+                <h3>AI Study Helper</h3>
+                <p>
+                    Ask questions and get step-by-step explanations.
+                </p>
+            </a>
 
-                📚 Start Studying
 
-            </button>
+            <a class="card" href="study-groups.html">
+                <div class="icon">👥</div>
+                <h3>Study Groups</h3>
+                <p>
+                    Join subject groups and study with other learners.
+                </p>
+            </a>
 
-            <button
-                class="popup-button close-button"
-                onclick="closeGoalPopup()">
 
-                Close
+            <div class="card coming-soon" onclick="showComingSoon('Motivation')">
+                <div class="icon">🔥</div>
+                <h3>Motivation</h3>
+                <p>
+                    Get study motivation and exam tips.
+                </p>
+            </div>
 
-            </button>
+
+            <div class="card coming-soon" onclick="showComingSoon('Varsity Applications')">
+                <div class="icon">🎓</div>
+                <h3>Apply to Varsity</h3>
+                <p>
+                    Find university application information.
+                </p>
+            </div>
+
+
+            <a class="card" href="profile.html">
+                <div class="icon">👤</div>
+                <h3>My Profile</h3>
+                <p>
+                    View and update your learner profile and goals.
+                </p>
+            </a>
+
+
+            <div class="card coming-soon" onclick="showComingSoon('Career Guidance')">
+                <div class="icon">💼</div>
+                <h3>Career Guidance</h3>
+                <p>
+                    Explore careers and possible study choices.
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- CREATOR CREDIT -->
+        <section class="creator">
+            <h3>Created By</h3>
+
+            <p>
+                <strong>MH Masina</strong>
+            </p>
+
+            <p>
+                <strong>NP Machete</strong>
+            </p>
+
+            <p>
+                Grade 12 Hub
+            </p>
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+        Created by MH Masina & NP Machete
+    </footer>
+
+
+
+    <!-- FIRST-TIME PROFILE SETUP -->
+    <div id="profileSetupOverlay">
+
+        <div class="setup-container">
+
+            <div class="setup-box">
+
+                <h2>👋 Welcome to Grade 12 Hub</h2>
+
+                <p class="intro">
+                    Let's set up your profile before you enter the app.
+                </p>
+
+
+                <!-- NAME -->
+                <label for="fullName">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    placeholder="Enter your full name"
+                >
+
+
+                <!-- GRADE -->
+                <label for="grade">
+                    Grade
+                </label>
+
+                <select id="grade">
+                    <option value="">
+                        Select your grade
+                    </option>
+
+                    <option value="Grade 12">
+                        Grade 12
+                    </option>
+
+                    <option value="Grade 11">
+                        Grade 11
+                    </option>
+
+                    <option value="Grade 10">
+                        Grade 10
+                    </option>
+                </select>
+
+
+                <!-- SUBJECTS -->
+                <label>
+                    Your Subjects
+                </label>
+
+                <div class="subjects">
+
+                    <label class="subject-option">
+                        <input
+                            type="checkbox"
+                            value="Mathematics"
+                        >
+                        Mathematics
+                    </label>
+
+
+                    <label class="subject-option">
+                        <input
+                            type="checkbox"
+                            value="Physical Sciences"
+                        >
+                        Physical Sciences
+                    </label>
+
+
+                    <label class="subject-option">
+                        <input
+                            type="checkbox"
+                            value="Life Sciences"
+                        >
+                        Life Sciences
+                    </label>
+
+
+                    <label class="subject-option">
+                        <input
+                            type="checkbox"
+                            value="English"
+                        >
+                        English
+                    </label>
+
+
+                    <label class="subject-option">
+                        <input
+                            type="checkbox"
+                            value="Geography"
+                        >
+                        Geography
+                    </label>
+
+
+                    <label class="subject-option">
+                        <input
+                            type="checkbox"
+                            value="Accounting"
+                        >
+                        Accounting
+                    </label>
+
+
+                    <label class="subject-option">
+                        <input
+                            type="checkbox"
+                            value="Business Studies"
+                        >
+                        Business Studies
+                    </label>
+
+
+                    <label class="subject-option">
+                        <input
+                            type="checkbox"
+                            value="History"
+                        >
+                        History
+                    </label>
+
+                </div>
+
+
+                <!-- GOAL -->
+                <label for="studyGoal">
+                    What is your study goal?
+                </label>
+
+                <textarea
+                    id="studyGoal"
+                    placeholder="Example: I want to improve my Mathematics mark and pass Grade 12 with good results."
+                ></textarea>
+
+
+                <button
+                    class="save-button"
+                    onclick="saveFirstProfile()"
+                >
+                    Save & Enter App
+                </button>
+
+
+                <p class="required-note">
+                    Your information is saved on this device.
+                </p>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
 
 
+    <script>
 
-<!-- ============================= -->
-<!-- HEADER -->
-<!-- ============================= -->
+        /*
+         * CHECK WHETHER THIS IS THE FIRST TIME
+         * THE LEARNER IS OPENING THE APP
+         */
 
-<header>
+        function checkFirstTimeUser() {
 
-    <h1>
-        🎓 Grade 12 Hub
-    </h1>
+            const profileCreated =
+                localStorage.getItem("grade12_profile_created");
 
-    <p>
-        Your study companion for Grade 12
-    </p>
 
-</header>
+            if (profileCreated !== "true") {
 
+                document.getElementById(
+                    "profileSetupOverlay"
+                ).style.display = "block";
 
+                document.body.style.overflow = "hidden";
 
-<div class="container">
+            } else {
 
+                loadHomeProfile();
 
-    <!-- ============================= -->
-    <!-- WELCOME -->
-    <!-- ============================= -->
+            }
+        }
 
-    <div class="welcome">
 
-        <h2 id="homeWelcome">
-            Welcome to Grade 12 Hub
-        </h2>
 
-        <p>
-            Access past papers, study notes,
-            AI study help, study groups,
-            motivation and university information
-            all in one place.
-        </p>
+        /*
+         * SAVE FIRST-TIME PROFILE
+         */
 
-    </div>
+        function saveFirstProfile() {
 
+            const name =
+                document.getElementById("fullName")
+                .value.trim();
 
 
-    <!-- ============================= -->
-    <!-- APP FEATURES -->
-    <!-- ============================= -->
+            const grade =
+                document.getElementById("grade")
+                .value;
 
-    <div class="cards">
 
+            const goal =
+                document.getElementById("studyGoal")
+                .value.trim();
 
-        <!-- PAST PAPERS -->
 
-        <div class="card">
+            const subjectCheckboxes =
+                document.querySelectorAll(
+                    '.subject-option input[type="checkbox"]'
+                );
 
-            <h3>
-                📚 Past Papers
-            </h3>
 
-            <p>
-                Practice with Grade 12 past
-                question papers from different
-                subjects and years.
-            </p>
+            const subjects = [];
 
-            <a
-                href="past-papers.html"
-                class="button">
 
-                Open Past Papers
+            subjectCheckboxes.forEach(function(checkbox) {
 
-            </a>
+                if (checkbox.checked) {
+                    subjects.push(checkbox.value);
+                }
 
-        </div>
+            });
 
 
 
-        <!-- NOTES -->
+            /*
+             * VALIDATION
+             */
 
-        <div class="card">
+            if (name === "") {
 
-            <h3>
-                📝 Notes
-            </h3>
+                alert("Please enter your full name.");
 
-            <p>
-                Find useful Grade 12 study notes
-                and revision material.
-            </p>
+                return;
+            }
 
-            <a
-                href="notes.html"
-                class="button">
 
-                Open Notes
+            if (grade === "") {
 
-            </a>
+                alert("Please select your grade.");
 
-        </div>
+                return;
+            }
 
 
+            if (subjects.length === 0) {
 
-        <!-- AI STUDY HELPER -->
+                alert("Please select at least one subject.");
 
-        <div class="card ai-card">
+                return;
+            }
 
-            <h3>
-                🤖 AI Study Helper
-            </h3>
 
-            <p>
-                Scan a question and get a
-                step-by-step explanation.
-                Choose your preferred language.
-            </p>
+            if (goal === "") {
 
-            <a
-                href="ai-helper.html"
-                class="button">
+                alert("Please enter your study goal.");
 
-                Open AI Helper
+                return;
+            }
 
-            </a>
 
-        </div>
 
+            /*
+             * SAVE INFORMATION
+             */
 
+            localStorage.setItem(
+                "grade12_name",
+                name
+            );
 
-        <!-- STUDY GROUPS -->
 
-        <div class="card group-card">
+            localStorage.setItem(
+                "grade12_grade",
+                grade
+            );
 
-            <h3>
-                💬 Study Groups
-            </h3>
 
-            <p>
-                Join learners studying the same
-                subjects and discuss school work.
-            </p>
+            localStorage.setItem(
+                "grade12_subjects",
+                JSON.stringify(subjects)
+            );
 
-            <a
-                href="study-groups.html"
-                class="button">
 
-                Join Study Groups
+            localStorage.setItem(
+                "grade12_goal",
+                goal
+            );
 
-            </a>
 
-        </div>
+            /*
+             * THIS MEANS THE FIRST-TIME
+             * SETUP HAS BEEN COMPLETED
+             */
 
+            localStorage.setItem(
+                "grade12_profile_created",
+                "true"
+            );
 
 
-        <!-- MOTIVATION -->
 
-        <div class="card">
+            /*
+             * CLOSE SETUP
+             */
 
-            <h3>
-                💪 Motivation
-            </h3>
+            document.getElementById(
+                "profileSetupOverlay"
+            ).style.display = "none";
 
-            <p>
-                Get motivation, study tips and
-                reminders to help you stay focused.
-            </p>
+            document.body.style.overflow = "auto";
 
-            <a
-                href="#"
-                class="button">
 
-                Get Motivation
 
-            </a>
+            /*
+             * UPDATE HOME
+             */
 
-        </div>
+            loadHomeProfile();
 
 
 
-        <!-- VARSITY -->
+            /*
+             * SHOW THE GOAL MESSAGE ONLY
+             * AFTER FIRST-TIME SETUP
+             */
 
-        <div class="card">
+            alert(
+                "Welcome to Grade 12 Hub, " +
+                name +
+                "! 🎯\n\n" +
+                "Remember your goal:\n" +
+                goal
+            );
 
-            <h3>
-                🎓 Apply to Varsity
-            </h3>
+        }
 
-            <p>
-                Find information and useful links
-                for applying to universities and colleges.
-            </p>
 
-            <a
-                href="#"
-                class="button">
 
-                Apply to Varsity
+        /*
+         * LOAD PROFILE INFORMATION ON HOME
+         *
+         * IMPORTANT:
+         * This function does NOT show a popup.
+         * Therefore, when the learner returns
+         * from Notes, Past Papers or AI,
+         * the goal message will NOT appear again.
+         */
 
-            </a>
+        function loadHomeProfile() {
 
-        </div>
+            const name =
+                localStorage.getItem("grade12_name");
 
 
+            const goal =
+                localStorage.getItem("grade12_goal");
 
-        <!-- USER PROFILE -->
 
-        <div class="card">
+            if (name) {
 
-            <h3>
-                👤 My Profile
-            </h3>
+                document.getElementById(
+                    "welcomeMessage"
+                ).textContent =
+                    "Welcome back, " +
+                    name +
+                    "! 👋";
 
-            <p>
-                View your subjects, study goals,
-                quiz progress and saved material.
-            </p>
+            }
 
-            <a
-                href="profile.html"
-                class="button">
 
-                Open My Profile
+            if (goal) {
 
-            </a>
+                document.getElementById(
+                    "homeGoal"
+                ).textContent =
+                    "🎯 Your goal: " +
+                    goal;
 
-        </div>
+            }
 
+        }
 
-    </div>
 
 
+        /*
+         * COMING SOON MESSAGE
+         */
 
-    <!-- ============================= -->
-    <!-- MOTIVATION -->
-    <!-- ============================= -->
+        function showComingSoon(feature) {
 
-    <div class="motivation">
+            alert(
+                feature +
+                " is coming soon! 🚀"
+            );
 
-        <h2>
-            🌟 Keep Going!
-        </h2>
+        }
 
-        <p>
-            Your future is built by what you do today.
-            Study hard, stay focused and believe in yourself.
-        </p>
 
-    </div>
 
+        /*
+         * START APP
+         */
 
-</div>
-
-
-
-<!-- ============================= -->
-<!-- FOOTER -->
-<!-- ============================= -->
-
-<footer>
-
-    <p>
-        © 2026 Grade 12 Hub
-    </p>
-
-    <p>
-        Built to help Grade 12 learners succeed.
-    </p>
-
-</footer>
-
-
-
-<!-- ============================= -->
-<!-- PROFILE / GOAL JAVASCRIPT -->
-<!-- ============================= -->
-
-<script>
-
-function loadProfile() {
-
-    const name =
-        localStorage.getItem("grade12_name") || "";
-
-    const goal =
-        localStorage.getItem("grade12_goal") || "";
-
-
-    /*
-        Show learner's name on Home.
-    */
-
-    if (name !== "") {
-
-        document.getElementById(
-            "homeWelcome"
-        ).textContent =
-            "Welcome back, " + name + "! 👋";
-
-    }
-
-
-    /*
-        Show goal message every time
-        the learner enters the app.
-    */
-
-    if (goal !== "") {
-
-        document.getElementById(
-            "goalWelcome"
-        ).textContent =
-            "Welcome back, " +
-            (name || "Learner") +
-            "! 👋";
-
-
-        document.getElementById(
-            "goalMessage"
-        ).textContent =
-            "🎯 Your goal: " + goal;
-
-
-        document.getElementById(
-            "goalOverlay"
-        ).style.display =
-            "flex";
-
-    }
-
-}
-
-
-
-/*
-    Close the goal message.
-*/
-
-function closeGoalPopup() {
-
-    document.getElementById(
-        "goalOverlay"
-    ).style.display =
-        "none";
-
-}
-
-
-
-/*
-    Start studying.
-
-    For now this opens the Past Papers page.
-*/
-
-function startStudying() {
-
-    closeGoalPopup();
-
-    window.location.href =
-        "past-papers.html";
-
-}
-
-
-
-/*
-    Run when Home opens.
-*/
-
-window.addEventListener(
-    "load",
-    loadProfile
-);
-
-</script>
-
-
-
-<!-- ============================= -->
-<!-- SERVICE WORKER -->
-<!-- ============================= -->
-
-<script>
-
-if ("serviceWorker" in navigator) {
-
-    navigator.serviceWorker.register(
-        "service-worker.js"
-    )
-
-    .then(function() {
-
-        console.log(
-            "Grade 12 Hub service worker registered."
+        window.addEventListener(
+            "load",
+            checkFirstTimeUser
         );
 
-    })
 
-    .catch(function(error) {
 
-        console.log(
-            "Service worker registration failed:",
-            error
-        );
+        /*
+         * REGISTER SERVICE WORKER
+         */
 
-    });
+        if ("serviceWorker" in navigator) {
 
-}
+            window.addEventListener(
+                "load",
+                function() {
 
-</script>
+                    navigator.serviceWorker
+                        .register("service-worker.js")
+                        .then(function() {
 
+                            console.log(
+                                "Service Worker registered."
+                            );
+
+                        })
+                        .catch(function(error) {
+
+                            console.log(
+                                "Service Worker registration failed:",
+                                error
+                            );
+
+                        });
+
+                }
+            );
+
+        }
+
+    </script>
 
 </body>
-
 </html>
