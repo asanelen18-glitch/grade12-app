@@ -147,6 +147,7 @@
 
         .message-text {
             margin-top: 5px;
+            word-break: break-word;
         }
 
         .message-time {
@@ -193,7 +194,7 @@
             margin: 25px 0;
         }
 
-        /* ADDED: upload area */
+        /* Upload area */
 
         .upload-area {
             background: #f8fafc;
@@ -359,7 +360,6 @@
 
         </div>
 
-        <!-- ADDED: PHOTO/DOCUMENT UPLOAD -->
 
         <div class="upload-area">
 
@@ -602,19 +602,11 @@ async function loadMessages() {
 
         messages.innerHTML =
             '<div class="message">' +
-
-            '<div class="message-name">' +
-            'Grade 12 Hub' +
-            '</div>' +
-
+            '<div class="message-name">Grade 12 Hub</div>' +
             '<div class="message-text">' +
             'Welcome to the study group! 🎓' +
             '</div>' +
-
-            '<div class="message-time">' +
-            'Now' +
-            '</div>' +
-
+            '<div class="message-time">Now</div>' +
             '</div>';
 
         return;
@@ -674,6 +666,7 @@ function displayMessage(message) {
             icon = "📷";
         }
 
+
         if (fileType === "application/pdf") {
             icon = "📄";
         }
@@ -687,8 +680,7 @@ function displayMessage(message) {
             icon +
             '</span>' +
 
-            '<a class="file-link" ' +
-            'href="' +
+            '<a class="file-link" href="' +
             escapeAttribute(message.attachment_url) +
             '" target="_blank" rel="noopener">' +
 
@@ -759,8 +751,6 @@ async function sendMessage() {
         return;
     }
 
-
-    // Basic safety checks
 
     if (containsPhoneNumber(message)) {
 
@@ -862,7 +852,7 @@ function showSelectedFile() {
 
 
 // ------------------------------------
-// UPLOAD PHOTO / DOCUMENT
+// UPLOAD FILE
 // ------------------------------------
 
 async function uploadFile() {
@@ -910,8 +900,6 @@ async function uploadFile() {
         input.files[0];
 
 
-    // Maximum file size: 10 MB
-
     if (file.size > 10 * 1024 * 1024) {
 
         alert(
@@ -939,8 +927,10 @@ async function uploadFile() {
     try {
 
         const safeName =
-            file.name
-                .replace(/[^a-zA-Z0-9._-]/g, "_");
+            file.name.replace(
+                /[^a-zA-Z0-9._-]/g,
+                "_"
+            );
 
 
         const filePath =
@@ -1030,10 +1020,10 @@ async function uploadFile() {
             console.error(messageError);
 
             status.textContent =
-                "File uploaded but message could not be created.";
+                "File uploaded but message failed.";
 
             alert(
-                "The file uploaded, but it could not be shared in the group."
+                "The file uploaded, but it could not be shared."
             );
 
             return;
@@ -1051,7 +1041,6 @@ async function uploadFile() {
             "selectedFile"
         ).textContent =
             "No file selected";
-
 
     } catch (error) {
 
@@ -1123,7 +1112,7 @@ function containsPhoneNumber(text) {
 
 
 // ------------------------------------
-// BASIC INAPPROPRIATE WORD CHECK
+// BASIC WORD CHECK
 // ------------------------------------
 
 function containsBlockedWords(text) {
@@ -1135,11 +1124,8 @@ function containsBlockedWords(text) {
     const blockedWords = [
 
         "porn",
-
         "fuck",
-
         "fucking",
-
         "sex"
 
     ];
@@ -1324,7 +1310,7 @@ function formatFileSize(bytes) {
 
 
 // ------------------------------------
-// PROTECT MESSAGE HTML
+// PROTECT HTML
 // ------------------------------------
 
 function escapeHTML(text) {
@@ -1375,4 +1361,4 @@ window.addEventListener(
 </script>
 
 </body>
-                                                                       </html>
+</html>
