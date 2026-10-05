@@ -103,7 +103,9 @@
 <div class="container">
 
     <div class="card">
+
         <h2>Admin</h2>
+
         <div id="adminInfo" class="status">
             Checking administrator access...
         </div>
@@ -111,23 +113,31 @@
         <button class="logout" onclick="logout()">
             Log Out
         </button>
+
     </div>
 
+
     <div class="card">
+
         <h2>📋 Reports</h2>
 
-        <button class="review" onclick="loadReports()">
+        <button
+            class="review"
+            onclick="loadReports()">
             Refresh Reports
         </button>
 
         <div id="reports">
             Loading reports...
         </div>
+
     </div>
 
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
 
@@ -143,9 +153,14 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+
 const ADMIN_ID =
     "a11226b7-7463-497f-9e90-837d6ec16d60";
 
+
+/* =====================================
+   CHECK ADMIN
+===================================== */
 
 async function checkAdmin() {
 
@@ -154,42 +169,69 @@ async function checkAdmin() {
         error
     } = await supabaseClient.auth.getUser();
 
+
     if (error || !user) {
 
-        document.getElementById("adminInfo").innerHTML =
+        document.getElementById(
+            "adminInfo"
+        ).innerHTML =
             "❌ You must be logged in.";
 
+
         setTimeout(() => {
-            window.location.href = "login.html";
+
+            window.location.href =
+                "login.html";
+
         }, 1500);
+
 
         return false;
     }
+
 
     if (user.id !== ADMIN_ID) {
 
-        document.getElementById("adminInfo").innerHTML =
+        document.getElementById(
+            "adminInfo"
+        ).innerHTML =
             "❌ Access denied. You are not an administrator.";
 
+
         setTimeout(() => {
-            window.location.href = "index.html";
+
+            window.location.href =
+                "index.html";
+
         }, 2000);
+
 
         return false;
     }
 
-    document.getElementById("adminInfo").innerHTML =
+
+    document.getElementById(
+        "adminInfo"
+    ).innerHTML =
         "✅ Administrator access confirmed.";
+
 
     return true;
 }
 
 
+/* =====================================
+   LOAD REPORTS
+===================================== */
+
 async function loadReports() {
 
-    const allowed = await checkAdmin();
+    const allowed =
+        await checkAdmin();
+
 
     if (!allowed) return;
+
 
     const {
         data,
@@ -197,109 +239,346 @@ async function loadReports() {
     } = await supabaseClient
         .from("user_reports")
         .select("*")
-        .order("created_at", {
-            ascending: false
-        });
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
 
     if (error) {
 
-        document.getElementById("reports").innerHTML =
+        document.getElementById(
+            "reports"
+        ).innerHTML =
             "❌ Could not load reports.";
+
 
         console.error(error);
 
         return;
     }
 
+
     if (!data || data.length === 0) {
 
-        document.getElementById("reports").innerHTML =
+        document.getElementById(
+            "reports"
+        ).innerHTML =
             "No reports found.";
+
 
         return;
     }
 
+
     let html = "";
+
 
     data.forEach(report => {
 
         html += `
+
             <div class="report">
 
-                <h3>Report #${report.id}</h3>
+                <h3>
+                    Report #${escapeHTML(report.id)}
+                </h3>
+
 
                 <p>
-                    <strong>Reason:</strong>
-                    ${escapeHTML(report.reason)}
+
+                    <strong>
+                        Reason:
+                    </strong>
+
+                    ${escapeHTML(
+                        report.reason
+                    )}
+
                 </p>
 
-                <p>
-                    <strong>Description:</strong>
-                    ${escapeHTML(report.description || "No description")}
-                </p>
 
                 <p>
-                    <strong>Status:</strong>
-                    ${escapeHTML(report.status)}
+
+                    <strong>
+                        Description:
+                    </strong>
+
+                    ${escapeHTML(
+                        report.description ||
+                        "No description"
+                    )}
+
                 </p>
 
+
                 <p>
-                    <strong>Date:</strong>
-                    ${formatDate(report.created_at)}
+
+                    <strong>
+                        Status:
+                    </strong>
+
+                    ${escapeHTML(
+                        report.status
+                    )}
+
                 </p>
+
+
+                <p>
+
+                    <strong>
+                        Reported User:
+                    </strong>
+
+                    ${escapeHTML(
+                        report.reported_user_id ||
+                        "Not available"
+                    )}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Date:
+                    </strong>
+
+                    ${formatDate(
+                        report.created_at
+                    )}
+
+                </p>
+
 
                 <button
                     class="review"
-                    onclick="reviewReport('${report.id}')">
+                    onclick="
+                        reviewReport(
+                            '${report.id}'
+                        )
+                    "
+                >
                     🔎 Review
                 </button>
 
+
                 <button
                     class="warning"
-                    onclick="moderationAction('${report.id}', 'warning')">
+                    onclick="
+                        moderationAction(
+                            '${report.id}',
+                            'warning'
+                        )
+                    "
+                >
                     ⚠️ Warning
                 </button>
 
+
                 <button
                     class="suspend"
-                    onclick="moderationAction('${report.id}', 'suspension')">
+                    onclick="
+                        moderationAction(
+                            '${report.id}',
+                            'suspension'
+                        )
+                    "
+                >
                     ⏸️ Suspend
                 </button>
 
+
                 <button
                     class="remove"
-                    onclick="moderationAction('${report.id}', 'removal')">
+                    onclick="
+                        moderationAction(
+                            '${report.id}',
+                            'removal'
+                        )
+                    "
+                >
                     🚫 Remove
                 </button>
 
+
                 <button
                     class="email"
-                    onclick="sendEmail('${report.id}')">
+                    onclick="
+                        sendEmail(
+                            '${report.id}'
+                        )
+                    "
+                >
                     📧 Send Email
                 </button>
 
             </div>
+
         `;
     });
 
-    document.getElementById("reports").innerHTML = html;
+
+    document.getElementById(
+        "reports"
+    ).innerHTML = html;
 }
 
 
-function reviewReport(reportId) {
+/* =====================================
+   REVIEW REPORT
+===================================== */
 
-    alert(
-        "Report selected: " + reportId +
-        "\\n\\nThe detailed review system will be connected next."
-    );
-}
+async function reviewReport(reportId) {
 
+    const allowed =
+        await checkAdmin();
 
-async function moderationAction(reportId, action) {
-
-    const allowed = await checkAdmin();
 
     if (!allowed) return;
+
+
+    const {
+        data: report,
+        error
+    } = await supabaseClient
+        .from("user_reports")
+        .select("*")
+        .eq(
+            "id",
+            reportId
+        )
+        .single();
+
+
+    if (error || !report) {
+
+        alert(
+            "❌ Could not find this report."
+        );
+
+
+        console.error(error);
+
+        return;
+    }
+
+
+    const details =
+
+        "📋 REPORT DETAILS\n\n" +
+
+        "Report ID:\n" +
+        report.id +
+
+        "\n\n" +
+
+        "Reported User ID:\n" +
+        (
+            report.reported_user_id ||
+            "Not available"
+        ) +
+
+        "\n\n" +
+
+        "Reason:\n" +
+        report.reason +
+
+        "\n\n" +
+
+        "Description:\n" +
+        (
+            report.description ||
+            "No description"
+        ) +
+
+        "\n\n" +
+
+        "Status:\n" +
+        report.status +
+
+        "\n\n" +
+
+        "Created:\n" +
+        formatDate(
+            report.created_at
+        );
+
+
+    alert(details);
+
+
+    if (
+        report.status ===
+        "pending"
+    ) {
+
+        const updateStatus =
+            confirm(
+                "Mark this report as REVIEWING?"
+            );
+
+
+        if (!updateStatus) return;
+
+
+        const {
+            error: updateError
+        } = await supabaseClient
+            .from("user_reports")
+            .update({
+                status: "reviewing"
+            })
+            .eq(
+                "id",
+                reportId
+            );
+
+
+        if (updateError) {
+
+            console.error(
+                updateError
+            );
+
+
+            alert(
+                "❌ Could not update the report status."
+            );
+
+
+            return;
+        }
+
+
+        alert(
+            "✅ Report is now marked as REVIEWING."
+        );
+
+
+        loadReports();
+    }
+}
+
+
+/* =====================================
+   MODERATION ACTION
+===================================== */
+
+async function moderationAction(
+    reportId,
+    action
+) {
+
+    const allowed =
+        await checkAdmin();
+
+
+    if (!allowed) return;
+
 
     const {
         data: report,
@@ -307,92 +586,728 @@ async function moderationAction(reportId, action) {
     } = await supabaseClient
         .from("user_reports")
         .select("*")
-        .eq("id", reportId)
+        .eq(
+            "id",
+            reportId
+        )
         .single();
 
-    if (reportError) {
 
-        alert("Could not find this report.");
+    if (
+        reportError ||
+        !report
+    ) {
+
+        alert(
+            "❌ Could not find this report."
+        );
+
+
+        console.error(
+            reportError
+        );
+
+
         return;
     }
+
+
+    if (
+        !report.reported_user_id
+    ) {
+
+        alert(
+            "❌ This report does not contain a reported user."
+        );
+
+
+        return;
+    }
+
+
+    let confirmationMessage =
+        "";
+
+
+    if (
+        action ===
+        "warning"
+    ) {
+
+        confirmationMessage =
+            "Are you sure you want to issue a WARNING to this learner?";
+
+    }
+
+
+    if (
+        action ===
+        "suspension"
+    ) {
+
+        confirmationMessage =
+            "Are you sure you want to SUSPEND this learner?";
+
+    }
+
+
+    if (
+        action ===
+        "removal"
+    ) {
+
+        confirmationMessage =
+            "Are you sure you want to REMOVE this learner?";
+    }
+
+
+    const confirmed =
+        confirm(
+            confirmationMessage
+        );
+
+
+    if (!confirmed) return;
+
 
     const reason =
         prompt(
             "Enter the reason for this moderation action:"
         );
 
-    if (!reason) return;
 
-    const {
-        error
-    } = await supabaseClient
-        .from("moderation_actions")
-        .insert({
-            user_id: report.reported_user_id,
-            report_id: report.id,
-            action: action,
-            reason: reason
-        });
-
-    if (error) {
-
-        console.error(error);
+    if (
+        !reason ||
+        !reason.trim()
+    ) {
 
         alert(
-            "The action could not be recorded. " +
-            "The secure admin backend still needs to be connected."
+            "A reason is required."
         );
+
 
         return;
     }
 
+
+    const {
+        error: actionError
+    } = await supabaseClient
+        .from("moderation_actions")
+        .insert({
+
+            user_id:
+                report.reported_user_id,
+
+            report_id:
+                report.id,
+
+            action:
+                action,
+
+            reason:
+                reason.trim()
+        });
+
+
+    if (actionError) {
+
+        console.error(
+            actionError
+        );
+
+
+        alert(
+            "❌ The moderation action could not be recorded."
+        );
+
+
+        return;
+    }
+
+
+    const {
+        data: existingStatus,
+        error: statusError
+    } = await supabaseClient
+        .from("user_moderation_status")
+        .select("*")
+        .eq(
+            "user_id",
+            report.reported_user_id
+        )
+        .maybeSingle();
+
+
+    if (statusError) {
+
+        console.error(
+            statusError
+        );
+
+
+        alert(
+            "⚠️ Action was recorded, but the learner status could not be updated."
+        );
+
+
+        return;
+    }
+
+
+    /* WARNING */
+
+    if (
+        action ===
+        "warning"
+    ) {
+
+        const warningCount =
+            existingStatus
+                ? existingStatus.warning_count + 1
+                : 1;
+
+
+        const {
+            error
+        } = await supabaseClient
+            .from(
+                "user_moderation_status"
+            )
+            .upsert({
+
+                user_id:
+                    report.reported_user_id,
+
+                warning_count:
+                    warningCount,
+
+                is_suspended:
+                    existingStatus
+                        ? existingStatus.is_suspended
+                        : false,
+
+                is_removed:
+                    existingStatus
+                        ? existingStatus.is_removed
+                        : false,
+
+                suspended_until:
+                    existingStatus
+                        ? existingStatus.suspended_until
+                        : null,
+
+                last_action_at:
+                    new Date().toISOString(),
+
+                updated_at:
+                    new Date().toISOString()
+            });
+
+
+        if (error) {
+
+            console.error(error);
+
+
+            alert(
+                "⚠️ Warning recorded, but status update failed."
+            );
+
+
+            return;
+        }
+    }
+
+
+    /* SUSPENSION */
+
+    if (
+        action ===
+        "suspension"
+    ) {
+
+        const suspensionDays =
+            prompt(
+                "How many days should the suspension last?"
+            );
+
+
+        const days =
+            parseInt(
+                suspensionDays,
+                10
+            );
+
+
+        if (
+            isNaN(days) ||
+            days <= 0
+        ) {
+
+            alert(
+                "❌ Please enter a valid number of days."
+            );
+
+
+            return;
+        }
+
+
+        const suspendedUntil =
+            new Date(
+
+                Date.now() +
+                days *
+                24 *
+                60 *
+                60 *
+                1000
+
+            ).toISOString();
+
+
+        const {
+            error
+        } = await supabaseClient
+            .from(
+                "user_moderation_status"
+            )
+            .upsert({
+
+                user_id:
+                    report.reported_user_id,
+
+                warning_count:
+                    existingStatus
+                        ? existingStatus.warning_count
+                        : 0,
+
+                is_suspended:
+                    true,
+
+                is_removed:
+                    existingStatus
+                        ? existingStatus.is_removed
+                        : false,
+
+                suspended_until:
+                    suspendedUntil,
+
+                last_action_at:
+                    new Date().toISOString(),
+
+                updated_at:
+                    new Date().toISOString()
+            });
+
+
+        if (error) {
+
+            console.error(error);
+
+
+            alert(
+                "⚠️ Suspension recorded, but status update failed."
+            );
+
+
+            return;
+        }
+    }
+
+
+    /* REMOVAL */
+
+    if (
+        action ===
+        "removal"
+    ) {
+
+        const {
+            error
+        } = await supabaseClient
+            .from(
+                "user_moderation_status"
+            )
+            .upsert({
+
+                user_id:
+                    report.reported_user_id,
+
+                warning_count:
+                    existingStatus
+                        ? existingStatus.warning_count
+                        : 0,
+
+                is_suspended:
+                    false,
+
+                is_removed:
+                    true,
+
+                suspended_until:
+                    null,
+
+                last_action_at:
+                    new Date().toISOString(),
+
+                updated_at:
+                    new Date().toISOString()
+            });
+
+
+        if (error) {
+
+            console.error(error);
+
+
+            alert(
+                "⚠️ Removal recorded, but status update failed."
+            );
+
+
+            return;
+        }
+    }
+
+
+    /* UPDATE REPORT */
+
+    const {
+        error: reportUpdateError
+    } = await supabaseClient
+        .from("user_reports")
+        .update({
+
+            status:
+                "confirmed",
+
+            reviewed_at:
+                new Date().toISOString()
+
+        })
+        .eq(
+            "id",
+            reportId
+        );
+
+
+    if (reportUpdateError) {
+
+        console.error(
+            reportUpdateError
+        );
+
+
+        alert(
+            "⚠️ Moderation action completed, but the report status could not be updated."
+        );
+
+
+        return;
+    }
+
+
+    let actionName =
+        "";
+
+
+    if (
+        action ===
+        "warning"
+    ) {
+        actionName =
+            "WARNING";
+    }
+
+
+    if (
+        action ===
+        "suspension"
+    ) {
+        actionName =
+            "SUSPENSION";
+    }
+
+
+    if (
+        action ===
+        "removal"
+    ) {
+        actionName =
+            "REMOVAL";
+    }
+
+
     alert(
-        "Moderation action recorded: " +
-        action
+        "✅ " +
+        actionName +
+        " completed successfully."
     );
+
 
     loadReports();
 }
 
 
-function sendEmail(reportId) {
+/* =====================================
+   SEND EMAIL
+===================================== */
 
-    alert(
-        "Email system selected for report " +
-        reportId +
-        ".\\n\\nWe will connect this button to the secure Vercel email backend next."
-    );
+async function sendEmail(
+    reportId
+) {
+
+    const allowed =
+        await checkAdmin();
+
+
+    if (!allowed) return;
+
+
+    const {
+        data: report,
+        error
+    } = await supabaseClient
+        .from("user_reports")
+        .select("*")
+        .eq(
+            "id",
+            reportId
+        )
+        .single();
+
+
+    if (
+        error ||
+        !report
+    ) {
+
+        alert(
+            "❌ Could not find this report."
+        );
+
+
+        console.error(error);
+
+        return;
+    }
+
+
+    const email =
+        prompt(
+            "Enter the learner's email address:"
+        );
+
+
+    if (
+        !email ||
+        !email.includes("@")
+    ) {
+
+        alert(
+            "❌ Please enter a valid email address."
+        );
+
+
+        return;
+    }
+
+
+    const subject =
+        prompt(
+            "Enter the email subject:",
+            "Grade 12 Hub - Important Notice"
+        );
+
+
+    if (!subject) return;
+
+
+    const message =
+        prompt(
+            "Enter the message you want to send:"
+        );
+
+
+    if (!message) return;
+
+
+    const confirmed =
+        confirm(
+
+            "Send this email?\n\n" +
+
+            "To: " +
+            email +
+
+            "\n\n" +
+
+            "Subject: " +
+            subject +
+
+            "\n\n" +
+
+            "Message:\n" +
+            message
+        );
+
+
+    if (!confirmed) return;
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                "https://grade12-app.vercel.app/api/send-email",
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            to:
+                                email,
+
+                            subject:
+                                subject,
+
+                            message:
+                                message
+
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            console.error(
+                data
+            );
+
+
+            alert(
+
+                "❌ Email could not be sent.\n\n" +
+
+                (
+                    data.error ||
+                    "Unknown error."
+                )
+
+            );
+
+
+            return;
+        }
+
+
+        alert(
+            "✅ Email sent successfully!"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "❌ Could not connect to the email server."
+        );
+    }
 }
 
+
+/* =====================================
+   LOG OUT
+===================================== */
 
 async function logout() {
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient
+        .auth
+        .signOut();
 
-    window.location.href = "login.html";
+
+    window.location.href =
+        "login.html";
 }
 
 
-function escapeHTML(value) {
+/* =====================================
+   HELPERS
+===================================== */
+
+function escapeHTML(
+    value
+) {
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
-function formatDate(date) {
+function formatDate(
+    date
+) {
 
-    return new Date(date).toLocaleString();
+    return new Date(date)
+        .toLocaleString();
 }
 
+
+/* =====================================
+   START ADMIN DASHBOARD
+===================================== */
 
 checkAdmin();
 
 </script>
 
 </body>
-      </html>
+    </html>
