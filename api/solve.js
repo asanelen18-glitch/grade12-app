@@ -50,11 +50,29 @@ export default async function handler(req, res) {
                 "Give the learner a helpful hint without immediately giving the final answer.";
         } else if (mode === "check") {
             task =
-                "Check the learner's answer and explain whether it is correct. If it is wrong, explain how to correct it.";
+                "Check the learner's answer carefully. Clearly say whether it is correct or incorrect. Explain why. If it is incorrect, give the correct answer and explain the mistake.";
         } else {
             task =
                 "Solve the question and explain the solution clearly, step by step.";
         }
+
+        const languageInstruction = `
+IMPORTANT LANGUAGE RULE:
+
+The learner selected: ${language}
+
+Your entire response MUST be written in ${language}.
+
+Do not answer in English unless the selected language is English.
+
+Do not translate only part of the answer.
+
+All explanations, instructions, headings, conclusions and feedback must be in ${language}.
+
+Keep mathematical symbols, equations, numbers and scientific notation unchanged when necessary.
+
+If the learner's question is written in another language, still answer in ${language} because that is the language selected by the learner.
+`;
 
         const response = await fetch(
             "https://api.openai.com/v1/responses",
@@ -73,15 +91,18 @@ export default async function handler(req, res) {
                     instructions:
                         `You are the Grade 12 Hub AI Study Helper.
 
-Help Grade 12 learners understand schoolwork.
+You help Grade 12 learners understand schoolwork.
 
 ${task}
 
-Use simple language.
+Use simple Grade 12 level language.
 Show important calculations and reasoning.
 Do not skip important steps.
-Respond in ${language}.
-If an uploaded image is unclear, tell the learner.`,
+Do not make up information.
+
+${languageInstruction}
+
+If an uploaded image is unclear, tell the learner in the selected language.`,
 
                     input: [
                         {
@@ -105,11 +126,8 @@ If an uploaded image is unclear, tell the learner.`,
             });
         }
 
-        // First try OpenAI's convenience text field.
         let answer = data.output_text;
 
-        // If output_text is not available, extract text
-        // from the response output items.
         if (!answer && Array.isArray(data.output)) {
             const parts = [];
 
@@ -153,4 +171,4 @@ If an uploaded image is unclear, tell the learner.`,
                 "Server error: " + error.message
         });
     }
-                    }
+}
