@@ -4,1697 +4,525 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Grade 12 Hub</title>
-
-    <link rel="manifest" href="manifest.json">
-
-    <meta name="theme-color" content="#4f46e5">
-
-    <!-- SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Admin Dashboard - Grade 12 Hub</title>
 
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
             background: #f4f6f8;
-            color: #222;
+            margin: 0;
+            padding: 0;
         }
 
         header {
-            background: #4f46e5;
+            background: #111827;
             color: white;
             padding: 20px;
             text-align: center;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-
-        header p {
-            margin: 8px 0 0;
-            font-size: 15px;
-        }
-
         .container {
-            width: 92%;
-            max-width: 900px;
-            margin: 25px auto;
-        }
-
-        .welcome {
-            background: white;
+            max-width: 1000px;
+            margin: 30px auto;
             padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-
-        .welcome h2 {
-            margin-top: 0;
-            color: #4f46e5;
-        }
-
-        .welcome p {
-            color: #555;
-        }
-
-        .goal {
-            background: #eef2ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            color: #333;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
         }
 
         .card {
             background: white;
-            padding: 22px;
-            border-radius: 15px;
-            text-decoration: none;
-            color: #222;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            transition: 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card .icon {
-            font-size: 35px;
-            margin-bottom: 10px;
-        }
-
-        .card h3 {
-            margin: 5px 0;
-            color: #4f46e5;
-        }
-
-        .card p {
-            margin: 5px 0 0;
-            color: #666;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .coming-soon {
-            cursor: pointer;
-        }
-
-        .creator {
-            background: white;
-            margin-top: 25px;
+            border-radius: 12px;
             padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
 
-        .creator h3 {
-            color: #4f46e5;
-            margin-top: 0;
-        }
-
-        .creator p {
-            margin: 8px 0;
-        }
-
-        /* ACCOUNT AREA */
-
-        .account-area {
-            text-align: center;
+        .report {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
             margin-top: 15px;
         }
 
-        .account-email {
-            font-size: 13px;
-            opacity: 0.9;
-            word-break: break-word;
-        }
-
-        .logout-button {
-            margin-top: 10px;
-            padding: 9px 18px;
+        button {
             border: none;
             border-radius: 8px;
-            background: white;
-            color: #4f46e5;
-            font-weight: bold;
+            padding: 10px 15px;
             cursor: pointer;
+            margin: 5px;
         }
 
-        .logout-button:hover {
-            background: #eef2ff;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #777;
-            font-size: 13px;
-        }
-
-
-        /* =====================================
-           FIRST-TIME PROFILE SETUP
-           ===================================== */
-
-        #profileSetupOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #f4f6f8;
-            z-index: 9999;
-            overflow-y: auto;
-            display: none;
-        }
-
-        .setup-container {
-            width: 92%;
-            max-width: 600px;
-            margin: 30px auto;
-        }
-
-        .setup-box {
-            background: white;
-            padding: 25px;
-            border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-        }
-
-        .setup-box h2 {
-            color: #4f46e5;
-            margin-top: 0;
-            text-align: center;
-        }
-
-        .intro {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-top: 18px;
-            margin-bottom: 7px;
-        }
-
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            font-size: 16px;
-            font-family: Arial, sans-serif;
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-
-        /* SCHOOL SEARCH */
-
-        .school-help {
-            font-size: 13px;
-            color: #777;
-            margin-top: 5px;
-        }
-
-
-        /* GRADE 12 DISPLAY */
-
-        .grade-display {
-            width: 100%;
-            padding: 14px;
-            background: #eef2ff;
-            border: 1px solid #c7d2fe;
-            border-radius: 10px;
-            color: #4f46e5;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-
-        /* SUBJECTS */
-
-        .subjects {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .subject-option {
-            background: #f4f6f8;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: normal;
-            margin: 0;
-            cursor: pointer;
-        }
-
-        .subject-option:hover {
-            background: #eef2ff;
-        }
-
-        .subject-option input {
-            margin-right: 8px;
-        }
-
-
-        /* SUBJECT LOCK */
-
-        .subject-lock-note {
-            background: #fff7ed;
-            border: 1px solid #fed7aa;
-            color: #9a3412;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
-
-        /* TERMS */
-
-        .terms-box {
-            background: #f8fafc;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 10px;
-            max-height: 220px;
-            overflow-y: auto;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .terms-box h3 {
-            color: #4f46e5;
-            margin-top: 0;
-        }
-
-        .terms-check {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            background: #eef2ff;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-weight: normal;
-        }
-
-        .terms-check input {
-            margin-top: 3px;
-        }
-
-
-        /* SAVE BUTTON */
-
-        .save-button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 25px;
-            background: #4f46e5;
+        .review {
+            background: #2563eb;
             color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
         }
 
-        .save-button:hover {
-            background: #4338ca;
+        .warning {
+            background: #f59e0b;
+            color: white;
         }
 
-        .save-button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
+        .suspend {
+            background: #7c3aed;
+            color: white;
         }
 
-        .required-note {
-            color: #777;
-            font-size: 13px;
-            margin-top: 15px;
-            text-align: center;
+        .remove {
+            background: #dc2626;
+            color: white;
         }
 
-
-        /* MOBILE */
-
-        @media (max-width: 500px) {
-
-            .subjects {
-                grid-template-columns: 1fr;
-            }
-
-            header h1 {
-                font-size: 24px;
-            }
-
-            .setup-box {
-                padding: 20px;
-            }
-
+        .email {
+            background: #059669;
+            color: white;
         }
 
+        .logout {
+            background: #374151;
+            color: white;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #e5e7eb;
+        }
+
+        #reports {
+            margin-top: 20px;
+        }
     </style>
 </head>
 
-
 <body>
 
+<header>
+    <h1>🛡️ Grade 12 Hub Admin Dashboard</h1>
+    <p>Reports and Moderation</p>
+</header>
 
-    <!-- =====================================
-         HEADER
-         ===================================== -->
+<div class="container">
 
-    <header>
+    <div class="card">
+        <h2>Admin</h2>
 
-        <h1>🎓 Grade 12 Hub</h1>
-
-        <p>
-            Your study companion for Grade 12
-        </p>
-
-        <div class="account-area">
-
-            <div
-                class="account-email"
-                id="accountEmail">
-                Checking account...
-            </div>
-
-            <button
-                class="logout-button"
-                id="logoutButton">
-                Logout
-            </button>
-
+        <div id="adminInfo" class="status">
+            Checking administrator access...
         </div>
 
-    </header>
-
-
-
-    <!-- =====================================
-         HOME PAGE
-         ===================================== -->
-
-    <main class="container">
-
-
-        <section class="welcome">
-
-            <h2 id="welcomeMessage">
-                Welcome to Grade 12 Hub! 👋
-            </h2>
-
-            <p>
-                Learn, revise, practise and prepare for your future.
-            </p>
-
-            <div class="goal" id="homeGoal">
-
-                🎯 Set your study goal when you first enter the app.
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =====================================
-             APP FEATURES
-             ===================================== -->
-
-        <section class="cards">
-
-
-            <!-- PAST PAPERS -->
-
-            <a class="card" href="past-papers.html">
-
-                <div class="icon">
-                    📚
-                </div>
-
-                <h3>
-                    Past Papers
-                </h3>
-
-                <p>
-                    Access Grade 12 past question papers and memoranda.
-                </p>
-
-            </a>
-
-
-
-            <!-- STUDY NOTES -->
-
-            <a class="card" href="notes.html">
-
-                <div class="icon">
-                    📝
-                </div>
-
-                <h3>
-                    Study Notes
-                </h3>
-
-                <p>
-                    Revise important topics, definitions and formulas.
-                </p>
-
-            </a>
-
-
-
-            <!-- AI HELPER -->
-
-            <a class="card" href="ai-helper.html">
-
-                <div class="icon">
-                    🤖
-                </div>
-
-                <h3>
-                    AI Study Helper
-                </h3>
-
-                <p>
-                    Ask questions and get step-by-step explanations.
-                </p>
-
-            </a>
-
-
-
-            <!-- STUDY GROUPS -->
-
-            <a class="card" href="study-groups.html">
-
-                <div class="icon">
-                    👥
-                </div>
-
-                <h3>
-                    Study Groups
-                </h3>
-
-                <p>
-                    Join subject groups and study with other learners.
-                </p>
-
-            </a>
-
-
-
-            <!-- MOTIVATION -->
-
-            <div
-                class="card coming-soon"
-                onclick="showComingSoon('Motivation')"
-            >
-
-                <div class="icon">
-                    🔥
-                </div>
-
-                <h3>
-                    Motivation
-                </h3>
-
-                <p>
-                    Get study motivation and exam tips.
-                </p>
-
-            </div>
-
-
-
-            <!-- VARSITY -->
-
-            <div
-                class="card coming-soon"
-                onclick="showComingSoon('Varsity Applications')"
-            >
-
-                <div class="icon">
-                    🎓
-                </div>
-
-                <h3>
-                    Apply to Varsity
-                </h3>
-
-                <p>
-                    Find university application information.
-                </p>
-
-            </div>
-
-
-
-            <!-- PROFILE -->
-
-            <a class="card" href="profile.html">
-
-                <div class="icon">
-                    👤
-                </div>
-
-                <h3>
-                    My Profile
-                </h3>
-
-                <p>
-                    View and update your learner profile and goals.
-                </p>
-
-            </a>
-
-
-
-            <!-- CAREER GUIDANCE -->
-
-            <div
-                class="card coming-soon"
-                onclick="showComingSoon('Career Guidance')"
-            >
-
-                <div class="icon">
-                    💼
-                </div>
-
-                <h3>
-                    Career Guidance
-                </h3>
-
-                <p>
-                    Explore careers and possible study choices.
-                </p>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =====================================
-             CREATOR CREDIT
-             ===================================== -->
-
-        <section class="creator">
-
-            <h3>
-                Created By
-            </h3>
-
-            <p>
-                <strong>MH Masina</strong>
-            </p>
-
-            <p>
-                <strong>NP Machete</strong>
-            </p>
-
-            <p>
-                Grade 12 Hub
-            </p>
-
-        </section>
-
-
-    </main>
-
-
-
-    <!-- =====================================
-         FOOTER
-         ===================================== -->
-
-    <footer>
-
-        Created by MH Masina & NP Machete
-
-    </footer>
-
-
-
-    <!-- =====================================
-         FIRST-TIME PROFILE SETUP
-         ===================================== -->
-
-    <div id="profileSetupOverlay">
-
-
-        <div class="setup-container">
-
-
-            <div class="setup-box">
-
-
-                <h2>
-                    👋 Welcome to Grade 12 Hub
-                </h2>
-
-
-                <p class="intro">
-                    Let's set up your learner profile before you enter the app.
-                </p>
-
-
-
-                <!-- FULL NAME -->
-
-                <label for="fullName">
-                    Full Name
-                </label>
-
-                <input
-                    type="text"
-                    id="fullName"
-                    placeholder="Enter your full name"
-                >
-
-
-
-                <!-- PROVINCE -->
-
-                <label for="province">
-                    Province
-                </label>
-
-                <input
-                    type="text"
-                    id="province"
-                    placeholder="Example: North West"
-                >
-
-
-
-                <!-- AREA -->
-
-                <label for="area">
-                    Area / Town
-                </label>
-
-                <input
-                    type="text"
-                    id="area"
-                    placeholder="Example: Mafikeng"
-                >
-
-
-
-                <!-- SCHOOL -->
-
-                <label for="school">
-                    School
-                </label>
-
-                <input
-                    type="text"
-                    id="school"
-                    placeholder="Search or enter your school name"
-                >
-
-                <div class="school-help">
-                    Your school will later be connected to the official South African NSC school list.
-                </div>
-
-
-
-                <!-- GRADE -->
-
-                <label>
-                    Grade
-                </label>
-
-                <div class="grade-display">
-                    🎓 Grade 12
-                </div>
-
-
-
-                <!-- SUBJECTS -->
-
-                <label>
-                    Your Subjects
-                </label>
-
-                <div class="subjects" id="subjectsContainer">
-
-                    Loading subjects...
-
-                </div>
-
-                <div class="subject-lock-note">
-
-                    🔒 Your selected subjects will be permanently locked after you create your profile.
-                    You will not be able to change them yourself. If you selected the wrong subject,
-                    you will need to request a correction.
-
-                </div>
-
-
-
-                <!-- STUDY GOAL -->
-
-                <label for="studyGoal">
-                    What is your study goal?
-                </label>
-
-                <textarea
-                    id="studyGoal"
-                    placeholder="Example: I want to improve my Mathematics mark and pass Grade 12 with good results."
-                ></textarea>
-
-
-
-                <!-- TERMS -->
-
-                <label>
-                    Terms & Conditions and Community Rules
-                </label>
-
-                <div class="terms-box">
-
-                    <h3>
-                        Grade 12 Hub Community Rules
-                    </h3>
-
-                    <p>
-                        Grade 12 Hub is a learning community for Grade 12 learners.
-                        By using the app, you agree to use it responsibly and respectfully.
-                    </p>
-
-                    <p>
-                        1. Respect other learners, teachers, creators and moderators.
-                    </p>
-
-                    <p>
-                        2. No bullying, harassment, threats, hate speech or intimidation.
-                    </p>
-
-                    <p>
-                        3. Do not send inappropriate sexual content, nude images or other
-                        inappropriate material.
-                    </p>
-
-                    <p>
-                        4. Do not share phone numbers, private contact information,
-                        passwords or another person's private information.
-                    </p>
-
-                    <p>
-                        5. Do not use abusive or seriously inappropriate language.
-                    </p>
-
-                    <p>
-                        6. Do not spam, scam, impersonate another person or deliberately
-                        disrupt study groups.
-                    </p>
-
-                    <p>
-                        7. Study groups must be used for educational and appropriate
-                        learner-to-learner discussion.
-                    </p>
-
-                    <p>
-                        8. Do not share harmful or illegal content.
-                    </p>
-
-                    <p>
-                        9. Do not attempt to bypass subject or group access restrictions.
-                    </p>
-
-                    <p>
-                        10. Inappropriate content may be blocked before it becomes visible.
-                    </p>
-
-                    <p>
-                        11. Learners can report inappropriate messages or users.
-                    </p>
-
-                    <p>
-                        12. Violations may result in a warning, temporary restriction,
-                        removal from a group or account blocking. Serious violations
-                        may result in immediate account action.
-                    </p>
-
-                    <p>
-                        13. Grade 12 Hub may update these rules when necessary to keep
-                        the learning community safe.
-                    </p>
-
-                </div>
-
-
-
-                <label class="terms-check">
-
-                    <input
-                        type="checkbox"
-                        id="acceptTerms"
-                    >
-
-                    <span>
-                        I have read and agree to the Grade 12 Hub Terms & Conditions
-                        and Community Rules.
-                    </span>
-
-                </label>
-
-
-
-                <!-- SAVE -->
-
-                <button
-                    class="save-button"
-                    id="saveProfileButton"
-                    onclick="saveFirstProfile()"
-                >
-
-                    Save & Enter App
-
-                </button>
-
-
-
-                <p class="required-note">
-
-                    Your profile is securely connected to your Grade 12 Hub account.
-
-                </p>
-
-
-            </div>
-
-        </div>
-
+        <button class="logout" onclick="logout()">
+            Log Out
+        </button>
     </div>
 
+    <div class="card">
+        <h2>📋 Reports</h2>
 
+        <button class="review" onclick="loadReports()">
+            Refresh Reports
+        </button>
 
-    <script>
+        <div id="reports">
+            Loading reports...
+        </div>
+    </div>
 
-        /* =====================================
-           SUPABASE SETTINGS
-           ===================================== */
+</div>
 
-        const SUPABASE_URL =
-            "https://hdlhhbnawltisszzsbvw.supabase.co";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        const SUPABASE_PUBLISHABLE_KEY =
-            "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+<script>
 
+const SUPABASE_URL =
+    "https://hdlhhbnawltisszzsbvw.supabase.co";
 
-        /* =====================================
-           CREATE SUPABASE CLIENT
-           ===================================== */
+const SUPABASE_KEY =
+    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
-        const supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_PUBLISHABLE_KEY
-            );
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
+const ADMIN_ID =
+    "a11226b7-7463-497f-9e90-837d6ec16d60";
 
-        let currentUser = null;
 
+async function checkAdmin() {
 
+    const {
+        data: { user },
+        error
+    } = await supabaseClient.auth.getUser();
 
-        /* =====================================
-           CHECK SUPABASE LOGIN
-           ===================================== */
+    if (error || !user) {
 
-        async function checkSupabaseUser() {
+        document.getElementById("adminInfo").innerHTML =
+            "❌ You must be logged in.";
 
-            const {
-                data,
-                error
-            } = await supabaseClient.auth.getUser();
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1500);
 
+        return false;
+    }
 
-            if (error || !data.user) {
+    if (user.id !== ADMIN_ID) {
 
-                window.location.href =
-                    "login.html";
+        document.getElementById("adminInfo").innerHTML =
+            "❌ Access denied. You are not an administrator.";
 
-                return null;
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 2000);
 
-            }
+        return false;
+    }
 
+    document.getElementById("adminInfo").innerHTML =
+        "✅ Administrator access confirmed.";
 
-            currentUser = data.user;
+    return true;
+}
 
 
-            document.getElementById(
-                "accountEmail"
-            ).textContent =
-                "Logged in as: " +
-                data.user.email;
+async function loadReports() {
 
+    const allowed = await checkAdmin();
 
-            return data.user;
+    if (!allowed) return;
 
-        }
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("user_reports")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
 
+    if (error) {
 
+        document.getElementById("reports").innerHTML =
+            "❌ Could not load reports.";
 
-        /* =====================================
-           LOAD SUBJECTS FROM SUPABASE
-           ===================================== */
+        console.error(error);
 
-        async function loadSubjects() {
+        return;
+    }
 
-            const container =
-                document.getElementById(
-                    "subjectsContainer"
-                );
+    if (!data || data.length === 0) {
 
-
-            const {
-                data,
-                error
-            } = await supabaseClient
-                .from("nsc_subjects")
-                .select("subject_name")
-                .order("subject_name");
-
-
-            if (error) {
-
-                console.error(error);
-
-                container.innerHTML =
-                    "Unable to load subjects. Please refresh the page.";
-
-                return;
-
-            }
-
-
-            container.innerHTML = "";
-
-
-            data.forEach(
-                function(subject) {
-
-                    const label =
-                        document.createElement("label");
-
-                    label.className =
-                        "subject-option";
-
-
-                    const checkbox =
-                        document.createElement("input");
-
-                    checkbox.type =
-                        "checkbox";
-
-                    checkbox.value =
-                        subject.subject_name;
-
-
-                    label.appendChild(
-                        checkbox
-                    );
-
-
-                    label.appendChild(
-                        document.createTextNode(
-                            " " + subject.subject_name
-                        )
-                    );
-
-
-                    container.appendChild(
-                        label
-                    );
-
-                }
-            );
-
-        }
-
-
-
-        /* =====================================
-           LOAD EXISTING DATABASE PROFILE
-           ===================================== */
-
-        async function loadDatabaseProfile() {
-
-            if (!currentUser) {
-                return null;
-            }
-
-
-            const {
-                data,
-                error
-            } = await supabaseClient
-                .from("learner_profiles")
-                .select("*")
-                .eq("user_id", currentUser.id)
-                .maybeSingle();
-
-
-            if (error) {
-
-                console.error(
-                    "Profile loading error:",
-                    error
-                );
-
-                return null;
-
-            }
-
-
-            return data;
-
-        }
-
-
-
-        /* =====================================
-           LOGOUT
-           ===================================== */
-
-        document.getElementById(
-            "logoutButton"
-        ).addEventListener(
-            "click",
-            async function() {
-
-                const {
-                    error
-                } = await supabaseClient.auth.signOut();
-
-
-                if (error) {
-
-                    alert(error.message);
-
-                    return;
-
-                }
-
-
-                window.location.href =
-                    "login.html";
-
-            }
+        document.getElementById("reports").innerHTML =
+            "No reports found.";
+
+        return;
+    }
+
+    let html = "";
+
+    data.forEach(report => {
+
+        html += `
+            <div class="report">
+
+                <h3>Report #${report.id}</h3>
+
+                <p>
+                    <strong>Reason:</strong>
+                    ${escapeHTML(report.reason)}
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    ${escapeHTML(
+                        report.description || "No description"
+                    )}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${escapeHTML(report.status)}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${formatDate(report.created_at)}
+                </p>
+
+                <button
+                    class="review"
+                    onclick="reviewReport('${report.id}')">
+                    🔎 Review
+                </button>
+
+                <button
+                    class="warning"
+                    onclick="moderationAction(
+                        '${report.id}',
+                        'warning'
+                    )">
+                    ⚠️ Warning
+                </button>
+
+                <button
+                    class="suspend"
+                    onclick="moderationAction(
+                        '${report.id}',
+                        'suspension'
+                    )">
+                    ⏸️ Suspend
+                </button>
+
+                <button
+                    class="remove"
+                    onclick="moderationAction(
+                        '${report.id}',
+                        'removal'
+                    )">
+                    🚫 Remove
+                </button>
+
+                <button
+                    class="email"
+                    onclick="sendEmail('${report.id}')">
+                    📧 Send Email
+                </button>
+
+            </div>
+        `;
+    });
+
+    document.getElementById("reports").innerHTML = html;
+}
+
+
+/* ================================
+   REVIEW REPORT
+================================ */
+
+async function reviewReport(reportId) {
+
+    const allowed = await checkAdmin();
+
+    if (!allowed) return;
+
+    const {
+        data: report,
+        error
+    } = await supabaseClient
+        .from("user_reports")
+        .select("*")
+        .eq("id", reportId)
+        .single();
+
+    if (error || !report) {
+
+        alert("❌ Could not find this report.");
+
+        console.error(error);
+
+        return;
+    }
+
+    const details =
+        "📋 REPORT DETAILS\n\n" +
+
+        "Report ID:\n" +
+        report.id +
+        "\n\n" +
+
+        "Reported User ID:\n" +
+        (
+            report.reported_user_id ||
+            "Not available"
+        ) +
+        "\n\n" +
+
+        "Reason:\n" +
+        report.reason +
+        "\n\n" +
+
+        "Description:\n" +
+        (
+            report.description ||
+            "No description"
+        ) +
+        "\n\n" +
+
+        "Status:\n" +
+        report.status +
+        "\n\n" +
+
+        "Created:\n" +
+        formatDate(report.created_at);
+
+    alert(details);
+
+    if (report.status === "pending") {
+
+        const updateStatus = confirm(
+            "Mark this report as REVIEWING?"
         );
 
-
-
-        /* =====================================
-           CHECK FIRST-TIME USER
-           ===================================== */
-
-        async function checkFirstTimeUser() {
-
-            const databaseProfile =
-                await loadDatabaseProfile();
-
-
-            /*
-             * DATABASE PROFILE EXISTS
-             */
-
-            if (databaseProfile) {
-
-                /*
-                 * Save a local copy too.
-                 */
-
-                localStorage.setItem(
-                    "grade12_profile_created",
-                    "true"
-                );
-
-                localStorage.setItem(
-                    "grade12_name",
-                    databaseProfile.full_name
-                );
-
-                localStorage.setItem(
-                    "grade12_grade",
-                    "Grade 12"
-                );
-
-                localStorage.setItem(
-                    "grade12_subjects",
-                    JSON.stringify(
-                        databaseProfile.subjects
-                    )
-                );
-
-                localStorage.setItem(
-                    "grade12_goal",
-                    databaseProfile.study_goal || ""
-                );
-
-
-                loadHomeProfile();
-
-
-                return;
-
-            }
-
-
-
-            /*
-             * NO DATABASE PROFILE
-             */
-
-            document.getElementById(
-                "profileSetupOverlay"
-            ).style.display =
-                "block";
-
-
-            document.body.style.overflow =
-                "hidden";
-
-
-            await loadSubjects();
-
-        }
-
-
-
-        /* =====================================
-           SAVE FIRST PROFILE
-           ===================================== */
-
-        async function saveFirstProfile() {
-
-            if (!currentUser) {
-
-                alert(
-                    "Please log in again."
-                );
-
-                return;
-
-            }
-
-
-            const button =
-                document.getElementById(
-                    "saveProfileButton"
-                );
-
-
-            const name =
-                document.getElementById(
-                    "fullName"
-                ).value.trim();
-
-
-            const province =
-                document.getElementById(
-                    "province"
-                ).value.trim();
-
-
-            const area =
-                document.getElementById(
-                    "area"
-                ).value.trim();
-
-
-            const school =
-                document.getElementById(
-                    "school"
-                ).value.trim();
-
-
-            const goal =
-                document.getElementById(
-                    "studyGoal"
-                ).value.trim();
-
-
-            const termsAccepted =
-                document.getElementById(
-                    "acceptTerms"
-                ).checked;
-
-
-
-            const subjectCheckboxes =
-                document.querySelectorAll(
-                    '#subjectsContainer input[type="checkbox"]'
-                );
-
-
-            const subjects = [];
-
-
-            subjectCheckboxes.forEach(
-                function(checkbox) {
-
-                    if (checkbox.checked) {
-
-                        subjects.push(
-                            checkbox.value
-                        );
-
-                    }
-
-                }
-            );
-
-
-
-            /* VALIDATE NAME */
-
-            if (name === "") {
-
-                alert(
-                    "Please enter your full name."
-                );
-
-                return;
-
-            }
-
-
-
-            /* VALIDATE PROVINCE */
-
-            if (province === "") {
-
-                alert(
-                    "Please enter your province."
-                );
-
-                return;
-
-            }
-
-
-
-            /* VALIDATE AREA */
-
-            if (area === "") {
-
-                alert(
-                    "Please enter your area or town."
-                );
-
-                return;
-
-            }
-
-
-
-            /* VALIDATE SCHOOL */
-
-            if (school === "") {
-
-                alert(
-                    "Please enter your school."
-                );
-
-                return;
-
-            }
-
-
-
-            /* VALIDATE SUBJECTS */
-
-            if (subjects.length === 0) {
-
-                alert(
-                    "Please select at least one subject."
-                );
-
-                return;
-
-            }
-
-
-
-            /* VALIDATE GOAL */
-
-            if (goal === "") {
-
-                alert(
-                    "Please enter your study goal."
-                );
-
-                return;
-
-            }
-
-
-
-            /* VALIDATE TERMS */
-
-            if (!termsAccepted) {
-
-                alert(
-                    "You must accept the Terms & Conditions and Community Rules before entering Grade 12 Hub."
-                );
-
-                return;
-
-            }
-
-
-
-            button.disabled =
-                true;
-
-            button.textContent =
-                "Saving profile...";
-
-
-
-            /*
-             * INSERT PROFILE INTO SUPABASE
-             */
-
-            const {
-                data,
-                error
-            } = await supabaseClient
-                .from("learner_profiles")
-                .insert({
-                    user_id: currentUser.id,
-                    full_name: name,
-                    grade: 12,
-                    province: province,
-                    area: area,
-                    school: school,
-                    subjects: subjects,
-                    study_goal: goal,
-                    terms_accepted: true,
-                    terms_accepted_at: new Date().toISOString(),
-                    subjects_locked: true
-                })
-                .select()
-                .single();
-
-
-
-            if (error) {
-
-                console.error(error);
-
-                button.disabled =
-                    false;
-
-                button.textContent =
-                    "Save & Enter App";
-
-
-                alert(
-                    "Your profile could not be saved.\n\n" +
-                    error.message
-                );
-
-                return;
-
-            }
-
-
-
-            /*
-             * SAVE TERMS ACCEPTANCE
-             */
-
-            const {
-                error: termsError
-            } = await supabaseClient
-                .from("terms_acceptance")
-                .insert({
-                    user_id: currentUser.id,
-                    accepted: true,
-                    accepted_at: new Date().toISOString(),
-                    terms_version: "1.0"
-                });
-
-
-
-            /*
-             * If the terms record already exists,
-             * the profile has still been successfully saved.
-             */
-
-            if (
-                termsError &&
-                termsError.code !== "23505"
-            ) {
-
-                console.error(
-                    "Terms error:",
-                    termsError
-                );
-
-            }
-
-
-
-            /* =================================
-               KEEP LOCAL STORAGE
-               ================================= */
-
-            localStorage.setItem(
-                "grade12_name",
-                name
-            );
-
-
-            localStorage.setItem(
-                "grade12_grade",
-                "Grade 12"
-            );
-
-
-            localStorage.setItem(
-                "grade12_subjects",
-                JSON.stringify(subjects)
-            );
-
-
-            localStorage.setItem(
-                "grade12_goal",
-                goal
-            );
-
-
-            localStorage.setItem(
-                "grade12_profile_created",
-                "true"
-            );
-
-
-
-            /* =================================
-               CLOSE SETUP
-               ================================= */
-
-            document.getElementById(
-                "profileSetupOverlay"
-            ).style.display =
-                "none";
-
-
-            document.body.style.overflow =
-                "auto";
-
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                "Save & Enter App";
-
-
-
-            /* =================================
-               UPDATE HOME
-               ================================= */
-
-            loadHomeProfile();
-
-
+        if (!updateStatus) return;
+
+        const {
+            error: updateError
+        } = await supabaseClient
+            .from("user_reports")
+            .update({
+                status: "reviewing"
+            })
+            .eq("id", reportId);
+
+        if (updateError) {
+
+            console.error(updateError);
 
             alert(
-                "Welcome to Grade 12 Hub, " +
-                name +
-                "! 🎯\n\n" +
-                "Your profile has been saved.\n\n" +
-                "Your selected subjects are now locked."
+                "❌ Could not update the report status."
             );
 
+            return;
         }
 
-
-
-        /* =====================================
-           LOAD PROFILE ON HOME
-           ===================================== */
-
-        function loadHomeProfile() {
-
-            const name =
-                localStorage.getItem(
-                    "grade12_name"
-                );
-
-
-            const goal =
-                localStorage.getItem(
-                    "grade12_goal"
-                );
-
-
-            if (name) {
-
-                document.getElementById(
-                    "welcomeMessage"
-                ).textContent =
-                    "Welcome back, " +
-                    name +
-                    "! 👋";
-
-            }
-
-
-            if (goal) {
-
-                document.getElementById(
-                    "homeGoal"
-                ).textContent =
-                    "🎯 Your goal: " +
-                    goal;
-
-            }
-
-        }
-
-
-
-        /* =====================================
-           COMING SOON
-           ===================================== */
-
-        function showComingSoon(feature) {
-
-            alert(
-                feature +
-                " is coming soon! 🚀"
-            );
-
-        }
-
-
-
-        /* =====================================
-           START APP
-           ===================================== */
-
-        window.addEventListener(
-            "load",
-            async function() {
-
-                const user =
-                    await checkSupabaseUser();
-
-
-                if (!user) {
-
-                    return;
-
-                }
-
-
-                await checkFirstTimeUser();
-
-            }
+        alert(
+            "✅ Report is now marked as REVIEWING."
         );
 
+        loadReports();
+    }
+}
 
 
-        /* =====================================
-           SERVICE WORKER
-           ===================================== */
+/* ================================
+   MODERATION ACTION
+================================ */
 
-        if ("serviceWorker" in navigator) {
+async function moderationAction(
+    reportId,
+    action
+) {
 
-            window.addEventListener(
-                "load",
-                function() {
+    const allowed = await checkAdmin();
 
-                    navigator.serviceWorker
-                        .register("service-worker.js")
-                        .then(
-                            function() {
+    if (!allowed) return;
 
-                                console.log(
-                                    "Service Worker registered."
-                                );
+    const {
+        data: report,
+        error: reportError
+    } = await supabaseClient
+        .from("user_reports")
+        .select("*")
+        .eq("id", reportId)
+        .single();
 
-                            }
-                        )
-                        .catch(
-                            function(error) {
+    if (reportError) {
 
-                                console.log(
-                                    "Service Worker registration failed:",
-                                    error
-                                );
+        alert("Could not find this report.");
 
-                            }
-                        );
+        return;
+    }
 
-                }
-            );
+    const reason =
+        prompt(
+            "Enter the reason for this moderation action:"
+        );
 
-        }
+    if (!reason) return;
 
-    </script>
+    const {
+        error
+    } = await supabaseClient
+        .from("moderation_actions")
+        .insert({
+            user_id: report.reported_user_id,
+            report_id: report.id,
+            action: action,
+            reason: reason
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "The action could not be recorded. " +
+            "The secure admin backend still needs to be connected."
+        );
+
+        return;
+    }
+
+    alert(
+        "Moderation action recorded: " +
+        action
+    );
+
+    loadReports();
+}
+
+
+/* ================================
+   SEND EMAIL
+================================ */
+
+function sendEmail(reportId) {
+
+    alert(
+        "Email system selected for report " +
+        reportId +
+        ".\n\n" +
+        "We will connect this button to the " +
+        "secure Vercel email backend next."
+    );
+}
+
+
+/* ================================
+   LOG OUT
+================================ */
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+        "login.html";
+}
+
+
+/* ================================
+   SECURITY / DISPLAY HELPERS
+================================ */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function formatDate(date) {
+
+    return new Date(date)
+        .toLocaleString();
+}
+
+
+/* ================================
+   START ADMIN DASHBOARD
+================================ */
+
+checkAdmin();
+
+</script>
 
 </body>
     </html>
