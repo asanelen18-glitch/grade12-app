@@ -58,11 +58,16 @@
             color: #4f46e5;
         }
 
+        .welcome p {
+            color: #555;
+        }
+
         .goal {
             background: #eef2ff;
             padding: 15px;
             border-radius: 10px;
             margin-top: 15px;
+            color: #333;
         }
 
         .cards {
@@ -99,6 +104,7 @@
             margin: 5px 0 0;
             color: #666;
             font-size: 14px;
+            line-height: 1.5;
         }
 
         .coming-soon {
@@ -119,6 +125,10 @@
             margin-top: 0;
         }
 
+        .creator p {
+            margin: 8px 0;
+        }
+
         footer {
             text-align: center;
             padding: 25px;
@@ -126,7 +136,10 @@
             font-size: 13px;
         }
 
-        /* FIRST-TIME SETUP */
+
+        /* =====================================
+           FIRST-TIME PROFILE SETUP
+           ===================================== */
 
         #profileSetupOverlay {
             position: fixed;
@@ -159,10 +172,11 @@
             text-align: center;
         }
 
-        .setup-box .intro {
+        .intro {
             text-align: center;
             color: #666;
             margin-bottom: 25px;
+            line-height: 1.5;
         }
 
         label {
@@ -173,7 +187,6 @@
         }
 
         input[type="text"],
-        select,
         textarea {
             width: 100%;
             padding: 13px;
@@ -187,6 +200,23 @@
             min-height: 100px;
             resize: vertical;
         }
+
+
+        /* GRADE 12 DISPLAY */
+
+        .grade-display {
+            width: 100%;
+            padding: 14px;
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 10px;
+            color: #4f46e5;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+
+        /* SUBJECTS */
 
         .subjects {
             display: grid;
@@ -204,9 +234,16 @@
             cursor: pointer;
         }
 
+        .subject-option:hover {
+            background: #eef2ff;
+        }
+
         .subject-option input {
             margin-right: 8px;
         }
+
+
+        /* SAVE BUTTON */
 
         .save-button {
             width: 100%;
@@ -232,7 +269,11 @@
             text-align: center;
         }
 
+
+        /* MOBILE */
+
         @media (max-width: 500px) {
+
             .subjects {
                 grid-template-columns: 1fr;
             }
@@ -244,23 +285,43 @@
             .setup-box {
                 padding: 20px;
             }
+
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <!-- HEADER -->
+
+    <!-- =====================================
+         HEADER
+         ===================================== -->
+
     <header>
+
         <h1>🎓 Grade 12 Hub</h1>
-        <p>Your study companion for Grade 12</p>
+
+        <p>
+            Your study companion for Grade 12
+        </p>
+
     </header>
 
 
-    <!-- MAIN HOME -->
+
+    <!-- =====================================
+         HOME PAGE
+         ===================================== -->
+
     <main class="container">
 
+
+        <!-- WELCOME -->
+
         <section class="welcome">
+
             <h2 id="welcomeMessage">
                 Welcome to Grade 12 Hub! 👋
             </h2>
@@ -269,92 +330,205 @@
                 Learn, revise, practise and prepare for your future.
             </p>
 
+
             <div class="goal" id="homeGoal">
+
                 🎯 Set your study goal when you first enter the app.
+
             </div>
+
         </section>
 
 
-        <!-- APP FEATURES -->
+
+        <!-- =====================================
+             APP FEATURES
+             ===================================== -->
+
         <section class="cards">
 
+
+            <!-- PAST PAPERS -->
+
             <a class="card" href="past-papers.html">
-                <div class="icon">📚</div>
-                <h3>Past Papers</h3>
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <h3>
+                    Past Papers
+                </h3>
+
                 <p>
                     Access Grade 12 past question papers and memoranda.
                 </p>
+
             </a>
 
 
+
+            <!-- STUDY NOTES -->
+
             <a class="card" href="notes.html">
-                <div class="icon">📝</div>
-                <h3>Study Notes</h3>
+
+                <div class="icon">
+                    📝
+                </div>
+
+                <h3>
+                    Study Notes
+                </h3>
+
                 <p>
                     Revise important topics, definitions and formulas.
                 </p>
+
             </a>
 
 
+
+            <!-- AI HELPER -->
+
             <a class="card" href="ai-helper.html">
-                <div class="icon">🤖</div>
-                <h3>AI Study Helper</h3>
+
+                <div class="icon">
+                    🤖
+                </div>
+
+                <h3>
+                    AI Study Helper
+                </h3>
+
                 <p>
                     Ask questions and get step-by-step explanations.
                 </p>
+
             </a>
 
 
+
+            <!-- STUDY GROUPS -->
+
             <a class="card" href="study-groups.html">
-                <div class="icon">👥</div>
-                <h3>Study Groups</h3>
+
+                <div class="icon">
+                    👥
+                </div>
+
+                <h3>
+                    Study Groups
+                </h3>
+
                 <p>
                     Join subject groups and study with other learners.
                 </p>
+
             </a>
 
 
-            <div class="card coming-soon" onclick="showComingSoon('Motivation')">
-                <div class="icon">🔥</div>
-                <h3>Motivation</h3>
+
+            <!-- MOTIVATION -->
+
+            <div
+                class="card coming-soon"
+                onclick="showComingSoon('Motivation')"
+            >
+
+                <div class="icon">
+                    🔥
+                </div>
+
+                <h3>
+                    Motivation
+                </h3>
+
                 <p>
                     Get study motivation and exam tips.
                 </p>
+
             </div>
 
 
-            <div class="card coming-soon" onclick="showComingSoon('Varsity Applications')">
-                <div class="icon">🎓</div>
-                <h3>Apply to Varsity</h3>
+
+            <!-- VARSITY -->
+
+            <div
+                class="card coming-soon"
+                onclick="showComingSoon('Varsity Applications')"
+            >
+
+                <div class="icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Apply to Varsity
+                </h3>
+
                 <p>
                     Find university application information.
                 </p>
+
             </div>
 
 
+
+            <!-- PROFILE -->
+
             <a class="card" href="profile.html">
-                <div class="icon">👤</div>
-                <h3>My Profile</h3>
+
+                <div class="icon">
+                    👤
+                </div>
+
+                <h3>
+                    My Profile
+                </h3>
+
                 <p>
                     View and update your learner profile and goals.
                 </p>
+
             </a>
 
 
-            <div class="card coming-soon" onclick="showComingSoon('Career Guidance')">
-                <div class="icon">💼</div>
-                <h3>Career Guidance</h3>
+
+            <!-- CAREER GUIDANCE -->
+
+            <div
+                class="card coming-soon"
+                onclick="showComingSoon('Career Guidance')"
+            >
+
+                <div class="icon">
+                    💼
+                </div>
+
+                <h3>
+                    Career Guidance
+                </h3>
+
                 <p>
                     Explore careers and possible study choices.
                 </p>
+
             </div>
+
 
         </section>
 
 
-        <!-- CREATOR CREDIT -->
+
+        <!-- =====================================
+             CREATOR CREDIT
+             ===================================== -->
+
         <section class="creator">
-            <h3>Created By</h3>
+
+            <h3>
+                Created By
+            </h3>
 
             <p>
                 <strong>MH Masina</strong>
@@ -367,36 +541,58 @@
             <p>
                 Grade 12 Hub
             </p>
+
         </section>
+
 
     </main>
 
 
-    <!-- FOOTER -->
+
+    <!-- =====================================
+         FOOTER
+         ===================================== -->
+
     <footer>
+
         Created by MH Masina & NP Machete
+
     </footer>
 
 
 
-    <!-- FIRST-TIME PROFILE SETUP -->
+    <!-- =====================================
+         FIRST-TIME PROFILE SETUP
+         ===================================== -->
+
     <div id="profileSetupOverlay">
+
 
         <div class="setup-container">
 
+
             <div class="setup-box">
 
-                <h2>👋 Welcome to Grade 12 Hub</h2>
+
+                <h2>
+                    👋 Welcome to Grade 12 Hub
+                </h2>
+
 
                 <p class="intro">
                     Let's set up your profile before you enter the app.
                 </p>
 
 
-                <!-- NAME -->
+
+                <!-- FULL NAME -->
+
                 <label for="fullName">
+
                     Full Name
+
                 </label>
+
 
                 <input
                     type="text"
@@ -405,115 +601,151 @@
                 >
 
 
+
                 <!-- GRADE -->
-                <label for="grade">
-                    Grade
-                </label>
 
-                <select id="grade">
-                    <option value="">
-                        Select your grade
-                    </option>
-
-                    <option value="Grade 12">
-                        Grade 12
-                    </option>
-
-                    <option value="Grade 11">
-                        Grade 11
-                    </option>
-
-                    <option value="Grade 10">
-                        Grade 10
-                    </option>
-                </select>
-
-
-                <!-- SUBJECTS -->
                 <label>
-                    Your Subjects
+
+                    Grade
+
                 </label>
 
-                <div class="subjects">
 
-                    <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Mathematics"
-                        >
-                        Mathematics
-                    </label>
+                <div class="grade-display">
 
-
-                    <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Physical Sciences"
-                        >
-                        Physical Sciences
-                    </label>
-
-
-                    <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Life Sciences"
-                        >
-                        Life Sciences
-                    </label>
-
-
-                    <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="English"
-                        >
-                        English
-                    </label>
-
-
-                    <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Geography"
-                        >
-                        Geography
-                    </label>
-
-
-                    <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Accounting"
-                        >
-                        Accounting
-                    </label>
-
-
-                    <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Business Studies"
-                        >
-                        Business Studies
-                    </label>
-
-
-                    <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="History"
-                        >
-                        History
-                    </label>
+                    🎓 Grade 12
 
                 </div>
 
 
-                <!-- GOAL -->
-                <label for="studyGoal">
-                    What is your study goal?
+
+                <!-- SUBJECTS -->
+
+                <label>
+
+                    Your Subjects
+
                 </label>
+
+
+                <div class="subjects">
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Mathematics"
+                        >
+
+                        Mathematics
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Physical Sciences"
+                        >
+
+                        Physical Sciences
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Life Sciences"
+                        >
+
+                        Life Sciences
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="English"
+                        >
+
+                        English
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Geography"
+                        >
+
+                        Geography
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Accounting"
+                        >
+
+                        Accounting
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="Business Studies"
+                        >
+
+                        Business Studies
+
+                    </label>
+
+
+
+                    <label class="subject-option">
+
+                        <input
+                            type="checkbox"
+                            value="History"
+                        >
+
+                        History
+
+                    </label>
+
+
+                </div>
+
+
+
+                <!-- STUDY GOAL -->
+
+                <label for="studyGoal">
+
+                    What is your study goal?
+
+                </label>
+
 
                 <textarea
                     id="studyGoal"
@@ -521,17 +753,26 @@
                 ></textarea>
 
 
+
+                <!-- SAVE -->
+
                 <button
                     class="save-button"
                     onclick="saveFirstProfile()"
                 >
+
                     Save & Enter App
+
                 </button>
 
 
+
                 <p class="required-note">
+
                     Your information is saved on this device.
+
                 </p>
+
 
             </div>
 
@@ -543,53 +784,62 @@
 
     <script>
 
-        /*
-         * CHECK WHETHER THIS IS THE FIRST TIME
-         * THE LEARNER IS OPENING THE APP
-         */
+
+        /* =====================================
+           CHECK FIRST-TIME USER
+           ===================================== */
 
         function checkFirstTimeUser() {
 
+
             const profileCreated =
-                localStorage.getItem("grade12_profile_created");
+                localStorage.getItem(
+                    "grade12_profile_created"
+                );
 
 
             if (profileCreated !== "true") {
+
 
                 document.getElementById(
                     "profileSetupOverlay"
                 ).style.display = "block";
 
+
                 document.body.style.overflow = "hidden";
+
 
             } else {
 
+
                 loadHomeProfile();
 
+
             }
+
         }
 
 
 
-        /*
-         * SAVE FIRST-TIME PROFILE
-         */
+        /* =====================================
+           SAVE FIRST PROFILE
+           ===================================== */
 
         function saveFirstProfile() {
 
+
             const name =
-                document.getElementById("fullName")
-                .value.trim();
+                document.getElementById(
+                    "fullName"
+                ).value.trim();
 
-
-            const grade =
-                document.getElementById("grade")
-                .value;
 
 
             const goal =
-                document.getElementById("studyGoal")
-                .value.trim();
+                document.getElementById(
+                    "studyGoal"
+                ).value.trim();
+
 
 
             const subjectCheckboxes =
@@ -598,59 +848,74 @@
                 );
 
 
+
             const subjects = [];
 
 
-            subjectCheckboxes.forEach(function(checkbox) {
 
-                if (checkbox.checked) {
-                    subjects.push(checkbox.value);
+            subjectCheckboxes.forEach(
+                function(checkbox) {
+
+
+                    if (checkbox.checked) {
+
+                        subjects.push(
+                            checkbox.value
+                        );
+
+                    }
+
                 }
-
-            });
-
+            );
 
 
-            /*
-             * VALIDATION
-             */
+
+            /* VALIDATE NAME */
 
             if (name === "") {
 
-                alert("Please enter your full name.");
+                alert(
+                    "Please enter your full name."
+                );
 
                 return;
+
             }
 
 
-            if (grade === "") {
 
-                alert("Please select your grade.");
-
-                return;
-            }
-
+            /* VALIDATE SUBJECTS */
 
             if (subjects.length === 0) {
 
-                alert("Please select at least one subject.");
+                alert(
+                    "Please select at least one subject."
+                );
 
                 return;
+
             }
 
+
+
+            /* VALIDATE GOAL */
 
             if (goal === "") {
 
-                alert("Please enter your study goal.");
+                alert(
+                    "Please enter your study goal."
+                );
 
                 return;
+
             }
 
 
 
-            /*
-             * SAVE INFORMATION
-             */
+            /* =================================
+               SAVE PROFILE INFORMATION
+               ================================= */
+
 
             localStorage.setItem(
                 "grade12_name",
@@ -658,10 +923,14 @@
             );
 
 
+
+            /* GRADE 12 ONLY */
+
             localStorage.setItem(
                 "grade12_grade",
-                grade
+                "Grade 12"
             );
+
 
 
             localStorage.setItem(
@@ -670,15 +939,16 @@
             );
 
 
+
             localStorage.setItem(
                 "grade12_goal",
                 goal
             );
 
 
+
             /*
-             * THIS MEANS THE FIRST-TIME
-             * SETUP HAS BEEN COMPLETED
+             * Mark profile setup as completed.
              */
 
             localStorage.setItem(
@@ -689,19 +959,20 @@
 
 
             /*
-             * CLOSE SETUP
+             * Close setup screen.
              */
 
             document.getElementById(
                 "profileSetupOverlay"
             ).style.display = "none";
 
+
             document.body.style.overflow = "auto";
 
 
 
             /*
-             * UPDATE HOME
+             * Update Home page.
              */
 
             loadHomeProfile();
@@ -709,8 +980,7 @@
 
 
             /*
-             * SHOW THE GOAL MESSAGE ONLY
-             * AFTER FIRST-TIME SETUP
+             * Show the goal message once.
              */
 
             alert(
@@ -725,27 +995,28 @@
 
 
 
-        /*
-         * LOAD PROFILE INFORMATION ON HOME
-         *
-         * IMPORTANT:
-         * This function does NOT show a popup.
-         * Therefore, when the learner returns
-         * from Notes, Past Papers or AI,
-         * the goal message will NOT appear again.
-         */
+        /* =====================================
+           LOAD PROFILE ON HOME
+           ===================================== */
 
         function loadHomeProfile() {
 
+
             const name =
-                localStorage.getItem("grade12_name");
+                localStorage.getItem(
+                    "grade12_name"
+                );
 
 
             const goal =
-                localStorage.getItem("grade12_goal");
+                localStorage.getItem(
+                    "grade12_goal"
+                );
+
 
 
             if (name) {
+
 
                 document.getElementById(
                     "welcomeMessage"
@@ -757,7 +1028,9 @@
             }
 
 
+
             if (goal) {
+
 
                 document.getElementById(
                     "homeGoal"
@@ -771,11 +1044,12 @@
 
 
 
-        /*
-         * COMING SOON MESSAGE
-         */
+        /* =====================================
+           COMING SOON
+           ===================================== */
 
         function showComingSoon(feature) {
+
 
             alert(
                 feature +
@@ -786,9 +1060,9 @@
 
 
 
-        /*
-         * START APP
-         */
+        /* =====================================
+           START APP
+           ===================================== */
 
         window.addEventListener(
             "load",
@@ -797,40 +1071,52 @@
 
 
 
-        /*
-         * REGISTER SERVICE WORKER
-         */
+        /* =====================================
+           SERVICE WORKER
+           ===================================== */
 
         if ("serviceWorker" in navigator) {
+
 
             window.addEventListener(
                 "load",
                 function() {
 
+
                     navigator.serviceWorker
                         .register("service-worker.js")
-                        .then(function() {
+                        .then(
+                            function() {
 
-                            console.log(
-                                "Service Worker registered."
-                            );
 
-                        })
-                        .catch(function(error) {
+                                console.log(
+                                    "Service Worker registered."
+                                );
 
-                            console.log(
-                                "Service Worker registration failed:",
-                                error
-                            );
 
-                        });
+                            }
+                        )
+                        .catch(
+                            function(error) {
+
+
+                                console.log(
+                                    "Service Worker registration failed:",
+                                    error
+                                );
+
+
+                            }
+                        );
 
                 }
             );
 
         }
 
+
     </script>
+
 
 </body>
 </html>
