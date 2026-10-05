@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Admin Dashboard - Grade 12 Hub</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Grade 12 Hub Admin Dashboard</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
             background: #f4f6f8;
-            margin: 0;
-            padding: 0;
+            color: #222;
         }
 
         header {
             background: #111827;
             color: white;
             padding: 20px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-
-        .report {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
+        header h1 {
+            margin: 0;
+            font-size: 22px;
         }
 
         button {
             border: none;
-            border-radius: 8px;
             padding: 10px 15px;
+            border-radius: 7px;
             cursor: pointer;
-            margin: 5px;
+            font-weight: bold;
+            margin: 4px;
+        }
+
+        .logout {
+            background: #ef4444;
+            color: white;
+        }
+
+        .refresh {
+            background: #2563eb;
+            color: white;
         }
 
         .review {
@@ -75,557 +85,1228 @@
             color: white;
         }
 
-        .logout {
-            background: #374151;
-            color: white;
+        button:hover {
+            opacity: 0.85;
         }
 
-        .status {
-            padding: 10px;
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .admin-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .admin-status {
+            padding: 12px;
+            background: #ecfdf5;
+            color: #065f46;
             border-radius: 8px;
-            margin-bottom: 15px;
-            background: #e5e7eb;
+            margin-top: 10px;
         }
 
-        #reports {
-            margin-top: 20px;
+        .report {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 5px solid #dc2626;
         }
+
+        .report h3 {
+            margin-top: 0;
+        }
+
+        .report hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .details-box {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .details-box img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 10px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .email-address {
+            color: #2563eb;
+            font-weight: bold;
+            word-break: break-word;
+        }
+
+        .reported-content {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .loading {
+            color: #666;
+        }
+
+        .error {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                align-items: flex-start;
+            }
+
+            header h1 {
+                font-size: 18px;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            .report {
+                padding: 15px;
+            }
+
+            button {
+                width: 100%;
+                margin: 4px 0;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <header>
-    <h1>🛡️ Grade 12 Hub Admin Dashboard</h1>
-    <p>Reports and Moderation</p>
+
+    <h1>
+        🛡️ Grade 12 Hub Admin Dashboard
+    </h1>
+
+    <button
+        class="logout"
+        onclick="logout()"
+    >
+        Logout
+    </button>
+
 </header>
+
 
 <div class="container">
 
-    <div class="card">
-        <h2>Admin</h2>
 
-        <div id="adminInfo" class="status">
+    <div class="admin-card">
+
+        <h2>
+            🔐 Administrator
+        </h2>
+
+        <p id="adminInfo">
             Checking administrator access...
+        </p>
+
+        <div
+            class="admin-status"
+            id="adminStatus"
+        >
+            Checking...
         </div>
 
-        <button class="logout" onclick="logout()">
-            Log Out
-        </button>
     </div>
 
-    <div class="card">
-        <h2>📋 Reports</h2>
 
-        <button class="review" onclick="loadReports()">
-            Refresh Reports
+    <div class="admin-card">
+
+        <h2>
+            🚨 Student Reports
+        </h2>
+
+        <button
+            class="refresh"
+            onclick="loadReports()"
+        >
+            🔄 Refresh Reports
         </button>
 
         <div id="reports">
+
             Loading reports...
+
         </div>
+
     </div>
+
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- SUPABASE -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
 
 <script>
+
+
+/* =====================================
+   SUPABASE
+===================================== */
 
 const SUPABASE_URL =
     "https://hdlhhbnawltisszzsbvw.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
+
 const supabaseClient =
-    supabase.createClient(
+    window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
+
+
+/* =====================================
+   ADMIN ID
+===================================== */
 
 const ADMIN_ID =
     "a11226b7-7463-497f-9e90-837d6ec16d60";
 
 
-/* ================================
+/* =====================================
    CHECK ADMIN
-================================ */
+===================================== */
 
 async function checkAdmin() {
 
-    const {
-        data: { user },
-        error
-    } = await supabaseClient.auth.getUser();
+    try {
 
-    if (error || !user) {
+        const {
+            data: {
+                user
+            }
+        } =
+            await supabaseClient
+                .auth
+                .getUser();
 
-        document.getElementById("adminInfo").innerHTML =
-            "❌ You must be logged in.";
 
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 1500);
+        if (!user) {
+
+            window.location.href =
+                "login.html";
+
+            return false;
+        }
+
+
+        if (
+            user.id !== ADMIN_ID
+        ) {
+
+            alert(
+                "❌ Administrator access required."
+            );
+
+            window.location.href =
+                "index.html";
+
+            return false;
+        }
+
+
+        document.getElementById(
+            "adminInfo"
+        ).textContent =
+            "Administrator account: " +
+            (
+                user.email ||
+                "Email unavailable"
+            );
+
+
+        document.getElementById(
+            "adminStatus"
+        ).textContent =
+            "✅ Administrator access confirmed.";
+
+
+        return true;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ Could not verify administrator access."
+        );
+
+        window.location.href =
+            "index.html";
 
         return false;
     }
 
-    if (user.id !== ADMIN_ID) {
-
-        document.getElementById("adminInfo").innerHTML =
-            "❌ Access denied. You are not an administrator.";
-
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 2000);
-
-        return false;
-    }
-
-    document.getElementById("adminInfo").innerHTML =
-        "✅ Administrator access confirmed.";
-
-    return true;
 }
 
 
-/* ================================
+/* =====================================
+   GET REPORT DETAILS
+===================================== */
+
+async function getReportDetails(report) {
+
+    const {
+        data: {
+            session
+        }
+    } =
+        await supabaseClient
+            .auth
+            .getSession();
+
+
+    if (!session) {
+
+        alert(
+            "❌ Your login session has expired."
+        );
+
+        return null;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "https://grade12-app.vercel.app/api/report-details",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            access_token:
+                                session.access_token,
+
+                            reporter_id:
+                                report.reporter_id,
+
+                            reported_user_id:
+                                report.reported_user_id,
+
+                            message_id:
+                                report.message_id
+
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            console.error(data);
+
+            alert(
+                "❌ Could not load student details.\n\n" +
+                (
+                    data.error ||
+                    "Unknown error."
+                )
+            );
+
+            return null;
+        }
+
+
+        return data;
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ Could not connect to the report server."
+        );
+
+        return null;
+    }
+
+}
+
+
+/* =====================================
    LOAD REPORTS
-================================ */
+===================================== */
 
 async function loadReports() {
 
-    const allowed = await checkAdmin();
+    const allowed =
+        await checkAdmin();
+
 
     if (!allowed) return;
+
 
     const {
         data,
         error
-    } = await supabaseClient
-        .from("user_reports")
-        .select("*")
-        .order("created_at", {
-            ascending: false
-        });
+    } =
+        await supabaseClient
+            .from("user_reports")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
 
     if (error) {
 
-        document.getElementById("reports").innerHTML =
-            "❌ Could not load reports.";
+        document.getElementById(
+            "reports"
+        ).innerHTML =
+            `
+                <p class="error">
+                    ❌ Could not load reports.
+                </p>
+            `;
 
         console.error(error);
 
         return;
     }
 
-    if (!data || data.length === 0) {
 
-        document.getElementById("reports").innerHTML =
-            "No reports found.";
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        document.getElementById(
+            "reports"
+        ).innerHTML =
+            `
+                <p>
+                    No reports found.
+                </p>
+            `;
 
         return;
     }
 
+
     let html = "";
 
-    data.forEach(report => {
 
-        html += `
-            <div class="report">
+    data.forEach(
+        report => {
 
-                <h3>Report #${escapeHTML(report.id)}</h3>
+            html += `
 
-                <p>
-                    <strong>Reason:</strong>
-                    ${escapeHTML(report.reason)}
-                </p>
+                <div
+                    class="report"
+                >
 
-                <p>
-                    <strong>Description:</strong>
-                    ${escapeHTML(
-                        report.description || "No description"
-                    )}
-                </p>
+                    <h3>
+                        📋 Report
+                    </h3>
 
-                <p>
-                    <strong>Status:</strong>
-                    ${escapeHTML(report.status)}
-                </p>
 
-                <p>
-                    <strong>Reported User:</strong>
-                    ${escapeHTML(
-                        report.reported_user_id ||
-                        "Not available"
-                    )}
-                </p>
+                    <p>
+                        <strong>
+                            Report ID:
+                        </strong><br>
 
-                <p>
-                    <strong>Date:</strong>
-                    ${formatDate(report.created_at)}
-                </p>
+                        ${escapeHTML(
+                            report.id
+                        )}
+                    </p>
 
-                <button
-                    class="review"
-                    onclick="reviewReport('${report.id}')">
-                    🔎 Review
-                </button>
 
-                <button
-                    class="warning"
-                    onclick="moderationAction(
-                        '${report.id}',
-                        'warning'
-                    )">
-                    ⚠️ Warning
-                </button>
+                    <p>
+                        <strong>
+                            ⚠️ Reason:
+                        </strong><br>
 
-                <button
-                    class="suspend"
-                    onclick="moderationAction(
-                        '${report.id}',
-                        'suspension'
-                    )">
-                    ⏸️ Suspend
-                </button>
+                        ${escapeHTML(
+                            report.reason
+                        )}
+                    </p>
 
-                <button
-                    class="remove"
-                    onclick="moderationAction(
-                        '${report.id}',
-                        'removal'
-                    )">
-                    🚫 Remove
-                </button>
 
-                <button
-                    class="email"
-                    onclick="sendEmail('${report.id}')">
-                    📧 Send Email
-                </button>
+                    <p>
+                        <strong>
+                            💬 Report Description:
+                        </strong><br>
 
-            </div>
-        `;
-    });
+                        ${escapeHTML(
+                            report.description ||
+                            "No description"
+                        )}
+                    </p>
 
-    document.getElementById("reports").innerHTML =
+
+                    <p>
+                        <strong>
+                            📊 Status:
+                        </strong><br>
+
+                        ${escapeHTML(
+                            report.status
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            👤 Reporting Student ID:
+                        </strong><br>
+
+                        ${escapeHTML(
+                            report.reporter_id ||
+                            "Not available"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            🚨 Reported Student ID:
+                        </strong><br>
+
+                        ${escapeHTML(
+                            report.reported_user_id ||
+                            "Not available"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            📨 Message ID:
+                        </strong><br>
+
+                        ${escapeHTML(
+                            report.message_id ||
+                            "Not available"
+                        )}
+                    </p>
+
+
+                    <p>
+                        <strong>
+                            📅 Date:
+                        </strong><br>
+
+                        ${formatDate(
+                            report.created_at
+                        )}
+                    </p>
+
+
+                    <hr>
+
+
+                    <div
+                        class="details-box"
+                        id="details-${escapeHTML(
+                            report.id
+                        )}"
+                    >
+
+                        <p class="loading">
+                            🔍 Loading student emails
+                            and reported content...
+                        </p>
+
+                    </div>
+
+
+                    <br>
+
+
+                    <button
+                        class="review"
+                        onclick="
+                            reviewReport(
+                                '${report.id}'
+                            )
+                        "
+                    >
+                        🔎 Review
+                    </button>
+
+
+                    <button
+                        class="warning"
+                        onclick="
+                            moderationAction(
+                                '${report.id}',
+                                'warning'
+                            )
+                        "
+                    >
+                        ⚠️ Warning
+                    </button>
+
+
+                    <button
+                        class="suspend"
+                        onclick="
+                            moderationAction(
+                                '${report.id}',
+                                'suspension'
+                            )
+                        "
+                    >
+                        ⏸️ Suspend
+                    </button>
+
+
+                    <button
+                        class="remove"
+                        onclick="
+                            moderationAction(
+                                '${report.id}',
+                                'removal'
+                            )
+                        "
+                    >
+                        🚫 Remove
+                    </button>
+
+
+                    <button
+                        class="email"
+                        onclick="
+                            sendEmail(
+                                '${report.id}'
+                            )
+                        "
+                    >
+                        📧 Send Email
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    document.getElementById(
+        "reports"
+    ).innerHTML =
         html;
+
+
+    /* =====================================
+       LOAD EMAILS AND CONTENT
+    ===================================== */
+
+    for (
+        const report of data
+    ) {
+
+        const details =
+            await getReportDetails(
+                report
+            );
+
+
+        const box =
+            document.getElementById(
+                `details-${report.id}`
+            );
+
+
+        if (!box) continue;
+
+
+        if (!details) {
+
+            box.innerHTML =
+                `
+                    <p class="error">
+                        ❌ Could not load
+                        report details.
+                    </p>
+                `;
+
+            continue;
+        }
+
+
+        let contentHTML = `
+
+            <p>
+
+                <strong>
+                    👤 Reporting Student Email:
+                </strong>
+
+                <br>
+
+                <span
+                    class="email-address"
+                >
+                    ${escapeHTML(
+                        details.reporter_email ||
+                        "Email not available"
+                    )}
+                </span>
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    🚨 Reported Student Email:
+                </strong>
+
+                <br>
+
+                <span
+                    class="email-address"
+                >
+                    ${escapeHTML(
+                        details.reported_email ||
+                        "Email not available"
+                    )}
+                </span>
+
+            </p>
+
+
+            <hr>
+
+
+            <strong>
+                📝 Reported Content
+            </strong>
+
+        `;
+
+
+        const message =
+            details.message;
+
+
+        if (!message) {
+
+            contentHTML += `
+
+                <p>
+                    No reported message
+                    or attachment was found.
+                </p>
+
+            `;
+
+        } else {
+
+
+            contentHTML += `
+
+                <p>
+
+                    <strong>
+                        💬 Message:
+                    </strong>
+
+                </p>
+
+
+                <div
+                    class="reported-content"
+                >
+                    ${escapeHTML(
+                        message.message ||
+                        "No text message"
+                    )}
+                </div>
+
+            `;
+
+
+            if (
+                message.attachment_url
+            ) {
+
+                const attachmentURL =
+                    message.attachment_url;
+
+
+                const attachmentName =
+                    message.attachment_name ||
+                    "Reported attachment";
+
+
+                const lowerURL =
+                    attachmentURL.toLowerCase();
+
+
+                const isImage =
+                    lowerURL.includes(
+                        ".jpg"
+                    ) ||
+                    lowerURL.includes(
+                        ".jpeg"
+                    ) ||
+                    lowerURL.includes(
+                        ".png"
+                    ) ||
+                    lowerURL.includes(
+                        ".gif"
+                    ) ||
+                    lowerURL.includes(
+                        ".webp"
+                    );
+
+
+                if (isImage) {
+
+                    contentHTML += `
+
+                        <p>
+
+                            <strong>
+                                🖼️ Reported Photo:
+                            </strong>
+
+                        </p>
+
+
+                        <img
+                            src="${escapeHTML(
+                                attachmentURL
+                            )}"
+                            alt="Reported photo"
+                        >
+
+
+                        <br>
+
+
+                        <a
+                            href="${escapeHTML(
+                                attachmentURL
+                            )}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            🖼️ Open Photo
+                        </a>
+
+                    `;
+
+                } else {
+
+                    contentHTML += `
+
+                        <p>
+
+                            <strong>
+                                📎 Reported File:
+                            </strong>
+
+                            <br>
+
+                            ${escapeHTML(
+                                attachmentName
+                            )}
+
+                        </p>
+
+
+                        <a
+                            href="${escapeHTML(
+                                attachmentURL
+                            )}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            📂 Open Reported File
+                        </a>
+
+                    `;
+
+                }
+
+            }
+
+        }
+
+
+        box.innerHTML =
+            contentHTML;
+
+    }
+
 }
 
 
-/* ================================
+/* =====================================
    REVIEW REPORT
-================================ */
+===================================== */
 
-async function reviewReport(reportId) {
+async function reviewReport(
+    reportId
+) {
 
-    const allowed = await checkAdmin();
+    const allowed =
+        await checkAdmin();
+
 
     if (!allowed) return;
+
 
     const {
         data: report,
         error
-    } = await supabaseClient
-        .from("user_reports")
-        .select("*")
-        .eq("id", reportId)
-        .single();
+    } =
+        await supabaseClient
+            .from("user_reports")
+            .select("*")
+            .eq(
+                "id",
+                reportId
+            )
+            .single();
 
-    if (error || !report) {
 
-        alert("❌ Could not find this report.");
+    if (
+        error ||
+        !report
+    ) {
+
+        alert(
+            "❌ Could not find this report."
+        );
 
         console.error(error);
 
         return;
     }
 
+
     const details =
-        "📋 REPORT DETAILS\n\n" +
-
-        "Report ID:\n" +
-        report.id +
-        "\n\n" +
-
-        "Reported User ID:\n" +
-        (
-            report.reported_user_id ||
-            "Not available"
-        ) +
-        "\n\n" +
-
-        "Reason:\n" +
-        report.reason +
-        "\n\n" +
-
-        "Description:\n" +
-        (
-            report.description ||
-            "No description"
-        ) +
-        "\n\n" +
-
-        "Status:\n" +
-        report.status +
-        "\n\n" +
-
-        "Created:\n" +
-        formatDate(report.created_at);
-
-    alert(details);
-
-    if (report.status === "pending") {
-
-        const updateStatus = confirm(
-            "Mark this report as REVIEWING?"
+        await getReportDetails(
+            report
         );
 
-        if (!updateStatus) return;
+
+    let messageText =
+        "No message available.";
+
+
+    if (
+        details &&
+        details.message
+    ) {
+
+        messageText =
+            details.message.message ||
+            "No text message.";
+
+    }
+
+
+    let info =
+
+        "REPORT DETAILS\n\n" +
+
+        "Reason: " +
+        report.reason +
+
+        "\n\nDescription: " +
+        (
+            report.description ||
+            "None"
+        ) +
+
+        "\n\nReporting student: " +
+        (
+            details?.reporter_email ||
+            "Email not available"
+        ) +
+
+        "\n\nReported student: " +
+        (
+            details?.reported_email ||
+            "Email not available"
+        ) +
+
+        "\n\nReported message:\n" +
+        messageText;
+
+
+    alert(info);
+
+
+    if (
+        report.status ===
+        "pending"
+    ) {
+
+        const confirmReview =
+            confirm(
+                "Mark this report as reviewing?"
+            );
+
+
+        if (!confirmReview)
+            return;
+
 
         const {
             error: updateError
-        } = await supabaseClient
-            .from("user_reports")
-            .update({
-                status: "reviewing"
-            })
-            .eq("id", reportId);
+        } =
+            await supabaseClient
+                .from("user_reports")
+                .update({
+
+                    status:
+                        "reviewing"
+
+                })
+                .eq(
+                    "id",
+                    reportId
+                );
+
 
         if (updateError) {
 
-            console.error(updateError);
-
             alert(
-                "❌ Could not update the report status."
+                "❌ Could not update report."
+            );
+
+            console.error(
+                updateError
             );
 
             return;
         }
 
+
         alert(
-            "✅ Report is now marked as REVIEWING."
+            "✅ Report marked as reviewing."
         );
 
+
         loadReports();
+
     }
+
 }
 
 
-/* ================================
+/* =====================================
    MODERATION ACTION
-================================ */
+===================================== */
 
 async function moderationAction(
     reportId,
     action
 ) {
 
-    const allowed = await checkAdmin();
+    const allowed =
+        await checkAdmin();
+
 
     if (!allowed) return;
 
+
     const {
         data: report,
-        error: reportError
-    } = await supabaseClient
-        .from("user_reports")
-        .select("*")
-        .eq("id", reportId)
-        .single();
+        error
+    } =
+        await supabaseClient
+            .from("user_reports")
+            .select("*")
+            .eq(
+                "id",
+                reportId
+            )
+            .single();
 
-    if (reportError || !report) {
 
-        alert("❌ Could not find this report.");
+    if (
+        error ||
+        !report
+    ) {
 
-        console.error(reportError);
+        alert(
+            "❌ Could not find this report."
+        );
+
+        console.error(error);
 
         return;
     }
 
-    if (!report.reported_user_id) {
+
+    if (
+        !report.reported_user_id
+    ) {
 
         alert(
-            "❌ This report does not contain a reported user."
+            "❌ No reported student was found."
         );
 
         return;
     }
 
 
-    /* ================================
-       CONFIRM ACTION
-    ================================ */
+    let actionName = "";
 
-    let confirmationMessage = "";
 
-    if (action === "warning") {
+    if (
+        action ===
+        "warning"
+    ) {
 
-        confirmationMessage =
-            "Are you sure you want to issue a WARNING to this learner?";
+        actionName =
+            "WARNING";
 
-    } else if (action === "suspension") {
-
-        confirmationMessage =
-            "Are you sure you want to SUSPEND this learner?";
-
-    } else if (action === "removal") {
-
-        confirmationMessage =
-            "Are you sure you want to REMOVE this learner?";
     }
 
+
+    if (
+        action ===
+        "suspension"
+    ) {
+
+        actionName =
+            "SUSPENSION";
+
+    }
+
+
+    if (
+        action ===
+        "removal"
+    ) {
+
+        actionName =
+            "REMOVAL";
+
+    }
+
+
     const confirmed =
-        confirm(confirmationMessage);
+        confirm(
+            "Are you sure you want to apply a " +
+            actionName +
+            " to this student?"
+        );
 
-    if (!confirmed) return;
 
+    if (!confirmed)
+        return;
 
-    /* ================================
-       ENTER REASON
-    ================================ */
 
     const reason =
         prompt(
-            "Enter the reason for this moderation action:"
+            "Enter the reason for this action:"
         );
 
-    if (!reason || !reason.trim()) {
 
-        alert(
-            "A reason is required."
-        );
-
+    if (!reason)
         return;
-    }
 
 
-    /* ================================
-       RECORD MODERATION ACTION
-    ================================ */
-
-    const {
-        error: actionError
-    } = await supabaseClient
-        .from("moderation_actions")
-        .insert({
-            user_id: report.reported_user_id,
-            report_id: report.id,
-            action: action,
-            reason: reason.trim()
-        });
-
-    if (actionError) {
-
-        console.error(actionError);
-
-        alert(
-            "❌ The moderation action could not be recorded."
-        );
-
-        return;
-    }
+    let durationDays =
+        null;
 
 
-    /* ================================
-       GET CURRENT MODERATION STATUS
-    ================================ */
-
-    const {
-        data: existingStatus,
-        error: statusError
-    } = await supabaseClient
-        .from("user_moderation_status")
-        .select("*")
-        .eq(
-            "user_id",
-            report.reported_user_id
-        )
-        .maybeSingle();
-
-    if (statusError) {
-
-        console.error(statusError);
-
-        alert(
-            "⚠️ Action was recorded, but the learner status could not be updated."
-        );
-
-        return;
-    }
-
-
-    /* ================================
-       WARNING
-    ================================ */
-
-    if (action === "warning") {
-
-        const warningCount =
-            existingStatus
-                ? existingStatus.warning_count + 1
-                : 1;
-
-        const {
-            error
-        } = await supabaseClient
-            .from("user_moderation_status")
-            .upsert({
-                user_id: report.reported_user_id,
-                warning_count: warningCount,
-                is_suspended:
-                    existingStatus
-                        ? existingStatus.is_suspended
-                        : false,
-                is_removed:
-                    existingStatus
-                        ? existingStatus.is_removed
-                        : false,
-                suspended_until:
-                    existingStatus
-                        ? existingStatus.suspended_until
-                        : null,
-                last_action_at:
-                    new Date().toISOString(),
-                updated_at:
-                    new Date().toISOString()
-            });
-
-        if (error) {
-
-            console.error(error);
-
-            alert(
-                "⚠️ Warning recorded, but status update failed."
-            );
-
-            return;
-        }
-    }
-
-
-    /* ================================
-       SUSPENSION
-    ================================ */
-
-    if (action === "suspension") {
-
-        const suspensionDays =
-            prompt(
-                "How many days should the suspension last?"
-            );
+    if (
+        action ===
+        "suspension"
+    ) {
 
         const days =
+            prompt(
+                "How many days should the suspension last?",
+                "7"
+            );
+
+
+        if (!days)
+            return;
+
+
+        durationDays =
             parseInt(
-                suspensionDays,
+                days,
                 10
             );
 
+
         if (
-            isNaN(days) ||
-            days <= 0
+            isNaN(
+                durationDays
+            ) ||
+            durationDays <= 0
         ) {
 
             alert(
@@ -635,200 +1316,601 @@ async function moderationAction(
             return;
         }
 
-        const suspendedUntil =
-            new Date(
-                Date.now() +
-                days * 24 * 60 * 60 * 1000
-            ).toISOString();
-
-        const {
-            error
-        } = await supabaseClient
-            .from("user_moderation_status")
-            .upsert({
-                user_id: report.reported_user_id,
-                warning_count:
-                    existingStatus
-                        ? existingStatus.warning_count
-                        : 0,
-                is_suspended: true,
-                is_removed:
-                    existingStatus
-                        ? existingStatus.is_removed
-                        : false,
-                suspended_until:
-                    suspendedUntil,
-                last_action_at:
-                    new Date().toISOString(),
-                updated_at:
-                    new Date().toISOString()
-            });
-
-        if (error) {
-
-            console.error(error);
-
-            alert(
-                "⚠️ Suspension recorded, but status update failed."
-            );
-
-            return;
-        }
     }
 
-
-    /* ================================
-       REMOVAL
-    ================================ */
-
-    if (action === "removal") {
-
-        const {
-            error
-        } = await supabaseClient
-            .from("user_moderation_status")
-            .upsert({
-                user_id: report.reported_user_id,
-                warning_count:
-                    existingStatus
-                        ? existingStatus.warning_count
-                        : 0,
-                is_suspended: false,
-                is_removed: true,
-                suspended_until: null,
-                last_action_at:
-                    new Date().toISOString(),
-                updated_at:
-                    new Date().toISOString()
-            });
-
-        if (error) {
-
-            console.error(error);
-
-            alert(
-                "⚠️ Removal recorded, but status update failed."
-            );
-
-            return;
-        }
-    }
-
-
-    /* ================================
-       UPDATE REPORT STATUS
-    ================================ */
 
     const {
-        error: reportUpdateError
-    } = await supabaseClient
-        .from("user_reports")
-        .update({
-            status: "confirmed",
-            reviewed_at:
-                new Date().toISOString()
-        })
-        .eq("id", reportId);
+        error: actionError
+    } =
+        await supabaseClient
+            .from(
+                "moderation_actions"
+            )
+            .insert({
 
-    if (reportUpdateError) {
+                user_id:
+                    report.reported_user_id,
 
-        console.error(
-            reportUpdateError
-        );
+                report_id:
+                    report.id,
+
+                action:
+                    action,
+
+                reason:
+                    reason,
+
+                duration_days:
+                    durationDays
+
+            });
+
+
+    if (actionError) {
 
         alert(
-            "⚠️ Moderation action completed, but the report status could not be updated."
+            "❌ Could not save moderation action."
+        );
+
+        console.error(
+            actionError
         );
 
         return;
     }
 
 
-    /* ================================
-       SUCCESS
-    ================================ */
+    const {
+        data: currentStatus,
+        error: statusError
+    } =
+        await supabaseClient
+            .from(
+                "user_moderation_status"
+            )
+            .select("*")
+            .eq(
+                "user_id",
+                report.reported_user_id
+            )
+            .maybeSingle();
 
-    let actionName = "";
 
-    if (action === "warning") {
-        actionName = "WARNING";
+    if (statusError) {
+
+        console.error(
+            statusError
+        );
+
     }
 
-    if (action === "suspension") {
-        actionName = "SUSPENSION";
+
+    let warningCount =
+        currentStatus?.warning_count ||
+        0;
+
+
+    let isSuspended =
+        currentStatus?.is_suspended ||
+        false;
+
+
+    let isRemoved =
+        currentStatus?.is_removed ||
+        false;
+
+
+    let suspendedUntil =
+        currentStatus?.suspended_until ||
+        null;
+
+
+    if (
+        action ===
+        "warning"
+    ) {
+
+        warningCount++;
+
     }
 
-    if (action === "removal") {
-        actionName = "REMOVAL";
+
+    if (
+        action ===
+        "suspension"
+    ) {
+
+        isSuspended =
+            true;
+
+
+        const until =
+            new Date();
+
+
+        until.setDate(
+            until.getDate() +
+            durationDays
+        );
+
+
+        suspendedUntil =
+            until.toISOString();
+
     }
+
+
+    if (
+        action ===
+        "removal"
+    ) {
+
+        isRemoved =
+            true;
+
+    }
+
+
+    const {
+        error: upsertError
+    } =
+        await supabaseClient
+            .from(
+                "user_moderation_status"
+            )
+            .upsert({
+
+                user_id:
+                    report.reported_user_id,
+
+                warning_count:
+                    warningCount,
+
+                is_suspended:
+                    isSuspended,
+
+                is_removed:
+                    isRemoved,
+
+                suspended_until:
+                    suspendedUntil,
+
+                last_action_at:
+                    new Date().toISOString(),
+
+                updated_at:
+                    new Date().toISOString()
+
+            });
+
+
+    if (upsertError) {
+
+        alert(
+            "⚠️ Action was saved, but moderation status could not be updated."
+        );
+
+        console.error(
+            upsertError
+        );
+
+        return;
+    }
+
+
+    const {
+        error: reportError
+    } =
+        await supabaseClient
+            .from(
+                "user_reports"
+            )
+            .update({
+
+                status:
+                    "confirmed",
+
+                reviewed_at:
+                    new Date().toISOString()
+
+            })
+            .eq(
+                "id",
+                reportId
+            );
+
+
+    if (reportError) {
+
+        alert(
+            "⚠️ Moderation action saved, but report status could not be updated."
+        );
+
+        console.error(
+            reportError
+        );
+
+        return;
+    }
+
 
     alert(
         "✅ " +
         actionName +
-        " completed successfully."
+        " applied successfully."
     );
+
 
     loadReports();
+
 }
 
 
-/* ================================
+/* =====================================
    SEND EMAIL
-================================ */
+===================================== */
 
-function sendEmail(reportId) {
+async function sendEmail(
+    reportId
+) {
 
-    alert(
-        "Email system selected for report " +
-        reportId +
-        ".\n\n" +
-        "We will connect this button to the secure Vercel email backend next."
-    );
+    const allowed =
+        await checkAdmin();
+
+
+    if (!allowed)
+        return;
+
+
+    const {
+        data: report,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "user_reports"
+            )
+            .select("*")
+            .eq(
+                "id",
+                reportId
+            )
+            .single();
+
+
+    if (
+        error ||
+        !report
+    ) {
+
+        alert(
+            "❌ Could not find this report."
+        );
+
+        console.error(error);
+
+        return;
+    }
+
+
+    const details =
+        await getReportDetails(
+            report
+        );
+
+
+    if (!details) {
+        return;
+    }
+
+
+    const reportedEmail =
+        details.reported_email;
+
+
+    const reporterEmail =
+        details.reporter_email;
+
+
+    if (
+        !reportedEmail ||
+        reportedEmail ===
+        "Email not available"
+    ) {
+
+        alert(
+            "❌ The reported student's email is not available."
+        );
+
+        return;
+    }
+
+
+    const choice =
+        prompt(
+            "Who do you want to email?\n\n" +
+            "1 = Reported student\n" +
+            "2 = Reporting student\n\n" +
+            "Enter 1 or 2:",
+            "1"
+        );
+
+
+    if (
+        choice !== "1" &&
+        choice !== "2"
+    ) {
+
+        alert(
+            "❌ Please enter 1 or 2."
+        );
+
+        return;
+    }
+
+
+    let email;
+
+
+    if (
+        choice === "1"
+    ) {
+
+        email =
+            reportedEmail;
+
+    } else {
+
+        email =
+            reporterEmail;
+
+    }
+
+
+    if (
+        !email ||
+        email ===
+        "Email not available"
+    ) {
+
+        alert(
+            "❌ This student's email is not available."
+        );
+
+        return;
+    }
+
+
+    const subject =
+        prompt(
+            "Enter the email subject:",
+            "Grade 12 Hub - Important Notice"
+        );
+
+
+    if (!subject)
+        return;
+
+
+    const message =
+        prompt(
+            "Enter the message you want to send:"
+        );
+
+
+    if (!message)
+        return;
+
+
+    const confirmed =
+        confirm(
+
+            "Send this email?\n\n" +
+
+            "To: " +
+            email +
+
+            "\n\nSubject: " +
+            subject +
+
+            "\n\nMessage:\n" +
+            message
+
+        );
+
+
+    if (!confirmed)
+        return;
+
+
+    try {
+
+        const response =
+            await fetch(
+                "https://grade12-app.vercel.app/api/send-email",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            to:
+                                email,
+
+                            subject:
+                                subject,
+
+                            message:
+                                message
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            console.error(data);
+
+            alert(
+
+                "❌ Email could not be sent.\n\n" +
+
+                (
+                    data.error ||
+                    "Unknown error."
+                )
+
+            );
+
+            return;
+        }
+
+
+        alert(
+            "✅ Email sent successfully!"
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ Could not connect to the email server."
+        );
+
+    }
+
 }
 
 
-/* ================================
-   LOG OUT
-================================ */
+/* =====================================
+   LOGOUT
+===================================== */
 
 async function logout() {
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient
+        .auth
+        .signOut();
+
 
     window.location.href =
         "login.html";
+
 }
 
 
-/* ================================
-   HELPERS
-================================ */
+/* =====================================
+   ESCAPE HTML
+===================================== */
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
 }
 
 
-function formatDate(date) {
+/* =====================================
+   FORMAT DATE
+===================================== */
 
-    return new Date(date)
-        .toLocaleString();
+function formatDate(
+    date
+) {
+
+    if (!date)
+        return "Unknown";
+
+
+    try {
+
+        return new Date(
+            date
+        ).toLocaleString();
+
+    } catch {
+
+        return date;
+
+    }
+
 }
 
 
-/* ================================
+/* =====================================
    START
-================================ */
+===================================== */
 
-checkAdmin();
+checkAdmin()
+    .then(
+        allowed => {
+
+            if (allowed) {
+
+                loadReports();
+
+            }
+
+        }
+    );
+
 
 </script>
 
+
 </body>
+
     </html>
