@@ -105,6 +105,14 @@
             background: #3730a3;
         }
 
+        .ai-card {
+            border: 2px solid #4f46e5;
+        }
+
+        .group-card {
+            border: 2px solid #4f46e5;
+        }
+
         .motivation {
             margin-top: 20px;
             background: #111827;
@@ -138,6 +146,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+
             background: rgba(0,0,0,0.65);
 
             display: none;
@@ -152,6 +161,7 @@
 
         .goal-popup {
             background: white;
+
             width: 100%;
             max-width: 450px;
 
@@ -182,6 +192,7 @@
 
         .goal-text {
             background: #eef2ff;
+
             color: #3730a3;
 
             padding: 15px;
@@ -195,7 +206,9 @@
 
         .popup-buttons {
             display: flex;
+
             gap: 10px;
+
             justify-content: center;
         }
 
@@ -215,11 +228,13 @@
 
         .start-button {
             background: #4f46e5;
+
             color: white;
         }
 
         .close-button {
             background: #e5e7eb;
+
             color: #333;
         }
 
@@ -231,9 +246,13 @@
 <body>
 
 
+<!-- ============================= -->
 <!-- GOAL POP-UP -->
+<!-- ============================= -->
 
-<div class="goal-overlay" id="goalOverlay">
+<div
+    class="goal-overlay"
+    id="goalOverlay">
 
     <div class="goal-popup">
 
@@ -250,13 +269,17 @@
             Keep working towards your goal!
         </p>
 
-        <div class="goal-text" id="goalMessage">
+        <div
+            class="goal-text"
+            id="goalMessage">
+
             Your study goal
+
         </div>
 
         <p>
-            💪 Stay focused.  
-            📚 Keep studying.  
+            💪 Stay focused.<br>
+            📚 Keep studying.<br>
             🌟 You can do it!
         </p>
 
@@ -265,13 +288,17 @@
             <button
                 class="popup-button start-button"
                 onclick="startStudying()">
+
                 📚 Start Studying
+
             </button>
 
             <button
                 class="popup-button close-button"
                 onclick="closeGoalPopup()">
+
                 Close
+
             </button>
 
         </div>
@@ -281,9 +308,16 @@
 </div>
 
 
+
+<!-- ============================= -->
+<!-- HEADER -->
+<!-- ============================= -->
+
 <header>
 
-    <h1>🎓 Grade 12 Hub</h1>
+    <h1>
+        🎓 Grade 12 Hub
+    </h1>
 
     <p>
         Your study companion for Grade 12
@@ -292,10 +326,13 @@
 </header>
 
 
+
 <div class="container">
 
 
+    <!-- ============================= -->
     <!-- WELCOME -->
+    <!-- ============================= -->
 
     <div class="welcome">
 
@@ -305,14 +342,18 @@
 
         <p>
             Access past papers, study notes,
-            motivation and university application
-            information all in one place.
+            AI study help, study groups,
+            motivation and university information
+            all in one place.
         </p>
 
     </div>
 
 
-    <!-- MAIN CARDS -->
+
+    <!-- ============================= -->
+    <!-- APP FEATURES -->
+    <!-- ============================= -->
 
     <div class="cards">
 
@@ -321,47 +362,111 @@
 
         <div class="card">
 
-            <h3>📚 Past Papers</h3>
+            <h3>
+                📚 Past Papers
+            </h3>
 
             <p>
-                Practice with Grade 12 past question
-                papers from different subjects and years.
+                Practice with Grade 12 past
+                question papers from different
+                subjects and years.
             </p>
 
             <a
                 href="past-papers.html"
                 class="button">
+
                 Open Past Papers
+
             </a>
 
         </div>
+
 
 
         <!-- NOTES -->
 
         <div class="card">
 
-            <h3>📝 Notes</h3>
+            <h3>
+                📝 Notes
+            </h3>
 
             <p>
                 Find useful Grade 12 study notes
-                and revision material for your subjects.
+                and revision material.
             </p>
 
             <a
                 href="notes.html"
                 class="button">
+
                 Open Notes
+
             </a>
 
         </div>
+
+
+
+        <!-- AI STUDY HELPER -->
+
+        <div class="card ai-card">
+
+            <h3>
+                🤖 AI Study Helper
+            </h3>
+
+            <p>
+                Scan a question and get a
+                step-by-step explanation.
+                Choose your preferred language.
+            </p>
+
+            <a
+                href="ai-helper.html"
+                class="button">
+
+                Open AI Helper
+
+            </a>
+
+        </div>
+
+
+
+        <!-- STUDY GROUPS -->
+
+        <div class="card group-card">
+
+            <h3>
+                💬 Study Groups
+            </h3>
+
+            <p>
+                Join learners studying the same
+                subjects and discuss school work.
+            </p>
+
+            <a
+                href="study-groups.html"
+                class="button">
+
+                Join Study Groups
+
+            </a>
+
+        </div>
+
 
 
         <!-- MOTIVATION -->
 
         <div class="card">
 
-            <h3>💪 Motivation</h3>
+            <h3>
+                💪 Motivation
+            </h3>
 
             <p>
                 Get motivation, study tips and
@@ -371,17 +476,22 @@
             <a
                 href="#"
                 class="button">
+
                 Get Motivation
+
             </a>
 
         </div>
+
 
 
         <!-- VARSITY -->
 
         <div class="card">
 
-            <h3>🎓 Apply to Varsity</h3>
+            <h3>
+                🎓 Apply to Varsity
+            </h3>
 
             <p>
                 Find information and useful links
@@ -391,17 +501,22 @@
             <a
                 href="#"
                 class="button">
+
                 Apply to Varsity
+
             </a>
 
         </div>
+
 
 
         <!-- USER PROFILE -->
 
         <div class="card">
 
-            <h3>👤 My Profile</h3>
+            <h3>
+                👤 My Profile
+            </h3>
 
             <p>
                 View your subjects, study goals,
@@ -411,7 +526,9 @@
             <a
                 href="profile.html"
                 class="button">
+
                 Open My Profile
+
             </a>
 
         </div>
@@ -420,11 +537,16 @@
     </div>
 
 
-    <!-- MOTIVATION SECTION -->
+
+    <!-- ============================= -->
+    <!-- MOTIVATION -->
+    <!-- ============================= -->
 
     <div class="motivation">
 
-        <h2>🌟 Keep Going!</h2>
+        <h2>
+            🌟 Keep Going!
+        </h2>
 
         <p>
             Your future is built by what you do today.
@@ -436,6 +558,11 @@
 
 </div>
 
+
+
+<!-- ============================= -->
+<!-- FOOTER -->
+<!-- ============================= -->
 
 <footer>
 
@@ -451,14 +578,11 @@
 
 
 
-<!-- JAVASCRIPT -->
+<!-- ============================= -->
+<!-- PROFILE / GOAL JAVASCRIPT -->
+<!-- ============================= -->
 
 <script>
-
-
-/*
-    LOAD THE LEARNER'S PROFILE
-*/
 
 function loadProfile() {
 
@@ -470,8 +594,7 @@ function loadProfile() {
 
 
     /*
-        If the learner has a name,
-        change the Home welcome message.
+        Show learner's name on Home.
     */
 
     if (name !== "") {
@@ -485,8 +608,8 @@ function loadProfile() {
 
 
     /*
-        If the learner has saved a goal,
-        show the goal popup.
+        Show goal message every time
+        the learner enters the app.
     */
 
     if (goal !== "") {
@@ -517,7 +640,7 @@ function loadProfile() {
 
 
 /*
-    CLOSE POP-UP
+    Close the goal message.
 */
 
 function closeGoalPopup() {
@@ -532,22 +655,14 @@ function closeGoalPopup() {
 
 
 /*
-    START STUDYING
+    Start studying.
+
+    For now this opens the Past Papers page.
 */
 
 function startStudying() {
 
-    /*
-        Close the message first.
-    */
-
     closeGoalPopup();
-
-
-    /*
-        Take the learner to
-        the Past Papers page.
-    */
 
     window.location.href =
         "past-papers.html";
@@ -557,7 +672,7 @@ function startStudying() {
 
 
 /*
-    RUN WHEN THE HOME PAGE OPENS
+    Run when Home opens.
 */
 
 window.addEventListener(
@@ -565,12 +680,13 @@ window.addEventListener(
     loadProfile
 );
 
-
 </script>
 
 
 
+<!-- ============================= -->
 <!-- SERVICE WORKER -->
+<!-- ============================= -->
 
 <script>
 
