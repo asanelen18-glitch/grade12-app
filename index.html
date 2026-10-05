@@ -234,6 +234,15 @@
         }
 
 
+        /* SCHOOL SEARCH */
+
+        .school-help {
+            font-size: 13px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+
         /* GRADE 12 DISPLAY */
 
         .grade-display {
@@ -275,6 +284,55 @@
         }
 
 
+        /* SUBJECT LOCK */
+
+        .subject-lock-note {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+
+        /* TERMS */
+
+        .terms-box {
+            background: #f8fafc;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .terms-box h3 {
+            color: #4f46e5;
+            margin-top: 0;
+        }
+
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #eef2ff;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-weight: normal;
+        }
+
+        .terms-check input {
+            margin-top: 3px;
+        }
+
+
         /* SAVE BUTTON */
 
         .save-button {
@@ -292,6 +350,11 @@
 
         .save-button:hover {
             background: #4338ca;
+        }
+
+        .save-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
         }
 
         .required-note {
@@ -366,8 +429,6 @@
     <main class="container">
 
 
-        <!-- WELCOME -->
-
         <section class="welcome">
 
             <h2 id="welcomeMessage">
@@ -377,7 +438,6 @@
             <p>
                 Learn, revise, practise and prepare for your future.
             </p>
-
 
             <div class="goal" id="homeGoal">
 
@@ -628,7 +688,7 @@
 
 
                 <p class="intro">
-                    Let's set up your profile before you enter the app.
+                    Let's set up your learner profile before you enter the app.
                 </p>
 
 
@@ -636,11 +696,8 @@
                 <!-- FULL NAME -->
 
                 <label for="fullName">
-
                     Full Name
-
                 </label>
-
 
                 <input
                     type="text"
@@ -650,19 +707,60 @@
 
 
 
+                <!-- PROVINCE -->
+
+                <label for="province">
+                    Province
+                </label>
+
+                <input
+                    type="text"
+                    id="province"
+                    placeholder="Example: North West"
+                >
+
+
+
+                <!-- AREA -->
+
+                <label for="area">
+                    Area / Town
+                </label>
+
+                <input
+                    type="text"
+                    id="area"
+                    placeholder="Example: Mafikeng"
+                >
+
+
+
+                <!-- SCHOOL -->
+
+                <label for="school">
+                    School
+                </label>
+
+                <input
+                    type="text"
+                    id="school"
+                    placeholder="Search or enter your school name"
+                >
+
+                <div class="school-help">
+                    Your school will later be connected to the official South African NSC school list.
+                </div>
+
+
+
                 <!-- GRADE -->
 
                 <label>
-
                     Grade
-
                 </label>
 
-
                 <div class="grade-display">
-
                     🎓 Grade 12
-
                 </div>
 
 
@@ -670,117 +768,20 @@
                 <!-- SUBJECTS -->
 
                 <label>
-
                     Your Subjects
-
                 </label>
 
+                <div class="subjects" id="subjectsContainer">
 
-                <div class="subjects">
+                    Loading subjects...
 
+                </div>
 
-                    <label class="subject-option">
+                <div class="subject-lock-note">
 
-                        <input
-                            type="checkbox"
-                            value="Mathematics"
-                        >
-
-                        Mathematics
-
-                    </label>
-
-
-
-                    <label class="subject-option">
-
-                        <input
-                            type="checkbox"
-                            value="Physical Sciences"
-                        >
-
-                        Physical Sciences
-
-                    </label>
-
-
-
-                    <label class="subject-option">
-
-                        <input
-                            type="checkbox"
-                            value="Life Sciences"
-                        >
-
-                        Life Sciences
-
-                    </label>
-
-
-
-                    <label class="subject-option">
-
-                        <input
-                            type="checkbox"
-                            value="English"
-                        >
-
-                        English
-
-                    </label>
-
-
-
-                    <label class="subject-option">
-
-                        <input
-                            type="checkbox"
-                            value="Geography"
-                        >
-
-                        Geography
-
-                    </label>
-
-
-
-                    <label class="subject-option">
-
-                        <input
-                            type="checkbox"
-                            value="Accounting"
-                        >
-
-                        Accounting
-
-                    </label>
-
-
-
-                    <label class="subject-option">
-
-                        <input
-                            type="checkbox"
-                            value="Business Studies"
-                        >
-
-                        Business Studies
-
-                    </label>
-
-
-
-                    <label class="subject-option">
-
-                        <input
-                            type="checkbox"
-                            value="History"
-                        >
-
-                        History
-
-                    </label>
-
+                    🔒 Your selected subjects will be permanently locked after you create your profile.
+                    You will not be able to change them yourself. If you selected the wrong subject,
+                    you will need to request a correction.
 
                 </div>
 
@@ -789,11 +790,8 @@
                 <!-- STUDY GOAL -->
 
                 <label for="studyGoal">
-
                     What is your study goal?
-
                 </label>
-
 
                 <textarea
                     id="studyGoal"
@@ -802,10 +800,107 @@
 
 
 
+                <!-- TERMS -->
+
+                <label>
+                    Terms & Conditions and Community Rules
+                </label>
+
+                <div class="terms-box">
+
+                    <h3>
+                        Grade 12 Hub Community Rules
+                    </h3>
+
+                    <p>
+                        Grade 12 Hub is a learning community for Grade 12 learners.
+                        By using the app, you agree to use it responsibly and respectfully.
+                    </p>
+
+                    <p>
+                        1. Respect other learners, teachers, creators and moderators.
+                    </p>
+
+                    <p>
+                        2. No bullying, harassment, threats, hate speech or intimidation.
+                    </p>
+
+                    <p>
+                        3. Do not send inappropriate sexual content, nude images or other
+                        inappropriate material.
+                    </p>
+
+                    <p>
+                        4. Do not share phone numbers, private contact information,
+                        passwords or another person's private information.
+                    </p>
+
+                    <p>
+                        5. Do not use abusive or seriously inappropriate language.
+                    </p>
+
+                    <p>
+                        6. Do not spam, scam, impersonate another person or deliberately
+                        disrupt study groups.
+                    </p>
+
+                    <p>
+                        7. Study groups must be used for educational and appropriate
+                        learner-to-learner discussion.
+                    </p>
+
+                    <p>
+                        8. Do not share harmful or illegal content.
+                    </p>
+
+                    <p>
+                        9. Do not attempt to bypass subject or group access restrictions.
+                    </p>
+
+                    <p>
+                        10. Inappropriate content may be blocked before it becomes visible.
+                    </p>
+
+                    <p>
+                        11. Learners can report inappropriate messages or users.
+                    </p>
+
+                    <p>
+                        12. Violations may result in a warning, temporary restriction,
+                        removal from a group or account blocking. Serious violations
+                        may result in immediate account action.
+                    </p>
+
+                    <p>
+                        13. Grade 12 Hub may update these rules when necessary to keep
+                        the learning community safe.
+                    </p>
+
+                </div>
+
+
+
+                <label class="terms-check">
+
+                    <input
+                        type="checkbox"
+                        id="acceptTerms"
+                    >
+
+                    <span>
+                        I have read and agree to the Grade 12 Hub Terms & Conditions
+                        and Community Rules.
+                    </span>
+
+                </label>
+
+
+
                 <!-- SAVE -->
 
                 <button
                     class="save-button"
+                    id="saveProfileButton"
                     onclick="saveFirstProfile()"
                 >
 
@@ -817,7 +912,7 @@
 
                 <p class="required-note">
 
-                    Your information is saved on this device.
+                    Your profile is securely connected to your Grade 12 Hub account.
 
                 </p>
 
@@ -854,6 +949,10 @@
             );
 
 
+        let currentUser = null;
+
+
+
         /* =====================================
            CHECK SUPABASE LOGIN
            ===================================== */
@@ -876,9 +975,8 @@
             }
 
 
-            /*
-             * Display logged-in email.
-             */
+            currentUser = data.user;
+
 
             document.getElementById(
                 "accountEmail"
@@ -890,6 +988,125 @@
             return data.user;
 
         }
+
+
+
+        /* =====================================
+           LOAD SUBJECTS FROM SUPABASE
+           ===================================== */
+
+        async function loadSubjects() {
+
+            const container =
+                document.getElementById(
+                    "subjectsContainer"
+                );
+
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("nsc_subjects")
+                .select("subject_name")
+                .order("subject_name");
+
+
+            if (error) {
+
+                console.error(error);
+
+                container.innerHTML =
+                    "Unable to load subjects. Please refresh the page.";
+
+                return;
+
+            }
+
+
+            container.innerHTML = "";
+
+
+            data.forEach(
+                function(subject) {
+
+                    const label =
+                        document.createElement("label");
+
+                    label.className =
+                        "subject-option";
+
+
+                    const checkbox =
+                        document.createElement("input");
+
+                    checkbox.type =
+                        "checkbox";
+
+                    checkbox.value =
+                        subject.subject_name;
+
+
+                    label.appendChild(
+                        checkbox
+                    );
+
+
+                    label.appendChild(
+                        document.createTextNode(
+                            " " + subject.subject_name
+                        )
+                    );
+
+
+                    container.appendChild(
+                        label
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================
+           LOAD EXISTING DATABASE PROFILE
+           ===================================== */
+
+        async function loadDatabaseProfile() {
+
+            if (!currentUser) {
+                return null;
+            }
+
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("learner_profiles")
+                .select("*")
+                .eq("user_id", currentUser.id)
+                .maybeSingle();
+
+
+            if (error) {
+
+                console.error(
+                    "Profile loading error:",
+                    error
+                );
+
+                return null;
+
+            }
+
+
+            return data;
+
+        }
+
 
 
         /* =====================================
@@ -923,37 +1140,79 @@
         );
 
 
+
         /* =====================================
            CHECK FIRST-TIME USER
            ===================================== */
 
-        function checkFirstTimeUser() {
+        async function checkFirstTimeUser() {
+
+            const databaseProfile =
+                await loadDatabaseProfile();
 
 
-            const profileCreated =
-                localStorage.getItem(
-                    "grade12_profile_created"
+            /*
+             * DATABASE PROFILE EXISTS
+             */
+
+            if (databaseProfile) {
+
+                /*
+                 * Save a local copy too.
+                 */
+
+                localStorage.setItem(
+                    "grade12_profile_created",
+                    "true"
                 );
 
+                localStorage.setItem(
+                    "grade12_name",
+                    databaseProfile.full_name
+                );
 
-            if (profileCreated !== "true") {
+                localStorage.setItem(
+                    "grade12_grade",
+                    "Grade 12"
+                );
 
+                localStorage.setItem(
+                    "grade12_subjects",
+                    JSON.stringify(
+                        databaseProfile.subjects
+                    )
+                );
 
-                document.getElementById(
-                    "profileSetupOverlay"
-                ).style.display = "block";
-
-
-                document.body.style.overflow = "hidden";
-
-
-            } else {
+                localStorage.setItem(
+                    "grade12_goal",
+                    databaseProfile.study_goal || ""
+                );
 
 
                 loadHomeProfile();
 
 
+                return;
+
             }
+
+
+
+            /*
+             * NO DATABASE PROFILE
+             */
+
+            document.getElementById(
+                "profileSetupOverlay"
+            ).style.display =
+                "block";
+
+
+            document.body.style.overflow =
+                "hidden";
+
+
+            await loadSubjects();
 
         }
 
@@ -963,7 +1222,23 @@
            SAVE FIRST PROFILE
            ===================================== */
 
-        function saveFirstProfile() {
+        async function saveFirstProfile() {
+
+            if (!currentUser) {
+
+                alert(
+                    "Please log in again."
+                );
+
+                return;
+
+            }
+
+
+            const button =
+                document.getElementById(
+                    "saveProfileButton"
+                );
 
 
             const name =
@@ -972,6 +1247,23 @@
                 ).value.trim();
 
 
+            const province =
+                document.getElementById(
+                    "province"
+                ).value.trim();
+
+
+            const area =
+                document.getElementById(
+                    "area"
+                ).value.trim();
+
+
+            const school =
+                document.getElementById(
+                    "school"
+                ).value.trim();
+
 
             const goal =
                 document.getElementById(
@@ -979,21 +1271,24 @@
                 ).value.trim();
 
 
+            const termsAccepted =
+                document.getElementById(
+                    "acceptTerms"
+                ).checked;
+
+
 
             const subjectCheckboxes =
                 document.querySelectorAll(
-                    '.subject-option input[type="checkbox"]'
+                    '#subjectsContainer input[type="checkbox"]'
                 );
-
 
 
             const subjects = [];
 
 
-
             subjectCheckboxes.forEach(
                 function(checkbox) {
-
 
                     if (checkbox.checked) {
 
@@ -1014,6 +1309,48 @@
 
                 alert(
                     "Please enter your full name."
+                );
+
+                return;
+
+            }
+
+
+
+            /* VALIDATE PROVINCE */
+
+            if (province === "") {
+
+                alert(
+                    "Please enter your province."
+                );
+
+                return;
+
+            }
+
+
+
+            /* VALIDATE AREA */
+
+            if (area === "") {
+
+                alert(
+                    "Please enter your area or town."
+                );
+
+                return;
+
+            }
+
+
+
+            /* VALIDATE SCHOOL */
+
+            if (school === "") {
+
+                alert(
+                    "Please enter your school."
                 );
 
                 return;
@@ -1050,10 +1387,116 @@
 
 
 
-            /* =================================
-               SAVE PROFILE INFORMATION
-               ================================= */
+            /* VALIDATE TERMS */
 
+            if (!termsAccepted) {
+
+                alert(
+                    "You must accept the Terms & Conditions and Community Rules before entering Grade 12 Hub."
+                );
+
+                return;
+
+            }
+
+
+
+            button.disabled =
+                true;
+
+            button.textContent =
+                "Saving profile...";
+
+
+
+            /*
+             * INSERT PROFILE INTO SUPABASE
+             */
+
+            const {
+                data,
+                error
+            } = await supabaseClient
+                .from("learner_profiles")
+                .insert({
+                    user_id: currentUser.id,
+                    full_name: name,
+                    grade: 12,
+                    province: province,
+                    area: area,
+                    school: school,
+                    subjects: subjects,
+                    study_goal: goal,
+                    terms_accepted: true,
+                    terms_accepted_at: new Date().toISOString(),
+                    subjects_locked: true
+                })
+                .select()
+                .single();
+
+
+
+            if (error) {
+
+                console.error(error);
+
+                button.disabled =
+                    false;
+
+                button.textContent =
+                    "Save & Enter App";
+
+
+                alert(
+                    "Your profile could not be saved.\n\n" +
+                    error.message
+                );
+
+                return;
+
+            }
+
+
+
+            /*
+             * SAVE TERMS ACCEPTANCE
+             */
+
+            const {
+                error: termsError
+            } = await supabaseClient
+                .from("terms_acceptance")
+                .insert({
+                    user_id: currentUser.id,
+                    accepted: true,
+                    accepted_at: new Date().toISOString(),
+                    terms_version: "1.0"
+                });
+
+
+
+            /*
+             * If the terms record already exists,
+             * the profile has still been successfully saved.
+             */
+
+            if (
+                termsError &&
+                termsError.code !== "23505"
+            ) {
+
+                console.error(
+                    "Terms error:",
+                    termsError
+                );
+
+            }
+
+
+
+            /* =================================
+               KEEP LOCAL STORAGE
+               ================================= */
 
             localStorage.setItem(
                 "grade12_name",
@@ -1061,14 +1504,10 @@
             );
 
 
-
-            /* GRADE 12 ONLY */
-
             localStorage.setItem(
                 "grade12_grade",
                 "Grade 12"
             );
-
 
 
             localStorage.setItem(
@@ -1077,17 +1516,11 @@
             );
 
 
-
             localStorage.setItem(
                 "grade12_goal",
                 goal
             );
 
-
-
-            /*
-             * Mark profile setup as completed.
-             */
 
             localStorage.setItem(
                 "grade12_profile_created",
@@ -1096,37 +1529,43 @@
 
 
 
-            /*
-             * Close setup screen.
-             */
+            /* =================================
+               CLOSE SETUP
+               ================================= */
 
             document.getElementById(
                 "profileSetupOverlay"
-            ).style.display = "none";
+            ).style.display =
+                "none";
 
 
-            document.body.style.overflow = "auto";
+            document.body.style.overflow =
+                "auto";
+
+
+            button.disabled =
+                false;
+
+
+            button.textContent =
+                "Save & Enter App";
 
 
 
-            /*
-             * Update Home page.
-             */
+            /* =================================
+               UPDATE HOME
+               ================================= */
 
             loadHomeProfile();
 
 
 
-            /*
-             * Show the goal message once.
-             */
-
             alert(
                 "Welcome to Grade 12 Hub, " +
                 name +
                 "! 🎯\n\n" +
-                "Remember your goal:\n" +
-                goal
+                "Your profile has been saved.\n\n" +
+                "Your selected subjects are now locked."
             );
 
         }
@@ -1138,7 +1577,6 @@
            ===================================== */
 
         function loadHomeProfile() {
-
 
             const name =
                 localStorage.getItem(
@@ -1152,9 +1590,7 @@
                 );
 
 
-
             if (name) {
-
 
                 document.getElementById(
                     "welcomeMessage"
@@ -1166,9 +1602,7 @@
             }
 
 
-
             if (goal) {
-
 
                 document.getElementById(
                     "homeGoal"
@@ -1188,7 +1622,6 @@
 
         function showComingSoon(feature) {
 
-
             alert(
                 feature +
                 " is coming soon! 🚀"
@@ -1206,12 +1639,6 @@
             "load",
             async function() {
 
-                /*
-                 * First check Supabase login.
-                 * Only logged-in users can enter
-                 * the Grade 12 Hub.
-                 */
-
                 const user =
                     await checkSupabaseUser();
 
@@ -1223,12 +1650,7 @@
                 }
 
 
-                /*
-                 * User is logged in,
-                 * so load the original app.
-                 */
-
-                checkFirstTimeUser();
+                await checkFirstTimeUser();
 
             }
         );
@@ -1241,34 +1663,28 @@
 
         if ("serviceWorker" in navigator) {
 
-
             window.addEventListener(
                 "load",
                 function() {
-
 
                     navigator.serviceWorker
                         .register("service-worker.js")
                         .then(
                             function() {
 
-
                                 console.log(
                                     "Service Worker registered."
                                 );
-
 
                             }
                         )
                         .catch(
                             function(error) {
 
-
                                 console.log(
                                     "Service Worker registration failed:",
                                     error
                                 );
-
 
                             }
                         );
@@ -1278,9 +1694,7 @@
 
         }
 
-
     </script>
 
-
 </body>
-  </html>
+    </html>
