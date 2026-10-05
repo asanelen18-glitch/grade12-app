@@ -645,11 +645,6 @@ function cleanMathText(text) {
 
     /*
        REMOVE ALL MARKDOWN BOLD
-
-       **answer**
-       becomes
-
-       answer
     */
 
     cleaned =
@@ -662,11 +657,6 @@ function cleanMathText(text) {
 
     /*
        REMOVE ALL ASTERISKS
-
-       *answer*
-       becomes
-
-       answer
     */
 
     cleaned =
@@ -679,11 +669,6 @@ function cleanMathText(text) {
 
     /*
        REMOVE MARKDOWN HEADINGS
-
-       ### Answer
-       becomes
-
-       Answer
     */
 
     cleaned =
@@ -812,11 +797,6 @@ function cleanMathText(text) {
 
     /*
        FRACTIONS
-
-       \frac{3}{4}
-       becomes
-
-       3/4
     */
 
     cleaned =
@@ -829,11 +809,6 @@ function cleanMathText(text) {
 
     /*
        SQUARE ROOTS
-
-       \sqrt{x}
-       becomes
-
-       √(x)
     */
 
     cleaned =
@@ -1129,20 +1104,45 @@ async function sendToAI(mode) {
 
 
         /*
-           PREPARE CHECK ANSWER
+           GRADE 12 HUB AI IDENTITY
         */
 
         let fullQuestion =
-            question;
+            "You are the AI Study Helper inside an educational app called Grade 12 Hub. " +
+            "Grade 12 Hub was created by MH Masina and NP Machete. " +
+            "You are part of Grade 12 Hub and help Grade 12 learners with studying, " +
+            "school questions, explanations, hints, and checking answers. " +
+            "If a learner asks who owns, created, developed, or made this app, " +
+            "answer that Grade 12 Hub was created by MH Masina and NP Machete. " +
+            "Do not say that Grade 12 Hub is ChatGPT or that ChatGPT/OpenAI created this app. " +
+            "You are an AI assistant used inside Grade 12 Hub. " +
+            "Answer the learner's question normally and clearly.";
 
+
+
+        /*
+           ADD LEARNER QUESTION
+        */
+
+        if (question) {
+
+            fullQuestion +=
+                "\n\nLearner's question:\n" +
+                question;
+
+        }
+
+
+
+        /*
+           CHECK STUDENT ANSWER
+        */
 
         if (
             mode === "check"
         ) {
 
-            fullQuestion =
-                "Question:\n" +
-                question +
+            fullQuestion +=
                 "\n\n" +
                 "Student's answer:\n" +
                 studentAnswer +
@@ -1355,4 +1355,4 @@ function clearQuestion() {
 
 </body>
 
-    </html>
+</html>
