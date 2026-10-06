@@ -1,12 +1,15 @@
 const CACHE_NAME = "grade12-hub-v1";
 
 const FILES_TO_CACHE = [
-    "/grade12-app/",
-    "/grade12-app/index.html",
-    "/grade12-app/notes.html",
-    "/grade12-app/maths.html",
-    "/grade12-app/past-papers.html",
-    "/grade12-app/maths-2025.html"
+    "/",
+    "/index.html",
+    "/notes.html",
+    "/maths.html",
+    "/past-papers.html",
+    "/maths-2025.html",
+    "/manifest.json",
+    "/icon-192.png",
+    "/icon-512.png"
 ];
 
 self.addEventListener("install", event => {
@@ -15,6 +18,22 @@ self.addEventListener("install", event => {
             return cache.addAll(FILES_TO_CACHE);
         })
     );
+
+    self.skipWaiting();
+});
+
+self.addEventListener("activate", event => {
+    event.waitUntil(
+        caches.keys().then(keys => {
+            return Promise.all(
+                keys
+                    .filter(key => key !== CACHE_NAME)
+                    .map(key => caches.delete(key))
+            );
+        })
+    );
+
+    self.clients.claim();
 });
 
 self.addEventListener("fetch", event => {
