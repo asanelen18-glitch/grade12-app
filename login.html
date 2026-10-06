@@ -107,9 +107,13 @@
 
         <h1>🎓 Grade 12 Hub</h1>
 
-        <h2 style="text-align:center;">Welcome Back 👋</h2>
+        <h2 style="text-align:center;">
+            Welcome Back 👋
+        </h2>
 
-        <p>Login to continue to your Grade 12 Hub.</p>
+        <p>
+            Login to continue to your Grade 12 Hub.
+        </p>
 
         <form id="loginForm">
 
@@ -135,7 +139,7 @@
                 required
             >
 
-            <button type="submit">
+            <button type="submit" id="loginButton">
                 🔓 Login
             </button>
 
@@ -145,6 +149,7 @@
 
         <div class="signup">
             Don't have an account?
+
             <a href="signup.html">
                 Create Account
             </a>
@@ -158,7 +163,12 @@
 
 </div>
 
+
 <script>
+
+/* ==========================================
+   SUPABASE CONNECTION
+========================================== */
 
 const SUPABASE_URL =
     "https://hdlhhbnawltisszzsbvw.supabase.co";
@@ -173,61 +183,146 @@ const supabaseClient =
     );
 
 
+/* ==========================================
+   LOGIN
+========================================== */
+
 document
     .getElementById("loginForm")
-    .addEventListener("submit", async function(event) {
+    .addEventListener(
+        "submit",
+        async function(event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const email =
-            document
-                .getElementById("email")
-                .value
-                .trim();
 
-        const password =
-            document
-                .getElementById("password")
-                .value;
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
-        const message =
-            document
-                .getElementById("message");
 
-        message.textContent =
-            "⏳ Logging in...";
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
 
-        try {
 
-            const { data, error } =
-                await supabaseClient.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
+            const message =
+                document
+                    .getElementById("message");
 
-            if (error) {
-                throw error;
+
+            const loginButton =
+                document
+                    .getElementById("loginButton");
+
+
+            message.textContent =
+                "⏳ Logging in...";
+
+
+            loginButton.disabled =
+                true;
+
+
+            try {
+
+                /* ==========================================
+                   SIGN IN WITH SUPABASE
+                ========================================== */
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient
+                        .auth
+                        .signInWithPassword({
+
+                            email: email,
+
+                            password: password
+
+                        });
+
+
+                /* ==========================================
+                   CHECK LOGIN ERROR
+                ========================================== */
+
+                if (error) {
+
+                    throw error;
+
+                }
+
+
+                /* ==========================================
+                   MAKE SURE USER EXISTS
+                ========================================== */
+
+                if (!data.user) {
+
+                    throw new Error(
+                        "Login failed. Please try again."
+                    );
+
+                }
+
+
+                /* ==========================================
+                   MARK THIS AS A NEW LOGIN
+                   
+                   index.html will see this and show
+                   the Welcome Back popup.
+                ========================================== */
+
+                localStorage.setItem(
+                    "new_login",
+                    "true"
+                );
+
+
+                message.textContent =
+                    "✅ Login successful!";
+
+
+                /* ==========================================
+                   GO TO HOME
+                ========================================== */
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "index.html";
+
+                    },
+                    500
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+
+                message.textContent =
+                    "❌ " + error.message;
+
+
+                loginButton.disabled =
+                    false;
+
             }
 
-            message.textContent =
-                "✅ Login successful!";
-
-            setTimeout(function() {
-
-                window.location.href =
-                    "index.html";
-
-            }, 500);
-
-        } catch (error) {
-
-            console.error(error);
-
-            message.textContent =
-                "❌ " + error.message;
         }
-
-    });
+    );
 
 </script>
 
