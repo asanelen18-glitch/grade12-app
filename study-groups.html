@@ -1,736 +1,704 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Study Groups - Grade 12 Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<title>Study Groups - Grade 12 Hub</title>
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #222;
-        }
+<style>
 
-        header {
-            background: #4f46e5;
-            color: white;
-            text-align: center;
-            padding: 22px 15px;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 25px;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+}
 
-        header p {
-            margin: 8px 0 0;
-        }
+header {
+    background: #4f46e5;
+    color: white;
+    text-align: center;
+    padding: 22px 15px;
+}
 
-        .container {
-            max-width: 700px;
-            margin: auto;
-            padding: 20px;
-        }
+header h1 {
+    margin: 0;
+    font-size: 25px;
+}
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 18px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
+header p {
+    margin: 8px 0 0;
+}
 
-        .card h2 {
-            margin-top: 0;
-            color: #4f46e5;
-        }
+.container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+}
 
-        select,
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            font-size: 15px;
-            margin-bottom: 12px;
-        }
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
 
-        button {
-            width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 6px;
-        }
+.card h2 {
+    margin-top: 0;
+    color: #4f46e5;
+}
 
-        button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+select,
+input {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
 
-        .join {
-            background: #4f46e5;
-            color: white;
-        }
+button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 6px;
+}
 
-        .send {
-            background: #16a34a;
-            color: white;
-        }
+button:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
 
-        .leave {
-            background: #ef4444;
-            color: white;
-        }
+.join {
+    background: #4f46e5;
+    color: white;
+}
 
-        .delete-button {
-            background: #ef4444;
-            color: white;
-            width: auto;
-            padding: 6px 10px;
-            font-size: 12px;
-            margin-top: 8px;
-        }
+.send {
+    background: #16a34a;
+    color: white;
+}
 
-        .report-button {
-            background: #f59e0b;
-            color: white;
-            width: auto;
-            padding: 6px 10px;
-            font-size: 12px;
-            margin-top: 8px;
-            margin-left: 5px;
-        }
+.leave {
+    background: #ef4444;
+    color: white;
+}
 
-        .group {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 1px solid #e5e7eb;
-        }
+.delete-button {
+    background: #ef4444;
+    color: white;
+    width: auto;
+    padding: 6px 10px;
+    font-size: 12px;
+    margin-top: 8px;
+}
 
-        .group strong {
-            display: block;
-            font-size: 17px;
-            margin-bottom: 5px;
-        }
+.report-button {
+    background: #f59e0b;
+    color: white;
+    width: auto;
+    padding: 6px 10px;
+    font-size: 12px;
+    margin-top: 8px;
+    margin-left: 5px;
+}
 
-        .group span {
-            color: #666;
-            font-size: 14px;
-        }
+.group {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e5e7eb;
+}
 
-        #chatSection {
-            display: none;
-        }
+.group strong {
+    display: block;
+    font-size: 17px;
+    margin-bottom: 5px;
+}
 
-        .chat-header {
-            background: #4f46e5;
-            color: white;
-            padding: 15px;
-            border-radius: 12px 12px 0 0;
-        }
+.group span {
+    color: #666;
+    font-size: 14px;
+}
 
-        .chat-header h3 {
-            margin: 0;
-        }
+#chatSection {
+    display: none;
+}
 
-        #messages {
-            height: 350px;
-            overflow-y: auto;
-            background: #f8fafc;
-            padding: 15px;
-            border: 1px solid #ddd;
-        }
+.chat-header {
+    background: #4f46e5;
+    color: white;
+    padding: 15px;
+    border-radius: 12px 12px 0 0;
+}
 
-        .message {
-            background: white;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-        }
+.chat-header h3 {
+    margin: 0;
+}
 
-        .message-name {
-            font-weight: bold;
-            color: #4f46e5;
-            font-size: 13px;
-        }
+#messages {
+    height: 350px;
+    overflow-y: auto;
+    background: #f8fafc;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
 
-        .message-text {
-            margin-top: 5px;
-            word-break: break-word;
-        }
+.message {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
 
-        .message-time {
-            color: #888;
-            font-size: 11px;
-            margin-top: 5px;
-        }
+.message-name {
+    font-weight: bold;
+    color: #4f46e5;
+    font-size: 13px;
+}
 
-        .chat-input {
-            display: flex;
-            gap: 8px;
-            padding: 10px;
-            background: white;
-            border: 1px solid #ddd;
-            border-top: none;
-            border-radius: 0 0 12px 12px;
-        }
+.message-text {
+    margin-top: 5px;
+    word-break: break-word;
+}
 
-        .chat-input input {
-            margin: 0;
-            flex: 1;
-        }
+.message-time {
+    color: #888;
+    font-size: 11px;
+    margin-top: 5px;
+}
 
-        .chat-input button {
-            width: 90px;
-            margin: 0;
-        }
+.chat-input {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+}
 
-        .notice {
-            background: #fff7ed;
-            border-left: 5px solid #f97316;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+.chat-input input {
+    margin: 0;
+    flex: 1;
+}
 
-        .back {
-            display: block;
-            text-align: center;
-            color: #4f46e5;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 25px 0;
-        }
+.chat-input button {
+    width: 90px;
+    margin: 0;
+}
 
-        /* Upload area */
+.notice {
+    background: #fff7ed;
+    border-left: 5px solid #f97316;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+}
 
-        .upload-area {
-            background: #f8fafc;
-            border: 1px dashed #cbd5e1;
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 10px;
-        }
+.back {
+    display: block;
+    text-align: center;
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 25px 0;
+}
 
-        .upload-label {
-            display: block;
-            font-weight: bold;
-            color: #4f46e5;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
+.upload-area {
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 10px;
+}
 
-        #fileInput {
-            margin-bottom: 5px;
-            background: white;
-        }
+.upload-label {
+    display: block;
+    font-weight: bold;
+    color: #4f46e5;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
 
-        #selectedFile {
-            font-size: 13px;
-            color: #666;
-            margin-top: 5px;
-            word-break: break-word;
-        }
+#fileInput {
+    margin-bottom: 5px;
+    background: white;
+}
 
-        .file-link {
-            display: inline-block;
-            margin-top: 7px;
-            color: #4f46e5;
-            font-weight: bold;
-            text-decoration: none;
-            word-break: break-word;
-        }
+#selectedFile {
+    font-size: 13px;
+    color: #666;
+    margin-top: 5px;
+    word-break: break-word;
+}
 
-        .file-icon {
-            font-size: 22px;
-            margin-right: 5px;
-        }
+.file-link {
+    display: inline-block;
+    margin-top: 7px;
+    color: #4f46e5;
+    font-weight: bold;
+    text-decoration: none;
+    word-break: break-word;
+}
 
-        .upload-status {
-            font-size: 13px;
-            margin-top: 8px;
-            color: #666;
-        }
+.file-icon {
+    font-size: 22px;
+    margin-right: 5px;
+}
 
-        /* Report window */
+.upload-status {
+    font-size: 13px;
+    margin-top: 8px;
+    color: #666;
+}
 
-        .report-box {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            padding: 20px;
-            overflow-y: auto;
-        }
+.report-box {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    overflow-y: auto;
+}
 
-        .report-card {
-            background: white;
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            border-radius: 15px;
-        }
+.report-card {
+    background: white;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 15px;
+}
 
-        .report-card h3 {
-            margin-top: 0;
-            color: #4f46e5;
-        }
+.report-card h3 {
+    margin-top: 0;
+    color: #4f46e5;
+}
 
-        .report-card p {
-            line-height: 1.5;
-        }
+.report-card p {
+    line-height: 1.5;
+}
 
-        .report-card label {
-            display: block;
-            margin: 12px 0;
-            padding: 8px;
-            background: #f8fafc;
-            border-radius: 8px;
-        }
+.report-card label {
+    display: block;
+    margin: 12px 0;
+    padding: 8px;
+    background: #f8fafc;
+    border-radius: 8px;
+}
 
-        .report-card label input {
-            width: auto;
-            margin-right: 8px;
-            margin-bottom: 0;
-        }
+.report-card label input {
+    width: auto;
+    margin-right: 8px;
+    margin-bottom: 0;
+}
 
-        .cancel-report {
-            background: #6b7280;
-            color: white;
-        }
+.cancel-report {
+    background: #6b7280;
+    color: white;
+}
 
-        .section-description {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-top: -5px;
-            margin-bottom: 15px;
-        }
+.section-description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: -5px;
+    margin-bottom: 15px;
+}
 
-        .province-title {
-            background: #eef2ff;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            color: #4f46e5;
-        }
-    </style>
+.province-title {
+    background: #eef2ff;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #4f46e5;
+}
+
+</style>
+
 </head>
 
 <body>
 
 <header>
-    <h1>👥 Study Groups</h1>
-    <p>Learn together with other Grade 12 learners</p>
+
+<h1>👥 Study Groups</h1>
+
+<p>
+Learn together with other Grade 12 learners
+</p>
+
 </header>
+
 
 <div class="container">
 
-    <!-- CHOOSE SUBJECT -->
 
-    <div class="card">
+<div class="card">
 
-        <h2>📚 Choose a Subject</h2>
+<h2>📚 Choose a Subject</h2>
 
-        <select id="subject">
+<select id="subject">
 
-            <option value="">
-                Select a subject
-            </option>
+<option value="">
+Select a subject
+</option>
 
-            <option value="English Home Language">
-                English Home Language
-            </option>
+<option value="English Home Language">
+English Home Language
+</option>
 
-            <option value="English Additional Language">
-                English Additional Language
-            </option>
+<option value="English Additional Language">
+English Additional Language
+</option>
 
-            <option value="Mathematics">
-                Mathematics
-            </option>
+<option value="Mathematics">
+Mathematics
+</option>
 
-            <option value="Mathematical Literacy">
-                Mathematical Literacy
-            </option>
+<option value="Mathematical Literacy">
+Mathematical Literacy
+</option>
 
-            <option value="Technical Mathematics">
-                Technical Mathematics
-            </option>
+<option value="Technical Mathematics">
+Technical Mathematics
+</option>
 
-            <option value="Technical Science">
-                Technical Science
-            </option>
+<option value="Technical Science">
+Technical Science
+</option>
 
-            <option value="Physical Sciences">
-                Physical Sciences
-            </option>
+<option value="Physical Sciences">
+Physical Sciences
+</option>
 
-            <option value="Life Sciences">
-                Life Sciences
-            </option>
+<option value="Life Sciences">
+Life Sciences
+</option>
 
-            <option value="Geography">
-                Geography
-            </option>
+<option value="Geography">
+Geography
+</option>
 
-            <option value="Accounting">
-                Accounting
-            </option>
+<option value="Accounting">
+Accounting
+</option>
 
-            <option value="CAT (Computer Applications Technology)">
-                CAT (Computer Applications Technology)
-            </option>
+<option value="CAT (Computer Applications Technology)">
+CAT (Computer Applications Technology)
+</option>
 
-            <option value="Life Orientation">
-                Life Orientation
-            </option>
+<option value="Life Orientation">
+Life Orientation
+</option>
 
-        </select>
+</select>
 
-        <button
-            class="join"
-            onclick="joinGroup()"
-        >
-            🇿🇦 Join National Study Group
-        </button>
 
-        <button
-            class="join"
-            onclick="joinProvincialGroup()"
-        >
-            📍 Join My Provincial Study Group
-        </button>
+<button
+class="join"
+onclick="joinGroup()"
+>
+🇿🇦 Join National Study Group
+</button>
 
-    </div>
 
-
-    <!-- NATIONAL GROUPS -->
-
-    <div class="card">
-
-        <h2>🇿🇦 National Groups</h2>
-
-        <p class="section-description">
-            National groups are open to Grade 12 learners
-            across South Africa. You can only join subjects
-            selected in your learner profile.
-        </p>
-
-        <div id="nationalGroups"></div>
-
-    </div>
-
-
-    <!-- PROVINCIAL GROUPS -->
-
-    <div class="card">
-
-        <h2>📍 Provincial Groups</h2>
-
-        <div
-            id="provinceTitle"
-            class="province-title"
-        >
-            Loading your province...
-        </div>
-
-        <p class="section-description">
-            Provincial groups are for learners from your
-            selected province. You can only join subjects
-            selected in your learner profile.
-        </p>
-
-        <div id="provincialGroups"></div>
-
-    </div>
-
-
-    <!-- CHAT -->
-
-    <div class="card" id="chatSection">
-
-        <div class="chat-header">
-
-            <h3 id="groupTitle">
-                Study Group
-            </h3>
-
-            <p id="memberCount">
-                👥 Members: 0
-            </p>
-
-        </div>
-
-
-        <div id="messages">
-
-            <div class="message">
-
-                <div class="message-name">
-                    Grade 12 Hub
-                </div>
-
-                <div class="message-text">
-                    Welcome to the study group! 🎓
-                </div>
-
-                <div class="message-time">
-                    Now
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="chat-input">
-
-            <input
-                type="text"
-                id="messageInput"
-                placeholder="Type your message..."
-                onkeypress="handleEnter(event)"
-            >
-
-            <button
-                class="send"
-                onclick="sendMessage()"
-            >
-                Send
-            </button>
-
-        </div>
-
-
-        <!-- FILE UPLOAD -->
-
-        <div class="upload-area">
-
-            <label
-                class="upload-label"
-                for="fileInput"
-            >
-                📎 Share a photo or document
-            </label>
-
-            <input
-                type="file"
-                id="fileInput"
-                accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt"
-                onchange="showSelectedFile()"
-            >
-
-            <div id="selectedFile">
-                No file selected
-            </div>
-
-            <button
-                class="send"
-                onclick="uploadFile()"
-            >
-                📤 Upload & Send
-            </button>
-
-            <div
-                id="uploadStatus"
-                class="upload-status"
-            ></div>
-
-        </div>
-
-
-        <button
-            class="leave"
-            onclick="leaveGroup()"
-        >
-            Leave Group
-        </button>
-
-    </div>
-
-
-    <!-- COMMUNITY RULES -->
-
-    <div class="card">
-
-        <h2>🛡️ Community Rules</h2>
-
-        <div class="notice">
-
-            Be respectful to other learners.
-            Do not share personal information,
-            passwords, phone numbers, or inappropriate
-            content.
-
-            Use the group for learning and
-            school-related discussions.
-
-        </div>
-
-    </div>
-
-
-    <a
-        href="index.html"
-        class="back"
-    >
-        ← Back to Home
-    </a>
+<button
+class="join"
+onclick="joinProvincialGroup()"
+>
+📍 Join My Provincial Study Group
+</button>
 
 </div>
 
 
-<!-- REPORT WINDOW -->
+<div class="card">
+
+<h2>🇿🇦 National Groups</h2>
+
+<p class="section-description">
+
+National groups are open to Grade 12 learners
+across South Africa.
+
+You can only join subjects selected
+in your learner profile.
+
+</p>
+
+<div id="nationalGroups"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📍 Provincial Groups</h2>
 
 <div
-    id="reportBox"
-    class="report-box"
+id="provinceTitle"
+class="province-title"
+>
+Loading your province...
+</div>
+
+<p class="section-description">
+
+Provincial groups are for learners from your
+selected province.
+
+You can only join subjects selected
+in your learner profile.
+
+</p>
+
+<div id="provincialGroups"></div>
+
+</div>
+
+
+<div class="card" id="chatSection">
+
+<div class="chat-header">
+
+<h3 id="groupTitle">
+Study Group
+</h3>
+
+<p id="memberCount">
+👥 Members: 0
+</p>
+
+</div>
+
+
+<div id="messages"></div>
+
+
+<div class="chat-input">
+
+<input
+type="text"
+id="messageInput"
+placeholder="Type your message..."
+onkeypress="handleEnter(event)"
 >
 
-    <div class="report-card">
+<button
+class="send"
+onclick="sendMessage()"
+>
+Send
+</button>
 
-        <h3>🚩 Report Student</h3>
-
-        <p>
-            Why are you reporting this message?
-        </p>
-
-
-        <input
-            type="hidden"
-            id="reportMessageId"
-        >
-
-        <input
-            type="hidden"
-            id="reportUserId"
-        >
+</div>
 
 
-        <label>
+<div class="upload-area">
 
-            <input
-                type="radio"
-                name="reportReason"
-                value="Harassment"
-            >
+<label
+class="upload-label"
+for="fileInput"
+>
+📎 Share a photo or document
+</label>
 
-            Harassment
+<input
+type="file"
+id="fileInput"
+accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt"
+onchange="showSelectedFile()"
+>
 
-        </label>
+<div id="selectedFile">
+No file selected
+</div>
 
+<button
+class="send"
+onclick="uploadFile()"
+>
+📤 Upload & Send
+</button>
 
-        <label>
+<div
+id="uploadStatus"
+class="upload-status"
+></div>
 
-            <input
-                type="radio"
-                name="reportReason"
-                value="Bullying"
-            >
-
-            Bullying
-
-        </label>
-
-
-        <label>
-
-            <input
-                type="radio"
-                name="reportReason"
-                value="Threatening content"
-            >
-
-            Threatening content
-
-        </label>
+</div>
 
 
-        <label>
+<button
+class="leave"
+onclick="leaveGroup()"
+>
+Leave Group
+</button>
 
-            <input
-                type="radio"
-                name="reportReason"
-                value="Inappropriate content"
-            >
-
-            Inappropriate content
-
-        </label>
+</div>
 
 
-        <label>
+<div class="card">
 
-            <input
-                type="radio"
-                name="reportReason"
-                value="Spam"
-            >
+<h2>🛡️ Community Rules</h2>
 
-            Spam
+<div class="notice">
 
-        </label>
+Be respectful to other learners.
 
+Do not share personal information,
+passwords, phone numbers, or inappropriate
+content.
 
-        <label>
+Use the group for learning and
+school-related discussions.
 
-            <input
-                type="radio"
-                name="reportReason"
-                value="Other"
-            >
+</div>
 
-            Other
-
-        </label>
+</div>
 
 
-        <input
-            type="text"
-            id="reportDescription"
-            placeholder="Optional: tell us what happened"
-        >
+<a
+href="index.html"
+class="back"
+>
+← Back to Home
+</a>
+
+</div>
 
 
-        <button
-            class="send"
-            onclick="submitReport()"
-        >
-            🚩 Submit Report
-        </button>
+<div
+id="reportBox"
+class="report-box"
+>
+
+<div class="report-card">
+
+<h3>🚩 Report Student</h3>
+
+<p>
+Why are you reporting this message?
+</p>
+
+<input
+type="hidden"
+id="reportMessageId"
+>
+
+<input
+type="hidden"
+id="reportUserId"
+>
 
 
-        <button
-            class="cancel-report"
-            onclick="closeReportBox()"
-        >
-            Cancel
-        </button>
+<label>
+<input
+type="radio"
+name="reportReason"
+value="Harassment"
+>
+Harassment
+</label>
 
-    </div>
+
+<label>
+<input
+type="radio"
+name="reportReason"
+value="Bullying"
+>
+Bullying
+</label>
+
+
+<label>
+<input
+type="radio"
+name="reportReason"
+value="Threatening content"
+>
+Threatening content
+</label>
+
+
+<label>
+<input
+type="radio"
+name="reportReason"
+value="Inappropriate content"
+>
+Inappropriate content
+</label>
+
+
+<label>
+<input
+type="radio"
+name="reportReason"
+value="Spam"
+>
+Spam
+</label>
+
+
+<label>
+<input
+type="radio"
+name="reportReason"
+value="Other"
+>
+Other
+</label>
+
+
+<input
+type="text"
+id="reportDescription"
+placeholder="Optional: tell us what happened"
+>
+
+
+<button
+class="send"
+onclick="submitReport()"
+>
+🚩 Submit Report
+</button>
+
+
+<button
+class="cancel-report"
+onclick="closeReportBox()"
+>
+Cancel
+</button>
+
+</div>
 
 </div>
 
@@ -741,18 +709,18 @@
 <script>
 
 const SUPABASE_URL =
-    "https://hdlhhbnawltisszzsbvw.supabase.co";
+"https://hdlhhbnawltisszzsbvw.supabase.co";
 
 
 const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+"sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
 
 const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
 
 
 let currentGroup = "";
@@ -766,64 +734,49 @@ let messageChannel = null;
 let learnerProfile = null;
 
 
-// ------------------------------------
-// GRADE 12 HUB SUBJECTS
-// ------------------------------------
-
 const GROUP_SUBJECTS = [
 
-    "English Home Language",
-
-    "English Additional Language",
-
-    "Mathematics",
-
-    "Mathematical Literacy",
-
-    "Technical Mathematics",
-
-    "Technical Science",
-
-    "Physical Sciences",
-
-    "Life Sciences",
-
-    "Geography",
-
-    "Accounting",
-
-    "CAT (Computer Applications Technology)",
-
-    "Life Orientation"
+"English Home Language",
+"English Additional Language",
+"Mathematics",
+"Mathematical Literacy",
+"Technical Mathematics",
+"Technical Science",
+"Physical Sciences",
+"Life Sciences",
+"Geography",
+"Accounting",
+"CAT (Computer Applications Technology)",
+"Life Orientation"
 
 ];
 
 
 const GROUP_ICONS = {
 
-    "English Home Language": "📖",
+"English Home Language": "📖",
 
-    "English Additional Language": "🗣️",
+"English Additional Language": "🗣️",
 
-    "Mathematics": "📐",
+"Mathematics": "📐",
 
-    "Mathematical Literacy": "🔢",
+"Mathematical Literacy": "🔢",
 
-    "Technical Mathematics": "📏",
+"Technical Mathematics": "📏",
 
-    "Technical Science": "🔧",
+"Technical Science": "🔧",
 
-    "Physical Sciences": "⚛️",
+"Physical Sciences": "⚛️",
 
-    "Life Sciences": "🧬",
+"Life Sciences": "🧬",
 
-    "Geography": "🌍",
+"Geography": "🌍",
 
-    "Accounting": "💰",
+"Accounting": "💰",
 
-    "CAT (Computer Applications Technology)": "💻",
+"CAT (Computer Applications Technology)": "💻",
 
-    "Life Orientation": "🎓"
+"Life Orientation": "🎓"
 
 };
 
@@ -834,87 +787,141 @@ const GROUP_ICONS = {
 
 async function checkUser() {
 
-    const { data, error } =
-        await supabaseClient.auth.getUser();
+const {
+data,
+error
+} =
+await supabaseClient.auth.getUser();
 
 
-    if (
-        error ||
-        !data.user
-    ) {
+if (
+error ||
+!data.user
+) {
 
-        alert(
-            "Please log in to use Study Groups."
-        );
+alert(
+"Please log in to use Study Groups."
+);
 
-        window.location.href =
-            "login.html";
+window.location.href =
+"login.html";
 
-        return false;
-    }
-
-
-    currentUser =
-        data.user;
+return false;
+}
 
 
-    return true;
+currentUser =
+data.user;
+
+return true;
+
 }
 
 
 // ------------------------------------
-// LOAD LEARNER PROFILE
+// LOAD PROFILE FROM SUPABASE
 // ------------------------------------
 
 async function loadLearnerProfile() {
 
-    if (!currentUser) {
+if (!currentUser) {
 
-        const loggedIn =
-            await checkUser();
+const loggedIn =
+await checkUser();
 
-        if (!loggedIn) {
-            return false;
-        }
-    }
+if (!loggedIn) {
+return false;
+}
 
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("learner_profiles")
-            .select(
-                "province, subjects"
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .single();
+}
 
 
-    if (
-        error ||
-        !data
-    ) {
+const {
+data,
+error
+} =
+await supabaseClient
 
-        console.error(error);
+.from("learner_profiles")
 
-        alert(
-            "Your learner profile could not be loaded."
-        );
+.select(
+"user_id, full_name, province, area, school, subjects, study_goal"
+)
 
-        return false;
-    }
+.eq(
+"user_id",
+currentUser.id
+)
+
+.maybeSingle();
 
 
-    learnerProfile =
-        data;
+if (error) {
+
+console.error(
+"Profile error:",
+error
+);
+
+alert(
+"Your learner profile could not be loaded.\n\n" +
+error.message
+);
+
+return false;
+
+}
 
 
-    return true;
+if (!data) {
+
+alert(
+"No learner profile was found for this account. Please complete your profile first."
+);
+
+window.location.href =
+"index.html";
+
+return false;
+
+}
+
+
+learnerProfile =
+data;
+
+
+// Save a copy locally for display,
+// but Supabase remains the main database.
+
+localStorage.setItem(
+"grade12_name",
+data.full_name || ""
+);
+
+localStorage.setItem(
+"grade12_province",
+data.province || ""
+);
+
+localStorage.setItem(
+"grade12_area",
+data.area || ""
+);
+
+localStorage.setItem(
+"grade12_school",
+data.school || ""
+);
+
+localStorage.setItem(
+"grade12_subjects",
+JSON.stringify(data.subjects || [])
+);
+
+
+return true;
+
 }
 
 
@@ -924,126 +931,133 @@ async function loadLearnerProfile() {
 
 function normalizeProvince(province) {
 
-    const value =
-        String(province || "")
-            .trim()
-            .toLowerCase()
-            .replace(
-                /\s+/g,
-                " "
-            );
+const value =
+String(province || "")
+.trim()
+.toLowerCase()
+.replace(
+(/\s+/g),
+" "
+);
 
 
-    const provinces = {
+const provinces = {
 
-        "eastern cape":
-            "Eastern Cape",
+"eastern cape":
+"Eastern Cape",
 
-        "free state":
-            "Free State",
+"free state":
+"Free State",
 
-        "gauteng":
-            "Gauteng",
+"gauteng":
+"Gauteng",
 
-        "kwazulu-natal":
-            "KwaZulu-Natal",
+"kwazulu-natal":
+"KwaZulu-Natal",
 
-        "kwazulu natal":
-            "KwaZulu-Natal",
+"kwazulu natal":
+"KwaZulu-Natal",
 
-        "kzn":
-            "KwaZulu-Natal",
+"kzn":
+"KwaZulu-Natal",
 
-        "limpopo":
-            "Limpopo",
+"limpopo":
+"Limpopo",
 
-        "mpumalanga":
-            "Mpumalanga",
+"mpumalanga":
+"Mpumalanga",
 
-        "northern cape":
-            "Northern Cape",
+"northern cape":
+"Northern Cape",
 
-        "north west":
-            "North West",
+"north west":
+"North West",
 
-        "northwest":
-            "North West",
+"northwest":
+"North West",
 
-        "western cape":
-            "Western Cape"
+"western cape":
+"Western Cape"
 
-    };
+};
 
 
-    return provinces[value] ||
-        String(province || "").trim();
+return provinces[value] ||
+String(province || "").trim();
+
 }
 
 
 // ------------------------------------
-// CHECK SELECTED SUBJECT
+// GET SUBJECTS
+// ------------------------------------
+
+function getLearnerSubjects() {
+
+if (!learnerProfile) {
+return [];
+}
+
+
+let subjects =
+learnerProfile.subjects;
+
+
+if (typeof subjects === "string") {
+
+try {
+
+subjects =
+JSON.parse(subjects);
+
+} catch (error) {
+
+subjects =
+[];
+
+}
+
+}
+
+
+if (!Array.isArray(subjects)) {
+return [];
+}
+
+
+return subjects.map(
+function(subject) {
+
+return String(subject)
+.trim();
+
+}
+);
+
+}
+
+
+// ------------------------------------
+// CHECK SUBJECT
 // ------------------------------------
 
 function selectedSubject(subject) {
 
-    if (!learnerProfile) {
-        return false;
-    }
+const subjects =
+getLearnerSubjects();
 
 
-    const subjects =
-        Array.isArray(
-            learnerProfile.subjects
-        )
-            ? learnerProfile.subjects
-            : [];
+return subjects.some(
+function(item) {
 
+return item.toLowerCase() ===
+String(subject)
+.trim()
+.toLowerCase();
 
-    return subjects.some(
-        function(item) {
-
-            return String(item)
-                .trim()
-                .toLowerCase() ===
-                String(subject)
-                    .trim()
-                    .toLowerCase();
-
-        }
-    );
 }
+);
 
-
-// ------------------------------------
-// CHECK SUBJECT ACCESS
-// ------------------------------------
-
-async function canAccessSubject(subject) {
-
-    if (!learnerProfile) {
-
-        const loaded =
-            await loadLearnerProfile();
-
-        if (!loaded) {
-            return false;
-        }
-    }
-
-
-    if (
-        !selectedSubject(subject)
-    ) {
-
-        alert(
-            "You cannot join this subject group because you did not select this subject when creating your profile."
-        );
-
-        return false;
-    }
-
-
-    return true;
 }
 
 
@@ -1053,119 +1067,93 @@ async function canAccessSubject(subject) {
 
 function renderNationalGroups() {
 
-    const container =
-        document.getElementById(
-            "nationalGroups"
-        );
+const container =
+document.getElementById(
+"nationalGroups"
+);
 
 
-    if (!container) {
-        return;
-    }
+container.innerHTML = "";
 
 
-    container.innerHTML =
-        "";
+GROUP_SUBJECTS.forEach(
+function(subject) {
+
+const allowed =
+selectedSubject(subject);
 
 
-    GROUP_SUBJECTS.forEach(
-        function(subject) {
+const group =
+document.createElement("div");
 
-            const allowed =
-                selectedSubject(subject);
-
-
-            const group =
-                document.createElement(
-                    "div"
-                );
+group.className =
+"group";
 
 
-            group.className =
-                "group";
+const strong =
+document.createElement("strong");
+
+strong.textContent =
+GROUP_ICONS[subject] +
+" " +
+subject;
 
 
-            const button =
-                document.createElement(
-                    "button"
-                );
+const span =
+document.createElement("span");
+
+span.textContent =
+allowed
+?
+"National study group"
+:
+"🔒 Subject not selected in your profile";
 
 
-            button.className =
-                "join";
+const button =
+document.createElement("button");
+
+button.className =
+"join";
 
 
-            if (!allowed) {
+if (!allowed) {
 
-                button.disabled =
-                    true;
+button.disabled =
+true;
 
-                button.textContent =
-                    "🔒 Locked";
+button.textContent =
+"🔒 Locked";
 
-            } else {
+} else {
 
-                button.textContent =
-                    "Join National Group";
+button.textContent =
+"Open National Group";
 
-                button.onclick =
-                    function() {
+button.onclick =
+function() {
 
-                        openGroup(
-                            subject,
-                            "national"
-                        );
+openGroup(
+subject,
+"national"
+);
 
-                    };
+};
 
-            }
-
-
-            const strong =
-                document.createElement(
-                    "strong"
-                );
+}
 
 
-            strong.textContent =
-                GROUP_ICONS[subject] +
-                " " +
-                subject;
+group.appendChild(strong);
 
+group.appendChild(span);
 
-            const span =
-                document.createElement(
-                    "span"
-                );
+group.appendChild(button);
 
+container.appendChild(group);
 
-            span.textContent =
-                allowed
-                    ? "National study group"
-                    : "🔒 Subject not selected in your profile";
+}
 
-
-            group.appendChild(
-                strong
-            );
-
-
-            group.appendChild(
-                span
-            );
-
-
-            group.appendChild(
-                button
-            );
-
-
-            container.appendChild(
-                group
-            );
-
-        }
-    );
+);
 
 }
 
@@ -1176,233 +1164,205 @@ function renderNationalGroups() {
 
 function renderProvincialGroups() {
 
-    const container =
-        document.getElementById(
-            "provincialGroups"
-        );
+const container =
+document.getElementById(
+"provincialGroups"
+);
+
+const provinceTitle =
+document.getElementById(
+"provinceTitle"
+);
 
 
-    const provinceTitle =
-        document.getElementById(
-            "provinceTitle"
-        );
+container.innerHTML = "";
 
 
-    if (!container) {
-        return;
-    }
+const province =
+normalizeProvince(
+learnerProfile &&
+learnerProfile.province
+);
 
 
-    container.innerHTML =
-        "";
+if (!province) {
+
+provinceTitle.textContent =
+"⚠️ No province saved in your learner profile.";
+
+return;
+
+}
 
 
-    const province =
-        normalizeProvince(
-            learnerProfile &&
-            learnerProfile.province
-        );
+provinceTitle.textContent =
+"📍 Your Province: " +
+province;
 
 
-    if (!province) {
+GROUP_SUBJECTS.forEach(
+function(subject) {
 
-        provinceTitle.textContent =
-            "⚠️ No province saved in your learner profile.";
-
-        return;
-    }
+const allowed =
+selectedSubject(subject);
 
 
-    provinceTitle.textContent =
-        "📍 Your Province: " +
-        province;
+const group =
+document.createElement("div");
+
+group.className =
+"group";
 
 
-    GROUP_SUBJECTS.forEach(
-        function(subject) {
+const strong =
+document.createElement("strong");
 
-            const allowed =
-                selectedSubject(subject);
-
-
-            const group =
-                document.createElement(
-                    "div"
-                );
+strong.textContent =
+GROUP_ICONS[subject] +
+" " +
+subject;
 
 
-            group.className =
-                "group";
+const span =
+document.createElement("span");
+
+span.textContent =
+allowed
+?
+province +
+" provincial study group"
+:
+"🔒 Subject not selected in your profile";
 
 
-            const strong =
-                document.createElement(
-                    "strong"
-                );
+const button =
+document.createElement("button");
+
+button.className =
+"join";
 
 
-            strong.textContent =
-                GROUP_ICONS[subject] +
-                " " +
-                subject;
+if (!allowed) {
+
+button.disabled =
+true;
+
+button.textContent =
+"🔒 Locked";
+
+} else {
+
+button.textContent =
+"Open Provincial Group";
+
+button.onclick =
+function() {
+
+openGroup(
+subject,
+"provincial"
+);
+
+};
+
+}
 
 
-            const span =
-                document.createElement(
-                    "span"
-                );
+group.appendChild(strong);
 
+group.appendChild(span);
 
-            span.textContent =
-                allowed
-                    ? province +
-                      " provincial study group"
-                    : "🔒 Subject not selected in your profile";
+group.appendChild(button);
 
+container.appendChild(group);
 
-            const button =
-                document.createElement(
-                    "button"
-                );
+}
 
-
-            button.className =
-                "join";
-
-
-            if (!allowed) {
-
-                button.disabled =
-                    true;
-
-                button.textContent =
-                    "🔒 Locked";
-
-            } else {
-
-                button.textContent =
-                    "Join Provincial Group";
-
-                button.onclick =
-                    function() {
-
-                        openGroup(
-                            subject,
-                            "provincial"
-                        );
-
-                    };
-
-            }
-
-
-            group.appendChild(
-                strong
-            );
-
-
-            group.appendChild(
-                span
-            );
-
-
-            group.appendChild(
-                button
-            );
-
-
-            container.appendChild(
-                group
-            );
-
-        }
-    );
+);
 
 }
 
 
 // ------------------------------------
-// LOAD STUDY GROUPS
+// LOAD GROUPS
 // ------------------------------------
 
 async function loadStudyGroups() {
 
-    const loaded =
-        await loadLearnerProfile();
+const loaded =
+await loadLearnerProfile();
 
 
-    if (!loaded) {
-        return;
-    }
+if (!loaded) {
+return;
+}
 
 
-    renderNationalGroups();
+renderNationalGroups();
 
-    renderProvincialGroups();
+renderProvincialGroups();
 
 }
 
 
 // ------------------------------------
-// JOIN NATIONAL GROUP
+// SELECTED SUBJECT JOIN
 // ------------------------------------
 
 async function joinGroup() {
 
-    const subject =
-        document.getElementById(
-            "subject"
-        ).value;
+const subject =
+document.getElementById(
+"subject"
+).value;
 
 
-    if (
-        subject === ""
-    ) {
+if (!subject) {
 
-        alert(
-            "Please choose a subject first."
-        );
+alert(
+"Please choose a subject first."
+);
 
-        return;
-    }
+return;
+
+}
 
 
-    await openGroup(
-        subject,
-        "national"
-    );
+await openGroup(
+subject,
+"national"
+);
 
 }
 
 
 // ------------------------------------
-// JOIN PROVINCIAL GROUP
+// PROVINCIAL JOIN
 // ------------------------------------
 
 async function joinProvincialGroup() {
 
-    const subject =
-        document.getElementById(
-            "subject"
-        ).value;
+const subject =
+document.getElementById(
+"subject"
+).value;
 
 
-    if (
-        subject === ""
-    ) {
+if (!subject) {
 
-        alert(
-            "Please choose a subject first."
-        );
+alert(
+"Please choose a subject first."
+);
 
-        return;
-    }
+return;
+
+}
 
 
-    await openGroup(
-        subject,
-        "provincial"
-    );
+await openGroup(
+subject,
+"provincial"
+);
 
 }
 
@@ -1412,225 +1372,268 @@ async function joinProvincialGroup() {
 // ------------------------------------
 
 async function openGroup(
-    subject,
-    groupType = "national"
+subject,
+groupType
 ) {
 
-    if (!currentUser) {
+if (!currentUser) {
 
-        const loggedIn =
-            await checkUser();
+const loggedIn =
+await checkUser();
 
+if (!loggedIn) {
+return;
+}
 
-        if (!loggedIn) {
-            return;
-        }
+}
 
-    }
 
+const profileLoaded =
+await loadLearnerProfile();
 
-    const profileLoaded =
-        await loadLearnerProfile();
 
+if (!profileLoaded) {
+return;
+}
 
-    if (!profileLoaded) {
-        return;
-    }
 
+// IMPORTANT:
+// Check the subject stored in Supabase.
 
-    const allowed =
-        await canAccessSubject(
-            subject
-        );
+if (!selectedSubject(subject)) {
 
+alert(
+"You cannot join this group because " +
+subject +
+" was not selected in your learner profile."
+);
 
-    if (!allowed) {
-        return;
-    }
+return;
 
+}
 
-    const province =
-        normalizeProvince(
-            learnerProfile.province
-        );
 
+const province =
+normalizeProvince(
+learnerProfile.province
+);
 
-    if (
-        groupType === "provincial" &&
-        !province
-    ) {
 
-        alert(
-            "Your province could not be found in your learner profile."
-        );
+if (
+groupType === "provincial" &&
+!province
+) {
 
-        return;
-    }
+alert(
+"Your province could not be found in your learner profile."
+);
 
+return;
 
-    let query =
-        supabaseClient
-            .from("study_groups")
-            .select(
-                "id, subject, group_type, province"
-            )
-            .eq(
-                "subject",
-                subject
-            )
-            .eq(
-                "group_type",
-                groupType
-            );
+}
 
 
-    if (
-        groupType === "provincial"
-    ) {
+// ------------------------------------
+// FIND GROUP
+// ------------------------------------
 
-        query =
-            query.eq(
-                "province",
-                province
-            );
+let query =
+supabaseClient
 
-    } else {
+.from("study_groups")
 
-        query =
-            query.is(
-                "province",
-                null
-            );
+.select(
+"id, subject, group_type, province"
+)
 
-    }
+.eq(
+"subject",
+subject
+)
 
+.eq(
+"group_type",
+groupType
+);
 
-    const {
-        data,
-        error
-    } =
-        await query.limit(1);
 
+if (
+groupType === "provincial"
+) {
 
-    if (
-        error ||
-        !data ||
-        data.length === 0
-    ) {
+query =
+query.eq(
+"province",
+province
+);
 
-        console.error(error);
+} else {
 
-        alert(
-            "Could not find this study group."
-        );
+query =
+query.is(
+"province",
+null
+);
 
-        return;
-    }
+}
 
 
-    const group =
-        data[0];
+const {
+data: groups,
+error: groupError
+} =
+await query.limit(1);
 
 
-    const {
-        data: databaseAllowed,
-        error: accessError
-    } =
-        await supabaseClient
-            .rpc(
-                "can_access_subject_group",
-                {
-                    requested_group_id:
-                        group.id
-                }
-            );
+if (groupError) {
 
+console.error(
+groupError
+);
 
-    if (
-        accessError ||
-        databaseAllowed !== true
-    ) {
+alert(
+"Could not load the study group.\n\n" +
+groupError.message
+);
 
-        console.error(
-            accessError
-        );
+return;
 
-        alert(
-            "Access denied. You are not allowed to enter this group."
-        );
+}
 
-        return;
-    }
 
+if (
+!groups ||
+groups.length === 0
+) {
 
-    currentGroupId =
-        group.id;
+alert(
+"This study group has not been created yet."
+);
 
+return;
 
-    if (
-        groupType === "national"
-    ) {
+}
 
-        currentGroup =
-            "National - " +
-            subject;
 
+const group =
+groups[0];
 
-        document.getElementById(
-            "groupTitle"
-        ).textContent =
-            "🇿🇦 " +
-            subject +
-            " National Study Group";
 
-    } else {
+// ------------------------------------
+// SAVE MEMBERSHIP
+// ------------------------------------
 
-        currentGroup =
-            province +
-            " - " +
-            subject;
+const {
+error: membershipError
+} =
+await supabaseClient
 
+.from("study_group_members")
 
-        document.getElementById(
-            "groupTitle"
-        ).textContent =
-            "📍 " +
-            province +
-            " - " +
-            subject +
-            " Study Group";
+.upsert(
+{
+group_id:
+group.id,
 
-    }
+user_id:
+currentUser.id
+},
+{
+onConflict:
+"group_id,user_id"
+}
+);
 
 
-    document.getElementById(
-        "memberCount"
-    ).textContent =
-        "👥 Study Group";
+if (membershipError) {
 
+console.error(
+"Membership error:",
+membershipError
+);
 
-    document.getElementById(
-        "chatSection"
-    ).style.display =
-        "block";
+alert(
+"The group was found, but your membership could not be saved.\n\n" +
+membershipError.message
+);
 
+return;
 
-    await loadMessages();
+}
 
 
-    subscribeToMessages();
+// ------------------------------------
+// OPEN CHAT
+// ------------------------------------
 
+currentGroupId =
+group.id;
 
-    document.getElementById(
-        "chatSection"
-    ).scrollIntoView({
-        behavior: "smooth"
-    });
 
+if (
+groupType === "national"
+) {
 
-    document.getElementById(
-        "messageInput"
-    ).focus();
+currentGroup =
+"National - " +
+subject;
+
+
+document.getElementById(
+"groupTitle"
+).textContent =
+"🇿🇦 " +
+subject +
+" National Study Group";
+
+} else {
+
+currentGroup =
+province +
+" - " +
+subject;
+
+
+document.getElementById(
+"groupTitle"
+).textContent =
+"📍 " +
+province +
+" - " +
+subject +
+" Study Group";
+
+}
+
+
+document.getElementById(
+"memberCount"
+).textContent =
+"👥 Study Group";
+
+
+document.getElementById(
+"chatSection"
+).style.display =
+"block";
+
+
+await loadMessages();
+
+subscribeToMessages();
+
+
+document.getElementById(
+"chatSection"
+).scrollIntoView({
+behavior:
+"smooth"
+});
+
+
+document.getElementById(
+"messageInput"
+).focus();
 
 }
 
@@ -1641,95 +1644,105 @@ async function openGroup(
 
 async function loadMessages() {
 
-    const messages =
-        document.getElementById(
-            "messages"
-        );
+const messages =
+document.getElementById(
+"messages"
+);
 
 
-    messages.innerHTML =
-        "";
+messages.innerHTML = "";
 
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("study_messages")
-            .select("*")
-            .eq(
-                "group_id",
-                currentGroupId
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: true
-                }
-            );
+const {
+data,
+error
+} =
+await supabaseClient
+
+.from("study_messages")
+
+.select("*")
+
+.eq(
+"group_id",
+currentGroupId
+)
+
+.order(
+"created_at",
+{
+ascending:
+true
+}
+);
 
 
-    if (error) {
+if (error) {
 
-        console.error(error);
+console.error(error);
 
-        messages.innerHTML =
-            '<div class="message">' +
+messages.innerHTML =
+`
+<div class="message">
 
-            '<div class="message-name">' +
-            'Grade 12 Hub' +
-            '</div>' +
+<div class="message-name">
+Grade 12 Hub
+</div>
 
-            '<div class="message-text">' +
-            'Could not load messages.' +
-            '</div>' +
+<div class="message-text">
+Could not load messages.
+</div>
 
-            '</div>';
+</div>
+`;
 
-        return;
-    }
+return;
 
-
-    if (
-        !data ||
-        data.length === 0
-    ) {
-
-        messages.innerHTML =
-            '<div class="message">' +
-
-            '<div class="message-name">' +
-            'Grade 12 Hub' +
-            '</div>' +
-
-            '<div class="message-text">' +
-            'Welcome to the study group! 🎓' +
-            '</div>' +
-
-            '<div class="message-time">' +
-            'Now' +
-            '</div>' +
-
-            '</div>';
-
-        return;
-    }
+}
 
 
-    data.forEach(
-        function(message) {
+if (
+!data ||
+data.length === 0
+) {
 
-            displayMessage(
-                message
-            );
+messages.innerHTML =
+`
+<div class="message">
 
-        }
-    );
+<div class="message-name">
+Grade 12 Hub
+</div>
+
+<div class="message-text">
+Welcome to the study group! 🎓
+</div>
+
+<div class="message-time">
+Now
+</div>
+
+</div>
+`;
+
+return;
+
+}
 
 
-    messages.scrollTop =
-        messages.scrollHeight;
+data.forEach(
+function(message) {
+
+displayMessage(
+message
+);
+
+}
+);
+
+
+messages.scrollTop =
+messages.scrollHeight;
 
 }
 
@@ -1740,246 +1753,231 @@ async function loadMessages() {
 
 function displayMessage(message) {
 
-    const messages =
-        document.getElementById(
-            "messages"
-        );
+const messages =
+document.getElementById(
+"messages"
+);
 
 
-    const newMessage =
-        document.createElement(
-            "div"
-        );
+const newMessage =
+document.createElement(
+"div"
+);
+
+newMessage.className =
+"message";
 
 
-    newMessage.className =
-        "message";
+let attachmentHTML =
+"";
 
 
-    let attachmentHTML =
-        "";
+if (
+message.attachment_url
+) {
+
+const fileName =
+message.attachment_name ||
+"Shared file";
 
 
-    if (
-        message.attachment_url
-    ) {
-
-        const fileName =
-            message.attachment_name ||
-            "Shared file";
+const fileType =
+message.attachment_type ||
+"";
 
 
-        const fileType =
-            message.attachment_type ||
-            "";
+let icon =
+"📎";
 
 
-        let icon =
-            "📎";
+if (
+fileType.startsWith(
+"image/"
+)
+) {
+
+icon =
+"📷";
+
+}
 
 
-        if (
-            fileType.startsWith(
-                "image/"
-            )
-        ) {
+if (
+fileType ===
+"application/pdf"
+) {
 
-            icon =
-                "📷";
+icon =
+"📄";
 
-        }
-
-
-        if (
-            fileType ===
-            "application/pdf"
-        ) {
-
-            icon =
-                "📄";
-
-        }
+}
 
 
-        attachmentHTML =
+attachmentHTML =
+`
+<div>
 
-            '<div>' +
+<span class="file-icon">
+${icon}
+</span>
 
-            '<span class="file-icon">' +
-            icon +
-            '</span>' +
+<a
+class="file-link"
+href="${escapeAttribute(message.attachment_url)}"
+target="_blank"
+rel="noopener"
+>
+${escapeHTML(fileName)}
+</a>
 
-            '<a class="file-link" href="' +
-            escapeAttribute(
-                message.attachment_url
-            ) +
-            '" target="_blank" rel="noopener">' +
+</div>
+`;
 
-            escapeHTML(
-                fileName
-            ) +
-
-            '</a>' +
-
-            '</div>';
-
-    }
+}
 
 
-    let deleteButtonHTML =
-        "";
+let deleteButtonHTML =
+"";
 
 
-    if (
-        currentUser &&
-        message.user_id ===
-        currentUser.id
-    ) {
+if (
+currentUser &&
+message.user_id ===
+currentUser.id
+) {
 
-        deleteButtonHTML =
+deleteButtonHTML =
+`
+<button
+class="delete-button"
+onclick="deleteMessage(${message.id})"
+>
+🗑️ Delete
+</button>
+`;
 
-            '<button ' +
-            'class="delete-button" ' +
-            'onclick="deleteMessage(' +
-            message.id +
-            ')">' +
-
-            '🗑️ Delete' +
-
-            '</button>';
-
-    }
+}
 
 
-    let reportButtonHTML =
-        "";
+let reportButtonHTML =
+"";
 
 
-    if (
-        currentUser &&
-        message.user_id !==
-        currentUser.id
-    ) {
+if (
+currentUser &&
+message.user_id !==
+currentUser.id
+) {
 
-        reportButtonHTML =
+reportButtonHTML =
+`
+<button
+class="report-button"
+onclick="openReportBox(
+'${String(message.id).replace(/'/g,"\\'")}',
+'${String(message.user_id).replace(/'/g,"\\'")}'
+)"
+>
+🚩 Report
+</button>
+`;
 
-            '<button ' +
-            'class="report-button" ' +
-            'onclick="openReportBox(\'' +
-            String(message.id).replace(
-                /'/g,
-                "\\'"
-            ) +
-            '\', \'' +
-            String(message.user_id).replace(
-                /'/g,
-                "\\'"
-            ) +
-            '\')">' +
-
-            '🚩 Report' +
-
-            '</button>';
-
-    }
+}
 
 
-    newMessage.innerHTML =
+newMessage.innerHTML =
+`
+<div class="message-name">
+${escapeHTML(message.user_name || "Learner")}
+</div>
 
-        '<div class="message-name">' +
-        escapeHTML(
-            message.user_name ||
-            "Learner"
-        ) +
-        '</div>' +
+<div class="message-text">
+${escapeHTML(message.message || "")}
+</div>
 
-        '<div class="message-text">' +
-        escapeHTML(
-            message.message ||
-            ""
-        ) +
-        '</div>' +
+${attachmentHTML}
 
-        attachmentHTML +
+${deleteButtonHTML}
 
-        deleteButtonHTML +
+${reportButtonHTML}
 
-        reportButtonHTML +
-
-        '<div class="message-time">' +
-        formatTime(
-            message.created_at
-        ) +
-        '</div>';
+<div class="message-time">
+${formatTime(message.created_at)}
+</div>
+`;
 
 
-    messages.appendChild(
-        newMessage
-    );
+messages.appendChild(
+newMessage
+);
 
 }
 
 
 // ------------------------------------
-// DELETE OWN MESSAGE
+// DELETE MESSAGE
 // ------------------------------------
 
 async function deleteMessage(
-    messageId
+messageId
 ) {
 
-    if (!currentUser) {
+if (!currentUser) {
 
-        alert(
-            "Please log in again."
-        );
+alert(
+"Please log in again."
+);
 
-        return;
-    }
+return;
 
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to delete this message?"
-        );
+}
 
 
-    if (!confirmed) {
-        return;
-    }
+if (
+!confirm(
+"Are you sure you want to delete this message?"
+)
+) {
+
+return;
+
+}
 
 
-    const {
-        error
-    } =
-        await supabaseClient
-            .from(
-                "study_messages"
-            )
-            .delete()
-            .eq(
-                "id",
-                messageId
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            );
+const {
+error
+} =
+await supabaseClient
+
+.from("study_messages")
+
+.delete()
+
+.eq(
+"id",
+messageId
+)
+
+.eq(
+"user_id",
+currentUser.id
+);
 
 
-    if (error) {
+if (error) {
 
-        console.error(error);
+console.error(error);
 
-        alert(
-            "The message could not be deleted."
-        );
+alert(
+"The message could not be deleted."
+);
 
-        return;
-    }
+return;
+
+}
 
 
-    await loadMessages();
+await loadMessages();
 
 }
 
@@ -1990,127 +1988,127 @@ async function deleteMessage(
 
 async function sendMessage() {
 
-    const input =
-        document.getElementById(
-            "messageInput"
-        );
+const input =
+document.getElementById(
+"messageInput"
+);
 
 
-    const message =
-        input.value.trim();
+const message =
+input.value.trim();
 
 
-    if (
-        message === ""
-    ) {
-        return;
-    }
+if (!message) {
+return;
+}
 
 
-    if (!currentUser) {
+if (!currentUser) {
 
-        const loggedIn =
-            await checkUser();
+const loggedIn =
+await checkUser();
 
+if (!loggedIn) {
+return;
+}
 
-        if (!loggedIn) {
-            return;
-        }
-
-    }
-
-
-    if (!currentGroupId) {
-
-        alert(
-            "Please join a study group first."
-        );
-
-        return;
-    }
+}
 
 
-    if (
-        containsPhoneNumber(
-            message
-        )
-    ) {
+if (!currentGroupId) {
 
-        alert(
-            "Please do not share phone numbers in the study group."
-        );
+alert(
+"Please join a study group first."
+);
 
-        return;
-    }
+return;
+
+}
 
 
-    if (
-        containsBlockedWords(
-            message
-        )
-    ) {
+if (
+containsPhoneNumber(message)
+) {
 
-        alert(
-            "Please keep the study group respectful and school-related."
-        );
+alert(
+"Please do not share phone numbers in the study group."
+);
 
-        return;
-    }
+return;
 
-
-    const name =
-        localStorage.getItem(
-            "grade12_name"
-        ) ||
-        "Learner";
+}
 
 
-    input.disabled =
-        true;
+if (
+containsBlockedWords(message)
+) {
+
+alert(
+"Please keep the study group respectful and school-related."
+);
+
+return;
+
+}
 
 
-    const {
-        error
-    } =
-        await supabaseClient
-            .from(
-                "study_messages"
-            )
-            .insert({
-
-                group_id:
-                    currentGroupId,
-
-                user_id:
-                    currentUser.id,
-
-                user_name:
-                    name,
-
-                message:
-                    message
-
-            });
+const name =
+learnerProfile &&
+learnerProfile.full_name
+?
+learnerProfile.full_name
+:
+" Learner";
 
 
-    input.disabled =
-        false;
+input.disabled =
+true;
 
 
-    if (error) {
+const {
+error
+} =
+await supabaseClient
 
-        console.error(error);
+.from("study_messages")
 
-        alert(
-            "Your message could not be sent."
-        );
+.insert({
 
-        return;
-    }
+group_id:
+currentGroupId,
+
+user_id:
+currentUser.id,
+
+user_name:
+name,
+
+message:
+message
+
+});
 
 
-    input.value =
-        "";
+input.disabled =
+false;
+
+
+if (error) {
+
+console.error(error);
+
+alert(
+"Your message could not be sent.\n\n" +
+error.message
+);
+
+return;
+
+}
+
+
+input.value =
+"";
 
 }
 
@@ -2121,42 +2119,41 @@ async function sendMessage() {
 
 function showSelectedFile() {
 
-    const input =
-        document.getElementById(
-            "fileInput"
-        );
+const input =
+document.getElementById(
+"fileInput"
+);
 
 
-    const selected =
-        document.getElementById(
-            "selectedFile"
-        );
+const selected =
+document.getElementById(
+"selectedFile"
+);
 
 
-    if (
-        !input.files ||
-        input.files.length === 0
-    ) {
+if (
+!input.files ||
+input.files.length === 0
+) {
 
-        selected.textContent =
-            "No file selected";
+selected.textContent =
+"No file selected";
 
-        return;
-    }
+return;
 
-
-    const file =
-        input.files[0];
+}
 
 
-    selected.textContent =
-        "Selected: " +
-        file.name +
-        " (" +
-        formatFileSize(
-            file.size
-        ) +
-        ")";
+const file =
+input.files[0];
+
+
+selected.textContent =
+"Selected: " +
+file.name +
+" (" +
+formatFileSize(file.size) +
+")";
 
 }
 
@@ -2167,310 +2164,297 @@ function showSelectedFile() {
 
 async function uploadFile() {
 
-    if (!currentUser) {
+if (!currentUser) {
 
-        const loggedIn =
-            await checkUser();
+const loggedIn =
+await checkUser();
 
+if (!loggedIn) {
+return;
+}
 
-        if (!loggedIn) {
-            return;
-        }
+}
 
-    }
 
+if (!currentGroupId) {
 
-    if (!currentGroupId) {
+alert(
+"Please join a study group first."
+);
 
-        alert(
-            "Please join a study group first."
-        );
+return;
 
-        return;
-    }
+}
 
 
-    const input =
-        document.getElementById(
-            "fileInput"
-        );
+const input =
+document.getElementById(
+"fileInput"
+);
 
 
-    const status =
-        document.getElementById(
-            "uploadStatus"
-        );
+const status =
+document.getElementById(
+"uploadStatus"
+);
 
 
-    if (
-        !input.files ||
-        input.files.length === 0
-    ) {
+if (
+!input.files ||
+input.files.length === 0
+) {
 
-        alert(
-            "Please choose a photo or document first."
-        );
+alert(
+"Please choose a photo or document first."
+);
 
-        return;
-    }
+return;
 
+}
 
-    const file =
-        input.files[0];
 
+const file =
+input.files[0];
 
-    if (
-        file.size >
-        10 * 1024 * 1024
-    ) {
 
-        alert(
-            "The file is too large. Maximum size is 10 MB."
-        );
+if (
+file.size >
+10 * 1024 * 1024
+) {
 
-        return;
-    }
+alert(
+"The file is too large. Maximum size is 10 MB."
+);
 
+return;
 
-    if (
-        containsBlockedFileType(
-            file
-        )
-    ) {
+}
 
-        alert(
-            "This type of file is not allowed."
-        );
 
-        return;
-    }
+if (
+containsBlockedFileType(file)
+) {
 
+alert(
+"This type of file is not allowed."
+);
 
-    status.textContent =
-        "Uploading...";
+return;
 
+}
 
-    try {
 
-        const safeName =
-            file.name.replace(
-                /[^a-zA-Z0-9._-]/g,
-                "_"
-            );
+status.textContent =
+"Uploading...";
 
 
-        const filePath =
-            currentUser.id +
-            "/" +
-            currentGroupId +
-            "/" +
-            Date.now() +
-            "_" +
-            safeName;
+try {
 
+const safeName =
+file.name.replace(
+/[^a-zA-Z0-9._-]/g,
+"_"
+);
 
-        const {
-            error: uploadError
-        } =
-            await supabaseClient
-                .storage
-                .from(
-                    "study-files"
-                )
-                .upload(
-                    filePath,
-                    file,
-                    {
-                        cacheControl:
-                            "3600",
 
-                        upsert:
-                            false
-                    }
-                );
+const filePath =
+currentUser.id +
+"/" +
+currentGroupId +
+"/" +
+Date.now() +
+"_" +
+safeName;
 
 
-        if (uploadError) {
+const {
+error: uploadError
+} =
+await supabaseClient
 
-            console.error(
-                uploadError
-            );
+.storage
 
-            status.textContent =
-                "Upload failed.";
+.from("study-files")
 
-            alert(
-                "The file could not be uploaded."
-            );
+.upload(
+filePath,
+file,
+{
+cacheControl:
+"3600",
 
-            return;
-        }
+upsert:
+false
+}
+);
 
 
-        const {
-            data: publicData
-        } =
-            supabaseClient
-                .storage
-                .from(
-                    "study-files"
-                )
-                .getPublicUrl(
-                    filePath
-                );
+if (uploadError) {
 
+console.error(
+uploadError
+);
 
-        const fileURL =
-            publicData.publicUrl;
+status.textContent =
+"Upload failed.";
 
+alert(
+"The file could not be uploaded."
+);
 
-        const name =
-            localStorage.getItem(
-                "grade12_name"
-            ) ||
-            "Learner";
+return;
 
+}
 
-        const {
-            error: messageError
-        } =
-            await supabaseClient
-                .from(
-                    "study_messages"
-                )
-                .insert({
 
-                    group_id:
-                        currentGroupId,
+const {
+data: publicData
+} =
+supabaseClient
 
-                    user_id:
-                        currentUser.id,
+.storage
 
-                    user_name:
-                        name,
+.from("study-files")
 
-                    message:
-                        "📎 Shared: " +
-                        file.name,
+.getPublicUrl(
+filePath
+);
 
-                    attachment_url:
-                        fileURL,
 
-                    attachment_name:
-                        file.name,
+const fileURL =
+publicData.publicUrl;
 
-                    attachment_type:
-                        file.type
 
-                });
+const name =
+learnerProfile &&
+learnerProfile.full_name
+?
+learnerProfile.full_name
+:
+"Learner";
 
 
-        if (messageError) {
+const {
+error: messageError
+} =
+await supabaseClient
 
-            console.error(
-                messageError
-            );
+.from("study_messages")
 
-            status.textContent =
-                "File uploaded but message failed.";
+.insert({
 
-            alert(
-                "The file uploaded, but it could not be shared."
-            );
+group_id:
+currentGroupId,
 
-            return;
-        }
+user_id:
+currentUser.id,
 
+user_name:
+name,
 
-        status.textContent =
-            "File uploaded successfully.";
+message:
+"📎 Shared: " +
+file.name,
 
+attachment_url:
+fileURL,
 
-        input.value =
-            "";
+attachment_name:
+file.name,
 
+attachment_type:
+file.type
 
-        document.getElementById(
-            "selectedFile"
-        ).textContent =
-            "No file selected";
+});
 
 
-    } catch (error) {
+if (messageError) {
 
-        console.error(error);
+console.error(
+messageError
+);
 
-        status.textContent =
-            "Upload failed.";
+status.textContent =
+"File uploaded but message failed.";
 
-        alert(
-            "Something went wrong while uploading the file."
-        );
+alert(
+"The file uploaded, but it could not be shared."
+);
 
-    }
+return;
+
+}
+
+
+status.textContent =
+"File uploaded successfully.";
+
+input.value =
+"";
+
+document.getElementById(
+"selectedFile"
+).textContent =
+"No file selected";
+
+} catch (error) {
+
+console.error(error);
+
+status.textContent =
+"Upload failed.";
+
+alert(
+"Something went wrong while uploading the file."
+);
+
+}
 
 }
 
 
 // ------------------------------------
-// ALLOWED FILE TYPES
+// FILE TYPES
 // ------------------------------------
 
-function containsBlockedFileType(
-    file
-) {
+function containsBlockedFileType(file) {
 
-    const allowedTypes = [
+const allowedTypes = [
 
-        "image/jpeg",
+"image/jpeg",
+"image/png",
+"image/gif",
+"image/webp",
+"application/pdf",
+"application/msword",
+"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+"application/vnd.ms-powerpoint",
+"application/vnd.openxmlformats-officedocument.presentationml.presentation",
+"application/vnd.ms-excel",
+"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+"text/plain"
 
-        "image/png",
-
-        "image/gif",
-
-        "image/webp",
-
-        "application/pdf",
-
-        "application/msword",
-
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-
-        "application/vnd.ms-powerpoint",
-
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-
-        "application/vnd.ms-excel",
-
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-
-        "text/plain"
-
-    ];
+];
 
 
-    return !allowedTypes.includes(
-        file.type
-    );
+return !allowedTypes.includes(
+file.type
+);
 
 }
 
 
 // ------------------------------------
-// PHONE NUMBER CHECK
+// PHONE CHECK
 // ------------------------------------
 
-function containsPhoneNumber(
-    text
-) {
+function containsPhoneNumber(text) {
 
-    const phonePattern =
-        /(?:\+27|0)\s?\d{2}\s?\d{3}\s?\d{4}/;
+const phonePattern =
+/(?:\+27|0)\s?\d{2}\s?\d{3}\s?\d{4}/;
 
 
-    return phonePattern.test(
-        text
-    );
+return phonePattern.test(text);
 
 }
 
@@ -2479,121 +2463,114 @@ function containsPhoneNumber(
 // BASIC WORD CHECK
 // ------------------------------------
 
-function containsBlockedWords(
-    text
-) {
+function containsBlockedWords(text) {
 
-    const lower =
-        text.toLowerCase();
+const lower =
+text.toLowerCase();
 
 
-    const blockedWords = [
-
-        "porn",
-
-        "fuck",
-
-        "fucking",
-
-        "sex"
-
-    ];
+const blockedWords = [
+"porn",
+"fuck",
+"fucking",
+"sex"
+];
 
 
-    return blockedWords.some(
-        function(word) {
+return blockedWords.some(
+function(word) {
 
-            return lower.includes(
-                word
-            );
+return lower.includes(
+word
+);
 
-        }
-    );
+}
+);
 
 }
 
 
 // ------------------------------------
-// REAL-TIME MESSAGES
+// REALTIME
 // ------------------------------------
 
 function subscribeToMessages() {
 
-    if (messageChannel) {
+if (messageChannel) {
 
-        supabaseClient
-            .removeChannel(
-                messageChannel
-            );
+supabaseClient.removeChannel(
+messageChannel
+);
 
-    }
-
-
-    messageChannel =
-        supabaseClient
-            .channel(
-                "study-group-" +
-                currentGroupId
-            )
-            .on(
-                "postgres_changes",
-                {
-
-                    event:
-                        "INSERT",
-
-                    schema:
-                        "public",
-
-                    table:
-                        "study_messages",
-
-                    filter:
-                        "group_id=eq." +
-                        currentGroupId
-
-                },
-
-                function(payload) {
-
-                    displayMessage(
-                        payload.new
-                    );
+}
 
 
-                    const messages =
-                        document.getElementById(
-                            "messages"
-                        );
+messageChannel =
+supabaseClient
+
+.channel(
+"study-group-" +
+currentGroupId
+)
+
+.on(
+"postgres_changes",
+{
+
+event:
+"INSERT",
+
+schema:
+"public",
+
+table:
+"study_messages",
+
+filter:
+"group_id=eq." +
+currentGroupId
+
+},
+
+function(payload) {
+
+displayMessage(
+payload.new
+);
 
 
-                    messages.scrollTop =
-                        messages.scrollHeight;
+const messages =
+document.getElementById(
+"messages"
+);
 
-                }
 
-            )
-            .subscribe();
+messages.scrollTop =
+messages.scrollHeight;
+
+}
+
+)
+
+.subscribe();
 
 }
 
 
 // ------------------------------------
-// ENTER KEY
+// ENTER
 // ------------------------------------
 
-function handleEnter(
-    event
+function handleEnter(event) {
+
+if (
+event.key ===
+"Enter"
 ) {
 
-    if (
-        event.key ===
-        "Enter"
-    ) {
+sendMessage();
 
-        sendMessage();
-
-    }
+}
 
 }
 
@@ -2602,140 +2579,189 @@ function handleEnter(
 // LEAVE GROUP
 // ------------------------------------
 
-function leaveGroup() {
+async function leaveGroup() {
 
-    if (messageChannel) {
+if (
+!currentUser ||
+!currentGroupId
+) {
 
-        supabaseClient
-            .removeChannel(
-                messageChannel
-            );
+return;
 
-
-        messageChannel =
-            null;
-
-    }
+}
 
 
-    document.getElementById(
-        "chatSection"
-    ).style.display =
-        "none";
+const confirmed =
+confirm(
+"Leave this study group?"
+);
 
 
-    currentGroup =
-        "";
+if (!confirmed) {
+return;
+}
 
 
-    currentGroupId =
-        null;
+const {
+error
+} =
+await supabaseClient
+
+.from("study_group_members")
+
+.delete()
+
+.eq(
+"group_id",
+currentGroupId
+)
+
+.eq(
+"user_id",
+currentUser.id
+);
 
 
-    document.getElementById(
-        "fileInput"
-    ).value =
-        "";
+if (error) {
+
+console.error(error);
+
+alert(
+"Could not leave the group."
+);
+
+return;
+
+}
 
 
-    document.getElementById(
-        "selectedFile"
-    ).textContent =
-        "No file selected";
+if (messageChannel) {
+
+supabaseClient.removeChannel(
+messageChannel
+);
+
+messageChannel =
+null;
+
+}
 
 
-    document.getElementById(
-        "uploadStatus"
-    ).textContent =
-        "";
+document.getElementById(
+"chatSection"
+).style.display =
+"none";
+
+
+currentGroup =
+"";
+
+currentGroupId =
+null;
+
+
+document.getElementById(
+"fileInput"
+).value =
+"";
+
+
+document.getElementById(
+"selectedFile"
+).textContent =
+"No file selected";
+
+
+document.getElementById(
+"uploadStatus"
+).textContent =
+"";
 
 }
 
 
 // ------------------------------------
-// REPORT MESSAGE
+// REPORT
 // ------------------------------------
 
 function openReportBox(
-    messageId,
-    userId
+messageId,
+userId
 ) {
 
-    if (!currentUser) {
+if (!currentUser) {
 
-        alert(
-            "Please log in again."
-        );
+alert(
+"Please log in again."
+);
 
-        return;
-    }
+return;
 
-
-    if (
-        userId ===
-        currentUser.id
-    ) {
-
-        alert(
-            "You cannot report your own message."
-        );
-
-        return;
-    }
+}
 
 
-    document.getElementById(
-        "reportMessageId"
-    ).value =
-        messageId;
+if (
+userId ===
+currentUser.id
+) {
+
+alert(
+"You cannot report your own message."
+);
+
+return;
+
+}
 
 
-    document.getElementById(
-        "reportUserId"
-    ).value =
-        userId;
+document.getElementById(
+"reportMessageId"
+).value =
+messageId;
 
 
-    document.getElementById(
-        "reportDescription"
-    ).value =
-        "";
+document.getElementById(
+"reportUserId"
+).value =
+userId;
 
 
-    const reasons =
-        document.querySelectorAll(
-            'input[name="reportReason"]'
-        );
+document.getElementById(
+"reportDescription"
+).value =
+"";
 
 
-    reasons.forEach(
-        function(reason) {
+document.querySelectorAll(
+'input[name="reportReason"]'
+).forEach(
+function(reason) {
 
-            reason.checked =
-                false;
+reason.checked =
+false;
 
-        }
-    );
+}
+);
 
 
-    document.getElementById(
-        "reportBox"
-    ).style.display =
-        "block";
+document.getElementById(
+"reportBox"
+).style.display =
+"block";
 
 }
 
 
 // ------------------------------------
-// CLOSE REPORT WINDOW
+// CLOSE REPORT
 // ------------------------------------
 
 function closeReportBox() {
 
-    document.getElementById(
-        "reportBox"
-    ).style.display =
-        "none";
+document.getElementById(
+"reportBox"
+).style.display =
+"none";
 
 }
 
@@ -2746,280 +2772,265 @@ function closeReportBox() {
 
 async function submitReport() {
 
-    if (!currentUser) {
+if (!currentUser) {
 
-        alert(
-            "Please log in again."
-        );
+alert(
+"Please log in again."
+);
 
-        return;
-    }
-
-
-    const messageId =
-        document.getElementById(
-            "reportMessageId"
-        ).value;
-
-
-    const reportedUserId =
-        document.getElementById(
-            "reportUserId"
-        ).value;
-
-
-    const selectedReason =
-        document.querySelector(
-            'input[name="reportReason"]:checked'
-        );
-
-
-    const description =
-        document.getElementById(
-            "reportDescription"
-        ).value.trim();
-
-
-    if (!selectedReason) {
-
-        alert(
-            "Please select a reason for the report."
-        );
-
-        return;
-    }
-
-
-    if (!reportedUserId) {
-
-        alert(
-            "The reported student could not be identified."
-        );
-
-        return;
-    }
-
-
-    if (
-        reportedUserId ===
-        currentUser.id
-    ) {
-
-        alert(
-            "You cannot report yourself."
-        );
-
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            "Submit this report? False or abusive reports may also be reviewed."
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from(
-                "user_reports"
-            )
-            .insert({
-
-                reporter_id:
-                    currentUser.id,
-
-                reported_user_id:
-                    reportedUserId,
-
-                message_id:
-                    String(messageId),
-
-                reason:
-                    selectedReason.value,
-
-                description:
-                    description ||
-                    null,
-
-                status:
-                    "pending"
-
-            });
-
-
-    if (error) {
-
-        console.error(error);
-
-        alert(
-            "The report could not be submitted. Please try again."
-        );
-
-        return;
-    }
-
-
-    closeReportBox();
-
-
-    alert(
-        "✅ Report submitted. Thank you for helping keep Grade 12 Hub safe."
-    );
+return;
 
 }
 
 
-// ------------------------------------
-// FORMAT TIME
-// ------------------------------------
+const messageId =
+document.getElementById(
+"reportMessageId"
+).value;
 
-function formatTime(
-    dateString
+
+const reportedUserId =
+document.getElementById(
+"reportUserId"
+).value;
+
+
+const selectedReason =
+document.querySelector(
+'input[name="reportReason"]:checked'
+);
+
+
+const description =
+document.getElementById(
+"reportDescription"
+).value.trim();
+
+
+if (!selectedReason) {
+
+alert(
+"Please select a reason for the report."
+);
+
+return;
+
+}
+
+
+if (!reportedUserId) {
+
+alert(
+"The reported student could not be identified."
+);
+
+return;
+
+}
+
+
+if (
+reportedUserId ===
+currentUser.id
 ) {
 
-    return new Date(
-        dateString
-    ).toLocaleTimeString(
-        [],
-        {
-            hour:
-                "2-digit",
+alert(
+"You cannot report yourself."
+);
 
-            minute:
-                "2-digit"
-        }
-    );
+return;
+
+}
+
+
+const {
+error
+} =
+await supabaseClient
+
+.from("user_reports")
+
+.insert({
+
+reporter_id:
+currentUser.id,
+
+reported_user_id:
+reportedUserId,
+
+message_id:
+String(messageId),
+
+reason:
+selectedReason.value,
+
+description:
+description ||
+null,
+
+status:
+"pending"
+
+});
+
+
+if (error) {
+
+console.error(error);
+
+alert(
+"The report could not be submitted."
+);
+
+return;
+
+}
+
+
+closeReportBox();
+
+
+alert(
+"✅ Report submitted. Thank you for helping keep Grade 12 Hub safe."
+);
 
 }
 
 
 // ------------------------------------
-// FORMAT FILE SIZE
+// TIME
 // ------------------------------------
 
-function formatFileSize(
-    bytes
+function formatTime(dateString) {
+
+return new Date(
+dateString
+).toLocaleTimeString(
+[],
+{
+hour:
+"2-digit",
+
+minute:
+"2-digit"
+}
+);
+
+}
+
+
+// ------------------------------------
+// FILE SIZE
+// ------------------------------------
+
+function formatFileSize(bytes) {
+
+if (
+bytes < 1024
 ) {
 
-    if (
-        bytes < 1024
-    ) {
-
-        return bytes +
-            " B";
-
-    }
-
-
-    if (
-        bytes <
-        1024 * 1024
-    ) {
-
-        return (
-            bytes / 1024
-        ).toFixed(1) +
-        " KB";
-
-    }
-
-
-    return (
-        bytes /
-        (1024 * 1024)
-    ).toFixed(1) +
-        " MB";
+return bytes +
+" B";
 
 }
 
 
-// ------------------------------------
-// PROTECT HTML
-// ------------------------------------
-
-function escapeHTML(
-    text
+if (
+bytes <
+1024 * 1024
 ) {
 
-    const div =
-        document.createElement(
-            "div"
-        );
+return (
+bytes / 1024
+).toFixed(1) +
+" KB";
+
+}
 
 
-    div.textContent =
-        text;
-
-
-    return div.innerHTML;
+return (
+bytes /
+(1024 * 1024)
+).toFixed(1) +
+" MB";
 
 }
 
 
 // ------------------------------------
-// PROTECT URL
+// ESCAPE HTML
 // ------------------------------------
 
-function escapeAttribute(
-    text
-) {
+function escapeHTML(text) {
 
-    return String(text)
+const div =
+document.createElement(
+"div"
+);
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+div.textContent =
+text;
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        );
+return div.innerHTML;
 
 }
 
 
 // ------------------------------------
-// START PAGE
+// ESCAPE URL
+// ------------------------------------
+
+function escapeAttribute(text) {
+
+return String(text)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+);
+
+}
+
+
+// ------------------------------------
+// START
 // ------------------------------------
 
 window.addEventListener(
-    "load",
-    async function() {
+"load",
+async function() {
 
-        const loggedIn =
-            await checkUser();
-
-
-        if (!loggedIn) {
-            return;
-        }
+const loggedIn =
+await checkUser();
 
 
-        await loadStudyGroups();
+if (!loggedIn) {
+return;
+}
 
-    }
+
+await loadStudyGroups();
+
+}
 );
 
 </script>
 
 </body>
+
     </html>
