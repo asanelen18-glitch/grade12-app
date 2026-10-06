@@ -74,6 +74,12 @@
             margin-top: 6px;
         }
 
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
         .join {
             background: #4f46e5;
             color: white;
@@ -313,6 +319,23 @@
             background: #6b7280;
             color: white;
         }
+
+        .section-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-top: -5px;
+            margin-bottom: 15px;
+        }
+
+        .province-title {
+            background: #eef2ff;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
     </style>
 </head>
 
@@ -325,70 +348,127 @@
 
 <div class="container">
 
+    <!-- CHOOSE SUBJECT -->
+
     <div class="card">
 
         <h2>📚 Choose a Subject</h2>
 
         <select id="subject">
-            <option value="">Select a subject</option>
-            <option value="Mathematics">Mathematics</option>
-            <option value="Physical Sciences">Physical Sciences</option>
-            <option value="Life Sciences">Life Sciences</option>
-            <option value="English">English</option>
-            <option value="Afrikaans">Afrikaans</option>
-            <option value="Geography">Geography</option>
-            <option value="History">History</option>
-            <option value="Accounting">Accounting</option>
-            <option value="Business Studies">Business Studies</option>
+
+            <option value="">
+                Select a subject
+            </option>
+
+            <option value="English Home Language">
+                English Home Language
+            </option>
+
+            <option value="English Additional Language">
+                English Additional Language
+            </option>
+
+            <option value="Mathematics">
+                Mathematics
+            </option>
+
+            <option value="Mathematical Literacy">
+                Mathematical Literacy
+            </option>
+
+            <option value="Technical Mathematics">
+                Technical Mathematics
+            </option>
+
+            <option value="Technical Science">
+                Technical Science
+            </option>
+
+            <option value="Physical Sciences">
+                Physical Sciences
+            </option>
+
+            <option value="Life Sciences">
+                Life Sciences
+            </option>
+
+            <option value="Geography">
+                Geography
+            </option>
+
+            <option value="Accounting">
+                Accounting
+            </option>
+
+            <option value="CAT (Computer Applications Technology)">
+                CAT (Computer Applications Technology)
+            </option>
+
+            <option value="Life Orientation">
+                Life Orientation
+            </option>
+
         </select>
 
-        <button class="join" onclick="joinGroup()">
-            ➕ Join Study Group
+        <button
+            class="join"
+            onclick="joinGroup()"
+        >
+            🇿🇦 Join National Study Group
+        </button>
+
+        <button
+            class="join"
+            onclick="joinProvincialGroup()"
+        >
+            📍 Join My Provincial Study Group
         </button>
 
     </div>
 
+
+    <!-- NATIONAL GROUPS -->
+
     <div class="card">
 
-        <h2>👥 Available Groups</h2>
+        <h2>🇿🇦 National Groups</h2>
 
-        <div class="group">
-            <strong>📐 Mathematics Group</strong>
-            <span>Discuss Mathematics questions and revision.</span>
+        <p class="section-description">
+            National groups are open to Grade 12 learners
+            across South Africa. You can only join subjects
+            selected in your learner profile.
+        </p>
 
-            <button class="join" onclick="openGroup('Mathematics')">
-                Join
-            </button>
-        </div>
-
-        <div class="group">
-            <strong>⚛️ Physical Sciences Group</strong>
-            <span>Physics and Chemistry study discussions.</span>
-
-            <button class="join" onclick="openGroup('Physical Sciences')">
-                Join
-            </button>
-        </div>
-
-        <div class="group">
-            <strong>🧬 Life Sciences Group</strong>
-            <span>Biology and Life Sciences revision.</span>
-
-            <button class="join" onclick="openGroup('Life Sciences')">
-                Join
-            </button>
-        </div>
-
-        <div class="group">
-            <strong>🌍 Geography Group</strong>
-            <span>Geography questions and exam preparation.</span>
-
-            <button class="join" onclick="openGroup('Geography')">
-                Join
-            </button>
-        </div>
+        <div id="nationalGroups"></div>
 
     </div>
+
+
+    <!-- PROVINCIAL GROUPS -->
+
+    <div class="card">
+
+        <h2>📍 Provincial Groups</h2>
+
+        <div
+            id="provinceTitle"
+            class="province-title"
+        >
+            Loading your province...
+        </div>
+
+        <p class="section-description">
+            Provincial groups are for learners from your
+            selected province. You can only join subjects
+            selected in your learner profile.
+        </p>
+
+        <div id="provincialGroups"></div>
+
+    </div>
+
+
+    <!-- CHAT -->
 
     <div class="card" id="chatSection">
 
@@ -403,6 +483,7 @@
             </p>
 
         </div>
+
 
         <div id="messages">
 
@@ -424,6 +505,7 @@
 
         </div>
 
+
         <div class="chat-input">
 
             <input
@@ -441,6 +523,9 @@
             </button>
 
         </div>
+
+
+        <!-- FILE UPLOAD -->
 
         <div class="upload-area">
 
@@ -476,6 +561,7 @@
 
         </div>
 
+
         <button
             class="leave"
             onclick="leaveGroup()"
@@ -485,17 +571,27 @@
 
     </div>
 
+
+    <!-- COMMUNITY RULES -->
+
     <div class="card">
 
         <h2>🛡️ Community Rules</h2>
 
         <div class="notice">
-            Be respectful to other learners. Do not share personal information,
-            passwords, phone numbers, or inappropriate content. Use the group
-            for learning and school-related discussions.
+
+            Be respectful to other learners.
+            Do not share personal information,
+            passwords, phone numbers, or inappropriate
+            content.
+
+            Use the group for learning and
+            school-related discussions.
+
         </div>
 
     </div>
+
 
     <a
         href="index.html"
@@ -509,7 +605,10 @@
 
 <!-- REPORT WINDOW -->
 
-<div id="reportBox" class="report-box">
+<div
+    id="reportBox"
+    class="report-box"
+>
 
     <div class="report-card">
 
@@ -518,6 +617,7 @@
         <p>
             Why are you reporting this message?
         </p>
+
 
         <input
             type="hidden"
@@ -529,59 +629,84 @@
             id="reportUserId"
         >
 
+
         <label>
+
             <input
                 type="radio"
                 name="reportReason"
                 value="Harassment"
             >
+
             Harassment
+
         </label>
 
+
         <label>
+
             <input
                 type="radio"
                 name="reportReason"
                 value="Bullying"
             >
+
             Bullying
+
         </label>
 
+
         <label>
+
             <input
                 type="radio"
                 name="reportReason"
                 value="Threatening content"
             >
+
             Threatening content
+
         </label>
 
+
         <label>
+
             <input
                 type="radio"
                 name="reportReason"
                 value="Inappropriate content"
             >
+
             Inappropriate content
+
         </label>
 
+
         <label>
+
             <input
                 type="radio"
                 name="reportReason"
                 value="Spam"
             >
+
             Spam
+
         </label>
 
+
         <label>
+
             <input
                 type="radio"
                 name="reportReason"
                 value="Other"
             >
+
             Other
+
         </label>
+
 
         <input
             type="text"
@@ -589,12 +714,14 @@
             placeholder="Optional: tell us what happened"
         >
 
+
         <button
             class="send"
             onclick="submitReport()"
         >
             🚩 Submit Report
         </button>
+
 
         <button
             class="cancel-report"
@@ -610,13 +737,16 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
 <script>
 
 const SUPABASE_URL =
     "https://hdlhhbnawltisszzsbvw.supabase.co";
 
+
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -626,9 +756,76 @@ const supabaseClient =
 
 
 let currentGroup = "";
+
 let currentGroupId = null;
+
 let currentUser = null;
+
 let messageChannel = null;
+
+let learnerProfile = null;
+
+
+// ------------------------------------
+// GRADE 12 HUB SUBJECTS
+// ------------------------------------
+
+const GROUP_SUBJECTS = [
+
+    "English Home Language",
+
+    "English Additional Language",
+
+    "Mathematics",
+
+    "Mathematical Literacy",
+
+    "Technical Mathematics",
+
+    "Technical Science",
+
+    "Physical Sciences",
+
+    "Life Sciences",
+
+    "Geography",
+
+    "Accounting",
+
+    "CAT (Computer Applications Technology)",
+
+    "Life Orientation"
+
+];
+
+
+const GROUP_ICONS = {
+
+    "English Home Language": "📖",
+
+    "English Additional Language": "🗣️",
+
+    "Mathematics": "📐",
+
+    "Mathematical Literacy": "🔢",
+
+    "Technical Mathematics": "📏",
+
+    "Technical Science": "🔧",
+
+    "Physical Sciences": "⚛️",
+
+    "Life Sciences": "🧬",
+
+    "Geography": "🌍",
+
+    "Accounting": "💰",
+
+    "CAT (Computer Applications Technology)": "💻",
+
+    "Life Orientation": "🎓"
+
+};
 
 
 // ------------------------------------
@@ -641,7 +838,10 @@ async function checkUser() {
         await supabaseClient.auth.getUser();
 
 
-    if (error || !data.user) {
+    if (
+        error ||
+        !data.user
+    ) {
 
         alert(
             "Please log in to use Study Groups."
@@ -663,16 +863,15 @@ async function checkUser() {
 
 
 // ------------------------------------
-// CHECK SUBJECT ACCESS
+// LOAD LEARNER PROFILE
 // ------------------------------------
 
-async function canAccessSubject(subject) {
+async function loadLearnerProfile() {
 
     if (!currentUser) {
 
         const loggedIn =
             await checkUser();
-
 
         if (!loggedIn) {
             return false;
@@ -680,11 +879,14 @@ async function canAccessSubject(subject) {
     }
 
 
-    const { data: profile, error } =
+    const {
+        data,
+        error
+    } =
         await supabaseClient
             .from("learner_profiles")
             .select(
-                "subjects, subjects_locked"
+                "province, subjects"
             )
             .eq(
                 "user_id",
@@ -693,7 +895,10 @@ async function canAccessSubject(subject) {
             .single();
 
 
-    if (error || !profile) {
+    if (
+        error ||
+        !data
+    ) {
 
         console.error(error);
 
@@ -705,12 +910,129 @@ async function canAccessSubject(subject) {
     }
 
 
-    const selectedSubjects =
-        profile.subjects || [];
+    learnerProfile =
+        data;
+
+
+    return true;
+}
+
+
+// ------------------------------------
+// NORMALIZE PROVINCE
+// ------------------------------------
+
+function normalizeProvince(province) {
+
+    const value =
+        String(province || "")
+            .trim()
+            .toLowerCase()
+            .replace(
+                /\s+/g,
+                " "
+            );
+
+
+    const provinces = {
+
+        "eastern cape":
+            "Eastern Cape",
+
+        "free state":
+            "Free State",
+
+        "gauteng":
+            "Gauteng",
+
+        "kwazulu-natal":
+            "KwaZulu-Natal",
+
+        "kwazulu natal":
+            "KwaZulu-Natal",
+
+        "kzn":
+            "KwaZulu-Natal",
+
+        "limpopo":
+            "Limpopo",
+
+        "mpumalanga":
+            "Mpumalanga",
+
+        "northern cape":
+            "Northern Cape",
+
+        "north west":
+            "North West",
+
+        "northwest":
+            "North West",
+
+        "western cape":
+            "Western Cape"
+
+    };
+
+
+    return provinces[value] ||
+        String(province || "").trim();
+}
+
+
+// ------------------------------------
+// CHECK SELECTED SUBJECT
+// ------------------------------------
+
+function selectedSubject(subject) {
+
+    if (!learnerProfile) {
+        return false;
+    }
+
+
+    const subjects =
+        Array.isArray(
+            learnerProfile.subjects
+        )
+            ? learnerProfile.subjects
+            : [];
+
+
+    return subjects.some(
+        function(item) {
+
+            return String(item)
+                .trim()
+                .toLowerCase() ===
+                String(subject)
+                    .trim()
+                    .toLowerCase();
+
+        }
+    );
+}
+
+
+// ------------------------------------
+// CHECK SUBJECT ACCESS
+// ------------------------------------
+
+async function canAccessSubject(subject) {
+
+    if (!learnerProfile) {
+
+        const loaded =
+            await loadLearnerProfile();
+
+        if (!loaded) {
+            return false;
+        }
+    }
 
 
     if (
-        !selectedSubjects.includes(subject)
+        !selectedSubject(subject)
     ) {
 
         alert(
@@ -726,7 +1048,303 @@ async function canAccessSubject(subject) {
 
 
 // ------------------------------------
-// JOIN GROUP
+// RENDER NATIONAL GROUPS
+// ------------------------------------
+
+function renderNationalGroups() {
+
+    const container =
+        document.getElementById(
+            "nationalGroups"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    GROUP_SUBJECTS.forEach(
+        function(subject) {
+
+            const allowed =
+                selectedSubject(subject);
+
+
+            const group =
+                document.createElement(
+                    "div"
+                );
+
+
+            group.className =
+                "group";
+
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "join";
+
+
+            if (!allowed) {
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "🔒 Locked";
+
+            } else {
+
+                button.textContent =
+                    "Join National Group";
+
+                button.onclick =
+                    function() {
+
+                        openGroup(
+                            subject,
+                            "national"
+                        );
+
+                    };
+
+            }
+
+
+            const strong =
+                document.createElement(
+                    "strong"
+                );
+
+
+            strong.textContent =
+                GROUP_ICONS[subject] +
+                " " +
+                subject;
+
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+
+            span.textContent =
+                allowed
+                    ? "National study group"
+                    : "🔒 Subject not selected in your profile";
+
+
+            group.appendChild(
+                strong
+            );
+
+
+            group.appendChild(
+                span
+            );
+
+
+            group.appendChild(
+                button
+            );
+
+
+            container.appendChild(
+                group
+            );
+
+        }
+    );
+
+}
+
+
+// ------------------------------------
+// RENDER PROVINCIAL GROUPS
+// ------------------------------------
+
+function renderProvincialGroups() {
+
+    const container =
+        document.getElementById(
+            "provincialGroups"
+        );
+
+
+    const provinceTitle =
+        document.getElementById(
+            "provinceTitle"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML =
+        "";
+
+
+    const province =
+        normalizeProvince(
+            learnerProfile &&
+            learnerProfile.province
+        );
+
+
+    if (!province) {
+
+        provinceTitle.textContent =
+            "⚠️ No province saved in your learner profile.";
+
+        return;
+    }
+
+
+    provinceTitle.textContent =
+        "📍 Your Province: " +
+        province;
+
+
+    GROUP_SUBJECTS.forEach(
+        function(subject) {
+
+            const allowed =
+                selectedSubject(subject);
+
+
+            const group =
+                document.createElement(
+                    "div"
+                );
+
+
+            group.className =
+                "group";
+
+
+            const strong =
+                document.createElement(
+                    "strong"
+                );
+
+
+            strong.textContent =
+                GROUP_ICONS[subject] +
+                " " +
+                subject;
+
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+
+            span.textContent =
+                allowed
+                    ? province +
+                      " provincial study group"
+                    : "🔒 Subject not selected in your profile";
+
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "join";
+
+
+            if (!allowed) {
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "🔒 Locked";
+
+            } else {
+
+                button.textContent =
+                    "Join Provincial Group";
+
+                button.onclick =
+                    function() {
+
+                        openGroup(
+                            subject,
+                            "provincial"
+                        );
+
+                    };
+
+            }
+
+
+            group.appendChild(
+                strong
+            );
+
+
+            group.appendChild(
+                span
+            );
+
+
+            group.appendChild(
+                button
+            );
+
+
+            container.appendChild(
+                group
+            );
+
+        }
+    );
+
+}
+
+
+// ------------------------------------
+// LOAD STUDY GROUPS
+// ------------------------------------
+
+async function loadStudyGroups() {
+
+    const loaded =
+        await loadLearnerProfile();
+
+
+    if (!loaded) {
+        return;
+    }
+
+
+    renderNationalGroups();
+
+    renderProvincialGroups();
+
+}
+
+
+// ------------------------------------
+// JOIN NATIONAL GROUP
 // ------------------------------------
 
 async function joinGroup() {
@@ -737,7 +1355,9 @@ async function joinGroup() {
         ).value;
 
 
-    if (subject === "") {
+    if (
+        subject === ""
+    ) {
 
         alert(
             "Please choose a subject first."
@@ -747,7 +1367,43 @@ async function joinGroup() {
     }
 
 
-    await openGroup(subject);
+    await openGroup(
+        subject,
+        "national"
+    );
+
+}
+
+
+// ------------------------------------
+// JOIN PROVINCIAL GROUP
+// ------------------------------------
+
+async function joinProvincialGroup() {
+
+    const subject =
+        document.getElementById(
+            "subject"
+        ).value;
+
+
+    if (
+        subject === ""
+    ) {
+
+        alert(
+            "Please choose a subject first."
+        );
+
+        return;
+    }
+
+
+    await openGroup(
+        subject,
+        "provincial"
+    );
+
 }
 
 
@@ -755,7 +1411,10 @@ async function joinGroup() {
 // OPEN GROUP
 // ------------------------------------
 
-async function openGroup(subject) {
+async function openGroup(
+    subject,
+    groupType = "national"
+) {
 
     if (!currentUser) {
 
@@ -766,11 +1425,23 @@ async function openGroup(subject) {
         if (!loggedIn) {
             return;
         }
+
+    }
+
+
+    const profileLoaded =
+        await loadLearnerProfile();
+
+
+    if (!profileLoaded) {
+        return;
     }
 
 
     const allowed =
-        await canAccessSubject(subject);
+        await canAccessSubject(
+            subject
+        );
 
 
     if (!allowed) {
@@ -778,28 +1449,87 @@ async function openGroup(subject) {
     }
 
 
-    currentGroup =
-        subject;
+    const province =
+        normalizeProvince(
+            learnerProfile.province
+        );
 
 
-    const { data, error } =
-        await supabaseClient
-            .from("study_groups")
-            .select("id, subject")
-            .eq("subject", subject)
-            .single();
-
-
-    if (error) {
-
-        console.error(error);
+    if (
+        groupType === "provincial" &&
+        !province
+    ) {
 
         alert(
-            "Could not open this study group."
+            "Your province could not be found in your learner profile."
         );
 
         return;
     }
+
+
+    let query =
+        supabaseClient
+            .from("study_groups")
+            .select(
+                "id, subject, group_type, province"
+            )
+            .eq(
+                "subject",
+                subject
+            )
+            .eq(
+                "group_type",
+                groupType
+            );
+
+
+    if (
+        groupType === "provincial"
+    ) {
+
+        query =
+            query.eq(
+                "province",
+                province
+            );
+
+    } else {
+
+        query =
+            query.is(
+                "province",
+                null
+            );
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await query.limit(1);
+
+
+    if (
+        error ||
+        !data ||
+        data.length === 0
+    ) {
+
+        console.error(error);
+
+        alert(
+            "Could not find this study group."
+        );
+
+        return;
+    }
+
+
+    const group =
+        data[0];
 
 
     const {
@@ -811,7 +1541,7 @@ async function openGroup(subject) {
                 "can_access_subject_group",
                 {
                     requested_group_id:
-                        data.id
+                        group.id
                 }
             );
 
@@ -821,10 +1551,12 @@ async function openGroup(subject) {
         databaseAllowed !== true
     ) {
 
-        console.error(accessError);
+        console.error(
+            accessError
+        );
 
         alert(
-            "Access denied. This subject is not in your selected subjects."
+            "Access denied. You are not allowed to enter this group."
         );
 
         return;
@@ -832,15 +1564,43 @@ async function openGroup(subject) {
 
 
     currentGroupId =
-        data.id;
+        group.id;
 
 
-    document.getElementById(
-        "groupTitle"
-    ).textContent =
-        "📚 " +
-        subject +
-        " Study Group";
+    if (
+        groupType === "national"
+    ) {
+
+        currentGroup =
+            "National - " +
+            subject;
+
+
+        document.getElementById(
+            "groupTitle"
+        ).textContent =
+            "🇿🇦 " +
+            subject +
+            " National Study Group";
+
+    } else {
+
+        currentGroup =
+            province +
+            " - " +
+            subject;
+
+
+        document.getElementById(
+            "groupTitle"
+        ).textContent =
+            "📍 " +
+            province +
+            " - " +
+            subject +
+            " Study Group";
+
+    }
 
 
     document.getElementById(
@@ -887,17 +1647,27 @@ async function loadMessages() {
         );
 
 
-    messages.innerHTML = "";
+    messages.innerHTML =
+        "";
 
 
-    const { data, error } =
+    const {
+        data,
+        error
+    } =
         await supabaseClient
             .from("study_messages")
             .select("*")
-            .eq("group_id", currentGroupId)
-            .order("created_at", {
-                ascending: true
-            });
+            .eq(
+                "group_id",
+                currentGroupId
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: true
+                }
+            );
 
 
     if (error) {
@@ -921,7 +1691,10 @@ async function loadMessages() {
     }
 
 
-    if (!data || data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         messages.innerHTML =
             '<div class="message">' +
@@ -944,11 +1717,15 @@ async function loadMessages() {
     }
 
 
-    data.forEach(function(message) {
+    data.forEach(
+        function(message) {
 
-        displayMessage(message);
+            displayMessage(
+                message
+            );
 
-    });
+        }
+    );
 
 
     messages.scrollTop =
@@ -983,7 +1760,9 @@ function displayMessage(message) {
         "";
 
 
-    if (message.attachment_url) {
+    if (
+        message.attachment_url
+    ) {
 
         const fileName =
             message.attachment_name ||
@@ -999,17 +1778,26 @@ function displayMessage(message) {
             "📎";
 
 
-        if (fileType.startsWith("image/")) {
+        if (
+            fileType.startsWith(
+                "image/"
+            )
+        ) {
 
             icon =
                 "📷";
+
         }
 
 
-        if (fileType === "application/pdf") {
+        if (
+            fileType ===
+            "application/pdf"
+        ) {
 
             icon =
                 "📄";
+
         }
 
 
@@ -1034,6 +1822,7 @@ function displayMessage(message) {
             '</a>' +
 
             '</div>';
+
     }
 
 
@@ -1043,7 +1832,8 @@ function displayMessage(message) {
 
     if (
         currentUser &&
-        message.user_id === currentUser.id
+        message.user_id ===
+        currentUser.id
     ) {
 
         deleteButtonHTML =
@@ -1057,6 +1847,7 @@ function displayMessage(message) {
             '🗑️ Delete' +
 
             '</button>';
+
     }
 
 
@@ -1066,7 +1857,8 @@ function displayMessage(message) {
 
     if (
         currentUser &&
-        message.user_id !== currentUser.id
+        message.user_id !==
+        currentUser.id
     ) {
 
         reportButtonHTML =
@@ -1088,6 +1880,7 @@ function displayMessage(message) {
             '🚩 Report' +
 
             '</button>';
+
     }
 
 
@@ -1095,13 +1888,15 @@ function displayMessage(message) {
 
         '<div class="message-name">' +
         escapeHTML(
-            message.user_name
+            message.user_name ||
+            "Learner"
         ) +
         '</div>' +
 
         '<div class="message-text">' +
         escapeHTML(
-            message.message || ""
+            message.message ||
+            ""
         ) +
         '</div>' +
 
@@ -1129,7 +1924,9 @@ function displayMessage(message) {
 // DELETE OWN MESSAGE
 // ------------------------------------
 
-async function deleteMessage(messageId) {
+async function deleteMessage(
+    messageId
+) {
 
     if (!currentUser) {
 
@@ -1152,11 +1949,18 @@ async function deleteMessage(messageId) {
     }
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
-            .from("study_messages")
+            .from(
+                "study_messages"
+            )
             .delete()
-            .eq("id", messageId)
+            .eq(
+                "id",
+                messageId
+            )
             .eq(
                 "user_id",
                 currentUser.id
@@ -1196,7 +2000,9 @@ async function sendMessage() {
         input.value.trim();
 
 
-    if (message === "") {
+    if (
+        message === ""
+    ) {
         return;
     }
 
@@ -1210,6 +2016,7 @@ async function sendMessage() {
         if (!loggedIn) {
             return;
         }
+
     }
 
 
@@ -1223,7 +2030,11 @@ async function sendMessage() {
     }
 
 
-    if (containsPhoneNumber(message)) {
+    if (
+        containsPhoneNumber(
+            message
+        )
+    ) {
 
         alert(
             "Please do not share phone numbers in the study group."
@@ -1233,7 +2044,11 @@ async function sendMessage() {
     }
 
 
-    if (containsBlockedWords(message)) {
+    if (
+        containsBlockedWords(
+            message
+        )
+    ) {
 
         alert(
             "Please keep the study group respectful and school-related."
@@ -1254,9 +2069,13 @@ async function sendMessage() {
         true;
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
-            .from("study_messages")
+            .from(
+                "study_messages"
+            )
             .insert({
 
                 group_id:
@@ -1357,6 +2176,7 @@ async function uploadFile() {
         if (!loggedIn) {
             return;
         }
+
     }
 
 
@@ -1413,7 +2233,9 @@ async function uploadFile() {
 
 
     if (
-        containsBlockedFileType(file)
+        containsBlockedFileType(
+            file
+        )
     ) {
 
         alert(
@@ -1447,16 +2269,23 @@ async function uploadFile() {
             safeName;
 
 
-        const { error: uploadError } =
+        const {
+            error: uploadError
+        } =
             await supabaseClient
                 .storage
-                .from("study-files")
+                .from(
+                    "study-files"
+                )
                 .upload(
                     filePath,
                     file,
                     {
-                        cacheControl: "3600",
-                        upsert: false
+                        cacheControl:
+                            "3600",
+
+                        upsert:
+                            false
                     }
                 );
 
@@ -1478,10 +2307,14 @@ async function uploadFile() {
         }
 
 
-        const { data: publicData } =
+        const {
+            data: publicData
+        } =
             supabaseClient
                 .storage
-                .from("study-files")
+                .from(
+                    "study-files"
+                )
                 .getPublicUrl(
                     filePath
                 );
@@ -1498,9 +2331,13 @@ async function uploadFile() {
             "Learner";
 
 
-        const { error: messageError } =
+        const {
+            error: messageError
+        } =
             await supabaseClient
-                .from("study_messages")
+                .from(
+                    "study_messages"
+                )
                 .insert({
 
                     group_id:
@@ -1579,13 +2416,18 @@ async function uploadFile() {
 // ALLOWED FILE TYPES
 // ------------------------------------
 
-function containsBlockedFileType(file) {
+function containsBlockedFileType(
+    file
+) {
 
     const allowedTypes = [
 
         "image/jpeg",
+
         "image/png",
+
         "image/gif",
+
         "image/webp",
 
         "application/pdf",
@@ -1618,7 +2460,9 @@ function containsBlockedFileType(file) {
 // PHONE NUMBER CHECK
 // ------------------------------------
 
-function containsPhoneNumber(text) {
+function containsPhoneNumber(
+    text
+) {
 
     const phonePattern =
         /(?:\+27|0)\s?\d{2}\s?\d{3}\s?\d{4}/;
@@ -1635,7 +2479,9 @@ function containsPhoneNumber(text) {
 // BASIC WORD CHECK
 // ------------------------------------
 
-function containsBlockedWords(text) {
+function containsBlockedWords(
+    text
+) {
 
     const lower =
         text.toLowerCase();
@@ -1644,8 +2490,11 @@ function containsBlockedWords(text) {
     const blockedWords = [
 
         "porn",
+
         "fuck",
+
         "fucking",
+
         "sex"
 
     ];
@@ -1689,13 +2538,22 @@ function subscribeToMessages() {
             .on(
                 "postgres_changes",
                 {
-                    event: "INSERT",
-                    schema: "public",
-                    table: "study_messages",
+
+                    event:
+                        "INSERT",
+
+                    schema:
+                        "public",
+
+                    table:
+                        "study_messages",
+
                     filter:
                         "group_id=eq." +
                         currentGroupId
+
                 },
+
                 function(payload) {
 
                     displayMessage(
@@ -1713,6 +2571,7 @@ function subscribeToMessages() {
                         messages.scrollHeight;
 
                 }
+
             )
             .subscribe();
 
@@ -1723,10 +2582,13 @@ function subscribeToMessages() {
 // ENTER KEY
 // ------------------------------------
 
-function handleEnter(event) {
+function handleEnter(
+    event
+) {
 
     if (
-        event.key === "Enter"
+        event.key ===
+        "Enter"
     ) {
 
         sendMessage();
@@ -1749,6 +2611,7 @@ function leaveGroup() {
                 messageChannel
             );
 
+
         messageChannel =
             null;
 
@@ -1763,6 +2626,7 @@ function leaveGroup() {
 
     currentGroup =
         "";
+
 
     currentGroupId =
         null;
@@ -1808,7 +2672,8 @@ function openReportBox(
 
 
     if (
-        userId === currentUser.id
+        userId ===
+        currentUser.id
     ) {
 
         alert(
@@ -1936,7 +2801,8 @@ async function submitReport() {
 
 
     if (
-        reportedUserId === currentUser.id
+        reportedUserId ===
+        currentUser.id
     ) {
 
         alert(
@@ -1958,9 +2824,13 @@ async function submitReport() {
     }
 
 
-    const { error } =
+    const {
+        error
+    } =
         await supabaseClient
-            .from("user_reports")
+            .from(
+                "user_reports"
+            )
             .insert({
 
                 reporter_id:
@@ -1976,7 +2846,8 @@ async function submitReport() {
                     selectedReason.value,
 
                 description:
-                    description || null,
+                    description ||
+                    null,
 
                 status:
                     "pending"
@@ -2010,15 +2881,20 @@ async function submitReport() {
 // FORMAT TIME
 // ------------------------------------
 
-function formatTime(dateString) {
+function formatTime(
+    dateString
+) {
 
     return new Date(
         dateString
     ).toLocaleTimeString(
         [],
         {
-            hour: "2-digit",
-            minute: "2-digit"
+            hour:
+                "2-digit",
+
+            minute:
+                "2-digit"
         }
     );
 
@@ -2029,9 +2905,13 @@ function formatTime(dateString) {
 // FORMAT FILE SIZE
 // ------------------------------------
 
-function formatFileSize(bytes) {
+function formatFileSize(
+    bytes
+) {
 
-    if (bytes < 1024) {
+    if (
+        bytes < 1024
+    ) {
 
         return bytes +
             " B";
@@ -2065,7 +2945,9 @@ function formatFileSize(bytes) {
 // PROTECT HTML
 // ------------------------------------
 
-function escapeHTML(text) {
+function escapeHTML(
+    text
+) {
 
     const div =
         document.createElement(
@@ -2086,21 +2968,27 @@ function escapeHTML(text) {
 // PROTECT URL
 // ------------------------------------
 
-function escapeAttribute(text) {
+function escapeAttribute(
+    text
+) {
 
     return String(text)
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
@@ -2124,6 +3012,9 @@ window.addEventListener(
         if (!loggedIn) {
             return;
         }
+
+
+        await loadStudyGroups();
 
     }
 );
