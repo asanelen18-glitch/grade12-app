@@ -82,12 +82,13 @@
             margin-bottom: 6px;
         }
 
-        input, textarea {
+        input, textarea, select {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 16px;
+            background: white;
         }
 
         textarea {
@@ -107,6 +108,11 @@
             border-radius: 8px;
         }
 
+        .subject-option input {
+            width: auto;
+            padding: 0;
+        }
+
         .subject-option label {
             display: inline;
             margin: 0;
@@ -123,6 +129,10 @@
             font-size: 16px;
             font-weight: bold;
             margin-top: 20px;
+        }
+
+        button:disabled {
+            background: #999;
         }
 
         button:active {
@@ -178,11 +188,31 @@
             display: none;
         }
 
+        .error-message {
+            text-align: center;
+            color: #dc2626;
+            font-weight: bold;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .subjects-note {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
         footer {
             text-align: center;
             padding: 25px;
             color: #666;
             font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .subjects {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -219,6 +249,7 @@
 
         <h3>✏️ Edit Profile</h3>
 
+
         <label for="name">Your Name</label>
 
         <input
@@ -234,55 +265,255 @@
             type="text"
             id="grade"
             value="Grade 12"
+            readonly
         >
 
 
+        <!-- PROVINCE -->
+
+        <label for="province">📍 Province</label>
+
+        <select id="province">
+
+            <option value="">Select your province</option>
+
+            <option value="Eastern Cape">Eastern Cape</option>
+
+            <option value="Free State">Free State</option>
+
+            <option value="Gauteng">Gauteng</option>
+
+            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+
+            <option value="Limpopo">Limpopo</option>
+
+            <option value="Mpumalanga">Mpumalanga</option>
+
+            <option value="Northern Cape">Northern Cape</option>
+
+            <option value="North West">North West</option>
+
+            <option value="Western Cape">Western Cape</option>
+
+        </select>
+
+
+        <!-- AREA -->
+
+        <label for="area">🏘️ Area / Town</label>
+
+        <input
+            type="text"
+            id="area"
+            placeholder="Enter your area or town"
+        >
+
+
+        <!-- SCHOOL -->
+
+        <label for="school">🏫 School</label>
+
+        <input
+            type="text"
+            id="school"
+            placeholder="Enter your school name"
+        >
+
+
+        <!-- SUBJECTS -->
+
         <label>📚 My Subjects</label>
 
+        <p class="subjects-note">
+            Select the subjects you are studying. These subjects are also used for your Study Groups.
+        </p>
+
         <div class="subjects">
+
 
             <div class="subject-option">
                 <input type="checkbox" id="maths" value="Mathematics">
                 <label for="maths">Mathematics</label>
             </div>
 
+
+            <div class="subject-option">
+                <input type="checkbox" id="mathslit" value="Mathematical Literacy">
+                <label for="mathslit">Mathematical Literacy</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="technicalmaths" value="Technical Mathematics">
+                <label for="technicalmaths">Technical Mathematics</label>
+            </div>
+
+
             <div class="subject-option">
                 <input type="checkbox" id="science" value="Physical Sciences">
                 <label for="science">Physical Sciences</label>
             </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="technicalscience" value="Technical Science">
+                <label for="technicalscience">Technical Science</label>
+            </div>
+
 
             <div class="subject-option">
                 <input type="checkbox" id="life" value="Life Sciences">
                 <label for="life">Life Sciences</label>
             </div>
 
+
             <div class="subject-option">
-                <input type="checkbox" id="english" value="English">
-                <label for="english">English</label>
+                <input type="checkbox" id="agricultural" value="Agricultural Sciences">
+                <label for="agricultural">Agricultural Sciences</label>
             </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="englishhl" value="English Home Language">
+                <label for="englishhl">English Home Language</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="englishfal" value="English Additional Language">
+                <label for="englishfal">English Additional Language</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="afrikaanshl" value="Afrikaans Home Language">
+                <label for="afrikaanshl">Afrikaans Home Language</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="afrikaansfal" value="Afrikaans First Additional Language">
+                <label for="afrikaansfal">Afrikaans First Additional Language</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="isizulu" value="IsiZulu">
+                <label for="isizulu">IsiZulu</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="sesotho" value="Sesotho">
+                <label for="sesotho">Sesotho</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="setswana" value="Setswana">
+                <label for="setswana">Setswana</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="sepedi" value="Sepedi">
+                <label for="sepedi">Sepedi</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="isixhosa" value="IsiXhosa">
+                <label for="isixhosa">IsiXhosa</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="isindebele" value="IsiNdebele">
+                <label for="isindebele">IsiNdebele</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="siswati" value="SiSwati">
+                <label for="siswati">SiSwati</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="tshivenda" value="Tshivenda">
+                <label for="tshivenda">Tshivenda</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="itsonga" value="itsonga">
+                <label for="itsonga">itsonga</label>
+            </div>
+
 
             <div class="subject-option">
                 <input type="checkbox" id="geography" value="Geography">
                 <label for="geography">Geography</label>
             </div>
 
-            <div class="subject-option">
-                <input type="checkbox" id="accounting" value="Accounting">
-                <label for="accounting">Accounting</label>
-            </div>
-
-            <div class="subject-option">
-                <input type="checkbox" id="business" value="Business Studies">
-                <label for="business">Business Studies</label>
-            </div>
 
             <div class="subject-option">
                 <input type="checkbox" id="history" value="History">
                 <label for="history">History</label>
             </div>
 
+
+            <div class="subject-option">
+                <input type="checkbox" id="accounting" value="Accounting">
+                <label for="accounting">Accounting</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="business" value="Business Studies">
+                <label for="business">Business Studies</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="economics" value="Economics">
+                <label for="economics">Economics</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="consumer" value="Consumer Studies">
+                <label for="consumer">Consumer Studies</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="tourism" value="Tourism">
+                <label for="tourism">Tourism</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="egd" value="Engineering Graphics and Design">
+                <label for="egd">Engineering Graphics and Design</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="cat" value="CAT (Computer Applications Technology)">
+                <label for="cat">CAT</label>
+            </div>
+
+
+            <div class="subject-option">
+                <input type="checkbox" id="lo" value="Life Orientation">
+                <label for="lo">Life Orientation</label>
+            </div>
+
         </div>
 
+
+        <!-- STUDY GOAL -->
 
         <label for="goal">🎯 Study Goal</label>
 
@@ -292,12 +523,21 @@
         ></textarea>
 
 
-        <button onclick="saveProfile()">
+        <button
+            id="saveButton"
+            onclick="saveProfile()"
+        >
             💾 Save Profile
         </button>
 
+
         <div class="message" id="message">
             ✅ Profile saved successfully!
+        </div>
+
+
+        <div class="error-message" id="errorMessage">
+            ❌ Could not save profile.
         </div>
 
     </div>
@@ -309,20 +549,42 @@
 
         <h3>📋 My Information</h3>
 
+
         <div class="info">
             <strong>Name</strong>
             <span id="savedName">Not set</span>
         </div>
+
 
         <div class="info">
             <strong>Grade</strong>
             <span id="savedGrade">Grade 12</span>
         </div>
 
+
+        <div class="info">
+            <strong>Province</strong>
+            <span id="savedProvince">Not set</span>
+        </div>
+
+
+        <div class="info">
+            <strong>Area / Town</strong>
+            <span id="savedArea">Not set</span>
+        </div>
+
+
+        <div class="info">
+            <strong>School</strong>
+            <span id="savedSchool">Not set</span>
+        </div>
+
+
         <div class="info">
             <strong>Subjects</strong>
             <span id="savedSubjects">No subjects selected</span>
         </div>
+
 
         <div class="info">
             <strong>Study Goal</strong>
@@ -344,10 +606,12 @@
         </p>
 
         <div class="progress-bar">
+
             <div
                 class="progress"
                 id="quizProgress">
             </div>
+
         </div>
 
     </div>
@@ -359,14 +623,26 @@
 
         <h3>💾 Saved Material</h3>
 
-        <div class="info">
-            <strong>Saved Papers</strong>
-            <span id="savedPapers">0 papers saved</span>
-        </div>
 
         <div class="info">
+
+            <strong>Saved Papers</strong>
+
+            <span id="savedPapers">
+                0 papers saved
+            </span>
+
+        </div>
+
+
+        <div class="info">
+
             <strong>Saved Notes</strong>
-            <span id="savedNotes">0 notes saved</span>
+
+            <span id="savedNotes">
+                0 notes saved
+            </span>
+
         </div>
 
     </div>
@@ -388,18 +664,57 @@
 </footer>
 
 
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 <script>
 
-function saveProfile() {
+/* ==========================================
+   SUPABASE CONNECTION
+========================================== */
 
-    const name = document.getElementById("name").value;
+const SUPABASE_URL =
+    "https://hdlhhbnawltisszzsbvw.supabase.co";
 
-    const grade = document.getElementById("grade").value;
+const SUPABASE_KEY =
+    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
-    const goal = document.getElementById("goal").value;
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* ==========================================
+   SAVE PROFILE
+========================================== */
+
+async function saveProfile() {
+
+    const name =
+        document.getElementById("name").value.trim();
+
+    const grade =
+        "Grade 12";
+
+    const province =
+        document.getElementById("province").value;
+
+    const area =
+        document.getElementById("area").value.trim();
+
+    const school =
+        document.getElementById("school").value.trim();
+
+    const goal =
+        document.getElementById("goal").value.trim();
 
 
     const subjects = [];
+
 
     const checkboxes =
         document.querySelectorAll(
@@ -410,11 +725,17 @@ function saveProfile() {
     checkboxes.forEach(function(checkbox) {
 
         if (checkbox.checked) {
+
             subjects.push(checkbox.value);
+
         }
 
     });
 
+
+    /* ------------------------------------------
+       SAVE TO LOCAL STORAGE
+    ------------------------------------------ */
 
     localStorage.setItem(
         "grade12_name",
@@ -424,6 +745,21 @@ function saveProfile() {
     localStorage.setItem(
         "grade12_grade",
         grade
+    );
+
+    localStorage.setItem(
+        "grade12_province",
+        province
+    );
+
+    localStorage.setItem(
+        "grade12_area",
+        area
+    );
+
+    localStorage.setItem(
+        "grade12_school",
+        school
     );
 
     localStorage.setItem(
@@ -437,71 +773,268 @@ function saveProfile() {
     );
 
 
+    /* ------------------------------------------
+       SAVE TO SUPABASE
+    ------------------------------------------ */
+
+    const {
+        data: {
+            user
+        }
+    } = await supabaseClient.auth.getUser();
+
+
+    if (!user) {
+
+        showError(
+            "Please log in before saving your profile."
+        );
+
+        return;
+
+    }
+
+
+    const saveButton =
+        document.getElementById("saveButton");
+
+    saveButton.disabled = true;
+
+    saveButton.textContent =
+        "Saving...";
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("learner_profiles")
+        .upsert({
+
+            user_id: user.id,
+
+            full_name: name,
+
+            grade: 12,
+
+            province: province,
+
+            area: area,
+
+            school: school,
+
+            subjects: subjects,
+
+            study_goal: goal,
+
+            terms_accepted: true,
+
+            terms_accepted_at:
+                new Date().toISOString(),
+
+            subjects_locked: true
+
+        }, {
+
+            onConflict: "user_id"
+
+        });
+
+
+    saveButton.disabled = false;
+
+    saveButton.textContent =
+        "💾 Save Profile";
+
+
+    if (error) {
+
+        console.error(
+            "Profile save error:",
+            error
+        );
+
+        showError(
+            "Profile saved on this device, but could not sync with the server."
+        );
+
+        displayProfile();
+
+        return;
+
+    }
+
+
     displayProfile();
 
 
     const message =
         document.getElementById("message");
 
-    message.style.display = "block";
+    message.style.display =
+        "block";
 
 
     setTimeout(function() {
-        message.style.display = "none";
+
+        message.style.display =
+            "none";
+
     }, 3000);
 
 }
 
 
+/* ==========================================
+   DISPLAY PROFILE
+========================================== */
+
 function displayProfile() {
 
     const name =
-        localStorage.getItem("grade12_name") || "";
+        localStorage.getItem(
+            "grade12_name"
+        ) || "";
+
 
     const grade =
-        localStorage.getItem("grade12_grade") || "Grade 12";
+        localStorage.getItem(
+            "grade12_grade"
+        ) || "Grade 12";
+
+
+    const province =
+        localStorage.getItem(
+            "grade12_province"
+        ) || "";
+
+
+    const area =
+        localStorage.getItem(
+            "grade12_area"
+        ) || "";
+
+
+    const school =
+        localStorage.getItem(
+            "grade12_school"
+        ) || "";
+
 
     const goal =
-        localStorage.getItem("grade12_goal") || "";
+        localStorage.getItem(
+            "grade12_goal"
+        ) || "";
+
 
     const subjects =
         JSON.parse(
-            localStorage.getItem("grade12_subjects") || "[]"
+            localStorage.getItem(
+                "grade12_subjects"
+            ) || "[]"
         );
 
 
-    document.getElementById("name").value = name;
+    /* ------------------------------------------
+       PUT VALUES INTO EDIT FORM
+    ------------------------------------------ */
 
-    document.getElementById("grade").value = grade;
+    document.getElementById(
+        "name"
+    ).value = name;
 
-    document.getElementById("goal").value = goal;
+
+    document.getElementById(
+        "grade"
+    ).value = grade;
 
 
-    document.getElementById("displayName").textContent =
+    document.getElementById(
+        "province"
+    ).value = province;
+
+
+    document.getElementById(
+        "area"
+    ).value = area;
+
+
+    document.getElementById(
+        "school"
+    ).value = school;
+
+
+    document.getElementById(
+        "goal"
+    ).value = goal;
+
+
+    /* ------------------------------------------
+       PROFILE HEADER
+    ------------------------------------------ */
+
+    document.getElementById(
+        "displayName"
+    ).textContent =
         name || "Grade 12 Learner";
 
 
-    document.getElementById("displayGoal").textContent =
+    document.getElementById(
+        "displayGoal"
+    ).textContent =
         goal || "Set your study goal below";
 
 
-    document.getElementById("savedName").textContent =
+    /* ------------------------------------------
+       INFORMATION CARD
+    ------------------------------------------ */
+
+    document.getElementById(
+        "savedName"
+    ).textContent =
         name || "Not set";
 
 
-    document.getElementById("savedGrade").textContent =
+    document.getElementById(
+        "savedGrade"
+    ).textContent =
         grade;
 
 
-    document.getElementById("savedSubjects").textContent =
+    document.getElementById(
+        "savedProvince"
+    ).textContent =
+        province || "Not set";
+
+
+    document.getElementById(
+        "savedArea"
+    ).textContent =
+        area || "Not set";
+
+
+    document.getElementById(
+        "savedSchool"
+    ).textContent =
+        school || "Not set";
+
+
+    document.getElementById(
+        "savedSubjects"
+    ).textContent =
         subjects.length > 0
-        ? subjects.join(", ")
-        : "No subjects selected";
+            ? subjects.join(", ")
+            : "No subjects selected";
 
 
-    document.getElementById("savedGoal").textContent =
+    document.getElementById(
+        "savedGoal"
+    ).textContent =
         goal || "Not set";
 
+
+    /* ------------------------------------------
+       CHECK SELECTED SUBJECTS
+    ------------------------------------------ */
 
     const checkboxes =
         document.querySelectorAll(
@@ -512,12 +1045,46 @@ function displayProfile() {
     checkboxes.forEach(function(checkbox) {
 
         checkbox.checked =
-            subjects.includes(checkbox.value);
+            subjects.includes(
+                checkbox.value
+            );
 
     });
 
 }
 
+
+/* ==========================================
+   ERROR MESSAGE
+========================================== */
+
+function showError(messageText) {
+
+    const errorMessage =
+        document.getElementById(
+            "errorMessage"
+        );
+
+    errorMessage.textContent =
+        "❌ " + messageText;
+
+    errorMessage.style.display =
+        "block";
+
+
+    setTimeout(function() {
+
+        errorMessage.style.display =
+            "none";
+
+    }, 5000);
+
+}
+
+
+/* ==========================================
+   LOAD PROFILE
+========================================== */
 
 displayProfile();
 
