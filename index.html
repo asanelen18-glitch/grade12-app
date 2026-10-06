@@ -18,6 +18,11 @@
     <!-- THEME COLOR -->
     <meta name="theme-color" content="#4f46e5">
 
+    <!-- PWA MOBILE SETTINGS -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
     <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -176,7 +181,6 @@
             font-size: 13px;
         }
 
-
         /* =====================================
            WELCOME BACK POPUP
            ===================================== */
@@ -256,7 +260,6 @@
             cursor: pointer;
             font-size: 15px;
         }
-
 
         /* =====================================
            PROFILE SETUP
@@ -413,7 +416,6 @@
             text-align: center;
         }
 
-
         /* MOBILE */
 
         @media (max-width: 500px) {
@@ -435,9 +437,7 @@
     </style>
 </head>
 
-
 <body>
-
 
     <!-- =====================================
          HEADER
@@ -1191,18 +1191,44 @@
 
 
         /* =====================================
-           PROFILE CHECK
+           CHECK PROFILE IN SUPABASE
            ===================================== */
 
-        function checkFirstTimeUser() {
+        async function checkFirstTimeUser(user) {
 
-            const profileCreated =
-                localStorage.getItem(
-                    "grade12_profile_created"
+            const {
+                data: profile,
+                error
+            } = await supabaseClient
+                .from("learner_profiles")
+                .select("*")
+                .eq("user_id", user.id)
+                .maybeSingle();
+
+
+            if (error) {
+
+                console.error(
+                    "Profile check error:",
+                    error
                 );
 
+                alert(
+                    "We could not check your profile.\n\n" +
+                    error.message
+                );
 
-            if (profileCreated !== "true") {
+                return false;
+
+            }
+
+
+            /*
+             * PROFILE DOES NOT EXIST
+             * This is a genuinely new user.
+             */
+
+            if (!profile) {
 
                 document.getElementById(
                     "profileSetupOverlay"
@@ -1210,17 +1236,91 @@
 
                 document.body.style.overflow = "hidden";
 
-            } else {
-
-                loadHomeProfile();
+                return false;
 
             }
+
+
+            /*
+             * PROFILE EXISTS
+             * Existing user goes directly
+             * into the app.
+             */
+
+            saveProfileToLocalStorage(profile);
+
+            loadHomeProfile();
+
+            return true;
 
         }
 
 
         /* =====================================
-           SAVE PROFILE
+           SAVE SUPABASE PROFILE TO LOCAL STORAGE
+           ===================================== */
+
+        function saveProfileToLocalStorage(profile) {
+
+            localStorage.setItem(
+                "grade12_name",
+                profile.full_name || ""
+            );
+
+            localStorage.setItem(
+                "grade12_grade",
+                "Grade 12"
+            );
+
+            localStorage.setItem(
+                "grade12_province",
+                profile.province || ""
+            );
+
+            localStorage.setItem(
+                "grade12_area",
+                profile.area || ""
+            );
+
+            localStorage.setItem(
+                "grade12_school",
+                profile.school || ""
+            );
+
+            localStorage.setItem(
+                "grade12_subjects",
+                JSON.stringify(
+                    profile.subjects || []
+                )
+            );
+
+            localStorage.setItem(
+                "grade12_goal",
+                profile.study_goal || ""
+            );
+
+            localStorage.setItem(
+                "grade12_terms_accepted",
+                profile.terms_accepted
+                    ? "true"
+                    : "false"
+            );
+
+            /*
+             * This is now only a local convenience flag.
+             * Supabase is the real source of truth.
+             */
+
+            localStorage.setItem(
+                "grade12_profile_created",
+                "true"
+            );
+
+        }
+
+
+        /* =====================================
+           SAVE NEW PROFILE
            ===================================== */
 
         async function saveFirstProfile() {
@@ -1398,6 +1498,7 @@
 
 
             const {
+                data: savedProfile,
                 error: profileError
             } = await supabaseClient
                 .from("learner_profiles")
@@ -1421,7 +1522,9 @@
                     {
                         onConflict: "user_id"
                     }
-                );
+                )
+                .select()
+                .single();
 
 
             if (profileError) {
@@ -1448,49 +1551,12 @@
             }
 
 
-            localStorage.setItem(
-                "grade12_name",
-                name
-            );
+            /*
+             * Save the profile returned by Supabase.
+             */
 
-            localStorage.setItem(
-                "grade12_grade",
-                "Grade 12"
-            );
-
-            localStorage.setItem(
-                "grade12_province",
-                province
-            );
-
-            localStorage.setItem(
-                "grade12_area",
-                area
-            );
-
-            localStorage.setItem(
-                "grade12_school",
-                school
-            );
-
-            localStorage.setItem(
-                "grade12_subjects",
-                JSON.stringify(subjects)
-            );
-
-            localStorage.setItem(
-                "grade12_goal",
-                goal
-            );
-
-            localStorage.setItem(
-                "grade12_terms_accepted",
-                "true"
-            );
-
-            localStorage.setItem(
-                "grade12_profile_created",
-                "true"
+            saveProfileToLocalStorage(
+                savedProfile
             );
 
 
@@ -1511,15 +1577,32 @@
 
 
             /*
-             * Do NOT set new_login here.
-             * Login.html already sets it.
+             * If this was the user's first login,
+             * show the welcome popup after the
+             * profile setup is completed.
              */
+
+            const newLogin =
+                localStorage.getItem(
+                    "new_login"
+                );
+
+
+            if (newLogin === "true") {
+
+                localStorage.removeItem(
+                    "new_login"
+                );
+
+                showWelcomePopup();
+
+            }
 
         }
 
 
         /* =====================================
-           LOAD PROFILE
+           LOAD PROFILE ON HOME PAGE
            ===================================== */
 
         function loadHomeProfile() {
@@ -1639,16 +1722,31 @@
                 }
 
 
-                checkFirstTimeUser();
+                const profileExists =
+                    await checkFirstTimeUser(
+                        user
+                    );
 
 
                 /*
-                 * Show Welcome Back ONLY after
-                 * a real login.
+                 * If there is no profile,
+                 * profile setup is now visible.
                  *
-                 * Notes → Home will NOT show it
-                 * because the flag has already
-                 * been removed.
+                 * The popup will be shown after
+                 * the user saves the profile.
+                 */
+
+                if (!profileExists) {
+
+                    return;
+
+                }
+
+
+                /*
+                 * Existing user:
+                 * show Welcome Back only after
+                 * an actual successful login.
                  */
 
                 const newLogin =
@@ -1663,25 +1761,7 @@
                         "new_login"
                     );
 
-
-                    /*
-                     * If profile setup is required,
-                     * wait until the profile is saved.
-                     *
-                     * Otherwise show the popup now.
-                     */
-
-                    const profileCreated =
-                        localStorage.getItem(
-                            "grade12_profile_created"
-                        );
-
-
-                    if (profileCreated === "true") {
-
-                        showWelcomePopup();
-
-                    }
+                    showWelcomePopup();
 
                 }
 
