@@ -6,8 +6,16 @@
 
     <title>Grade 12 Hub</title>
 
+    <!-- PWA MANIFEST -->
     <link rel="manifest" href="manifest.json">
 
+    <!-- APP ICON -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+
+    <!-- MOBILE APP ICON -->
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <!-- THEME COLOR -->
     <meta name="theme-color" content="#4f46e5">
 
     <!-- SUPABASE -->
@@ -170,7 +178,88 @@
 
 
         /* =====================================
-           FIRST-TIME PROFILE SETUP
+           WELCOME BACK POPUP
+           ===================================== */
+
+        .welcome-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .welcome-card {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .welcome-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-card h2 {
+            margin: 0 0 15px;
+            color: #1d4ed8;
+        }
+
+        .welcome-message {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .welcome-goal {
+            background: #eff6ff;
+            padding: 15px;
+            border-radius: 10px;
+            color: #1e3a8a;
+            line-height: 1.5;
+        }
+
+        .welcome-motivation {
+            font-weight: bold;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .start-studying-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #1d4ed8;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .start-studying-btn:hover {
+            background: #1e40af;
+        }
+
+        .close-welcome-btn {
+            background: none;
+            border: none;
+            color: #666;
+            margin-top: 12px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+
+        /* =====================================
+           PROFILE SETUP
            ===================================== */
 
         #profileSetupOverlay {
@@ -235,9 +324,6 @@
             resize: vertical;
         }
 
-
-        /* GRADE 12 DISPLAY */
-
         .grade-display {
             width: 100%;
             padding: 14px;
@@ -248,9 +334,6 @@
             font-weight: bold;
             font-size: 16px;
         }
-
-
-        /* SUBJECTS */
 
         .subjects {
             display: grid;
@@ -276,9 +359,6 @@
             margin-right: 8px;
         }
 
-
-        /* TERMS */
-
         .terms-box {
             background: #f8fafc;
             border: 1px solid #d1d5db;
@@ -303,9 +383,6 @@
             margin-top: 4px;
             transform: scale(1.2);
         }
-
-
-        /* SAVE BUTTON */
 
         .save-button {
             width: 100%;
@@ -393,15 +470,11 @@
     </header>
 
 
-
     <!-- =====================================
          HOME PAGE
          ===================================== -->
 
     <main class="container">
-
-
-        <!-- WELCOME -->
 
         <section class="welcome">
 
@@ -413,35 +486,22 @@
                 Learn, revise, practise and prepare for your future.
             </p>
 
-
             <div class="goal" id="homeGoal">
-
                 🎯 Set your study goal when you first enter the app.
-
             </div>
 
         </section>
 
 
-
-        <!-- =====================================
-             APP FEATURES
-             ===================================== -->
+        <!-- APP FEATURES -->
 
         <section class="cards">
 
-
-            <!-- PAST PAPERS -->
-
             <a class="card" href="past-papers.html">
 
-                <div class="icon">
-                    📚
-                </div>
+                <div class="icon">📚</div>
 
-                <h3>
-                    Past Papers
-                </h3>
+                <h3>Past Papers</h3>
 
                 <p>
                     Access Grade 12 past question papers and memoranda.
@@ -450,18 +510,11 @@
             </a>
 
 
-
-            <!-- STUDY NOTES -->
-
             <a class="card" href="notes.html">
 
-                <div class="icon">
-                    📝
-                </div>
+                <div class="icon">📝</div>
 
-                <h3>
-                    Study Notes
-                </h3>
+                <h3>Study Notes</h3>
 
                 <p>
                     Revise important topics, definitions and formulas.
@@ -470,18 +523,11 @@
             </a>
 
 
-
-            <!-- AI HELPER -->
-
             <a class="card" href="ai-helper.html">
 
-                <div class="icon">
-                    🤖
-                </div>
+                <div class="icon">🤖</div>
 
-                <h3>
-                    AI Study Helper
-                </h3>
+                <h3>AI Study Helper</h3>
 
                 <p>
                     Ask questions and get step-by-step explanations.
@@ -490,18 +536,11 @@
             </a>
 
 
-
-            <!-- STUDY GROUPS -->
-
             <a class="card" href="study-groups.html">
 
-                <div class="icon">
-                    👥
-                </div>
+                <div class="icon">👥</div>
 
-                <h3>
-                    Study Groups
-                </h3>
+                <h3>Study Groups</h3>
 
                 <p>
                     Join subject groups and study with other learners.
@@ -510,21 +549,13 @@
             </a>
 
 
-
-            <!-- MOTIVATION -->
-
             <div
                 class="card coming-soon"
-                onclick="showComingSoon('Motivation')"
-            >
+                onclick="showComingSoon('Motivation')">
 
-                <div class="icon">
-                    🔥
-                </div>
+                <div class="icon">🔥</div>
 
-                <h3>
-                    Motivation
-                </h3>
+                <h3>Motivation</h3>
 
                 <p>
                     Get study motivation and exam tips.
@@ -533,21 +564,13 @@
             </div>
 
 
-
-            <!-- VARSITY -->
-
             <div
                 class="card coming-soon"
-                onclick="showComingSoon('Varsity Applications')"
-            >
+                onclick="showComingSoon('Varsity Applications')">
 
-                <div class="icon">
-                    🎓
-                </div>
+                <div class="icon">🎓</div>
 
-                <h3>
-                    Apply to Varsity
-                </h3>
+                <h3>Apply to Varsity</h3>
 
                 <p>
                     Find university application information.
@@ -556,18 +579,11 @@
             </div>
 
 
-
-            <!-- PROFILE -->
-
             <a class="card" href="profile.html">
 
-                <div class="icon">
-                    👤
-                </div>
+                <div class="icon">👤</div>
 
-                <h3>
-                    My Profile
-                </h3>
+                <h3>My Profile</h3>
 
                 <p>
                     View and update your learner profile and goals.
@@ -576,21 +592,13 @@
             </a>
 
 
-
-            <!-- CAREER GUIDANCE -->
-
             <div
                 class="card coming-soon"
-                onclick="showComingSoon('Career Guidance')"
-            >
+                onclick="showComingSoon('Career Guidance')">
 
-                <div class="icon">
-                    💼
-                </div>
+                <div class="icon">💼</div>
 
-                <h3>
-                    Career Guidance
-                </h3>
+                <h3>Career Guidance</h3>
 
                 <p>
                     Explore careers and possible study choices.
@@ -598,20 +606,14 @@
 
             </div>
 
-
         </section>
 
 
-
-        <!-- =====================================
-             CREATOR CREDIT
-             ===================================== -->
+        <!-- CREATOR -->
 
         <section class="creator">
 
-            <h3>
-                Created By
-            </h3>
+            <h3>Created By</h3>
 
             <p>
                 <strong>MH Masina</strong>
@@ -627,89 +629,120 @@
 
         </section>
 
-
     </main>
 
 
-
-    <!-- =====================================
-         FOOTER
-         ===================================== -->
+    <!-- FOOTER -->
 
     <footer>
-
         Created by MH Masina & NP Machete
-
     </footer>
 
 
+    <!-- =====================================
+         WELCOME BACK POPUP
+         ===================================== -->
+
+    <div
+        id="welcomePopup"
+        class="welcome-popup">
+
+        <div class="welcome-card">
+
+            <div class="welcome-icon">
+                🎯
+            </div>
+
+            <h2>
+                Welcome back,
+                <span id="welcomeName">Learner</span>! 👋
+            </h2>
+
+            <p class="welcome-message">
+                Remember why you started.
+                Keep working towards your goal!
+            </p>
+
+            <p class="welcome-goal">
+
+                🎯 <strong>Your goal:</strong>
+
+                <span id="welcomeGoal">
+                    Keep working towards your goal
+                </span>
+
+            </p>
+
+            <p class="welcome-motivation">
+
+                💪 Stay focused.
+                📚 Keep studying.
+                🌟 You can do it!
+
+            </p>
+
+            <button
+                class="start-studying-btn"
+                onclick="closeWelcomePopup()">
+
+                📚 Start Studying
+
+            </button>
+
+            <button
+                class="close-welcome-btn"
+                onclick="closeWelcomePopup()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
 
     <!-- =====================================
-         FIRST-TIME PROFILE SETUP
+         PROFILE SETUP
          ===================================== -->
 
     <div id="profileSetupOverlay">
 
-
         <div class="setup-container">
 
-
             <div class="setup-box">
-
 
                 <h2>
                     👋 Welcome to Grade 12 Hub
                 </h2>
-
 
                 <p class="intro">
                     Let's set up your profile before you enter the app.
                 </p>
 
 
-
-                <!-- FULL NAME -->
-
                 <label for="fullName">
-
                     Full Name
-
                 </label>
-
 
                 <input
                     type="text"
                     id="fullName"
-                    placeholder="Enter your full name"
-                >
+                    placeholder="Enter your full name">
 
-
-
-                <!-- GRADE -->
 
                 <label>
-
                     Grade
-
                 </label>
 
-
                 <div class="grade-display">
-
                     🎓 Grade 12
-
                 </div>
 
 
-
-                <!-- PROVINCE -->
-
                 <label for="province">
-
                     Province
-
                 </label>
-
 
                 <select id="province">
 
@@ -756,425 +789,233 @@
                 </select>
 
 
-
-                <!-- AREA / TOWN -->
-
                 <label for="area">
-
                     Area / Town
-
                 </label>
-
 
                 <input
                     type="text"
                     id="area"
-                    placeholder="Enter your area or town"
-                >
+                    placeholder="Enter your area or town">
 
-
-
-                <!-- SCHOOL -->
 
                 <label for="school">
-
                     School
-
                 </label>
-
 
                 <input
                     type="text"
                     id="school"
-                    placeholder="Enter your school name"
-                >
+                    placeholder="Enter your school name">
 
-
-
-                <!-- SUBJECTS -->
 
                 <label>
-
                     Your Subjects
-
                 </label>
-
 
                 <div class="subjects">
 
-
-                    <!-- ENGLISH -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="English Home Language"
-                        >
+                        <input type="checkbox" value="English Home Language">
                         English Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="English Additional Language"
-                        >
+                        <input type="checkbox" value="English Additional Language">
                         English Additional Language
                     </label>
 
-
-                    <!-- AFRIKAANS -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Afrikaans Home Language"
-                        >
+                        <input type="checkbox" value="Afrikaans Home Language">
                         Afrikaans Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Afrikaans First Additional Language"
-                        >
+                        <input type="checkbox" value="Afrikaans First Additional Language">
                         Afrikaans First Additional Language
                     </label>
 
-
-                    <!-- ISIZULU -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="IsiZulu Home Language"
-                        >
+                        <input type="checkbox" value="IsiZulu Home Language">
                         IsiZulu Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="IsiZulu First Additional Language"
-                        >
+                        <input type="checkbox" value="IsiZulu First Additional Language">
                         IsiZulu First Additional Language
                     </label>
 
-
-                    <!-- SESOTHO -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Sesotho Home Language"
-                        >
+                        <input type="checkbox" value="Sesotho Home Language">
                         Sesotho Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Sesotho First Additional Language"
-                        >
+                        <input type="checkbox" value="Sesotho First Additional Language">
                         Sesotho First Additional Language
                     </label>
 
-
-                    <!-- SETSWANA -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Setswana Home Language"
-                        >
+                        <input type="checkbox" value="Setswana Home Language">
                         Setswana Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Setswana First Additional Language"
-                        >
+                        <input type="checkbox" value="Setswana First Additional Language">
                         Setswana First Additional Language
                     </label>
 
-
-                    <!-- SEPEDI -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Sepedi Home Language"
-                        >
+                        <input type="checkbox" value="Sepedi Home Language">
                         Sepedi Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Sepedi First Additional Language"
-                        >
+                        <input type="checkbox" value="Sepedi First Additional Language">
                         Sepedi First Additional Language
                     </label>
 
-
-                    <!-- ISIXHOSA -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="IsiXhosa Home Language"
-                        >
+                        <input type="checkbox" value="IsiXhosa Home Language">
                         IsiXhosa Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="IsiXhosa First Additional Language"
-                        >
+                        <input type="checkbox" value="IsiXhosa First Additional Language">
                         IsiXhosa First Additional Language
                     </label>
 
-
-                    <!-- ISINDEBELE -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="IsiNdebele Home Language"
-                        >
+                        <input type="checkbox" value="IsiNdebele Home Language">
                         IsiNdebele Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="IsiNdebele First Additional Language"
-                        >
+                        <input type="checkbox" value="IsiNdebele First Additional Language">
                         IsiNdebele First Additional Language
                     </label>
 
-
-                    <!-- SISWATI -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="SiSwati Home Language"
-                        >
+                        <input type="checkbox" value="SiSwati Home Language">
                         SiSwati Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="SiSwati First Additional Language"
-                        >
+                        <input type="checkbox" value="SiSwati First Additional Language">
                         SiSwati First Additional Language
                     </label>
 
-
-                    <!-- TSHIVENDA -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Tshivenda Home Language"
-                        >
+                        <input type="checkbox" value="Tshivenda Home Language">
                         Tshivenda Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Tshivenda First Additional Language"
-                        >
+                        <input type="checkbox" value="Tshivenda First Additional Language">
                         Tshivenda First Additional Language
                     </label>
 
-
-                    <!-- XITSONGA -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="itsonga Home Language"
-                        >
+                        <input type="checkbox" value="itsonga Home Language">
                         Xitsonga Home Language
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="itsonga First Additional Language"
-                        >
+                        <input type="checkbox" value="itsonga First Additional Language">
                         Xitsonga First Additional Language
                     </label>
 
-
-                    <!-- MATHEMATICS -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Mathematics"
-                        >
+                        <input type="checkbox" value="Mathematics">
                         Mathematics
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Mathematical Literacy"
-                        >
+                        <input type="checkbox" value="Mathematical Literacy">
                         Mathematical Literacy
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Technical Mathematics"
-                        >
+                        <input type="checkbox" value="Technical Mathematics">
                         Technical Mathematics
                     </label>
 
-
-                    <!-- SCIENCE -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Technical Science"
-                        >
+                        <input type="checkbox" value="Technical Science">
                         Technical Science
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Physical Sciences"
-                        >
+                        <input type="checkbox" value="Physical Sciences">
                         Physical Sciences
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Life Sciences"
-                        >
+                        <input type="checkbox" value="Life Sciences">
                         Life Sciences
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Agricultural Sciences"
-                        >
+                        <input type="checkbox" value="Agricultural Sciences">
                         Agricultural Sciences
                     </label>
 
-
-                    <!-- COMMERCE -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Accounting"
-                        >
+                        <input type="checkbox" value="Accounting">
                         Accounting
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Business Studies"
-                        >
+                        <input type="checkbox" value="Business Studies">
                         Business Studies
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Economics"
-                        >
+                        <input type="checkbox" value="Economics">
                         Economics
                     </label>
 
-
-                    <!-- HUMANITIES -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Geography"
-                        >
+                        <input type="checkbox" value="Geography">
                         Geography
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="History"
-                        >
+                        <input type="checkbox" value="History">
                         History
                     </label>
 
-
-                    <!-- OTHER -->
-
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Consumer Studies"
-                        >
+                        <input type="checkbox" value="Consumer Studies">
                         Consumer Studies
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Tourism"
-                        >
+                        <input type="checkbox" value="Tourism">
                         Tourism
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Engineering Graphics and Design (EGD)"
-                        >
+                        <input type="checkbox" value="Engineering Graphics and Design (EGD)">
                         Engineering Graphics and Design (EGD)
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="CAT (Computer Applications Technology)"
-                        >
+                        <input type="checkbox" value="CAT (Computer Applications Technology)">
                         CAT (Computer Applications Technology)
                     </label>
 
                     <label class="subject-option">
-                        <input
-                            type="checkbox"
-                            value="Life Orientation"
-                        >
+                        <input type="checkbox" value="Life Orientation">
                         Life Orientation
                     </label>
-
 
                 </div>
 
 
-
-                <!-- STUDY GOAL -->
-
                 <label for="studyGoal">
-
                     What is your study goal?
-
                 </label>
-
 
                 <textarea
                     id="studyGoal"
@@ -1182,15 +1023,9 @@
                 ></textarea>
 
 
-
-                <!-- TERMS AND COMMUNITY RULES -->
-
                 <label>
-
                     Terms & Community Rules
-
                 </label>
-
 
                 <div class="terms-box">
 
@@ -1239,8 +1074,7 @@
 
                     <input
                         type="checkbox"
-                        id="termsAccepted"
-                    >
+                        id="termsAccepted">
 
                     <span>
                         I agree to the Grade 12 Hub Terms & Community Rules.
@@ -1249,19 +1083,14 @@
                 </label>
 
 
-
-                <!-- SAVE -->
-
                 <button
                     class="save-button"
                     id="saveProfileButton"
-                    onclick="saveFirstProfile()"
-                >
+                    onclick="saveFirstProfile()">
 
                     Save & Enter App
 
                 </button>
-
 
 
                 <p class="required-note">
@@ -1270,13 +1099,11 @@
 
                 </p>
 
-
             </div>
 
         </div>
 
     </div>
-
 
 
     <script>
@@ -1291,10 +1118,6 @@
         const SUPABASE_PUBLISHABLE_KEY =
             "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
-
-        /* =====================================
-           CREATE SUPABASE CLIENT
-           ===================================== */
 
         const supabaseClient =
             window.supabase.createClient(
@@ -1317,23 +1140,17 @@
 
             if (error || !data.user) {
 
-                window.location.href =
-                    "login.html";
+                window.location.href = "login.html";
 
                 return null;
 
             }
 
 
-            /*
-             * Display logged-in email.
-             */
-
             document.getElementById(
                 "accountEmail"
             ).textContent =
-                "Logged in as: " +
-                data.user.email;
+                "Logged in as: " + data.user.email;
 
 
             return data.user;
@@ -1365,19 +1182,19 @@
                 }
 
 
-                window.location.href =
-                    "login.html";
+                localStorage.removeItem("new_login");
+
+                window.location.href = "login.html";
 
             }
         );
 
 
         /* =====================================
-           CHECK FIRST-TIME USER
+           PROFILE CHECK
            ===================================== */
 
         function checkFirstTimeUser() {
-
 
             const profileCreated =
                 localStorage.getItem(
@@ -1387,33 +1204,26 @@
 
             if (profileCreated !== "true") {
 
-
                 document.getElementById(
                     "profileSetupOverlay"
                 ).style.display = "block";
 
-
                 document.body.style.overflow = "hidden";
-
 
             } else {
 
-
                 loadHomeProfile();
-
 
             }
 
         }
 
 
-
         /* =====================================
-           SAVE FIRST PROFILE
+           SAVE PROFILE
            ===================================== */
 
         async function saveFirstProfile() {
-
 
             const button =
                 document.getElementById(
@@ -1469,7 +1279,6 @@
             subjectCheckboxes.forEach(
                 function(checkbox) {
 
-
                     if (checkbox.checked) {
 
                         subjects.push(
@@ -1482,9 +1291,6 @@
             );
 
 
-
-            /* VALIDATE NAME */
-
             if (name === "") {
 
                 alert(
@@ -1495,9 +1301,6 @@
 
             }
 
-
-
-            /* VALIDATE PROVINCE */
 
             if (province === "") {
 
@@ -1510,9 +1313,6 @@
             }
 
 
-
-            /* VALIDATE AREA */
-
             if (area === "") {
 
                 alert(
@@ -1523,9 +1323,6 @@
 
             }
 
-
-
-            /* VALIDATE SCHOOL */
 
             if (school === "") {
 
@@ -1538,9 +1335,6 @@
             }
 
 
-
-            /* VALIDATE SUBJECTS */
-
             if (subjects.length === 0) {
 
                 alert(
@@ -1551,9 +1345,6 @@
 
             }
 
-
-
-            /* VALIDATE GOAL */
 
             if (goal === "") {
 
@@ -1566,9 +1357,6 @@
             }
 
 
-
-            /* VALIDATE TERMS */
-
             if (!termsAccepted) {
 
                 alert(
@@ -1579,11 +1367,6 @@
 
             }
 
-
-
-            /*
-             * Check that the user is still logged in.
-             */
 
             const {
                 data: userData,
@@ -1597,8 +1380,7 @@
                     "Your login session has expired. Please log in again."
                 );
 
-                window.location.href =
-                    "login.html";
+                window.location.href = "login.html";
 
                 return;
 
@@ -1609,22 +1391,11 @@
                 userData.user;
 
 
-
-            /*
-             * Prevent double clicking
-             * while saving.
-             */
-
             button.disabled = true;
 
             button.textContent =
                 "Saving...";
 
-
-
-            /* =================================
-               SAVE PROFILE TO SUPABASE
-               ================================= */
 
             const {
                 error: profileError
@@ -1633,38 +1404,25 @@
                 .upsert(
                     {
                         user_id: currentUser.id,
-
                         full_name: name,
-
                         grade: 12,
-
                         province: province,
-
                         area: area,
-
                         school: school,
-
                         subjects: subjects,
-
                         study_goal: goal,
-
                         terms_accepted: true,
-
                         terms_accepted_at:
                             new Date().toISOString(),
-
-                        subjects_locked: true
+                        subjects_locked: true,
+                        updated_at:
+                            new Date().toISOString()
                     },
                     {
                         onConflict: "user_id"
                     }
                 );
 
-
-
-            /*
-             * Check if Supabase saving failed.
-             */
 
             if (profileError) {
 
@@ -1690,62 +1448,45 @@
             }
 
 
-
-            /* =================================
-               SAVE LOCAL PROFILE INFORMATION
-               ================================= */
-
             localStorage.setItem(
                 "grade12_name",
                 name
             );
-
 
             localStorage.setItem(
                 "grade12_grade",
                 "Grade 12"
             );
 
-
             localStorage.setItem(
                 "grade12_province",
                 province
             );
-
 
             localStorage.setItem(
                 "grade12_area",
                 area
             );
 
-
             localStorage.setItem(
                 "grade12_school",
                 school
             );
-
 
             localStorage.setItem(
                 "grade12_subjects",
                 JSON.stringify(subjects)
             );
 
-
             localStorage.setItem(
                 "grade12_goal",
                 goal
             );
 
-
             localStorage.setItem(
                 "grade12_terms_accepted",
                 "true"
             );
-
-
-            /*
-             * Mark profile setup as completed.
-             */
 
             localStorage.setItem(
                 "grade12_profile_created",
@@ -1753,31 +1494,15 @@
             );
 
 
-
-            /*
-             * Close setup screen.
-             */
-
             document.getElementById(
                 "profileSetupOverlay"
             ).style.display = "none";
 
-
             document.body.style.overflow = "auto";
 
 
-
-            /*
-             * Update Home page.
-             */
-
             loadHomeProfile();
 
-
-
-            /*
-             * Restore button.
-             */
 
             button.disabled = false;
 
@@ -1785,30 +1510,19 @@
                 "Save & Enter App";
 
 
-
             /*
-             * Show welcome message.
+             * Do NOT set new_login here.
+             * Login.html already sets it.
              */
-
-            alert(
-                "Welcome to Grade 12 Hub, " +
-                name +
-                "! 🎯\n\n" +
-                "Your profile has been saved.\n\n" +
-                "Remember your goal:\n" +
-                goal
-            );
 
         }
 
 
-
         /* =====================================
-           LOAD PROFILE ON HOME
+           LOAD PROFILE
            ===================================== */
 
         function loadHomeProfile() {
-
 
             const name =
                 localStorage.getItem(
@@ -1822,9 +1536,7 @@
                 );
 
 
-
             if (name) {
-
 
                 document.getElementById(
                     "welcomeMessage"
@@ -1836,9 +1548,7 @@
             }
 
 
-
             if (goal) {
-
 
                 document.getElementById(
                     "homeGoal"
@@ -1851,13 +1561,56 @@
         }
 
 
+        /* =====================================
+           WELCOME BACK POPUP
+           ===================================== */
+
+        function showWelcomePopup() {
+
+            const name =
+                localStorage.getItem(
+                    "grade12_name"
+                ) || "Learner";
+
+
+            const goal =
+                localStorage.getItem(
+                    "grade12_goal"
+                ) ||
+                "Keep working towards your goal";
+
+
+            document.getElementById(
+                "welcomeName"
+            ).textContent = name;
+
+
+            document.getElementById(
+                "welcomeGoal"
+            ).textContent = goal;
+
+
+            document.getElementById(
+                "welcomePopup"
+            ).style.display = "flex";
+
+        }
+
+
+        function closeWelcomePopup() {
+
+            document.getElementById(
+                "welcomePopup"
+            ).style.display = "none";
+
+        }
+
 
         /* =====================================
            COMING SOON
            ===================================== */
 
         function showComingSoon(feature) {
-
 
             alert(
                 feature +
@@ -1867,7 +1620,6 @@
         }
 
 
-
         /* =====================================
            START APP
            ===================================== */
@@ -1875,12 +1627,6 @@
         window.addEventListener(
             "load",
             async function() {
-
-                /*
-                 * First check Supabase login.
-                 * Only logged-in users can enter
-                 * the Grade 12 Hub.
-                 */
 
                 const user =
                     await checkSupabaseUser();
@@ -1893,16 +1639,54 @@
                 }
 
 
+                checkFirstTimeUser();
+
+
                 /*
-                 * User is logged in,
-                 * so load the original app.
+                 * Show Welcome Back ONLY after
+                 * a real login.
+                 *
+                 * Notes → Home will NOT show it
+                 * because the flag has already
+                 * been removed.
                  */
 
-                checkFirstTimeUser();
+                const newLogin =
+                    localStorage.getItem(
+                        "new_login"
+                    );
+
+
+                if (newLogin === "true") {
+
+                    localStorage.removeItem(
+                        "new_login"
+                    );
+
+
+                    /*
+                     * If profile setup is required,
+                     * wait until the profile is saved.
+                     *
+                     * Otherwise show the popup now.
+                     */
+
+                    const profileCreated =
+                        localStorage.getItem(
+                            "grade12_profile_created"
+                        );
+
+
+                    if (profileCreated === "true") {
+
+                        showWelcomePopup();
+
+                    }
+
+                }
 
             }
         );
-
 
 
         /* =====================================
@@ -1911,34 +1695,30 @@
 
         if ("serviceWorker" in navigator) {
 
-
             window.addEventListener(
                 "load",
                 function() {
 
-
                     navigator.serviceWorker
-                        .register("service-worker.js")
+                        .register(
+                            "service-worker.js"
+                        )
                         .then(
                             function() {
-
 
                                 console.log(
                                     "Service Worker registered."
                                 );
-
 
                             }
                         )
                         .catch(
                             function(error) {
 
-
                                 console.log(
                                     "Service Worker registration failed:",
                                     error
                                 );
-
 
                             }
                         );
@@ -1948,9 +1728,7 @@
 
         }
 
-
     </script>
-
 
 </body>
     </html>
