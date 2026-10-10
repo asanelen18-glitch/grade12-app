@@ -74,7 +74,6 @@ header h1{font-size:23px}
 </head>
 
 <body>
-
 <header>
   <h1>📐 Grade 12 Mathematics</h1>
   <p>Understand the concepts. Follow the steps. Master the questions.</p>
@@ -82,875 +81,665 @@ header h1{font-size:23px}
 
 <main class="container">
 
-  <section class="intro">
-    <h2>Mathematics Learning Centre</h2>
-    <p>
-      Learn definitions, follow illustrated explanations, study worked
-      examples and practise exam-style questions.
-    </p>
-    <p class="small">
-      Start with Algebra, then continue to the other topics.
-      Your topic completion is saved in this browser on this device.
-    </p>
-  </section>
-
-  <section class="progress-card">
-    <h3>📊 My Learning Progress</h3>
-    <p id="progressText">0 topics completed</p>
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <p class="small">
-      Progress is currently saved on this device. It is not yet synchronised
-      with your Grade 12 Hub profile or Supabase account.
-    </p>
-  </section>
-
-  <div class="paper-title">
-    <h2>📘 PAPER 1</h2>
-    <p>Algebra, patterns, functions, finance, calculus and probability</p>
-  </div>
-
-  <div class="topic-grid">
-    <article class="topic-card">
-      <h3>1. Algebra</h3>
-      <p>Expressions, exponents, surds, factorisation, equations and roots.</p>
-      <button onclick="openLesson('algebra')">Study Algebra</button>
-    </article>
-
-    <article class="topic-card">
-      <h3>2. Sequences and Series</h3>
-      <p>Arithmetic and geometric patterns, general terms and sums.</p>
-      <button onclick="openLesson('sequences')">Study Sequences</button>
-    </article>
-
-    <article class="topic-card">
-      <h3>3. Functions and Graphs</h3>
-      <p>Parabolas, hyperbolas, exponential graphs and transformations.</p>
-      <button onclick="openLesson('functions')">Study Functions</button>
-    </article>
-
-    <article class="topic-card">
-      <h3>4. Finance</h3>
-      <p>Interest, depreciation, inflation, growth and decay.</p>
-      <button onclick="openLesson('finance')">Study Finance</button>
-    </article>
-
-    <article class="topic-card">
-      <h3>5. Differential Calculus</h3>
-      <p>Derivatives, gradients, stationary points and optimisation.</p>
-      <button onclick="openLesson('calculus')">Study Calculus</button>
-    </article>
-
-    <article class="topic-card">
-      <h3>6. Probability</h3>
-      <p>Events, probability rules, independence and counting outcomes.</p>
-      <button onclick="openLesson('probability')">Study Probability</button>
-    </article>
-  </div>
-
-  <div class="paper-title">
-    <h2>📕 PAPER 2</h2>
-    <p>Statistics, analytical geometry, trigonometry and Euclidean geometry</p>
-  </div>
-
-  <div class="topic-grid">
-    <article class="topic-card">
-      <h3>1. Statistics</h3>
-      <p>Measures of central tendency, spread and data interpretation.</p>
-      <button onclick="openLesson('statistics')">Study Statistics</button>
-    </article>
-
-    <article class="topic-card">
-      <h3>2. Analytical Geometry</h3>
-      <p>Coordinates, distance, midpoint, gradient and circle geometry.</p>
-      <button onclick="openLesson('geometry')">Study Analytical Geometry</button>
-    </article>
-
-    <article class="topic-card">
-      <h3>3. Trigonometry</h3>
-      <p>Identities, equations, compound angles and graphs.</p>
-      <button onclick="openLesson('trigonometry')">Study Trigonometry</button>
-    </article>
-
-    <article class="topic-card">
-      <h3>4. Euclidean Geometry</h3>
-      <p>Circle theorems, angle relationships and geometric proofs.</p>
-      <button onclick="openLesson('euclidean')">Study Euclidean Geometry</button>
-    </article>
-  </div>
-
-  <!-- FULL ALGEBRA LESSON -->
-
-  <section class="lesson" id="algebra">
-    <h2>📘 Algebra: Complete Learning Chapter</h2>
-    <p>
-      Work through each section in order. Follow the arrows, study the
-      examples, then complete the practice quiz.
-    </p>
-
-    <div class="definition">
-      <strong>What is algebra?</strong>
-      <p>
-        Algebra is the branch of mathematics that uses letters and symbols
-        to represent numbers and relationships.
-      </p>
-      <div class="arrow-flow">
-        <div class="flow-box">An unknown number → represent it with x</div>
-        <div class="flow-arrow">↓</div>
-        <div class="flow-box">Describe the relationship → form an equation</div>
-        <div class="flow-arrow">↓</div>
-        <div class="flow-box">Solve the equation → find the unknown value</div>
-      </div>
-    </div>
-
-    <!-- SECTION 1 -->
-    <h3>1. Algebraic expressions and like terms</h3>
-
-    <div class="definition">
-      An <strong>algebraic expression</strong> is a mathematical phrase
-      containing numbers, variables and operations. It does not have an
-      equals sign unless it is part of an equation.
-      <p><strong>Example:</strong> 3x + 5</p>
-      <p>
-        <strong>Variable</strong> → a letter representing a number.
-        <br>
-        <strong>Coefficient</strong> → the number multiplying a variable.
-        <br>
-        <strong>Constant</strong> → a number without a variable.
-        <br>
-        <strong>Term</strong> → a part separated by plus or minus signs.
-      </p>
-    </div>
-
-    <div class="diagram">
-      <svg viewBox="0 0 340 150" role="img"
-           aria-label="An algebraic expression showing coefficient, variable and constant">
-        <rect x="8" y="12" width="324" height="44" rx="9" fill="#eef2ff" stroke="#a5b4fc"/>
-        <text x="170" y="41" text-anchor="middle" font-size="23" font-weight="bold" fill="#312e81">3x + 5</text>
-        <path d="M95 57 L70 83" stroke="#4f46e5" stroke-width="2" fill="none"/>
-        <path d="M135 57 L165 83" stroke="#4f46e5" stroke-width="2" fill="none"/>
-        <path d="M246 57 L270 83" stroke="#4f46e5" stroke-width="2" fill="none"/>
-        <text x="65" y="103" text-anchor="middle" font-size="12" fill="#3730a3">3 = coefficient</text>
-        <text x="165" y="103" text-anchor="middle" font-size="12" fill="#3730a3">x = variable</text>
-        <text x="270" y="103" text-anchor="middle" font-size="12" fill="#3730a3">5 = constant</text>
-        <text x="170" y="135" text-anchor="middle" font-size="11" fill="#555">Identify each part before simplifying.</text>
-      </svg>
-      <p class="caption">An expression can contain several terms.</p>
-    </div>
-
-    <h4>Simplifying like terms</h4>
-    <p>
-      Like terms have the same variables raised to the same powers.
-      Combine their coefficients, but do not combine unlike terms.
-    </p>
-
-    <div class="arrow-flow">
-      <div class="flow-box">4x + 3x − 2 + 5</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">Group like terms → (4x + 3x) + (−2 + 5)</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">Simplify → 7x + 3</div>
-    </div>
-
-    <div class="example">
-      <strong>Worked example:</strong> Simplify 5a + 2b − 3a + 4b.
-      <p>Group the a-terms and the b-terms:</p>
-      <div class="formula">(5a − 3a) + (2b + 4b)</div>
-      <div class="formula">= 2a + 6b</div>
-    </div>
-
-    <div class="hint">
-      <strong>Exam hint:</strong> 2x + 3x = 5x, but 2x + 3x² cannot be
-      combined because the powers of x are different.
-    </div>
-
-    <!-- SECTION 2 -->
-    <h3>2. Multiplying and dividing algebraic expressions</h3>
-
-    <div class="definition">
-      When multiplying a number by brackets, use the distributive law:
-      multiply the outside term by every term inside the brackets.
-    </div>
-
-    <div class="arrow-flow">
-      <div class="flow-box">3(x + 4)</div>
-      <div class="flow-arrow">↓ Multiply each term by 3</div>
-      <div class="flow-box">3 × x + 3 × 4</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">3x + 12</div>
-    </div>
-
-    <div class="example">
-      <strong>Example:</strong> Simplify 2(3x − 5) + 4x.
-      <div class="formula">= 6x − 10 + 4x</div>
-      <div class="formula">= 10x − 10</div>
-    </div>
-
-    <h4>Multiplying two brackets</h4>
-    <div class="example">
-      Expand (x + 2)(x + 3).
-      <div class="formula">
-        = x(x + 3) + 2(x + 3)
-        <br>
-        = x² + 3x + 2x + 6
-        <br>
-        = x² + 5x + 6
-      </div>
-    </div>
-
-    <!-- SECTION 3 -->
-    <h3>3. Exponents and exponent laws</h3>
-
-    <div class="definition">
-      An <strong>exponent</strong> tells you how many times a base is
-      multiplied by itself.
-      <p>For example: 2³ = 2 × 2 × 2 = 8.</p>
-    </div>
-
-    <div class="table-wrap">
-      <table>
-        <tr><th>Law</th><th>Rule</th><th>Example</th></tr>
-        <tr><td>Multiply same base</td><td>aᵐ × aⁿ = aᵐ⁺ⁿ</td><td>x² × x³ = x⁵</td></tr>
-        <tr><td>Divide same base</td><td>aᵐ ÷ aⁿ = aᵐ⁻ⁿ</td><td>x⁵ ÷ x² = x³</td></tr>
-        <tr><td>Power of a power</td><td>(aᵐ)ⁿ = aᵐⁿ</td><td>(x²)³ = x⁶</td></tr>
-        <tr><td>Power of a product</td><td>(ab)ⁿ = aⁿbⁿ</td><td>(2x)² = 4x²</td></tr>
-        <tr><td>Zero exponent</td><td>a⁰ = 1, a ≠ 0</td><td>5⁰ = 1</td></tr>
-        <tr><td>Negative exponent</td><td>a⁻ⁿ = 1/aⁿ, a ≠ 0</td><td>x⁻² = 1/x²</td></tr>
-        <tr><td>Fractional exponent</td><td>a¹/² = √a</td><td>9¹/² = 3</td></tr>
-      </table>
-    </div>
-
-    <div class="example">
-      <strong>Worked example:</strong> Simplify (2x³)(4x²).
-      <div class="formula">
-        = (2 × 4)(x³ × x²)
-        <br>
-        = 8x⁵
-      </div>
-    </div>
-
-    <div class="hint">
-      <strong>Remember:</strong> when multiplying powers with the same base,
-      add the exponents. When dividing, subtract the exponents. Do not
-      multiply the exponents unless you have a power raised to another power.
-    </div>
-
-    <!-- SECTION 4 -->
-    <h3>4. Surds and square roots</h3>
-
-    <div class="definition">
-      A <strong>surd</strong> is an irrational root that is left in radical
-      form, such as √2 or √5.
-      <p>
-        Simplifying a surd means removing any perfect-square factor from
-        inside the square root.
-      </p>
-    </div>
-
-    <div class="arrow-flow">
-      <div class="flow-box">√72</div>
-      <div class="flow-arrow">↓ Find a perfect-square factor</div>
-      <div class="flow-box">√(36 × 2)</div>
-      <div class="flow-arrow">↓ Separate the square roots</div>
-      <div class="flow-box">√36 × √2</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">6√2</div>
-    </div>
-
-    <h4>Adding and subtracting surds</h4>
-    <div class="example">
-      Simplify 3√2 + 5√2 − √2.
-      <div class="formula">(3 + 5 − 1)√2 = 7√2</div>
-      <p>Only like surds can be combined directly.</p>
-    </div>
-
-    <h4>Rationalising a denominator</h4>
-    <p>
-      Rationalising means removing a surd from the denominator of a fraction.
-    </p>
-
-    <div class="example">
-      Simplify 1/√3.
-      <div class="formula">
-        1/√3 × √3/√3
-        <br>
-        = √3/3
-      </div>
-    </div>
-
-    <div class="hint">
-      Do not add the numbers inside different surds:
-      √2 + √3 cannot be simplified to √5.
-    </div>
-
-    <!-- SECTION 5 -->
-    <h3>5. Factorisation</h3>
-
-    <div class="definition">
-      <strong>Factorisation</strong> means rewriting an expression as a
-      product of simpler factors.
-      <p>Expansion → multiply brackets. Factorisation → work backwards to brackets.</p>
-    </div>
-
-    <h4>Method A: Common factor</h4>
-    <div class="arrow-flow">
-      <div class="flow-box">6x² + 9x</div>
-      <div class="flow-arrow">↓ Find the common factor: 3x</div>
-      <div class="flow-box">3x(2x + 3)</div>
-    </div>
-
-    <h4>Method B: Difference of two squares</h4>
-    <div class="formula">a² − b² = (a − b)(a + b)</div>
-    <div class="example">
-      Factorise x² − 25.
-      <div class="formula">= x² − 5²</div>
-      <div class="formula">= (x − 5)(x + 5)</div>
-    </div>
-
-    <h4>Method C: Trinomials</h4>
-    <div class="example">
-      Factorise x² + 5x + 6.
-      <p>Find two numbers that:</p>
-      <ul>
-        <li>Multiply to give 6.</li>
-        <li>Add to give 5.</li>
-      </ul>
-      <p>The numbers are 2 and 3.</p>
-      <div class="formula">x² + 5x + 6 = (x + 2)(x + 3)</div>
-    </div>
-
-    <h4>Method D: Quadratic trinomials with a leading coefficient</h4>
-    <div class="example">
-      Factorise 2x² + 7x + 3.
-      <p>Multiply the first and last coefficients: 2 × 3 = 6.</p>
-      <p>Find two numbers whose product is 6 and sum is 7: 6 and 1.</p>
-      <div class="formula">2x² + 6x + x + 3</div>
-      <div class="formula">= 2x(x + 3) + 1(x + 3)</div>
-      <div class="formula">= (2x + 1)(x + 3)</div>
-    </div>
-
-    <div class="hint">
-      <strong>Factorisation check:</strong> expand your final brackets.
-      If the original expression returns, your factorisation is correct.
-    </div>
-
-    <!-- SECTION 6 -->
-    <h3>6. Linear equations</h3>
-
-    <div class="definition">
-      A <strong>linear equation</strong> has a highest power of 1 for its
-      unknown variable.
-      <p>Solving an equation means finding the value that makes both sides equal.</p>
-    </div>
-
-    <div class="arrow-flow">
-      <div class="flow-box">3x + 5 = 20</div>
-      <div class="flow-arrow">↓ Subtract 5 from both sides</div>
-      <div class="flow-box">3x = 15</div>
-      <div class="flow-arrow">↓ Divide both sides by 3</div>
-      <div class="flow-box">x = 5</div>
-      <div class="flow-arrow">↓ Check: 3(5) + 5 = 20</div>
-      <div class="flow-box">Correct ✓</div>
-    </div>
-
-    <div class="hint">
-      Whatever operation you perform on one side of an equation, perform
-      the same operation on the other side.
-    </div>
-
-    <!-- SECTION 7 -->
-    <h3>7. Inequalities</h3>
-
-    <div class="definition">
-      An <strong>inequality</strong> compares two expressions using
-      symbols instead of an equals sign.
-      <ul>
-        <li>x &lt; 4 means x is less than 4.</li>
-        <li>x &gt; 4 means x is greater than 4.</li>
-        <li>x ≤ 4 means x is less than or equal to 4.</li>
-        <li>x ≥ 4 means x is greater than or equal to 4.</li>
-      </ul>
-    </div>
-
-    <div class="example">
-      Solve 2x + 3 &lt; 11.
-      <div class="formula">2x &lt; 8</div>
-      <div class="formula">x &lt; 4</div>
-    </div>
-
-    <div class="warning">
-      <strong>Important rule:</strong> when multiplying or dividing an
-      inequality by a negative number, reverse the inequality sign.
-      <div class="formula">−2x &lt; 6 → x &gt; −3</div>
-    </div>
-
-    <!-- SECTION 8 -->
-    <h3>8. Quadratic equations</h3>
-
-    <div class="definition">
-      A <strong>quadratic equation</strong> is an equation whose highest
-      power of the unknown is 2.
-      <div class="formula">ax² + bx + c = 0, where a ≠ 0</div>
-      <p>
-        a → coefficient of x²
-        <br>
-        b → coefficient of x
-        <br>
-        c → constant term
-      </p>
-    </div>
-
-    <h4>Method A: Solve by factorisation</h4>
-    <div class="arrow-flow">
-      <div class="flow-box">x² − 5x + 6 = 0</div>
-      <div class="flow-arrow">↓ Factorise</div>
-      <div class="flow-box">(x − 2)(x − 3) = 0</div>
-      <div class="flow-arrow">↓ Set each factor equal to zero</div>
-      <div class="flow-box">x − 2 = 0 OR x − 3 = 0</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">x = 2 OR x = 3</div>
-    </div>
-
-    <div class="hint">
-      <strong>Zero-product rule:</strong> if A × B = 0, then A = 0 or B = 0.
-      This rule applies after the equation has been written as a product
-      equal to zero.
-    </div>
-
-    <h4>Method B: Quadratic formula</h4>
-    <div class="formula">
-      x = (−b ± √(b² − 4ac)) / 2a
-    </div>
-
-    <div class="diagram">
-      <svg viewBox="0 0 320 120" role="img"
-           aria-label="Quadratic formula process">
-        <rect x="5" y="5" width="310" height="110" rx="10" fill="#eef2ff" stroke="#a5b4fc"/>
-        <text x="160" y="29" text-anchor="middle" font-size="12" fill="#3730a3">Step 1</text>
-        <text x="160" y="48" text-anchor="middle" font-size="14" font-weight="bold" fill="#312e81">Write ax² + bx + c = 0</text>
-        <path d="M160 54 L160 67" stroke="#4f46e5" stroke-width="2"/>
-        <path d="M154 62 L160 68 L166 62" fill="none" stroke="#4f46e5" stroke-width="2"/>
-        <text x="160" y="85" text-anchor="middle" font-size="12" fill="#3730a3">Step 2</text>
-        <text x="160" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#312e81">Identify a, b and c</text>
-      </svg>
-      <p class="caption">Then substitute carefully into the quadratic formula.</p>
-    </div>
-
-    <div class="example">
-      <strong>Worked example:</strong> Solve 2x² − 3x − 2 = 0.
-      <p>Step 1: Identify the coefficients.</p>
-      <div class="formula">a = 2, b = −3, c = −2</div>
-      <p>Step 2: Substitute into the formula.</p>
-      <div class="formula">
-        x = (−(−3) ± √[(-3)² − 4(2)(−2)]) / 4
-      </div>
-      <p>Step 3: Simplify.</p>
-      <div class="formula">
-        x = (3 ± √(9 + 16)) / 4
-        <br>
-        x = (3 ± 5) / 4
-      </div>
-      <p>Step 4: Calculate both roots.</p>
-      <div class="formula">x = 2 OR x = −½</div>
-    </div>
-
-    <!-- SECTION 9 -->
-    <h3>9. Nature of roots and the discriminant</h3>
-
-    <div class="definition">
-      The <strong>discriminant</strong> is the expression under the square
-      root in the quadratic formula. It tells us about the roots.
-      <div class="formula">Δ = b² − 4ac</div>
-    </div>
-
-    <div class="arrow-flow">
-      <div class="flow-box"><strong>Calculate Δ = b² − 4ac</strong></div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">
-        <strong>Δ &lt; 0</strong>
-        <p>No real roots.</p>
-      </div>
-      <div class="flow-box">
-        <strong>Δ = 0</strong>
-        <p>Two equal real roots (a repeated root).</p>
-      </div>
-      <div class="flow-box">
-        <strong>Δ &gt; 0</strong>
-        <p>Two distinct real roots.</p>
-        <p>For integer coefficients, a perfect-square discriminant gives rational roots; a non-square discriminant gives irrational roots.</p>
-      </div>
-    </div>
-
-    <div class="diagram">
-      <h4>Visualising roots on a parabola</h4>
-      <svg viewBox="0 0 320 220" role="img"
-           aria-label="An upward-opening parabola crossing the x-axis twice">
-        <line x1="18" y1="140" x2="304" y2="140" stroke="#555" stroke-width="1.5"/>
-        <line x1="160" y1="205" x2="160" y2="12" stroke="#555" stroke-width="1.5"/>
-        <path d="M55 30 Q160 350 265 30" fill="none" stroke="#4f46e5" stroke-width="3"/>
-        <circle cx="91" cy="140" r="4" fill="#16a34a"/>
-        <circle cx="229" cy="140" r="4" fill="#16a34a"/>
-        <text x="91" y="158" font-size="12" text-anchor="middle" fill="#166534">x₁</text>
-        <text x="229" y="158" font-size="12" text-anchor="middle" fill="#166534">x₂</text>
-        <text x="298" y="132" font-size="12" fill="#555">x</text>
-        <text x="169" y="19" font-size="12" fill="#555">y</text>
-        <text x="160" y="212" text-anchor="middle" font-size="11" fill="#555">Two x-intercepts = two real roots</text>
-      </svg>
-      <p class="caption">Illustration only; the actual shape and intercepts depend on the equation.</p>
-    </div>
-
-    <div class="example">
-      <strong>Worked example:</strong> Determine the nature of the roots of
-      3x² + 2x − 4 = 0.
-      <p>Identify: a = 3, b = 2, c = −4.</p>
-      <div class="formula">
-        Δ = b² − 4ac
-        <br>
-        = 2² − 4(3)(−4)
-        <br>
-        = 4 + 48
-        <br>
-        = 52
-      </div>
-      <p>
-        52 is positive → two distinct real roots.
-        52 is not a perfect square → the roots are irrational.
-      </p>
-      <p>Solving fully:</p>
-      <div class="formula">
-        x = (−2 ± √52) / 6
-        <br>
-        x = (−1 ± √13) / 3
-      </div>
-    </div>
-
-    <div class="hint">
-      Do not confuse the sign of the discriminant with the signs of the roots.
-      The discriminant classifies the roots; it does not directly tell you
-      whether each root is positive or negative.
-    </div>
-
-    <!-- SECTION 10 -->
-    <h3>10. Completing the square</h3>
-
-    <div class="definition">
-      <strong>Completing the square</strong> rewrites a quadratic expression
-      using a squared bracket and a constant.
-    </div>
-
-    <div class="example">
-      Rewrite x² + 6x + 5 by completing the square.
-      <p>Step 1: Take half of the coefficient of x: 6 ÷ 2 = 3.</p>
-      <p>Step 2: Square that number: 3² = 9.</p>
-      <div class="formula">x² + 6x + 5 = (x + 3)² − 9 + 5</div>
-      <div class="formula">= (x + 3)² − 4</div>
-    </div>
-
-    <div class="hint">
-      For x² + bx, half b, then square it. Add and subtract the same
-      value so that the expression remains unchanged.
-    </div>
-
-    <!-- SECTION 11 -->
-    <h3>11. Simultaneous equations</h3>
-
-    <div class="definition">
-      <strong>Simultaneous equations</strong> are two or more equations
-      solved together to find values that satisfy all of them.
-    </div>
-
-    <div class="example">
-      Solve:
-      <div class="formula">x + y = 10</div>
-      <div class="formula">x − y = 2</div>
-      <p>Add the equations so that y cancels:</p>
-      <div class="formula">2x = 12 → x = 6</div>
-      <p>Substitute x = 6 into x + y = 10:</p>
-      <div class="formula">6 + y = 10 → y = 4</div>
-      <p><strong>Answer:</strong> x = 6 and y = 4.</p>
-    </div>
-
-    <details>
-      <summary>Explore number sets used in algebra</summary>
-      <ul>
-        <li><strong>Natural numbers (ℕ):</strong> 1, 2, 3, 4, …</li>
-        <li><strong>Whole numbers (ℕ₀):</strong> 0, 1, 2, 3, …</li>
-        <li><strong>Integers (ℤ):</strong> …, −2, −1, 0, 1, 2, …</li>
-        <li><strong>Rational numbers (ℚ):</strong> numbers expressible as p/q, where p and q are integers and q ≠ 0.</li>
-        <li><strong>Irrational numbers:</strong> real numbers that cannot be expressed as a ratio of integers, such as √2.</li>
-        <li><strong>Real numbers (ℝ):</strong> all rational and irrational numbers.</li>
-        <li><strong>Non-real complex numbers:</strong> numbers involving i, where i² = −1.</li>
-      </ul>
-      <p class="small">Notation for natural numbers may differ between textbooks.</p>
-    </details>
-
-    <!-- ALGEBRA QUIZ -->
-    <h3>12. Algebra practice quiz</h3>
-    <p>Choose one answer for each question, then tap “Check answers”.</p>
-
-    <div class="card" id="algebraQuiz">
-
-      <div class="question">
-        <p><strong>Question 1:</strong> Simplify 4x + 3x − 2x.</p>
-        <label><input type="radio" name="q1" value="a"> 5x</label>
-        <label><input type="radio" name="q1" value="b"> 9x</label>
-        <label><input type="radio" name="q1" value="c"> 5x²</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Question 2:</strong> Simplify x³ × x⁴.</p>
-        <label><input type="radio" name="q2" value="a"> x¹²</label>
-        <label><input type="radio" name="q2" value="b"> x⁷</label>
-        <label><input type="radio" name="q2" value="c"> 2x⁷</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Question 3:</strong> Factorise x² − 16.</p>
-        <label><input type="radio" name="q3" value="a"> (x − 8)(x + 2)</label>
-        <label><input type="radio" name="q3" value="b"> (x − 4)²</label>
-        <label><input type="radio" name="q3" value="c"> (x − 4)(x + 4)</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Question 4:</strong> Solve 2x + 6 = 14.</p>
-        <label><input type="radio" name="q4" value="a"> x = 4</label>
-        <label><input type="radio" name="q4" value="b"> x = 10</label>
-        <label><input type="radio" name="q4" value="c"> x = 8</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Question 5:</strong> What is the discriminant of x² − 6x + 9 = 0?</p>
-        <label><input type="radio" name="q5" value="a"> −36</label>
-        <label><input type="radio" name="q5" value="b"> 0</label>
-        <label><input type="radio" name="q5" value="c"> 36</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Question 6:</strong> If Δ &lt; 0, how many real roots does a quadratic have?</p>
-        <label><input type="radio" name="q6" value="a"> Two distinct real roots</label>
-        <label><input type="radio" name="q6" value="b"> One repeated real root</label>
-        <label><input type="radio" name="q6" value="c"> No real roots</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Question 7:</strong> Simplify √72.</p>
-        <label><input type="radio" name="q7" value="a"> 6√2</label>
-        <label><input type="radio" name="q7" value="b"> 8√2</label>
-        <label><input type="radio" name="q7" value="c"> 36√2</label>
-      </div>
-
-      <div class="question">
-        <p><strong>Question 8:</strong> Solve x² − 5x + 6 = 0.</p>
-        <label><input type="radio" name="q8" value="a"> x = −2 or −3</label>
-        <label><input type="radio" name="q8" value="b"> x = 2 or 3</label>
-        <label><input type="radio" name="q8" value="c"> x = 1 or 6</label>
-      </div>
-
-      <div class="actions">
-        <button onclick="checkQuiz()">Check answers</button>
-        <button class="secondary" onclick="resetQuiz()">Try again</button>
-      </div>
-
-      <div id="quizFeedback" class="feedback" aria-live="polite"></div>
-
-      <details>
-        <summary>Show answers and explanations</summary>
-        <ol>
-          <li><strong>5x:</strong> combine 4x + 3x − 2x.</li>
-          <li><strong>x⁷:</strong> add the exponents, 3 + 4 = 7.</li>
-          <li><strong>(x − 4)(x + 4):</strong> difference of two squares.</li>
-          <li><strong>x = 4:</strong> 2x = 8, then divide by 2.</li>
-          <li><strong>0:</strong> Δ = (−6)² − 4(1)(9) = 36 − 36.</li>
-          <li><strong>No real roots:</strong> a negative discriminant gives no real roots.</li>
-          <li><strong>6√2:</strong> √72 = √(36 × 2).</li>
-          <li><strong>x = 2 or 3:</strong> (x − 2)(x − 3) = 0.</li>
-        </ol>
-      </details>
-    </div>
-
-    <div class="actions">
-      <button onclick="markComplete('algebra')">✓ Mark Algebra complete</button>
-      <button class="secondary" onclick="unmarkComplete('algebra')">Undo completion</button>
-    </div>
-    <p id="algebraStatus" class="small"></p>
-
-    <div class="hint">
-      <strong>Before moving on:</strong> make sure you can explain each
-      method in your own words and solve similar questions without looking
-      at the worked examples.
-    </div>
-  </section>
-
-  <!-- OTHER TOPICS: EXISTING LESSONS PRESERVED -->
-
-  <section class="lesson hidden" id="sequences">
-    <h2>Sequences and Series</h2>
-    <div class="definition">
-      A <strong>sequence</strong> is an ordered list of numbers following
-      a pattern → a <strong>series</strong> is the sum of the terms in a sequence.
-    </div>
-    <h3>Arithmetic sequence</h3>
-    <p>Each term is found by adding the same common difference, d.</p>
-    <div class="formula">Tₙ = a + (n − 1)d</div>
-    <h3>Geometric sequence</h3>
-    <p>Each term is found by multiplying by the same common ratio, r.</p>
-    <div class="formula">Tₙ = arⁿ⁻¹</div>
-    <div class="hint">Hint: subtract consecutive terms to check for an arithmetic pattern. Divide consecutive non-zero terms to check for a geometric pattern.</div>
-    <div class="example">Example: 3, 7, 11, 15, … → common difference d = 4 → Tₙ = 3 + 4(n − 1).</div>
-    <button onclick="markComplete('sequences')">✓ Mark complete</button>
-  </section>
-
-  <section class="lesson hidden" id="functions">
-    <h2>Functions and Graphs</h2>
-    <div class="definition">
-      A <strong>function</strong> assigns each allowed input x exactly one output y.
-      Input x → rule → output y.
-    </div>
-    <div class="formula">Quadratic function: y = ax² + bx + c</div>
-    <ul>
-      <li><strong>Domain:</strong> the allowed input values.</li>
-      <li><strong>Range:</strong> the possible output values.</li>
-      <li><strong>x-intercept:</strong> where the graph crosses or touches the x-axis.</li>
-      <li><strong>y-intercept:</strong> where the graph crosses the y-axis.</li>
-      <li><strong>Turning point:</strong> the maximum or minimum point of a parabola.</li>
-    </ul>
-    <div class="hint">Hint: to find x-intercepts, set y = 0 and solve. To find the y-intercept, set x = 0.</div>
-    <button onclick="markComplete('functions')">✓ Mark complete</button>
-  </section>
-
-  <section class="lesson hidden" id="finance">
-    <h2>Finance, Growth and Decay</h2>
-    <div class="definition">
-      <strong>Compound interest</strong> is interest calculated on the original
-      amount and on interest already accumulated → the balance changes each period.
-    </div>
-    <div class="formula">A = P(1 + i)ⁿ</div>
-    <ul>
-      <li>A = accumulated amount</li>
-      <li>P = initial amount or principal</li>
-      <li>i = interest rate per period, written as a decimal</li>
-      <li>n = number of periods</li>
-    </ul>
-    <div class="example">Example: R1 000 invested at 10% per year for 2 years: A = 1 000(1.10)² = R1 210.</div>
-    <div class="hint">Hint: convert 8% to 0.08 before substituting. Make sure the interest rate and number of periods use the same time unit.</div>
-    <button onclick="markComplete('finance')">✓ Mark complete</button>
-  </section>
-
-  <section class="lesson hidden" id="calculus">
-    <h2>Differential Calculus</h2>
-    <div class="definition">
-      A <strong>derivative</strong> measures the instantaneous rate of change
-      of a function → geometrically, it gives the gradient of the tangent.
-    </div>
-    <div class="formula">If y = xⁿ, then dy/dx = nxⁿ⁻¹</div>
-    <div class="example">
-      Example: y = 3x² + 4x − 1<br>
-      Differentiate each term → dy/dx = 6x + 4.
-    </div>
-    <ul>
-      <li>Differentiate powers of x.</li>
-      <li>Find stationary points by setting dy/dx = 0.</li>
-      <li>Use the original function to calculate the y-coordinate.</li>
-      <li>Determine whether a stationary point is a maximum or minimum.</li>
-    </ul>
-    <div class="hint">Hint: the derivative of a constant is zero.</div>
-    <button onclick="markComplete('calculus')">✓ Mark complete</button>
-  </section>
-
-  <section class="lesson hidden" id="probability">
-    <h2>Probability</h2>
-    <div class="definition">
-      Probability measures how likely an event is to occur.
-      0 → impossible event; 1 → certain event.
-    </div>
-    <div class="formula">P(A) = favourable outcomes / total equally likely outcomes</div>
-    <div class="example">Example: a fair six-sided die → P(rolling a 4) = 1/6.</div>
-    <ul>
-      <li>Complement: P(not A) = 1 − P(A).</li>
-      <li>Mutually exclusive events cannot occur together.</li>
-      <li>Independent events do not change each other's probabilities.</li>
-    </ul>
-    <div class="hint">Hint: check whether the outcomes are equally likely before using the simple fraction formula.</div>
-    <button onclick="markComplete('probability')">✓ Mark complete</button>
-  </section>
-
-  <section class="lesson hidden" id="statistics">
-    <h2>Statistics</h2>
-    <div class="definition">
-      Statistics is the collection, organisation, analysis and interpretation
-      of data → use numerical summaries and graphs to describe a data set.
-    </div>
-    <ul>
-      <li><strong>Mean:</strong> sum of observations ÷ number of observations.</li>
-      <li><strong>Median:</strong> middle observation after arranging data in order.</li>
-      <li><strong>Mode:</strong> most frequently occurring value.</li>
-      <li><strong>Range:</strong> maximum − minimum.</li>
-      <li><strong>Quartiles:</strong> values that divide ordered data into four parts.</li>
-      <li><strong>Standard deviation:</strong> measures the spread of data around its mean.</li>
-    </ul>
-    <div class="hint">Hint: arrange the data in ascending order before finding the median or quartiles.</div>
-    <button onclick="markComplete('statistics')">✓ Mark complete</button>
-  </section>
-
-  <section class="lesson hidden" id="geometry">
-    <h2>Analytical Geometry</h2>
-    <div class="definition">
-      Analytical geometry uses coordinates and algebra to investigate
-      geometric relationships → points on a plane can be described using (x, y).
-    </div>
-    <div class="formula">Gradient: m = (y₂ − y₁)/(x₂ − x₁)</div>
-    <div class="formula">Distance: AB = √[(x₂ − x₁)² + (y₂ − y₁)²]</div>
-    <div class="formula">Midpoint: M = ((x₁ + x₂)/2, (y₁ + y₂)/2)</div>
-    <div class="hint">Hint: subtract coordinates in the same order in the numerator and denominator when calculating a gradient.</div>
-    <button onclick="markComplete('geometry')">✓ Mark complete</button>
-  </section>
-
-  <section class="lesson hidden" id="trigonometry">
-    <h2>Trigonometry</h2>
-    <div class="definition">
-      Trigonometry studies relationships between angles and trigonometric
-      ratios → identities help simplify expressions and solve equations.
-    </div>
-    <div class="formula">sin²θ + cos²θ = 1</div>
-    <div class="formula">tan θ = sin θ / cos θ, when cos θ ≠ 0</div>
-    <div class="formula">sin(A ± B) = sin A cos B ± cos A sin B</div>
-    <div class="hint">Hint: check the specified interval when solving trigonometric equations.</div>
-    <button onclick="markComplete('trigonometry')">✓ Mark complete</button>
-  </section>
-
-  <section class="lesson hidden" id="euclidean">
-    <h2>Euclidean Geometry</h2>
-    <div class="definition">
-      Euclidean geometry uses definitions, established results and theorems
-      to prove relationships between angles, lines and shapes.
-    </div>
-    <div class="arrow-flow">
-      <div class="flow-box">Given information</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">Identify the applicable theorem</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">Show each logical step and reason</div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">State the conclusion</div>
-    </div>
-    <ul>
-      <li>Angles in the same segment are equal.</li>
-      <li>The angle subtended by a diameter at the circumference is 90°.</li>
-      <li>Opposite angles of a cyclic quadrilateral add up to 180°.</li>
-      <li>The tangent is perpendicular to the radius at the point of contact.</li>
-    </ul>
-    <div class="hint">Hint: write a reason for every important statement in a geometry proof.</div>
-    <button onclick="markComplete('euclidean')">✓ Mark complete</button>
-  </section>
-
-  <a href="notes.html" class="back">← Back to Notes</a>
-
+<section class="intro">
+  <h2>Mathematics Learning Centre</h2>
+  <p>Learn definitions, follow illustrated explanations, study worked examples and practise exam-style questions.</p>
+  <p class="small">Start with Algebra, then continue to the other topics. Your topic completion is saved in this browser on this device.</p>
+</section>
+
+<section class="progress-card">
+  <h3>📊 My Learning Progress</h3>
+  <p id="progressText">0 topics completed</p>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <p class="small">Progress is currently saved on this device. It is not yet synchronised with your Grade 12 Hub profile or Supabase account.</p>
+</section>
+
+<div class="paper-title">
+  <h2>📘 PAPER 1</h2>
+  <p>Algebra, patterns, functions, finance, calculus and probability</p>
+</div>
+
+<div class="topic-grid">
+  <article class="topic-card">
+    <h3>1. Algebra</h3>
+    <p>Expressions, exponents, surds, factorisation, equations and roots.</p>
+    <button onclick="openLesson('algebra')">Study Algebra</button>
+  </article>
+  <article class="topic-card">
+    <h3>2. Sequences and Series</h3>
+    <p>Arithmetic and geometric patterns, general terms and sums.</p>
+    <button onclick="openLesson('sequences')">Study Sequences</button>
+  </article>
+  <article class="topic-card">
+    <h3>3. Functions and Graphs</h3>
+    <p>Parabolas, hyperbolas, exponential graphs and transformations.</p>
+    <button onclick="openLesson('functions')">Study Functions</button>
+  </article>
+  <article class="topic-card">
+    <h3>4. Finance</h3>
+    <p>Interest, depreciation, inflation, growth and decay.</p>
+    <button onclick="openLesson('finance')">Study Finance</button>
+  </article>
+  <article class="topic-card">
+    <h3>5. Differential Calculus</h3>
+    <p>Derivatives, gradients, stationary points and optimisation.</p>
+    <button onclick="openLesson('calculus')">Study Calculus</button>
+  </article>
+  <article class="topic-card">
+    <h3>6. Probability</h3>
+    <p>Events, probability rules, independence and counting outcomes.</p>
+    <button onclick="openLesson('probability')">Study Probability</button>
+  </article>
+</div>
+
+<div class="paper-title">
+  <h2>📕 PAPER 2</h2>
+  <p>Statistics, analytical geometry, trigonometry and Euclidean geometry</p>
+</div>
+
+<div class="topic-grid">
+  <article class="topic-card">
+    <h3>1. Statistics</h3>
+    <p>Measures of central tendency, spread and data interpretation.</p>
+    <button onclick="openLesson('statistics')">Study Statistics</button>
+  </article>
+  <article class="topic-card">
+    <h3>2. Analytical Geometry</h3>
+    <p>Coordinates, distance, midpoint, gradient and circle geometry.</p>
+    <button onclick="openLesson('geometry')">Study Analytical Geometry</button>
+  </article>
+  <article class="topic-card">
+    <h3>3. Trigonometry</h3>
+    <p>Identities, equations, compound angles and graphs.</p>
+    <button onclick="openLesson('trigonometry')">Study Trigonometry</button>
+  </article>
+  <article class="topic-card">
+    <h3>4. Euclidean Geometry</h3>
+    <p>Circle theorems, angle relationships and geometric proofs.</p>
+    <button onclick="openLesson('euclidean')">Study Euclidean Geometry</button>
+  </article>
+</div>
+
+<!-- ALGEBRA LESSON -->
+<section class="lesson" id="algebra">
+<h2>📘 Algebra: Complete Learning Chapter</h2>
+<p>Work through each section in order. Follow the arrows, study the examples, then complete the practice quiz.</p>
+
+<div class="definition">
+<strong>What is algebra?</strong>
+<p>Algebra is the branch of mathematics that uses letters and symbols to represent numbers and relationships.</p>
+<div class="arrow-flow">
+<div class="flow-box">An unknown number → represent it with x</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Describe the relationship → form an equation</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Solve the equation → find the unknown value</div>
+</div>
+</div>
+
+<h3>1. Algebraic expressions and like terms</h3>
+<div class="definition">
+An <strong>algebraic expression</strong> is a mathematical phrase containing numbers, variables and operations.
+<p><strong>Example:</strong> 3x + 5</p>
+<p><strong>Variable</strong> → a letter representing a number.<br>
+<strong>Coefficient</strong> → the number multiplying a variable.<br>
+<strong>Constant</strong> → a number without a variable.<br>
+<strong>Term</strong> → a part separated by plus or minus signs.</p>
+</div>
+<div class="diagram">
+<svg viewBox="0 0 340 150" role="img" aria-label="An algebraic expression showing coefficient, variable and constant">
+<rect x="8" y="12" width="324" height="44" rx="9" fill="#eef2ff" stroke="#a5b4fc"/>
+<text x="170" y="41" text-anchor="middle" font-size="23" font-weight="bold" fill="#312e81">3x + 5</text>
+<path d="M95 57 L70 83 M135 57 L165 83 M246 57 L270 83" stroke="#4f46e5" stroke-width="2" fill="none"/>
+<text x="65" y="103" text-anchor="middle" font-size="12" fill="#3730a3">3 = coefficient</text>
+<text x="165" y="103" text-anchor="middle" font-size="12" fill="#3730a3">x = variable</text>
+<text x="270" y="103" text-anchor="middle" font-size="12" fill="#3730a3">5 = constant</text>
+<text x="170" y="135" text-anchor="middle" font-size="11" fill="#555">Identify each part before simplifying.</text>
+</svg>
+<p class="caption">An expression can contain several terms.</p>
+</div>
+
+<h4>Simplifying like terms</h4>
+<p>Like terms have the same variables raised to the same powers. Combine their coefficients, but do not combine unlike terms.</p>
+<div class="arrow-flow">
+<div class="flow-box">4x + 3x − 2 + 5</div><div class="flow-arrow">↓</div>
+<div class="flow-box">Group like terms → (4x + 3x) + (−2 + 5)</div><div class="flow-arrow">↓</div>
+<div class="flow-box">Simplify → 7x + 3</div>
+</div>
+<div class="example"><strong>Worked example:</strong> Simplify 5a + 2b − 3a + 4b.
+<div class="formula">(5a − 3a) + (2b + 4b) = 2a + 6b</div></div>
+<div class="hint"><strong>Exam hint:</strong> 2x + 3x = 5x, but 2x + 3x² cannot be combined because the powers differ.</div>
+
+<h3>2. Multiplying and dividing algebraic expressions</h3>
+<div class="definition">Use the distributive law: multiply the outside term by every term inside the brackets.</div>
+<div class="arrow-flow">
+<div class="flow-box">3(x + 4)</div><div class="flow-arrow">↓ Multiply each term by 3</div>
+<div class="flow-box">3 × x + 3 × 4</div><div class="flow-arrow">↓</div><div class="flow-box">3x + 12</div>
+</div>
+<div class="example"><strong>Example:</strong> Simplify 2(3x − 5) + 4x.
+<div class="formula">= 6x − 10 + 4x = 10x − 10</div></div>
+<h4>Multiplying two brackets</h4>
+<div class="example">Expand (x + 2)(x + 3).
+<div class="formula">= x² + 3x + 2x + 6 = x² + 5x + 6</div></div>
+
+<h3>3. Exponents and exponent laws</h3>
+<div class="definition">An <strong>exponent</strong> tells you how many times a base is multiplied by itself. For example, 2³ = 2 × 2 × 2 = 8.</div>
+<div class="table-wrap"><table>
+<tr><th>Law</th><th>Rule</th><th>Example</th></tr>
+<tr><td>Multiply same base</td><td>aᵐ × aⁿ = aᵐ⁺ⁿ</td><td>x² × x³ = x⁵</td></tr>
+<tr><td>Divide same base</td><td>aᵐ ÷ aⁿ = aᵐ⁻ⁿ</td><td>x⁵ ÷ x² = x³</td></tr>
+<tr><td>Power of a power</td><td>(aᵐ)ⁿ = aᵐⁿ</td><td>(x²)³ = x⁶</td></tr>
+<tr><td>Power of a product</td><td>(ab)ⁿ = aⁿbⁿ</td><td>(2x)² = 4x²</td></tr>
+<tr><td>Zero exponent</td><td>a⁰ = 1, a ≠ 0</td><td>5⁰ = 1</td></tr>
+<tr><td>Negative exponent</td><td>a⁻ⁿ = 1/aⁿ, a ≠ 0</td><td>x⁻² = 1/x²</td></tr>
+<tr><td>Fractional exponent</td><td>a¹/² = √a</td><td>9¹/² = 3</td></tr>
+</table></div>
+<div class="example"><strong>Worked example:</strong> Simplify (2x³)(4x²).
+<div class="formula">(2 × 4)(x³ × x²) = 8x⁵</div></div>
+<div class="hint">When multiplying powers with the same base, add exponents. When dividing, subtract them. For a power raised to another power, multiply the exponents.</div>
+
+<h3>4. Surds and square roots</h3>
+<div class="definition">A <strong>surd</strong> is an irrational root left in radical form, such as √2 or √5.</div>
+<div class="arrow-flow">
+<div class="flow-box">√72</div><div class="flow-arrow">↓</div><div class="flow-box">√(36 × 2)</div><div class="flow-arrow">↓</div><div class="flow-box">√36 × √2 = 6√2</div>
+</div>
+<h4>Adding and subtracting surds</h4>
+<div class="example">Simplify 3√2 + 5√2 − √2.
+<div class="formula">(3 + 5 − 1)√2 = 7√2</div></div>
+<h4>Rationalising a denominator</h4>
+<div class="example">Simplify 1/√3.
+<div class="formula">(1/√3) × (√3/√3) = √3/3</div></div>
+<div class="hint">Do not simplify √2 + √3 to √5. Different surds cannot be combined directly.</div>
+
+<h3>5. Factorisation</h3>
+<div class="definition">Factorisation rewrites an expression as a product of simpler factors. Expansion multiplies brackets; factorisation works backwards.</div>
+<h4>Common factor</h4><div class="formula">6x² + 9x = 3x(2x + 3)</div>
+<h4>Difference of two squares</h4><div class="formula">a² − b² = (a − b)(a + b)</div>
+<div class="example">Factorise x² − 25.
+<div class="formula">x² − 5² = (x − 5)(x + 5)</div></div>
+<h4>Trinomials</h4>
+<div class="example">Factorise x² + 5x + 6. Find numbers multiplying to 6 and adding to 5: 2 and 3.
+<div class="formula">x² + 5x + 6 = (x + 2)(x + 3)</div></div>
+<h4>Leading coefficient greater than 1</h4>
+<div class="example">Factorise 2x² + 7x + 3.
+<div class="formula">2x² + 6x + x + 3</div>
+<div class="formula">= 2x(x + 3) + 1(x + 3)</div>
+<div class="formula">= (2x + 1)(x + 3)</div></div>
+<div class="hint">Expand your final brackets to check your factorisation.</div>
+
+<h3>6. Linear equations</h3>
+<div class="definition">A linear equation has a highest power of 1 for its unknown. Solve it by keeping both sides balanced.</div>
+<div class="arrow-flow">
+<div class="flow-box">3x + 5 = 20</div><div class="flow-arrow">↓ Subtract 5 from both sides</div>
+<div class="flow-box">3x = 15</div><div class="flow-arrow">↓ Divide by 3</div><div class="flow-box">x = 5</div>
+<div class="flow-arrow">↓ Check</div><div class="flow-box">3(5) + 5 = 20 ✓</div>
+</div>
+
+<h3>7. Inequalities</h3>
+<div class="definition">Inequalities compare expressions using &lt;, &gt;, ≤ or ≥.
+<ul><li>x &lt; 4 means x is less than 4.</li><li>x &gt; 4 means x is greater than 4.</li><li>x ≤ 4 means x is less than or equal to 4.</li><li>x ≥ 4 means x is greater than or equal to 4.</li></ul></div>
+<div class="example">Solve 2x + 3 &lt; 11.
+<div class="formula">2x &lt; 8 → x &lt; 4</div></div>
+<div class="warning"><strong>Important:</strong> multiplying or dividing an inequality by a negative number reverses its sign.
+<div class="formula">−2x &lt; 6 → x &gt; −3</div></div>
+
+<h3>8. Quadratic equations</h3>
+<div class="definition">A quadratic equation has a highest power of 2.
+<div class="formula">ax² + bx + c = 0, where a ≠ 0</div>
+a is the coefficient of x², b is the coefficient of x, and c is the constant.</div>
+<h4>Solving by factorisation</h4>
+<div class="arrow-flow">
+<div class="flow-box">x² − 5x + 6 = 0</div><div class="flow-arrow">↓</div>
+<div class="flow-box">(x − 2)(x − 3) = 0</div><div class="flow-arrow">↓</div>
+<div class="flow-box">x = 2 OR x = 3</div>
+</div>
+<div class="hint"><strong>Zero-product rule:</strong> if A × B = 0, then A = 0 or B = 0.</div>
+<h4>Quadratic formula</h4>
+<div class="formula">x = (−b ± √(b² − 4ac)) / 2a</div>
+<div class="example">Solve 2x² − 3x − 2 = 0.
+<div class="formula">a = 2, b = −3, c = −2</div>
+<div class="formula">x = (3 ± √(9 + 16)) / 4</div>
+<div class="formula">x = (3 ± 5) / 4</div>
+<p><strong>Answer:</strong> x = 2 or x = −½.</p></div>
+
+<h3>9. Nature of roots and the discriminant</h3>
+<div class="definition">The discriminant tells us the nature of the roots.
+<div class="formula">Δ = b² − 4ac</div></div>
+<div class="arrow-flow">
+<div class="flow-box"><strong>Δ &lt; 0</strong><p>No real roots.</p></div>
+<div class="flow-box"><strong>Δ = 0</strong><p>Two equal real roots.</p></div>
+<div class="flow-box"><strong>Δ &gt; 0</strong><p>Two distinct real roots.</p></div>
+</div>
+<div class="example">For 3x² + 2x − 4 = 0:
+<div class="formula">Δ = 2² − 4(3)(−4) = 52</div>
+<p>Since 52 is positive but not a perfect square, there are two distinct irrational real roots.</p>
+<div class="formula">x = (−1 ± √13) / 3</div></div>
+<div class="hint">The discriminant classifies roots; it does not directly tell you whether each root is positive or negative.</div>
+
+<h3>10. Completing the square</h3>
+<div class="definition">Completing the square rewrites a quadratic expression using a squared bracket and a constant.</div>
+<div class="example">Rewrite x² + 6x + 5.
+<div class="formula">x² + 6x + 5 = (x + 3)² − 9 + 5</div>
+<div class="formula">= (x + 3)² − 4</div></div>
+<div class="hint">Take half the coefficient of x, square it, then add and subtract that value.</div>
+
+<h3>11. Simultaneous equations</h3>
+<div class="example">Solve x + y = 10 and x − y = 2.
+<div class="formula">Add the equations: 2x = 12 → x = 6</div>
+<div class="formula">6 + y = 10 → y = 4</div>
+<p><strong>Answer:</strong> x = 6 and y = 4.</p></div>
+
+<details>
+<summary>Explore number sets used in algebra</summary>
+<ul>
+<li><strong>Natural numbers (ℕ):</strong> 1, 2, 3, 4, …</li>
+<li><strong>Whole numbers (ℕ₀):</strong> 0, 1, 2, 3, …</li>
+<li><strong>Integers (ℤ):</strong> …, −2, −1, 0, 1, 2, …</li>
+<li><strong>Rational numbers (ℚ):</strong> numbers expressible as p/q, where q ≠ 0.</li>
+<li><strong>Irrational numbers:</strong> real numbers that cannot be expressed as a ratio of integers.</li>
+<li><strong>Real numbers (ℝ):</strong> all rational and irrational numbers.</li>
+</ul>
+<p class="small">Notation for natural numbers may differ between textbooks.</p>
+</details>
+
+<h3>12. Algebra practice quiz</h3>
+<p>Choose one answer for each question, then tap “Check answers”.</p>
+<div class="card" id="algebraQuiz">
+<div class="question"><p><strong>Question 1:</strong> Simplify 4x + 3x − 2x.</p>
+<label><input type="radio" name="q1" value="a"> 5x</label><label><input type="radio" name="q1" value="b"> 9x</label><label><input type="radio" name="q1" value="c"> 5x²</label></div>
+<div class="question"><p><strong>Question 2:</strong> Simplify x³ × x⁴.</p>
+<label><input type="radio" name="q2" value="a"> x¹²</label><label><input type="radio" name="q2" value="b"> x⁷</label><label><input type="radio" name="q2" value="c"> 2x⁷</label></div>
+<div class="question"><p><strong>Question 3:</strong> Factorise x² − 16.</p>
+<label><input type="radio" name="q3" value="a"> (x − 8)(x + 2)</label><label><input type="radio" name="q3" value="b"> (x − 4)²</label><label><input type="radio" name="q3" value="c"> (x − 4)(x + 4)</label></div>
+<div class="question"><p><strong>Question 4:</strong> Solve 2x + 6 = 14.</p>
+<label><input type="radio" name="q4" value="a"> x = 4</label><label><input type="radio" name="q4" value="b"> x = 10</label><label><input type="radio" name="q4" value="c"> x = 8</label></div>
+<div class="question"><p><strong>Question 5:</strong> What is the discriminant of x² − 6x + 9 = 0?</p>
+<label><input type="radio" name="q5" value="a"> −36</label><label><input type="radio" name="q5" value="b"> 0</label><label><input type="radio" name="q5" value="c"> 36</label></div>
+<div class="question"><p><strong>Question 6:</strong> If Δ &lt; 0, how many real roots does a quadratic have?</p>
+<label><input type="radio" name="q6" value="a"> Two distinct real roots</label><label><input type="radio" name="q6" value="b"> One repeated real root</label><label><input type="radio" name="q6" value="c"> No real roots</label></div>
+<div class="question"><p><strong>Question 7:</strong> Simplify √72.</p>
+<label><input type="radio" name="q7" value="a"> 6√2</label><label><input type="radio" name="q7" value="b"> 8√2</label><label><input type="radio" name="q7" value="c"> 36√2</label></div>
+<div class="question"><p><strong>Question 8:</strong> Solve x² − 5x + 6 = 0.</p>
+<label><input type="radio" name="q8" value="a"> x = −2 or −3</label><label><input type="radio" name="q8" value="b"> x = 2 or 3</label><label><input type="radio" name="q8" value="c"> x = 1 or 6</label></div>
+<div class="actions"><button onclick="checkQuiz()">Check answers</button><button class="secondary" onclick="resetQuiz()">Try again</button></div>
+<div id="quizFeedback" class="feedback" aria-live="polite"></div>
+<details><summary>Show answers and explanations</summary>
+<ol>
+<li><strong>5x:</strong> combine like terms.</li><li><strong>x⁷:</strong> add the exponents.</li>
+<li><strong>(x − 4)(x + 4):</strong> difference of two squares.</li><li><strong>x = 4:</strong> 2x = 8.</li>
+<li><strong>0:</strong> Δ = 36 − 36.</li><li><strong>No real roots:</strong> the discriminant is negative.</li>
+<li><strong>6√2:</strong> √72 = √(36 × 2).</li><li><strong>x = 2 or 3:</strong> (x − 2)(x − 3) = 0.</li>
+</ol></details>
+</div>
+<div class="actions"><button onclick="markComplete('algebra')">✓ Mark Algebra complete</button><button class="secondary" onclick="unmarkComplete('algebra')">Undo completion</button></div>
+<p id="algebraStatus" class="small"></p>
+<div class="hint"><strong>Before moving on:</strong> make sure you can explain each method in your own words and solve similar questions independently.</div>
+</section>
+
+<!-- UPGRADED SEQUENCES AND SERIES LESSON -->
+<section class="lesson hidden" id="sequences">
+<h2>📘 Sequences and Series: Science Clinic</h2>
+<p>Learn to recognise patterns, calculate the general term, find the position of a term, and calculate sums. Study each worked example before attempting the quiz.</p>
+
+<div class="definition">
+<strong>What is a sequence?</strong>
+<p>A sequence is an ordered list of numbers arranged according to a rule.</p>
+<strong>What is a series?</strong>
+<p>A series is the sum of terms in a sequence.</p>
+<div class="formula">Sequence: 2, 5, 8, 11, …</div>
+<div class="formula">Series: 2 + 5 + 8 + 11 + …</div>
+</div>
+
+<h3>1. Important symbols</h3>
+<div class="table-wrap"><table>
+<tr><th>Symbol</th><th>Meaning</th></tr>
+<tr><td>a or T₁</td><td>First term</td></tr>
+<tr><td>Tₙ</td><td>The nth term</td></tr>
+<tr><td>n</td><td>Position of a term or number of terms</td></tr>
+<tr><td>d</td><td>Common difference in an arithmetic sequence</td></tr>
+<tr><td>r</td><td>Common ratio in a geometric sequence</td></tr>
+<tr><td>Sₙ</td><td>Sum of the first n terms</td></tr>
+<tr><td>l</td><td>Last term in a finite sequence</td></tr>
+</table></div>
+
+<h3>2. How to identify a pattern</h3>
+<div class="arrow-flow">
+<div class="flow-box"><strong>Step 1:</strong> Write the terms in order.</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box"><strong>Step 2:</strong> Subtract consecutive terms.</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">Same difference? It may be arithmetic.</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box">If differences are not the same, check ratios or second differences.</div>
+</div>
+<div class="example">
+<strong>Example A:</strong> 4, 7, 10, 13, …
+<p>Differences: 7 − 4 = 3, 10 − 7 = 3, 13 − 10 = 3.</p>
+<p>The common difference is d = 3, so it is arithmetic.</p>
+</div>
+<div class="example">
+<strong>Example B:</strong> 3, 6, 12, 24, …
+<p>Ratios: 6 ÷ 3 = 2, 12 ÷ 6 = 2, 24 ÷ 12 = 2.</p>
+<p>The common ratio is r = 2, so it is geometric.</p>
+</div>
+
+<h3>3. Arithmetic sequences</h3>
+<div class="definition">
+An <strong>arithmetic sequence</strong> has a constant difference between consecutive terms. The difference may be positive, negative, or zero.
+<div class="formula">Tₙ = a + (n − 1)d</div>
+</div>
+<div class="arrow-flow">
+<div class="flow-box">5, 8, 11, 14, …</div><div class="flow-arrow">↓</div>
+<div class="flow-box">First term a = 5; common difference d = 3</div><div class="flow-arrow">↓</div>
+<div class="flow-box">Tₙ = 5 + (n − 1)3</div><div class="flow-arrow">↓</div>
+<div class="flow-box">Tₙ = 3n + 2</div>
+</div>
+<h4>Worked example A: Find the 20th term</h4>
+<div class="example">
+Sequence: 4, 9, 14, 19, …
+<p>Identify the values: a = 4, d = 5, n = 20.</p>
+<div class="formula">Tₙ = a + (n − 1)d</div>
+<div class="formula">T₂₀ = 4 + (20 − 1)(5)</div>
+<div class="formula">T₂₀ = 4 + 95 = 99</div>
+<p><strong>Answer:</strong> The 20th term is 99.</p>
+</div>
+<h4>Worked example B: Find the position of a term</h4>
+<div class="example">
+Which term of 7, 11, 15, 19, … is 63?
+<p>Here a = 7, d = 4 and Tₙ = 63.</p>
+<div class="formula">63 = 7 + (n − 1)4</div>
+<div class="formula">56 = 4(n − 1)</div>
+<div class="formula">14 = n − 1 → n = 15</div>
+<p><strong>Answer:</strong> 63 is the 15th term.</p>
+</div>
+
+<h3>4. Arithmetic series: calculating a sum</h3>
+<div class="definition">
+An <strong>arithmetic series</strong> is the sum of terms from an arithmetic sequence.
+<div class="formula">Sₙ = n/2 [2a + (n − 1)d]</div>
+<p>If you know the first and last terms, you can use:</p>
+<div class="formula">Sₙ = n/2 (a + l)</div>
+</div>
+<div class="example">
+<strong>Worked example:</strong> Find the sum of the first 10 terms of 2, 5, 8, 11, …
+<p>a = 2, d = 3, n = 10.</p>
+<div class="formula">S₁₀ = 10/2 [2(2) + (10 − 1)3]</div>
+<div class="formula">= 5[4 + 27] = 155</div>
+<p><strong>Answer:</strong> The sum is 155.</p>
+</div>
+<div class="hint">If the question asks for the sum, use an S formula. If it asks for one particular term, use the T formula.</div>
+
+<h3>5. Geometric sequences</h3>
+<div class="definition">
+A <strong>geometric sequence</strong> has a constant ratio between consecutive non-zero terms.
+<div class="formula">Tₙ = arⁿ⁻¹</div>
+<p>The common ratio is found by dividing a term by the term immediately before it.</p>
+</div>
+<div class="example">
+<strong>Worked example A:</strong> Find the 6th term of 2, 6, 18, 54, …
+<p>a = 2, r = 3, n = 6.</p>
+<div class="formula">T₆ = 2(3)⁵</div>
+<div class="formula">T₆ = 2 × 243 = 486</div>
+<p><strong>Answer:</strong> 486.</p>
+</div>
+<div class="example">
+<strong>Worked example B:</strong> Find the general term of 80, 40, 20, 10, …
+<p>a = 80 and r = 40 ÷ 80 = ½.</p>
+<div class="formula">Tₙ = 80(½)ⁿ⁻¹</div>
+<p>The sequence halves each time.</p>
+</div>
+
+<h3>6. Finite geometric series: calculating a sum</h3>
+<div class="definition">
+Use the geometric-series formula when adding a fixed number of terms of a geometric sequence.
+<div class="formula">Sₙ = a(rⁿ − 1)/(r − 1), for r ≠ 1</div>
+<p>An equivalent form is:</p>
+<div class="formula">Sₙ = a(1 − rⁿ)/(1 − r), for r ≠ 1</div>
+<p>If r = 1, every term is a, so Sₙ = na.</p>
+</div>
+<div class="example">
+<strong>Worked example:</strong> Find the sum of the first four terms of 2, 6, 18, 54, …
+<p>a = 2, r = 3 and n = 4.</p>
+<div class="formula">S₄ = 2(3⁴ − 1)/(3 − 1)</div>
+<div class="formula">= 2(81 − 1)/2 = 80</div>
+<p>Check by adding: 2 + 6 + 18 + 54 = 80.</p>
+</div>
+
+<h3>7. Infinite geometric series</h3>
+<div class="definition">
+An <strong>infinite geometric series</strong> continues forever. It has a finite sum only when the common ratio satisfies:
+<div class="formula">|r| &lt; 1</div>
+<p>In that case:</p>
+<div class="formula">S∞ = a/(1 − r)</div>
+</div>
+<div class="example">
+<strong>Worked example:</strong> Find the sum of 12 + 6 + 3 + 1.5 + …
+<p>a = 12 and r = ½. Since |½| &lt; 1, the infinite sum exists.</p>
+<div class="formula">S∞ = 12/(1 − ½) = 12/(½) = 24</div>
+<p><strong>Answer:</strong> 24.</p>
+</div>
+<div class="warning"><strong>Important:</strong> Do not use the infinite-series formula when |r| ≥ 1. The series does not converge to a finite sum.</div>
+
+<h3>8. Quadratic patterns and second differences</h3>
+<div class="definition">
+A quadratic number pattern often has constant <strong>second differences</strong>. First, calculate the differences between consecutive terms; then calculate the differences between those differences.
+</div>
+<div class="example">
+<strong>Worked example:</strong> 1, 4, 9, 16, 25, …
+<div class="table-wrap"><table>
+<tr><th>Terms</th><td>1</td><td>4</td><td>9</td><td>16</td><td>25</td></tr>
+<tr><th>First differences</th><td>—</td><td>3</td><td>5</td><td>7</td><td>9</td></tr>
+<tr><th>Second differences</th><td>—</td><td>—</td><td>2</td><td>2</td><td>2</td></tr>
+</table></div>
+<p>The second differences are constant, so the pattern is quadratic. The general term here is Tₙ = n².</p>
+</div>
+
+<h3>9. Common mistakes and exam tips</h3>
+<div class="warning">
+<ul>
+<li>Do not confuse the common difference d with the common ratio r.</li>
+<li>In Tₙ = a + (n − 1)d, remember to subtract 1 from n.</li>
+<li>In Tₙ = arⁿ⁻¹, remember that the exponent is n − 1.</li>
+<li>Use the term formula for a single term and the sum formula for a series.</li>
+<li>Use the infinite geometric sum only when |r| &lt; 1.</li>
+<li>Check that the term number n is a positive whole number when identifying a position in a sequence.</li>
+</ul>
+</div>
+<div class="hint">
+<strong>Exam strategy:</strong>
+<ol>
+<li>Write down the first term.</li>
+<li>Calculate the difference or ratio.</li>
+<li>Choose the correct formula.</li>
+<li>Substitute values carefully using brackets.</li>
+<li>Show each calculation step and state the final answer clearly.</li>
+</ol>
+</div>
+
+<h3>10. Sequences and Series practice quiz</h3>
+<p>Answer all eight questions, then select “Check answers”. Your score will be displayed immediately.</p>
+<div class="card" id="sequencesQuiz">
+
+<div class="question">
+<p><strong>Question 1:</strong> What is the common difference of 6, 10, 14, 18, …?</p>
+<label><input type="radio" name="sq1" value="a"> 2</label>
+<label><input type="radio" name="sq1" value="b"> 4</label>
+<label><input type="radio" name="sq1" value="c"> 6</label>
+</div>
+
+<div class="question">
+<p><strong>Question 2:</strong> Find the 10th term of 3, 7, 11, 15, …</p>
+<label><input type="radio" name="sq2" value="a"> 35</label>
+<label><input type="radio" name="sq2" value="b"> 39</label>
+<label><input type="radio" name="sq2" value="c"> 43</label>
+</div>
+
+<div class="question">
+<p><strong>Question 3:</strong> Which formula gives the nth term of an arithmetic sequence?</p>
+<label><input type="radio" name="sq3" value="a"> Tₙ = arⁿ⁻¹</label>
+<label><input type="radio" name="sq3" value="b"> Tₙ = a + (n − 1)d</label>
+<label><input type="radio" name="sq3" value="c"> Sₙ = a/(1 − r)</label>
+</div>
+
+<div class="question">
+<p><strong>Question 4:</strong> What is the common ratio of 5, 15, 45, 135, …?</p>
+<label><input type="radio" name="sq4" value="a"> 3</label>
+<label><input type="radio" name="sq4" value="b"> 10</label>
+<label><input type="radio" name="sq4" value="c"> 5</label>
+</div>
+
+<div class="question">
+<p><strong>Question 5:</strong> Find the 5th term of the geometric sequence 2, 4, 8, 16, …</p>
+<label><input type="radio" name="sq5" value="a"> 24</label>
+<label><input type="radio" name="sq5" value="b"> 30</label>
+<label><input type="radio" name="sq5" value="c"> 32</label>
+</div>
+
+<div class="question">
+<p><strong>Question 6:</strong> Find the sum of the first five positive integers: 1 + 2 + 3 + 4 + 5.</p>
+<label><input type="radio" name="sq6" value="a"> 10</label>
+<label><input type="radio" name="sq6" value="b"> 15</label>
+<label><input type="radio" name="sq6" value="c"> 20</label>
+</div>
+
+<div class="question">
+<p><strong>Question 7:</strong> What is the sum to infinity of 8 + 4 + 2 + 1 + …?</p>
+<label><input type="radio" name="sq7" value="a"> 12</label>
+<label><input type="radio" name="sq7" value="b"> 16</label>
+<label><input type="radio" name="sq7" value="c"> 18</label>
+</div>
+
+<div class="question">
+<p><strong>Question 8:</strong> What does a constant second difference usually indicate in a number pattern?</p>
+<label><input type="radio" name="sq8" value="a"> A quadratic pattern</label>
+<label><input type="radio" name="sq8" value="b"> A constant arithmetic difference</label>
+<label><input type="radio" name="sq8" value="c"> Every term is the same</label>
+</div>
+
+<div class="actions">
+<button onclick="checkSequencesQuiz()">Check answers</button>
+<button class="secondary" onclick="resetSequencesQuiz()">Try again</button>
+</div>
+<div id="sequencesQuizFeedback" class="feedback" aria-live="polite"></div>
+
+<details>
+<summary>Show answers and explanations</summary>
+<ol>
+<li><strong>4:</strong> 10 − 6 = 4.</li>
+<li><strong>39:</strong> T₁₀ = 3 + (10 − 1)(4) = 39.</li>
+<li><strong>Tₙ = a + (n − 1)d:</strong> this is the arithmetic nth-term formula.</li>
+<li><strong>3:</strong> 15 ÷ 5 = 3.</li>
+<li><strong>32:</strong> T₅ = 2(2)⁴ = 32.</li>
+<li><strong>15:</strong> 1 + 2 + 3 + 4 + 5 = 15.</li>
+<li><strong>16:</strong> S∞ = 8/(1 − ½) = 16.</li>
+<li><strong>A quadratic pattern:</strong> constant second differences indicate a quadratic pattern.</li>
+</ol>
+</details>
+</div>
+
+<div class="actions">
+<button onclick="markComplete('sequences')">✓ Mark Sequences complete</button>
+<button class="secondary" onclick="unmarkComplete('sequences')">Undo completion</button>
+</div>
+<p id="sequencesStatus" class="small"></p>
+</section>
+
+<!-- REMAINING MATHEMATICS TOPICS -->
+<section class="lesson hidden" id="functions">
+<h2>Functions and Graphs</h2>
+<div class="definition">A <strong>function</strong> assigns each allowed input x exactly one output y. Input x → rule → output y.</div>
+<div class="formula">Quadratic function: y = ax² + bx + c</div>
+<ul><li><strong>Domain:</strong> allowed input values.</li><li><strong>Range:</strong> possible output values.</li><li><strong>x-intercept:</strong> where the graph crosses or touches the x-axis.</li><li><strong>y-intercept:</strong> where the graph crosses the y-axis.</li><li><strong>Turning point:</strong> the maximum or minimum point of a parabola.</li></ul>
+<div class="hint">To find x-intercepts, set y = 0 and solve. To find the y-intercept, set x = 0.</div>
+<button onclick="markComplete('functions')">✓ Mark complete</button>
+<p id="functionsStatus" class="small"></p>
+</section>
+
+<section class="lesson hidden" id="finance">
+<h2>Finance, Growth and Decay</h2>
+<div class="definition">Compound interest is calculated on the original amount and on interest already accumulated.</div>
+<div class="formula">A = P(1 + i)ⁿ</div>
+<ul><li>A = accumulated amount</li><li>P = initial amount or principal</li><li>i = interest rate per period as a decimal</li><li>n = number of periods</li></ul>
+<div class="example">R1 000 invested at 10% per year for 2 years: A = 1 000(1.10)² = R1 210.</div>
+<div class="hint">Convert 8% to 0.08 before substituting. Match the interest rate and number of periods.</div>
+<button onclick="markComplete('finance')">✓ Mark complete</button>
+<p id="financeStatus" class="small"></p>
+</section>
+
+<section class="lesson hidden" id="calculus">
+<h2>Differential Calculus</h2>
+<div class="definition">A derivative measures the instantaneous rate of change of a function and gives the gradient of the tangent.</div>
+<div class="formula">If y = xⁿ, then dy/dx = nxⁿ⁻¹</div>
+<div class="example">Example: y = 3x² + 4x − 1 → dy/dx = 6x + 4.</div>
+<ul><li>Differentiate powers of x.</li><li>Find stationary points by setting dy/dx = 0.</li><li>Use the original function to calculate the y-coordinate.</li><li>Determine whether a stationary point is a maximum or minimum.</li></ul>
+<div class="hint">The derivative of a constant is zero.</div>
+<button onclick="markComplete('calculus')">✓ Mark complete</button>
+<p id="calculusStatus" class="small"></p>
+</section>
+
+<section class="lesson hidden" id="probability">
+<h2>Probability</h2>
+<div class="definition">Probability measures how likely an event is to occur. 0 means impossible; 1 means certain.</div>
+<div class="formula">P(A) = favourable outcomes / total equally likely outcomes</div>
+<div class="example">For a fair six-sided die, P(rolling a 4) = 1/6.</div>
+<ul><li>Complement: P(not A) = 1 − P(A).</li><li>Mutually exclusive events cannot occur together.</li><li>Independent events do not change each other's probabilities.</li></ul>
+<div class="hint">Check whether outcomes are equally likely before using the simple fraction formula.</div>
+<button onclick="markComplete('probability')">✓ Mark complete</button>
+<p id="probabilityStatus" class="small"></p>
+</section>
+
+<section class="lesson hidden" id="statistics">
+<h2>Statistics</h2>
+<div class="definition">Statistics involves collecting, organising, analysing and interpreting data.</div>
+<ul><li><strong>Mean:</strong> sum of observations ÷ number of observations.</li><li><strong>Median:</strong> middle observation after arranging data in order.</li><li><strong>Mode:</strong> most frequent value.</li><li><strong>Range:</strong> maximum − minimum.</li><li><strong>Quartiles:</strong> values dividing ordered data into four parts.</li><li><strong>Standard deviation:</strong> measures spread around the mean.</li></ul>
+<div class="hint">Arrange data in ascending order before finding the median or quartiles.</div>
+<button onclick="markComplete('statistics')">✓ Mark complete</button>
+<p id="statisticsStatus" class="small"></p>
+</section>
+
+<section class="lesson hidden" id="geometry">
+<h2>Analytical Geometry</h2>
+<div class="definition">Analytical geometry uses coordinates and algebra to investigate geometric relationships.</div>
+<div class="formula">Gradient: m = (y₂ − y₁)/(x₂ − x₁)</div>
+<div class="formula">Distance: AB = √[(x₂ − x₁)² + (y₂ − y₁)²]</div>
+<div class="formula">Midpoint: M = ((x₁ + x₂)/2, (y₁ + y₂)/2)</div>
+<div class="hint">Subtract coordinates in the same order in the numerator and denominator when calculating a gradient.</div>
+<button onclick="markComplete('geometry')">✓ Mark complete</button>
+<p id="geometryStatus" class="small"></p>
+</section>
+
+<section class="lesson hidden" id="trigonometry">
+<h2>Trigonometry</h2>
+<div class="definition">Trigonometry studies relationships between angles and trigonometric ratios.</div>
+<div class="formula">sin²θ + cos²θ = 1</div>
+<div class="formula">tan θ = sin θ / cos θ, when cos θ ≠ 0</div>
+<div class="formula">sin(A ± B) = sin A cos B ± cos A sin B</div>
+<div class="hint">Check the specified interval when solving trigonometric equations.</div>
+<button onclick="markComplete('trigonometry')">✓ Mark complete</button>
+<p id="trigonometryStatus" class="small"></p>
+</section>
+
+<section class="lesson hidden" id="euclidean">
+<h2>Euclidean Geometry</h2>
+<div class="definition">Euclidean geometry uses definitions, established results and theorems to prove relationships between angles, lines and shapes.</div>
+<div class="arrow-flow">
+<div class="flow-box">Given information</div><div class="flow-arrow">↓</div>
+<div class="flow-box">Identify the applicable theorem</div><div class="flow-arrow">↓</div>
+<div class="flow-box">Show each logical step and reason</div><div class="flow-arrow">↓</div>
+<div class="flow-box">State the conclusion</div>
+</div>
+<ul><li>Angles in the same segment are equal.</li><li>The angle subtended by a diameter at the circumference is 90°.</li><li>Opposite angles of a cyclic quadrilateral add up to 180°.</li><li>The tangent is perpendicular to the radius at the point of contact.</li></ul>
+<div class="hint">Write a reason for every important statement in a geometry proof.</div>
+<button onclick="markComplete('euclidean')">✓ Mark complete</button>
+<p id="euclideanStatus" class="small"></p>
+</section>
+
+<a href="notes.html" class="back">← Back to Notes</a>
 </main>
 
 <footer>
-  <p>© 2026 Grade 12 Hub</p>
-  <p>Study smart. Stay focused. Succeed.</p>
+<p>© 2026 Grade 12 Hub</p>
+<p>Study smart. Stay focused. Succeed.</p>
 </footer>
 
 <script>
@@ -988,8 +777,7 @@ function updateProgress() {
     count + " of " + topicIds.length + " topics completed (" +
     percentage + "%)";
 
-  document.getElementById("progressFill").style.width =
-    percentage + "%";
+  document.getElementById("progressFill").style.width = percentage + "%";
 
   topicIds.forEach(id => {
     const status = document.getElementById(id + "Status");
@@ -1027,14 +815,61 @@ function openLesson(id) {
 
 function checkQuiz() {
   const answers = {
-    q1: "a",
-    q2: "b",
-    q3: "c",
-    q4: "a",
-    q5: "b",
-    q6: "c",
-    q7: "a",
-    q8: "b"
+    q1: "a", q2: "b", q3: "c", q4: "a",
+    q5: "b", q6: "c", q7: "a", q8: "b"
+  };
+
+  let score = 0;
+  let answered = 0;
+
+  Object.keys(answers).forEach(name => {
+    const selected = document.querySelector(
+      'input[name="' + name + '"]:checked'
+    );
+    if (selected) {
+      answered++;
+      if (selected.value === answers[name]) score++;
+    }
+  });
+
+  const feedback = document.getElementById("quizFeedback");
+  feedback.className = "feedback " +
+    (answered === 8 && score === 8 ? "correct" : "incorrect");
+
+  if (answered < 8) {
+    feedback.textContent = "You answered " + answered +
+      " of 8 questions. Current score: " + score +
+      "/8. Answer all questions to finish the quiz.";
+    return;
+  }
+
+  feedback.textContent = "Your score: " + score + "/8. " +
+    (score === 8
+      ? "Excellent! You answered every question correctly."
+      : "Review the explanations, then try again.");
+
+  if (score === 8) markComplete("algebra");
+}
+
+function resetQuiz() {
+  document.querySelectorAll('#algebraQuiz input[type="radio"]')
+    .forEach(input => input.checked = false);
+
+  const feedback = document.getElementById("quizFeedback");
+  feedback.textContent = "";
+  feedback.className = "feedback";
+}
+
+function checkSequencesQuiz() {
+  const answers = {
+    sq1: "b",
+    sq2: "b",
+    sq3: "b",
+    sq4: "a",
+    sq5: "c",
+    sq6: "b",
+    sq7: "b",
+    sq8: "a"
   };
 
   let score = 0;
@@ -1051,38 +886,38 @@ function checkQuiz() {
     }
   });
 
-  const feedback = document.getElementById("quizFeedback");
+  const feedback = document.getElementById("sequencesQuizFeedback");
   feedback.className = "feedback " +
     (answered === 8 && score === 8 ? "correct" : "incorrect");
 
   if (answered < 8) {
     feedback.textContent =
-      "You answered " + answered + " of 8 questions. Current score: " +
-      score + "/8. Answer all questions to finish the quiz.";
+      "You answered " + answered + " of 8 questions. " +
+      "Your current score is " + score +
+      "/8. Answer all eight questions to finish the quiz.";
     return;
   }
 
   feedback.textContent = "Your score: " + score + "/8. " +
     (score === 8
-      ? "Excellent! You answered every question correctly."
-      : "Review the explanations in the answer section, then try again.");
+      ? "Excellent! You have mastered this practice quiz."
+      : "Review the worked examples and answer explanations, then try again.");
 
   if (score === 8) {
-    markComplete("algebra");
+    markComplete("sequences");
   }
 }
 
-function resetQuiz() {
-  document.querySelectorAll('#algebraQuiz input[type="radio"]')
+function resetSequencesQuiz() {
+  document.querySelectorAll('#sequencesQuiz input[type="radio"]')
     .forEach(input => input.checked = false);
 
-  const feedback = document.getElementById("quizFeedback");
+  const feedback = document.getElementById("sequencesQuizFeedback");
   feedback.textContent = "";
   feedback.className = "feedback";
 }
 
 updateProgress();
 </script>
-
 </body>
 </html>
