@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,19 +7,10 @@
 
     <title>Grade 12 Hub</title>
 
-    <!-- PWA MANIFEST -->
     <link rel="manifest" href="manifest.json">
-
-    <!-- APP ICON -->
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-
-    <!-- MOBILE APP ICON -->
     <link rel="apple-touch-icon" href="icon-192.png">
-
-    <!-- THEME COLOR -->
     <meta name="theme-color" content="#4f46e5">
-
-    <!-- PWA MOBILE SETTINGS -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -27,10 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -46,15 +35,8 @@
             text-align: center;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-
-        header p {
-            margin: 8px 0 0;
-            font-size: 15px;
-        }
+        header h1 { margin: 0; font-size: 28px; }
+        header p { margin: 8px 0 0; font-size: 15px; }
 
         .container {
             width: 92%;
@@ -62,7 +44,7 @@
             margin: 25px auto;
         }
 
-        .welcome {
+        .welcome, .creator {
             background: white;
             padding: 20px;
             border-radius: 15px;
@@ -70,14 +52,12 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
-        .welcome h2 {
+        .welcome h2, .creator h3 {
             margin-top: 0;
             color: #4f46e5;
         }
 
-        .welcome p {
-            color: #555;
-        }
+        .welcome p, .creator p { color: #555; }
 
         .goal {
             background: #eef2ff;
@@ -85,6 +65,7 @@
             border-radius: 10px;
             margin-top: 15px;
             color: #333;
+            overflow-wrap: anywhere;
         }
 
         .cards {
@@ -94,29 +75,20 @@
         }
 
         .card {
+            display: block;
             background: white;
             padding: 22px;
             border-radius: 15px;
             text-decoration: none;
             color: #222;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            transition: 0.2s;
+            transition: transform 0.2s;
+            cursor: pointer;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-        }
-
-        .card .icon {
-            font-size: 35px;
-            margin-bottom: 10px;
-        }
-
-        .card h3 {
-            margin: 5px 0;
-            color: #4f46e5;
-        }
-
+        .card:hover { transform: translateY(-3px); }
+        .card .icon { font-size: 35px; margin-bottom: 10px; }
+        .card h3 { margin: 5px 0; color: #4f46e5; }
         .card p {
             margin: 5px 0 0;
             color: #666;
@@ -124,35 +96,14 @@
             line-height: 1.5;
         }
 
-        .coming-soon {
-            cursor: pointer;
-        }
-
         .creator {
-            background: white;
             margin-top: 25px;
-            padding: 20px;
-            border-radius: 15px;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
-        .creator h3 {
-            color: #4f46e5;
-            margin-top: 0;
-        }
+        .creator p { margin: 8px 0; }
 
-        .creator p {
-            margin: 8px 0;
-        }
-
-        /* ACCOUNT AREA */
-
-        .account-area {
-            text-align: center;
-            margin-top: 15px;
-        }
-
+        .account-area { text-align: center; margin-top: 15px; }
         .account-email {
             font-size: 13px;
             opacity: 0.9;
@@ -170,9 +121,7 @@
             cursor: pointer;
         }
 
-        .logout-button:hover {
-            background: #eef2ff;
-        }
+        .logout-button:hover { background: #eef2ff; }
 
         footer {
             text-align: center;
@@ -181,15 +130,12 @@
             font-size: 13px;
         }
 
-        /* =====================================
-           WELCOME BACK POPUP
-           ===================================== */
-
+        /* WELCOME BACK POPUP */
         .welcome-popup {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0,0,0,0.55);
             z-index: 10000;
             justify-content: center;
             align-items: center;
@@ -206,33 +152,30 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .welcome-icon {
-            font-size: 45px;
-            margin-bottom: 10px;
-        }
+        .welcome-icon { font-size: 45px; margin-bottom: 10px; }
 
         .welcome-card h2 {
             margin: 0 0 15px;
             color: #1d4ed8;
         }
 
-        .welcome-message {
-            color: #555;
+        .welcome-message, .welcome-goal, .welcome-motivation {
             line-height: 1.5;
         }
+
+        .welcome-message { color: #555; }
 
         .welcome-goal {
             background: #eff6ff;
             padding: 15px;
             border-radius: 10px;
             color: #1e3a8a;
-            line-height: 1.5;
+            overflow-wrap: anywhere;
         }
 
         .welcome-motivation {
             font-weight: bold;
             color: #333;
-            line-height: 1.5;
         }
 
         .start-studying-btn {
@@ -248,10 +191,6 @@
             margin-top: 10px;
         }
 
-        .start-studying-btn:hover {
-            background: #1e40af;
-        }
-
         .close-welcome-btn {
             background: none;
             border: none;
@@ -261,14 +200,10 @@
             font-size: 15px;
         }
 
-        /* =====================================
-           PROFILE SETUP
-           ===================================== */
-
+        /* PROFILE SETUP */
         #profileSetupOverlay {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             background: #f4f6f8;
@@ -310,9 +245,7 @@
             margin-bottom: 7px;
         }
 
-        input[type="text"],
-        select,
-        textarea {
+        input[type="text"], select, textarea {
             width: 100%;
             padding: 13px;
             border: 1px solid #ccc;
@@ -322,10 +255,7 @@
             background: white;
         }
 
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+        textarea { min-height: 100px; resize: vertical; }
 
         .grade-display {
             width: 100%;
@@ -354,13 +284,8 @@
             cursor: pointer;
         }
 
-        .subject-option:hover {
-            background: #eef2ff;
-        }
-
-        .subject-option input {
-            margin-right: 8px;
-        }
+        .subject-option:hover { background: #eef2ff; }
+        .subject-option input { margin-right: 8px; }
 
         .terms-box {
             background: #f8fafc;
@@ -400,10 +325,6 @@
             cursor: pointer;
         }
 
-        .save-button:hover {
-            background: #4338ca;
-        }
-
         .save-button:disabled {
             background: #9ca3af;
             cursor: not-allowed;
@@ -416,1399 +337,467 @@
             text-align: center;
         }
 
-        /* MOBILE */
-
         @media (max-width: 500px) {
-
-            .subjects {
-                grid-template-columns: 1fr;
-            }
-
-            header h1 {
-                font-size: 24px;
-            }
-
-            .setup-box {
-                padding: 20px;
-            }
-
+            .subjects { grid-template-columns: 1fr; }
+            header h1 { font-size: 24px; }
+            .setup-box { padding: 20px; }
         }
-
     </style>
 </head>
 
 <body>
 
-    <!-- =====================================
-         HEADER
-         ===================================== -->
+<header>
+    <h1>🎓 Grade 12 Hub</h1>
+    <p>Your study companion for Grade 12</p>
 
-    <header>
+    <div class="account-area">
+        <div class="account-email" id="accountEmail">
+            Checking account...
+        </div>
+        <button class="logout-button" id="logoutButton">Logout</button>
+    </div>
+</header>
 
-        <h1>🎓 Grade 12 Hub</h1>
+<main class="container">
 
-        <p>
-            Your study companion for Grade 12
+    <section class="welcome">
+        <h2 id="welcomeMessage">Welcome to Grade 12 Hub! 👋</h2>
+        <p>Learn, revise, practise and prepare for your future.</p>
+        <div class="goal" id="homeGoal">
+            🎯 Set your study goal when you first enter the app.
+        </div>
+    </section>
+
+    <!-- APP FEATURES: existing cards preserved -->
+
+    <section class="cards">
+
+        <a class="card" href="past-papers.html">
+            <div class="icon">📚</div>
+            <h3>Past Papers</h3>
+            <p>Access Grade 12 past question papers and memoranda.</p>
+        </a>
+
+        <a class="card" href="notes.html">
+            <div class="icon">📝</div>
+            <h3>Study Notes</h3>
+            <p>Revise important topics, definitions and formulas.</p>
+        </a>
+
+        <a class="card" href="ai-helper.html">
+            <div class="icon">🤖</div>
+            <h3>AI Study Helper</h3>
+            <p>Ask questions and get step-by-step explanations.</p>
+        </a>
+
+        <a class="card" href="study-groups.html">
+            <div class="icon">👥</div>
+            <h3>Study Groups</h3>
+            <p>Join subject groups and study with other learners.</p>
+        </a>
+
+        <div class="card coming-soon" onclick="showComingSoon('Motivation')">
+            <div class="icon">🔥</div>
+            <h3>Motivation</h3>
+            <p>Get study motivation and exam tips.</p>
+        </div>
+
+        <!-- UPDATED: opens the existing university page -->
+        <a class="card" href="varsity.html">
+            <div class="icon">🎓</div>
+            <h3>Apply to Varsity</h3>
+            <p>Explore universities, check application requirements, calculate your APS and plan your future studies.</p>
+        </a>
+
+        <a class="card" href="profile.html">
+            <div class="icon">👤</div>
+            <h3>My Profile</h3>
+            <p>View and update your learner profile and goals.</p>
+        </a>
+
+        <div class="card coming-soon" onclick="showComingSoon('Career Guidance')">
+            <div class="icon">💼</div>
+            <h3>Career Guidance</h3>
+            <p>Explore careers and possible study choices.</p>
+        </div>
+
+    </section>
+
+    <section class="creator">
+        <h3>Created By</h3>
+        <p><strong>MH Masina</strong></p>
+        <p><strong>NP Machete</strong></p>
+        <p>Grade 12 Hub</p>
+    </section>
+
+</main>
+
+<footer>Created by MH Masina &amp; NP Machete</footer>
+
+<!-- WELCOME BACK POPUP -->
+<div id="welcomePopup" class="welcome-popup">
+    <div class="welcome-card">
+        <div class="welcome-icon">🎯</div>
+
+        <h2>
+            Welcome back, <span id="welcomeName">Learner</span>! 👋
+        </h2>
+
+        <p class="welcome-message">
+            Remember why you started. Keep working towards your goal!
         </p>
 
-        <div class="account-area">
-
-            <div
-                class="account-email"
-                id="accountEmail">
-                Checking account...
-            </div>
-
-            <button
-                class="logout-button"
-                id="logoutButton">
-                Logout
-            </button>
-
-        </div>
-
-    </header>
-
-
-    <!-- =====================================
-         HOME PAGE
-         ===================================== -->
-
-    <main class="container">
-
-        <section class="welcome">
-
-            <h2 id="welcomeMessage">
-                Welcome to Grade 12 Hub! 👋
-            </h2>
-
-            <p>
-                Learn, revise, practise and prepare for your future.
-            </p>
-
-            <div class="goal" id="homeGoal">
-                🎯 Set your study goal when you first enter the app.
-            </div>
-
-        </section>
-
-
-        <!-- APP FEATURES -->
-
-        <section class="cards">
-
-            <a class="card" href="past-papers.html">
-
-                <div class="icon">📚</div>
-
-                <h3>Past Papers</h3>
-
-                <p>
-                    Access Grade 12 past question papers and memoranda.
-                </p>
-
-            </a>
-
-
-            <a class="card" href="notes.html">
-
-                <div class="icon">📝</div>
-
-                <h3>Study Notes</h3>
-
-                <p>
-                    Revise important topics, definitions and formulas.
-                </p>
-
-            </a>
-
-
-            <a class="card" href="ai-helper.html">
-
-                <div class="icon">🤖</div>
-
-                <h3>AI Study Helper</h3>
-
-                <p>
-                    Ask questions and get step-by-step explanations.
-                </p>
-
-            </a>
-
-
-            <a class="card" href="study-groups.html">
-
-                <div class="icon">👥</div>
-
-                <h3>Study Groups</h3>
-
-                <p>
-                    Join subject groups and study with other learners.
-                </p>
-
-            </a>
-
-
-            <div
-                class="card coming-soon"
-                onclick="showComingSoon('Motivation')">
-
-                <div class="icon">🔥</div>
-
-                <h3>Motivation</h3>
-
-                <p>
-                    Get study motivation and exam tips.
-                </p>
-
-            </div>
-
-
-            <div
-                class="card coming-soon"
-                onclick="showComingSoon('Varsity Applications')">
-
-                <div class="icon">🎓</div>
-
-                <h3>Apply to Varsity</h3>
-
-                <p>
-                    Find university application information.
-                </p>
-
-            </div>
-
-
-            <a class="card" href="profile.html">
-
-                <div class="icon">👤</div>
-
-                <h3>My Profile</h3>
-
-                <p>
-                    View and update your learner profile and goals.
-                </p>
-
-            </a>
-
-
-            <div
-                class="card coming-soon"
-                onclick="showComingSoon('Career Guidance')">
-
-                <div class="icon">💼</div>
-
-                <h3>Career Guidance</h3>
-
-                <p>
-                    Explore careers and possible study choices.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- CREATOR -->
-
-        <section class="creator">
-
-            <h3>Created By</h3>
-
-            <p>
-                <strong>MH Masina</strong>
-            </p>
-
-            <p>
-                <strong>NP Machete</strong>
-            </p>
-
-            <p>
-                Grade 12 Hub
-            </p>
-
-        </section>
-
-    </main>
-
-
-    <!-- FOOTER -->
-
-    <footer>
-        Created by MH Masina & NP Machete
-    </footer>
-
-
-    <!-- =====================================
-         WELCOME BACK POPUP
-         ===================================== -->
-
-    <div
-        id="welcomePopup"
-        class="welcome-popup">
-
-        <div class="welcome-card">
-
-            <div class="welcome-icon">
-                🎯
-            </div>
-
-            <h2>
-                Welcome back,
-                <span id="welcomeName">Learner</span>! 👋
-            </h2>
-
-            <p class="welcome-message">
-                Remember why you started.
-                Keep working towards your goal!
-            </p>
-
-            <p class="welcome-goal">
-
-                🎯 <strong>Your goal:</strong>
-
-                <span id="welcomeGoal">
-                    Keep working towards your goal
-                </span>
-
-            </p>
-
-            <p class="welcome-motivation">
-
-                💪 Stay focused.
-                📚 Keep studying.
-                🌟 You can do it!
-
-            </p>
-
-            <button
-                class="start-studying-btn"
-                onclick="closeWelcomePopup()">
-
-                📚 Start Studying
-
-            </button>
-
-            <button
-                class="close-welcome-btn"
-                onclick="closeWelcomePopup()">
-
-                Close
-
-            </button>
-
-        </div>
-
+        <p class="welcome-goal">
+            🎯 <strong>Your goal:</strong>
+            <span id="welcomeGoal">Keep working towards your goal</span>
+        </p>
+
+        <p class="welcome-motivation">
+            💪 Stay focused. 📚 Keep studying. 🌟 You can do it!
+        </p>
+
+        <button class="start-studying-btn" onclick="closeWelcomePopup()">
+            📚 Start Studying
+        </button>
+
+        <button class="close-welcome-btn" onclick="closeWelcomePopup()">
+            Close
+        </button>
     </div>
-
-
-    <!-- =====================================
-         PROFILE SETUP
-         ===================================== -->
-
-    <div id="profileSetupOverlay">
-
-        <div class="setup-container">
-
-            <div class="setup-box">
-
-                <h2>
-                    👋 Welcome to Grade 12 Hub
-                </h2>
-
-                <p class="intro">
-                    Let's set up your profile before you enter the app.
-                </p>
-
-
-                <label for="fullName">
-                    Full Name
-                </label>
-
-                <input
-                    type="text"
-                    id="fullName"
-                    placeholder="Enter your full name">
-
-
-                <label>
-                    Grade
-                </label>
-
-                <div class="grade-display">
-                    🎓 Grade 12
-                </div>
-
-
-                <label for="province">
-                    Province
-                </label>
-
-                <select id="province">
-
-                    <option value="">
-                        Select your province
-                    </option>
-
-                    <option value="Eastern Cape">
-                        Eastern Cape
-                    </option>
-
-                    <option value="Free State">
-                        Free State
-                    </option>
-
-                    <option value="Gauteng">
-                        Gauteng
-                    </option>
-
-                    <option value="KwaZulu-Natal">
-                        KwaZulu-Natal
-                    </option>
-
-                    <option value="Limpopo">
-                        Limpopo
-                    </option>
-
-                    <option value="Mpumalanga">
-                        Mpumalanga
-                    </option>
-
-                    <option value="Northern Cape">
-                        Northern Cape
-                    </option>
-
-                    <option value="North West">
-                        North West
-                    </option>
-
-                    <option value="Western Cape">
-                        Western Cape
-                    </option>
-
-                </select>
-
-
-                <label for="area">
-                    Area / Town
-                </label>
-
-                <input
-                    type="text"
-                    id="area"
-                    placeholder="Enter your area or town">
-
-
-                <label for="school">
-                    School
-                </label>
-
-                <input
-                    type="text"
-                    id="school"
-                    placeholder="Enter your school name">
-
-
-                <label>
-                    Your Subjects
-                </label>
-
-                <div class="subjects">
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="English Home Language">
-                        English Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="English Additional Language">
-                        English Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Afrikaans Home Language">
-                        Afrikaans Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Afrikaans First Additional Language">
-                        Afrikaans First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="IsiZulu Home Language">
-                        IsiZulu Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="IsiZulu First Additional Language">
-                        IsiZulu First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Sesotho Home Language">
-                        Sesotho Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Sesotho First Additional Language">
-                        Sesotho First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Setswana Home Language">
-                        Setswana Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Setswana First Additional Language">
-                        Setswana First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Sepedi Home Language">
-                        Sepedi Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Sepedi First Additional Language">
-                        Sepedi First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="IsiXhosa Home Language">
-                        IsiXhosa Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="IsiXhosa First Additional Language">
-                        IsiXhosa First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="IsiNdebele Home Language">
-                        IsiNdebele Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="IsiNdebele First Additional Language">
-                        IsiNdebele First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="SiSwati Home Language">
-                        SiSwati Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="SiSwati First Additional Language">
-                        SiSwati First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Tshivenda Home Language">
-                        Tshivenda Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Tshivenda First Additional Language">
-                        Tshivenda First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="itsonga Home Language">
-                        Xitsonga Home Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="itsonga First Additional Language">
-                        Xitsonga First Additional Language
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Mathematics">
-                        Mathematics
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Mathematical Literacy">
-                        Mathematical Literacy
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Technical Mathematics">
-                        Technical Mathematics
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Technical Science">
-                        Technical Science
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Physical Sciences">
-                        Physical Sciences
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Life Sciences">
-                        Life Sciences
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Agricultural Sciences">
-                        Agricultural Sciences
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Accounting">
-                        Accounting
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Business Studies">
-                        Business Studies
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Economics">
-                        Economics
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Geography">
-                        Geography
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="History">
-                        History
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Consumer Studies">
-                        Consumer Studies
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Tourism">
-                        Tourism
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Engineering Graphics and Design (EGD)">
-                        Engineering Graphics and Design (EGD)
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="CAT (Computer Applications Technology)">
-                        CAT (Computer Applications Technology)
-                    </label>
-
-                    <label class="subject-option">
-                        <input type="checkbox" value="Life Orientation">
-                        Life Orientation
-                    </label>
-
-                </div>
-
-
-                <label for="studyGoal">
-                    What is your study goal?
-                </label>
-
-                <textarea
-                    id="studyGoal"
-                    placeholder="Example: I want to improve my Mathematics mark and pass Grade 12 with good results."
-                ></textarea>
-
-
-                <label>
-                    Terms & Community Rules
-                </label>
-
-                <div class="terms-box">
-
-                    <strong>Grade 12 Hub Community Rules</strong>
-
-                    <br><br>
-
-                    By using Grade 12 Hub, you agree to use the platform respectfully and responsibly.
-
-                    <br><br>
-
-                    • Treat other learners with respect.
-
-                    <br>
-
-                    • No bullying, harassment or threats.
-
-                    <br>
-
-                    • No inappropriate or sexual content.
-
-                    <br>
-
-                    • No sharing of personal contact information such as phone numbers.
-
-                    <br>
-
-                    • No spam or harmful content.
-
-                    <br>
-
-                    • Study groups should be used for educational purposes.
-
-                    <br>
-
-                    • Report inappropriate content when necessary.
-
-                    <br><br>
-
-                    Grade 12 Hub may review reported content and take appropriate action when community rules are broken.
-
-                </div>
-
-
-                <label class="terms-checkbox">
-
-                    <input
-                        type="checkbox"
-                        id="termsAccepted">
-
-                    <span>
-                        I agree to the Grade 12 Hub Terms & Community Rules.
-                    </span>
-
-                </label>
-
-
-                <button
-                    class="save-button"
-                    id="saveProfileButton"
-                    onclick="saveFirstProfile()">
-
-                    Save & Enter App
-
-                </button>
-
-
-                <p class="required-note">
-
-                    Your profile information is securely saved to your Grade 12 Hub account.
-
-                </p>
-
+</div>
+
+<!-- PROFILE SETUP -->
+<div id="profileSetupOverlay">
+    <div class="setup-container">
+        <div class="setup-box">
+
+            <h2>👋 Welcome to Grade 12 Hub</h2>
+            <p class="intro">Let's set up your profile before you enter the app.</p>
+
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name">
+
+            <label>Grade</label>
+            <div class="grade-display">🎓 Grade 12</div>
+
+            <label for="province">Province</label>
+            <select id="province">
+                <option value="">Select your province</option>
+                <option>Eastern Cape</option>
+                <option>Free State</option>
+                <option>Gauteng</option>
+                <option>KwaZulu-Natal</option>
+                <option>Limpopo</option>
+                <option>Mpumalanga</option>
+                <option>Northern Cape</option>
+                <option>North West</option>
+                <option>Western Cape</option>
+            </select>
+
+            <label for="area">Area / Town</label>
+            <input type="text" id="area" placeholder="Enter your area or town">
+
+            <label for="school">School</label>
+            <input type="text" id="school" placeholder="Enter your school name">
+
+            <label>Your Subjects</label>
+            <div class="subjects">
+                <label class="subject-option"><input type="checkbox" value="English Home Language">English Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="English Additional Language">English Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="Afrikaans Home Language">Afrikaans Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="Afrikaans First Additional Language">Afrikaans First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="IsiZulu Home Language">IsiZulu Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="IsiZulu First Additional Language">IsiZulu First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="Sesotho Home Language">Sesotho Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="Sesotho First Additional Language">Sesotho First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="Setswana Home Language">Setswana Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="Setswana First Additional Language">Setswana First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="Sepedi Home Language">Sepedi Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="Sepedi First Additional Language">Sepedi First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="IsiXhosa Home Language">IsiXhosa Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="IsiXhosa First Additional Language">IsiXhosa First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="IsiNdebele Home Language">IsiNdebele Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="IsiNdebele First Additional Language">IsiNdebele First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="SiSwati Home Language">SiSwati Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="SiSwati First Additional Language">SiSwati First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="Tshivenda Home Language">Tshivenda Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="Tshivenda First Additional Language">Tshivenda First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="itsonga Home Language">itsonga Home Language</label>
+                <label class="subject-option"><input type="checkbox" value="itsonga First Additional Language">itsonga First Additional Language</label>
+                <label class="subject-option"><input type="checkbox" value="Mathematics">Mathematics</label>
+                <label class="subject-option"><input type="checkbox" value="Mathematical Literacy">Mathematical Literacy</label>
+                <label class="subject-option"><input type="checkbox" value="Technical Mathematics">Technical Mathematics</label>
+                <label class="subject-option"><input type="checkbox" value="Technical Science">Technical Science</label>
+                <label class="subject-option"><input type="checkbox" value="Physical Sciences">Physical Sciences</label>
+                <label class="subject-option"><input type="checkbox" value="Life Sciences">Life Sciences</label>
+                <label class="subject-option"><input type="checkbox" value="Agricultural Sciences">Agricultural Sciences</label>
+                <label class="subject-option"><input type="checkbox" value="Accounting">Accounting</label>
+                <label class="subject-option"><input type="checkbox" value="Business Studies">Business Studies</label>
+                <label class="subject-option"><input type="checkbox" value="Economics">Economics</label>
+                <label class="subject-option"><input type="checkbox" value="Geography">Geography</label>
+                <label class="subject-option"><input type="checkbox" value="History">History</label>
+                <label class="subject-option"><input type="checkbox" value="Consumer Studies">Consumer Studies</label>
+                <label class="subject-option"><input type="checkbox" value="Tourism">Tourism</label>
+                <label class="subject-option"><input type="checkbox" value="Engineering Graphics and Design (EGD)">Engineering Graphics and Design (EGD)</label>
+                <label class="subject-option"><input type="checkbox" value="CAT (Computer Applications Technology)">CAT (Computer Applications Technology)</label>
+                <label class="subject-option"><input type="checkbox" value="Life Orientation">Life Orientation</label>
             </div>
 
+            <label for="studyGoal">What is your study goal?</label>
+            <textarea id="studyGoal" placeholder="Example: I want to improve my Mathematics mark and pass Grade 12 with good results."></textarea>
+
+            <label>Terms &amp; Community Rules</label>
+            <div class="terms-box">
+                <strong>Grade 12 Hub Community Rules</strong><br><br>
+                By using Grade 12 Hub, you agree to use the platform respectfully and responsibly.
+                <br><br>• Treat other learners with respect.
+                <br>• No bullying, harassment or threats.
+                <br>• No inappropriate or sexual content.
+                <br>• No sharing of personal contact information such as phone numbers.
+                <br>• No spam or harmful content.
+                <br>• Study groups should be used for educational purposes.
+                <br>• Report inappropriate content when necessary.
+                <br><br>Grade 12 Hub may review reported content and take appropriate action when community rules are broken.
+            </div>
+
+            <label class="terms-checkbox">
+                <input type="checkbox" id="termsAccepted">
+                <span>I agree to the Grade 12 Hub Terms &amp; Community Rules.</span>
+            </label>
+
+            <button class="save-button" id="saveProfileButton" onclick="saveFirstProfile()">
+                Save &amp; Enter App
+            </button>
+
+            <p class="required-note">
+                Your profile information is saved to your Grade 12 Hub account.
+            </p>
+
         </div>
-
     </div>
+</div>
 
+<script>
+    /* SUPABASE SETTINGS */
+    const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
-    <script>
+    const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
-        /* =====================================
-           SUPABASE SETTINGS
-           ===================================== */
+    /* CHECK LOGIN */
+    async function checkSupabaseUser() {
+        const { data, error } = await supabaseClient.auth.getUser();
 
-        const SUPABASE_URL =
-            "https://hdlhhbnawltisszzsbvw.supabase.co";
-
-        const SUPABASE_PUBLISHABLE_KEY =
-            "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
-
-
-        const supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_PUBLISHABLE_KEY
-            );
-
-
-        /* =====================================
-           CHECK SUPABASE LOGIN
-           ===================================== */
-
-        async function checkSupabaseUser() {
-
-            const {
-                data,
-                error
-            } = await supabaseClient.auth.getUser();
-
-
-            if (error || !data.user) {
-
-                window.location.href = "login.html";
-
-                return null;
-
-            }
-
-
-            document.getElementById(
-                "accountEmail"
-            ).textContent =
-                "Logged in as: " + data.user.email;
-
-
-            return data.user;
-
+        if (error || !data.user) {
+            window.location.href = "login.html";
+            return null;
         }
 
+        document.getElementById("accountEmail").textContent =
+            "Logged in as: " + data.user.email;
 
-        /* =====================================
-           LOGOUT
-           ===================================== */
+        return data.user;
+    }
 
-        document.getElementById(
-            "logoutButton"
-        ).addEventListener(
-            "click",
-            async function() {
+    /* LOGOUT */
+    document.getElementById("logoutButton").addEventListener("click", async function() {
+        const { error } = await supabaseClient.auth.signOut();
 
-                const {
-                    error
-                } = await supabaseClient.auth.signOut();
+        if (error) {
+            alert(error.message);
+            return;
+        }
 
+        localStorage.removeItem("new_login");
+        window.location.href = "login.html";
+    });
 
-                if (error) {
+    /* PROFILE CHECK */
+    async function checkFirstTimeUser(user) {
+        const { data: profile, error } = await supabaseClient
+            .from("learner_profiles")
+            .select("*")
+            .eq("user_id", user.id)
+            .maybeSingle();
 
-                    alert(error.message);
+        if (error) {
+            console.error("Profile check error:", error);
+            alert("We could not check your profile.\n\n" + error.message);
+            return false;
+        }
 
-                    return;
+        if (!profile) {
+            document.getElementById("profileSetupOverlay").style.display = "block";
+            document.body.style.overflow = "hidden";
+            return false;
+        }
 
-                }
+        saveProfileToLocalStorage(profile);
+        loadHomeProfile();
+        return true;
+    }
 
+    /* SAVE PROFILE LOCALLY FOR DISPLAY */
+    function saveProfileToLocalStorage(profile) {
+        localStorage.setItem("grade12_name", profile.full_name || "");
+        localStorage.setItem("grade12_grade", "Grade 12");
+        localStorage.setItem("grade12_province", profile.province || "");
+        localStorage.setItem("grade12_area", profile.area || "");
+        localStorage.setItem("grade12_school", profile.school || "");
+        localStorage.setItem("grade12_subjects", JSON.stringify(profile.subjects || []));
+        localStorage.setItem("grade12_goal", profile.study_goal || "");
+        localStorage.setItem("grade12_terms_accepted", profile.terms_accepted ? "true" : "false");
+        localStorage.setItem("grade12_profile_created", "true");
+    }
 
-                localStorage.removeItem("new_login");
+    /* SAVE NEW PROFILE */
+    async function saveFirstProfile() {
+        const button = document.getElementById("saveProfileButton");
 
-                window.location.href = "login.html";
+        const name = document.getElementById("fullName").value.trim();
+        const province = document.getElementById("province").value.trim();
+        const area = document.getElementById("area").value.trim();
+        const school = document.getElementById("school").value.trim();
+        const goal = document.getElementById("studyGoal").value.trim();
+        const termsAccepted = document.getElementById("termsAccepted").checked;
 
-            }
+        const subjectCheckboxes = document.querySelectorAll(
+            '.subject-option input[type="checkbox"]'
         );
 
+        const subjects = [];
+        subjectCheckboxes.forEach(function(checkbox) {
+            if (checkbox.checked) subjects.push(checkbox.value);
+        });
 
-        /* =====================================
-           CHECK PROFILE IN SUPABASE
-           ===================================== */
+        if (!name) return alert("Please enter your full name.");
+        if (!province) return alert("Please select your province.");
+        if (!area) return alert("Please enter your area or town.");
+        if (!school) return alert("Please enter your school name.");
+        if (subjects.length === 0) return alert("Please select at least one subject.");
+        if (!goal) return alert("Please enter your study goal.");
+        if (!termsAccepted) return alert("Please accept the Grade 12 Hub Terms & Community Rules before continuing.");
 
-        async function checkFirstTimeUser(user) {
+        const { data: userData, error: userError } = await supabaseClient.auth.getUser();
 
-            const {
-                data: profile,
-                error
-            } = await supabaseClient
-                .from("learner_profiles")
-                .select("*")
-                .eq("user_id", user.id)
-                .maybeSingle();
-
-
-            if (error) {
-
-                console.error(
-                    "Profile check error:",
-                    error
-                );
-
-                alert(
-                    "We could not check your profile.\n\n" +
-                    error.message
-                );
-
-                return false;
-
-            }
-
-
-            /*
-             * PROFILE DOES NOT EXIST
-             * This is a genuinely new user.
-             */
-
-            if (!profile) {
-
-                document.getElementById(
-                    "profileSetupOverlay"
-                ).style.display = "block";
-
-                document.body.style.overflow = "hidden";
-
-                return false;
-
-            }
-
-
-            /*
-             * PROFILE EXISTS
-             * Existing user goes directly
-             * into the app.
-             */
-
-            saveProfileToLocalStorage(profile);
-
-            loadHomeProfile();
-
-            return true;
-
+        if (userError || !userData.user) {
+            alert("Your login session has expired. Please log in again.");
+            window.location.href = "login.html";
+            return;
         }
 
+        button.disabled = true;
+        button.textContent = "Saving...";
 
-        /* =====================================
-           SAVE SUPABASE PROFILE TO LOCAL STORAGE
-           ===================================== */
+        try {
+            const currentUser = userData.user;
 
-        function saveProfileToLocalStorage(profile) {
-
-            localStorage.setItem(
-                "grade12_name",
-                profile.full_name || ""
-            );
-
-            localStorage.setItem(
-                "grade12_grade",
-                "Grade 12"
-            );
-
-            localStorage.setItem(
-                "grade12_province",
-                profile.province || ""
-            );
-
-            localStorage.setItem(
-                "grade12_area",
-                profile.area || ""
-            );
-
-            localStorage.setItem(
-                "grade12_school",
-                profile.school || ""
-            );
-
-            localStorage.setItem(
-                "grade12_subjects",
-                JSON.stringify(
-                    profile.subjects || []
-                )
-            );
-
-            localStorage.setItem(
-                "grade12_goal",
-                profile.study_goal || ""
-            );
-
-            localStorage.setItem(
-                "grade12_terms_accepted",
-                profile.terms_accepted
-                    ? "true"
-                    : "false"
-            );
-
-            /*
-             * This is now only a local convenience flag.
-             * Supabase is the real source of truth.
-             */
-
-            localStorage.setItem(
-                "grade12_profile_created",
-                "true"
-            );
-
-        }
-
-
-        /* =====================================
-           SAVE NEW PROFILE
-           ===================================== */
-
-        async function saveFirstProfile() {
-
-            const button =
-                document.getElementById(
-                    "saveProfileButton"
-                );
-
-
-            const name =
-                document.getElementById(
-                    "fullName"
-                ).value.trim();
-
-
-            const province =
-                document.getElementById(
-                    "province"
-                ).value.trim();
-
-
-            const area =
-                document.getElementById(
-                    "area"
-                ).value.trim();
-
-
-            const school =
-                document.getElementById(
-                    "school"
-                ).value.trim();
-
-
-            const goal =
-                document.getElementById(
-                    "studyGoal"
-                ).value.trim();
-
-
-            const termsAccepted =
-                document.getElementById(
-                    "termsAccepted"
-                ).checked;
-
-
-            const subjectCheckboxes =
-                document.querySelectorAll(
-                    '.subject-option input[type="checkbox"]'
-                );
-
-
-            const subjects = [];
-
-
-            subjectCheckboxes.forEach(
-                function(checkbox) {
-
-                    if (checkbox.checked) {
-
-                        subjects.push(
-                            checkbox.value
-                        );
-
-                    }
-
-                }
-            );
-
-
-            if (name === "") {
-
-                alert(
-                    "Please enter your full name."
-                );
-
-                return;
-
-            }
-
-
-            if (province === "") {
-
-                alert(
-                    "Please select your province."
-                );
-
-                return;
-
-            }
-
-
-            if (area === "") {
-
-                alert(
-                    "Please enter your area or town."
-                );
-
-                return;
-
-            }
-
-
-            if (school === "") {
-
-                alert(
-                    "Please enter your school name."
-                );
-
-                return;
-
-            }
-
-
-            if (subjects.length === 0) {
-
-                alert(
-                    "Please select at least one subject."
-                );
-
-                return;
-
-            }
-
-
-            if (goal === "") {
-
-                alert(
-                    "Please enter your study goal."
-                );
-
-                return;
-
-            }
-
-
-            if (!termsAccepted) {
-
-                alert(
-                    "Please accept the Grade 12 Hub Terms & Community Rules before continuing."
-                );
-
-                return;
-
-            }
-
-
-            const {
-                data: userData,
-                error: userError
-            } = await supabaseClient.auth.getUser();
-
-
-            if (userError || !userData.user) {
-
-                alert(
-                    "Your login session has expired. Please log in again."
-                );
-
-                window.location.href = "login.html";
-
-                return;
-
-            }
-
-
-            const currentUser =
-                userData.user;
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "Saving...";
-
-
-            const {
-                data: savedProfile,
-                error: profileError
-            } = await supabaseClient
+            const { data: savedProfile, error: profileError } = await supabaseClient
                 .from("learner_profiles")
-                .upsert(
-                    {
-                        user_id: currentUser.id,
-                        full_name: name,
-                        grade: 12,
-                        province: province,
-                        area: area,
-                        school: school,
-                        subjects: subjects,
-                        study_goal: goal,
-                        terms_accepted: true,
-                        terms_accepted_at:
-                            new Date().toISOString(),
-                        subjects_locked: true,
-                        updated_at:
-                            new Date().toISOString()
-                    },
-                    {
-                        onConflict: "user_id"
-                    }
-                )
+                .upsert({
+                    user_id: currentUser.id,
+                    full_name: name,
+                    grade: 12,
+                    province: province,
+                    area: area,
+                    school: school,
+                    subjects: subjects,
+                    study_goal: goal,
+                    terms_accepted: true,
+                    terms_accepted_at: new Date().toISOString(),
+                    subjects_locked: true,
+                    updated_at: new Date().toISOString()
+                }, { onConflict: "user_id" })
                 .select()
                 .single();
 
+            if (profileError) throw profileError;
 
-            if (profileError) {
+            saveProfileToLocalStorage(savedProfile);
 
-                console.error(
-                    "Profile save error:",
-                    profileError
-                );
-
-
-                alert(
-                    "Your profile could not be saved.\n\n" +
-                    profileError.message
-                );
-
-
-                button.disabled = false;
-
-                button.textContent =
-                    "Save & Enter App";
-
-                return;
-
-            }
-
-
-            /*
-             * Save the profile returned by Supabase.
-             */
-
-            saveProfileToLocalStorage(
-                savedProfile
-            );
-
-
-            document.getElementById(
-                "profileSetupOverlay"
-            ).style.display = "none";
-
+            document.getElementById("profileSetupOverlay").style.display = "none";
             document.body.style.overflow = "auto";
-
-
             loadHomeProfile();
 
-
-            button.disabled = false;
-
-            button.textContent =
-                "Save & Enter App";
-
-
-            /*
-             * If this was the user's first login,
-             * show the welcome popup after the
-             * profile setup is completed.
-             */
-
-            const newLogin =
-                localStorage.getItem(
-                    "new_login"
-                );
-
-
-            if (newLogin === "true") {
-
-                localStorage.removeItem(
-                    "new_login"
-                );
-
+            if (localStorage.getItem("new_login") === "true") {
+                localStorage.removeItem("new_login");
                 showWelcomePopup();
-
             }
+        } catch (error) {
+            console.error("Profile save error:", error);
+            alert("Your profile could not be saved.\n\n" + error.message);
+        } finally {
+            button.disabled = false;
+            button.textContent = "Save & Enter App";
+        }
+    }
 
+    /* LOAD HOME PROFILE */
+    function loadHomeProfile() {
+        const name = localStorage.getItem("grade12_name");
+        const goal = localStorage.getItem("grade12_goal");
+
+        if (name) {
+            document.getElementById("welcomeMessage").textContent =
+                "Welcome back, " + name + "! 👋";
         }
 
-
-        /* =====================================
-           LOAD PROFILE ON HOME PAGE
-           ===================================== */
-
-        function loadHomeProfile() {
-
-            const name =
-                localStorage.getItem(
-                    "grade12_name"
-                );
-
-
-            const goal =
-                localStorage.getItem(
-                    "grade12_goal"
-                );
-
-
-            if (name) {
-
-                document.getElementById(
-                    "welcomeMessage"
-                ).textContent =
-                    "Welcome back, " +
-                    name +
-                    "! 👋";
-
-            }
-
-
-            if (goal) {
-
-                document.getElementById(
-                    "homeGoal"
-                ).textContent =
-                    "🎯 Your goal: " +
-                    goal;
-
-            }
-
+        if (goal) {
+            document.getElementById("homeGoal").textContent = "🎯 Your goal: " + goal;
         }
+    }
 
+    /* WELCOME BACK POPUP */
+    function showWelcomePopup() {
+        document.getElementById("welcomeName").textContent =
+            localStorage.getItem("grade12_name") || "Learner";
 
-        /* =====================================
-           WELCOME BACK POPUP
-           ===================================== */
+        document.getElementById("welcomeGoal").textContent =
+            localStorage.getItem("grade12_goal") || "Keep working towards your goal";
 
-        function showWelcomePopup() {
+        document.getElementById("welcomePopup").style.display = "flex";
+    }
 
-            const name =
-                localStorage.getItem(
-                    "grade12_name"
-                ) || "Learner";
+    function closeWelcomePopup() {
+        document.getElementById("welcomePopup").style.display = "none";
+    }
 
+    /* COMING SOON */
+    function showComingSoon(feature) {
+        alert(feature + " is coming soon! 🚀");
+    }
 
-            const goal =
-                localStorage.getItem(
-                    "grade12_goal"
-                ) ||
-                "Keep working towards your goal";
+    /* START APP */
+    window.addEventListener("load", async function() {
+        const user = await checkSupabaseUser();
+        if (!user) return;
 
+        const profileExists = await checkFirstTimeUser(user);
+        if (!profileExists) return;
 
-            document.getElementById(
-                "welcomeName"
-            ).textContent = name;
-
-
-            document.getElementById(
-                "welcomeGoal"
-            ).textContent = goal;
-
-
-            document.getElementById(
-                "welcomePopup"
-            ).style.display = "flex";
-
+        if (localStorage.getItem("new_login") === "true") {
+            localStorage.removeItem("new_login");
+            showWelcomePopup();
         }
+    });
 
-
-        function closeWelcomePopup() {
-
-            document.getElementById(
-                "welcomePopup"
-            ).style.display = "none";
-
-        }
-
-
-        /* =====================================
-           COMING SOON
-           ===================================== */
-
-        function showComingSoon(feature) {
-
-            alert(
-                feature +
-                " is coming soon! 🚀"
-            );
-
-        }
-
-
-        /* =====================================
-           START APP
-           ===================================== */
-
-        window.addEventListener(
-            "load",
-            async function() {
-
-                const user =
-                    await checkSupabaseUser();
-
-
-                if (!user) {
-
-                    return;
-
-                }
-
-
-                const profileExists =
-                    await checkFirstTimeUser(
-                        user
-                    );
-
-
-                /*
-                 * If there is no profile,
-                 * profile setup is now visible.
-                 *
-                 * The popup will be shown after
-                 * the user saves the profile.
-                 */
-
-                if (!profileExists) {
-
-                    return;
-
-                }
-
-
-                /*
-                 * Existing user:
-                 * show Welcome Back only after
-                 * an actual successful login.
-                 */
-
-                const newLogin =
-                    localStorage.getItem(
-                        "new_login"
-                    );
-
-
-                if (newLogin === "true") {
-
-                    localStorage.removeItem(
-                        "new_login"
-                    );
-
-                    showWelcomePopup();
-
-                }
-
-            }
-        );
-
-
-        /* =====================================
-           SERVICE WORKER
-           ===================================== */
-
-        if ("serviceWorker" in navigator) {
-
-            window.addEventListener(
-                "load",
-                function() {
-
-                    navigator.serviceWorker
-                        .register(
-                            "service-worker.js"
-                        )
-                        .then(
-                            function() {
-
-                                console.log(
-                                    "Service Worker registered."
-                                );
-
-                            }
-                        )
-                        .catch(
-                            function(error) {
-
-                                console.log(
-                                    "Service Worker registration failed:",
-                                    error
-                                );
-
-                            }
-                        );
-
-                }
-            );
-
-        }
-
-    </script>
+    /* SERVICE WORKER */
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function() {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(function() {
+                    console.log("Service Worker registered.");
+                })
+                .catch(function(error) {
+                    console.log("Service Worker registration failed:", error);
+                });
+        });
+    }
+</script>
 
 </body>
-                        </html>
+</html>
