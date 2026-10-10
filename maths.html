@@ -456,24 +456,1415 @@ Substitute k = 1, 2, 3, 4:
 <div class="example">Compare y = x² and y = (x − 3)² + 2. The second graph moves 3 units right and 2 units up. Its turning point is (3, 2) and its axis is x = 3.</div>
 <div class="warning">Horizontal shifts have the opposite sign inside the brackets: x − 3 moves right; x + 3 moves left.</div>
 
-<h3>9. Inverse functions</h3>
-<div class="definition">An inverse function reverses the input-output process. The inverse is written f⁻¹(x). It is not the same as 1/f(x).</div>
-<h4>How to find an inverse</h4>
-<div class="arrow-flow"><div class="flow-box">Write y = f(x).</div><div class="flow-arrow">↓</div><div class="flow-box">Swap x and y.</div><div class="flow-arrow">↓</div><div class="flow-box">Solve for y.</div><div class="flow-arrow">↓</div><div class="flow-box">Write y = f⁻¹(x).</div></div>
-<div class="example"><strong>Example 1:</strong> Find the inverse of f(x) = 2x + 1.
-<div class="formula">y = 2x + 1</div><p>Swap x and y:</p><div class="formula">x = 2y + 1</div><div class="formula">y = (x − 1)/2</div><p>Therefore:</p><div class="formula">f⁻¹(x) = (x − 1)/2</div></div>
-<div class="example"><strong>Example 2:</strong> Find the inverse of f(x) = x², given x ≥ 0.
-<div class="formula">y = x²</div><p>Swap x and y:</p><div class="formula">x = y²</div><p>Since the original domain is x ≥ 0, choose the non-negative square root:</p><div class="formula">f⁻¹(x) = √x</div></div>
-<div class="graph-grid">
-<div class="graph-card"><h4>Original function</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Straight line original function"><g stroke="#e5e7eb"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 180H280 M150 215V20" stroke="#64748b"/><path d="M50 190L250 50" stroke="#4f46e5" stroke-width="3"/><text x="170" y="45" font-size="12" fill="#4f46e5">f(x)</text></svg><p>f(x) = 2x + 1</p></div>
-<div class="graph-card"><h4>Inverse function</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Inverse straight line function"><g stroke="#e5e7eb"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 180H280 M150 215V20" stroke="#64748b"/><path d="M50 190L250 50" stroke="#4f46e5" stroke-width="2" stroke-dasharray="5 4"/><path d="M35 195L245 55" stroke="#dc2626" stroke-width="3"/><text x="170" y="45" font-size="12" fill="#dc2626">f⁻¹(x)</text></svg><p>f⁻¹(x) = (x − 1)/2</p></div>
+
+
+
+<h3>9.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#4f46e5">
+<title>Mathematics | Grade 12 Hub</title>
+
+<style>
+:root {
+  --primary: #4f46e5;
+  --primary-dark: #3730a3;
+  --background: #f4f6f8;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --success: #15803d;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.65;
+}
+header {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: white;
+  padding: 22px 16px;
+}
+.header-inner, main {
+  width: min(1050px, 100%);
+  margin: auto;
+}
+.back {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+header h1 { margin: 0; font-size: 27px; }
+header p { margin: 6px 0 0; opacity: .93; }
+main { padding: 18px 14px 40px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 19px;
+  margin-bottom: 17px;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, .045);
+}
+h2 { font-size: 22px; margin: 0 0 12px; }
+h3 { margin-top: 22px; color: var(--primary-dark); }
+h4 { margin-bottom: 5px; }
+p { margin-top: 7px; }
+.muted { color: var(--muted); }
+.formula {
+  background: #eef2ff;
+  border-left: 4px solid var(--primary);
+  border-radius: 7px;
+  padding: 12px;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+.example {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 12px;
+  margin: 10px 0;
+}
+.tip {
+  background: #ecfdf5;
+  border-left: 4px solid #16a34a;
+  border-radius: 7px;
+  padding: 12px;
+  margin: 12px 0;
+}
+.warning {
+  background: #fff7ed;
+  border-left: 4px solid #ea580c;
+  padding: 12px;
+  border-radius: 7px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.topic-button, button, select {
+  font: inherit;
+}
+.topic-button, button {
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 15px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+}
+.topic-button { text-align: left; width: 100%; height: 100%; }
+.topic-button:hover, button:hover { background: var(--primary-dark); }
+.topic-button small { display: block; opacity: .9; margin-top: 4px; }
+.topic-button.active { outline: 3px solid #c7d2fe; }
+.secondary { background: #475569; }
+.secondary:hover { background: #334155; }
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+.tabs button { flex: 1 1 130px; }
+.lesson { display: none; }
+.lesson.active { display: block; }
+canvas {
+  display: block;
+  width: 100%;
+  max-width: 760px;
+  height: 370px;
+  margin: 10px auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  touch-action: pan-y;
+}
+.graph-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+select {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  max-width: 100%;
+}
+.legend { display: flex; gap: 15px; flex-wrap: wrap; font-size: 14px; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.dot { width: 13px; height: 4px; display: inline-block; }
+.question {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px;
+  margin: 12px 0;
+}
+.question label { display: block; padding: 5px 0; cursor: pointer; }
+.feedback { font-weight: bold; margin-top: 5px; }
+.progress-track {
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+#progressBar {
+  width: 0;
+  height: 100%;
+  background: #16a34a;
+  transition: width .2s;
+}
+footer { text-align: center; color: var(--muted); padding: 18px; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th, td { text-align: left; padding: 9px; border: 1px solid var(--border); }
+th { background: #eef2ff; }
+@media(max-width: 500px) {
+  header h1 { font-size: 23px; }
+  .card { padding: 14px; }
+  canvas { height: 300px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <a class="back" href="index.html">← Back to Grade 12 Hub</a>
+    <h1>📘 Mathematics Study Centre</h1>
+    <p>Grade 12 • Functions, Inverses, Exponential and Logarithmic Functions</p>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Welcome to Mathematics</h2>
+    <p>Study the notes, explore the graphs, practise the worked examples and complete the quiz. Your quiz progress is saved on this device.</p>
+    <div class="progress-track"><div id="progressBar"></div></div>
+    <p id="progressText" class="muted">Quiz progress: 0%</p>
+  </section>
+
+  <section class="card">
+    <h2>Choose a topic</h2>
+    <div class="grid">
+      <button class="topic-button active" data-topic="inverse">1. Inverse functions<small>Definition and general properties</small></button>
+      <button class="topic-button" data-topic="linear">2. Inverse of a linear function<small>Finding and graphing the inverse</small></button>
+      <button class="topic-button" data-topic="parabola">3. Inverse of a parabola<small>Restrictions and square roots</small></button>
+      <button class="topic-button" data-topic="exponential">4. Exponential functions<small>Graphs and properties</small></button>
+      <button class="topic-button" data-topic="expinverse">5. Inverse of an exponential<small>Exponential to logarithmic form</small></button>
+      <button class="topic-button" data-topic="logarithms">6. Logarithmic functions<small>Graphs and properties</small></button>
+      <button class="topic-button" data-topic="laws">7. Logarithmic laws<small>Rules and worked examples</small></button>
+      <button class="topic-button" data-topic="compare">8. Comparing graphs<small>Exponential and logarithmic</small></button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Interactive graph explorer</h2>
+    <p>Select a graph to see the function and its inverse. The dashed line is the line <strong>y = x</strong>, which shows the reflection line for inverse graphs.</p>
+    <div class="graph-controls">
+      <label for="graphType"><strong>Choose graph:</strong></label>
+      <select id="graphType">
+        <option value="linear">Linear: y = 2x + 3</option>
+        <option value="parabola">Parabola: y = (x − 1)², x ≥ 1</option>
+        <option value="exponential">Exponential: y = 2ˣ</option>
+        <option value="logarithm">Logarithmic: y = log₂(x)</option>
+      </select>
+      <button id="redrawButton" type="button">Redraw graph</button>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:#4f46e5"></i> Function</span>
+      <span><i class="dot" style="background:#ea580c"></i> Inverse</span>
+      <span><i class="dot" style="background:#64748b;border-top:2px dashed #64748b"></i> y = x</span>
+    </div>
+    <canvas id="graphCanvas" width="760" height="370" aria-label="Interactive function and inverse graph"></canvas>
+    <p id="graphDescription" class="muted">Function and inverse graph.</p>
+    <div class="tip">Remember: inverse graphs are reflections of one another in the line y = x. Swap x and y to find an inverse, then solve for y.</div>
+  </section>
+
+  <section class="card">
+    <div id="inverse" class="lesson active">
+      <h2>1. Inverse functions and general properties</h2>
+      <p>An inverse function reverses the action of the original function. If a function takes an input x and produces an output y, its inverse takes that output and returns the original input.</p>
+      <div class="formula">f⁻¹(f(x)) = x and f(f⁻¹(x)) = x</div>
+      <p>The symbol f⁻¹(x) means the inverse function. It does <strong>not</strong> mean 1/f(x).</p>
+
+      <h3>How to find an inverse</h3>
+      <ol>
+        <li>Write the function as y = f(x).</li>
+        <li>Swap x and y.</li>
+        <li>Solve the new equation for y.</li>
+        <li>Write the result as f⁻¹(x).</li>
+        <li>Check any required domain restrictions.</li>
+      </ol>
+
+      <div class="example">
+        <strong>Example:</strong> Find the inverse of y = 3x − 6.
+        <p>Swap: x = 3y − 6</p>
+        <p>x + 6 = 3y</p>
+        <p>Therefore, <strong>f⁻¹(x) = (x + 6)/3</strong>.</p>
+      </div>
+
+      <h3>General properties of inverse functions</h3>
+      <ul>
+        <li>The domain of the inverse equals the range of the original function.</li>
+        <li>The range of the inverse equals the domain of the original function.</li>
+        <li>The graphs reflect in the line y = x.</li>
+        <li>The x- and y-coordinates of corresponding points swap.</li>
+        <li>The x-intercept of one graph corresponds to the y-intercept of its inverse, where those intercepts exist.</li>
+        <li>A function must be one-to-one on its domain to have an inverse that is also a function.</li>
+      </ul>
+
+      <div class="formula">Domain of f⁻¹ = Range of f<br>Range of f⁻¹ = Domain of f</div>
+      <div class="tip">The horizontal line test helps determine whether a graph is one-to-one. Every horizontal line must intersect the graph at most once.</div>
+    </div>
+
+    <div id="linear" class="lesson">
+      <h2>2. Inverse of a linear function</h2>
+      <p>A non-horizontal straight-line function has an inverse function. The inverse is also a straight line.</p>
+      <div class="formula">f(x) = mx + c, where m ≠ 0<br>f⁻¹(x) = (x − c)/m</div>
+
+      <div class="example">
+        <strong>Worked example:</strong> Find the inverse of f(x) = 2x + 3.
+        <ol>
+          <li>Write y = 2x + 3.</li>
+          <li>Swap x and y: x = 2y + 3.</li>
+          <li>Subtract 3: x − 3 = 2y.</li>
+          <li>Divide by 2.</li>
+        </ol>
+        <div class="formula">f⁻¹(x) = (x − 3)/2</div>
+      </div>
+
+      <h3>General properties</h3>
+      <ul>
+        <li>Domain and range are both all real numbers for a non-horizontal straight line.</li>
+        <li>The inverse is a straight line.</li>
+        <li>The inverse's gradient is the reciprocal of the original gradient.</li>
+        <li>The two graphs reflect in y = x.</li>
+      </ul>
+
+      <h3>Checking your answer</h3>
+      <p>If f(2) = 7, then f⁻¹(7) must equal 2. For f(x) = 2x + 3, this works because (7 − 3)/2 = 2.</p>
+    </div>
+
+    <div id="parabola" class="lesson">
+      <h2>3. Inverse of a parabola</h2>
+      <p>A full parabola generally fails the horizontal line test. Therefore, its inverse is not a function unless the original domain is restricted to one side of the turning point.</p>
+
+      <div class="example">
+        <strong>Worked example:</strong> Find the inverse of f(x) = (x − 1)² + 2, given x ≥ 1.
+        <ol>
+          <li>Write y = (x − 1)² + 2.</li>
+          <li>Swap x and y: x = (y − 1)² + 2.</li>
+          <li>Subtract 2: x − 2 = (y − 1)².</li>
+          <li>Take square roots: y − 1 = ±√(x − 2).</li>
+          <li>Because the original domain is x ≥ 1, use the positive branch.</li>
+        </ol>
+        <div class="formula">f⁻¹(x) = 1 + √(x − 2)</div>
+      </div>
+
+      <h3>General properties</h3>
+      <ul>
+        <li>The turning point (1, 2) becomes (2, 1) on the inverse graph.</li>
+        <li>The original domain is x ≥ 1.</li>
+        <li>The original range is y ≥ 2.</li>
+        <li>The inverse domain is x ≥ 2.</li>
+        <li>The inverse range is y ≥ 1.</li>
+        <li>The inverse graph is a square-root curve.</li>
+      </ul>
+
+      <div class="warning"><strong>Important:</strong> If the parabola is restricted to x ≤ 1 instead, the inverse becomes f⁻¹(x) = 1 − √(x − 2). Always use the domain restriction in the question to select the correct branch.</div>
+    </div>
+
+    <div id="exponential" class="lesson">
+      <h2>4. Exponential functions</h2>
+      <p>An exponential function has the variable in the exponent.</p>
+      <div class="formula">f(x) = aˣ, where a &gt; 0 and a ≠ 1</div>
+
+      <h3>General properties of y = aˣ</h3>
+      <ul>
+        <li>Domain: all real numbers.</li>
+        <li>Range: y &gt; 0.</li>
+        <li>Y-intercept: (0, 1).</li>
+        <li>There is no x-intercept.</li>
+        <li>Horizontal asymptote: y = 0.</li>
+        <li>If a &gt; 1, the function is increasing.</li>
+        <li>If 0 &lt; a &lt; 1, the function is decreasing.</li>
+      </ul>
+
+      <div class="example">
+        <strong>Example:</strong> For f(x) = 2ˣ:
+        <ul>
+          <li>f(0) = 1</li>
+          <li>f(1) = 2</li>
+          <li>f(3) = 8</li>
+          <li>f(−1) = 1/2</li>
+        </ul>
+      </div>
+
+      <h3>Transformations</h3>
+      <div class="formula">y = aˣ + q has horizontal asymptote y = q.</div>
+      <p>The value q shifts the graph up or down. A factor outside the exponential changes its vertical scale.</p>
+    </div>
+
+    <div id="expinverse" class="lesson">
+      <h2>5. Inverse of an exponential function</h2>
+      <p>The inverse of an exponential function is a logarithmic function.</p>
+
+      <div class="example">
+        <strong>Worked example:</strong> Find the inverse of f(x) = 2ˣ.
+        <ol>
+          <li>Write y = 2ˣ.</li>
+          <li>Swap x and y: x = 2ʸ.</li>
+          <li>Express the equation using logarithms: y = log₂(x).</li>
+        </ol>
+        <div class="formula">f⁻¹(x) = log₂(x)</div>
+      </div>
+
+      <h3>General properties</h3>
+      <ul>
+        <li>Original exponential domain: all real numbers.</li>
+        <li>Original exponential range: y &gt; 0.</li>
+        <li>Inverse logarithmic domain: x &gt; 0.</li>
+        <li>Inverse logarithmic range: all real numbers.</li>
+        <li>The exponential asymptote y = 0 corresponds to the logarithmic asymptote x = 0.</li>
+        <li>The graphs reflect in y = x.</li>
+      </ul>
+
+      <h3>Exponential and logarithmic form</h3>
+      <div class="formula">aˣ = y ⇔ logₐ(y) = x</div>
+      <p>For example, 2³ = 8 is equivalent to log₂(8) = 3.</p>
+    </div>
+
+    <div id="logarithms" class="lesson">
+      <h2>6. Working with logarithmic functions</h2>
+      <p>A logarithm answers the question: “To what power must the base be raised to obtain this number?”</p>
+      <div class="formula">y = logₐ(x) means aʸ = x</div>
+      <p>For real logarithms, the base must satisfy a &gt; 0 and a ≠ 1, and the argument must be positive.</p>
+
+      <h3>General properties of y = logₐ(x)</h3>
+      <ul>
+        <li>Domain: x &gt; 0.</li>
+        <li>Range: all real numbers.</li>
+        <li>X-intercept: (1, 0).</li>
+        <li>No y-intercept.</li>
+        <li>Vertical asymptote: x = 0.</li>
+        <li>If a &gt; 1, the function is increasing.</li>
+        <li>If 0 &lt; a &lt; 1, the function is decreasing.</li>
+      </ul>
+
+      <div class="example">
+        <strong>Examples:</strong>
+        <ul>
+          <li>log₂(8) = 3 because 2³ = 8.</li>
+          <li>log₃(9) = 2 because 3² = 9.</li>
+          <li>log₁₀(100) = 2 because 10² = 100.</li>
+          <li>log₅(1) = 0 because 5⁰ = 1.</li>
+        </ul>
+      </div>
+
+      <h3>Solving a logarithmic equation</h3>
+      <div class="example">
+        Solve log₂(x) = 4.
+        <p>Convert to exponential form: x = 2⁴.</p>
+        <p><strong>Answer: x = 16.</strong></p>
+      </div>
+
+      <div class="warning">A logarithm of zero or a negative number is undefined in the real number system. Check that every logarithm's argument is positive when solving equations.</div>
+    </div>
+
+    <div id="laws" class="lesson">
+      <h2>7. Logarithmic laws</h2>
+      <p>For positive M and N, and a valid base a:</p>
+
+      <table>
+        <tr><th>Law</th><th>Formula</th></tr>
+        <tr><td>Product law</td><td>logₐ(MN) = logₐ(M) + logₐ(N)</td></tr>
+        <tr><td>Quotient law</td><td>logₐ(M/N) = logₐ(M) − logₐ(N)</td></tr>
+        <tr><td>Power law</td><td>logₐ(Mⁿ) = n logₐ(M)</td></tr>
+        <tr><td>Logarithm of 1</td><td>logₐ(1) = 0</td></tr>
+        <tr><td>Logarithm of the base</td><td>logₐ(a) = 1</td></tr>
+        <tr><td>Change of base</td><td>logₐ(M) = log(M)/log(a)</td></tr>
+      </table>
+
+      <h3>Worked example 1: Product law</h3>
+      <div class="example">
+        Simplify log₂(4) + log₂(8).
+        <p>= log₂(4 × 8)</p>
+        <p>= log₂(32)</p>
+        <p><strong>= 5</strong></p>
+      </div>
+
+      <h3>Worked example 2: Quotient law</h3>
+      <div class="example">
+        Simplify log₃(81) − log₃(9).
+        <p>= log₃(81/9)</p>
+        <p>= log₃(9)</p>
+        <p><strong>= 2</strong></p>
+      </div>
+
+      <h3>Worked example 3: Power law</h3>
+      <div class="example">
+        Simplify 2 log₅(5) + log₅(25).
+        <p>= 2(1) + 2</p>
+        <p><strong>= 4</strong></p>
+      </div>
+
+      <h3>Worked example 4: Solve an equation</h3>
+      <div class="example">
+        Solve log₂(x) + log₂(4) = 5.
+        <p>Combine: log₂(4x) = 5.</p>
+        <p>Convert: 4x = 2⁵ = 32.</p>
+        <p><strong>x = 8</strong>, which is valid because x &gt; 0.</p>
+      </div>
+
+      <div class="warning"><strong>Common mistake:</strong> logₐ(M + N) is not equal to logₐ(M) + logₐ(N). The product law applies to multiplication, not addition.</div>
+    </div>
+
+    <div id="compare" class="lesson">
+      <h2>8. Comparing exponential and logarithmic functions</h2>
+      <p>The functions y = 2ˣ and y = log₂(x) are inverses of each other.</p>
+      <div class="formula">y = 2ˣ ⇔ x = log₂(y)</div>
+
+      <table>
+        <tr><th>Property</th><th>Exponential y = 2ˣ</th><th>Logarithmic y = log₂(x)</th></tr>
+        <tr><td>Domain</td><td>All real numbers</td><td>x &gt; 0</td></tr>
+        <tr><td>Range</td><td>y &gt; 0</td><td>All real numbers</td></tr>
+        <tr><td>Intercept</td><td>(0, 1)</td><td>(1, 0)</td></tr>
+        <tr><td>Asymptote</td><td>y = 0</td><td>x = 0</td></tr>
+        <tr><td>Shape</td><td>Increasing</td><td>Increasing</td></tr>
+      </table>
+
+      <h3>How to sketch the graphs</h3>
+      <ol>
+        <li>Identify the intercept and asymptote.</li>
+        <li>Plot a few points.</li>
+        <li>Draw a smooth curve through the points.</li>
+        <li>Do not let the curve cross its asymptote.</li>
+        <li>For inverse graphs, swap each point's coordinates.</li>
+      </ol>
+
+      <div class="tip">For y = 2ˣ, the point (3, 8) corresponds to (8, 3) on y = log₂(x). These points lie on opposite sides of y = x.</div>
+    </div>
+  </section>
+
+  <section class="card" id="quiz">
+    <h2>📝 Functions and logarithms quiz</h2>
+    <p>Choose one answer for each question, then press <strong>Check Answers</strong>. You can retry the quiz at any time.</p>
+    <div id="quizQuestions"></div>
+    <button id="checkQuiz" type="button">Check Answers</button>
+    <button id="resetQuiz" type="button" class="secondary">Reset Quiz</button>
+    <div id="quizResult" aria-live="polite"></div>
+  </section>
+
+  <section class="card">
+    <h2>Exam checklist</h2>
+    <ul>
+      <li>I can find the inverse of a straight-line function.</li>
+      <li>I know why a parabola needs a domain restriction.</li>
+      <li>I can find the inverse of an exponential function.</li>
+      <li>I can identify logarithmic domains, ranges and asymptotes.</li>
+      <li>I can use the product, quotient and power laws.</li>
+      <li>I can sketch inverse graphs and reflect points in y = x.</li>
+      <li>I check restrictions and reject invalid logarithmic solutions.</li>
+    </ul>
+  </section>
+</main>
+
+<footer>Grade 12 Hub • Keep practising, one topic at a time.</footer>
+
+<script>
+"use strict";
+
+/* TOPIC NAVIGATION */
+const topicButtons = document.querySelectorAll(".topic-button");
+const lessons = document.querySelectorAll(".lesson");
+
+topicButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    topicButtons.forEach(item => item.classList.remove("active"));
+    lessons.forEach(item => item.classList.remove("active"));
+
+    button.classList.add("active");
+    const lesson = document.getElementById(button.dataset.topic);
+    if (lesson) lesson.classList.add("active");
+  });
+});
+
+/* GRAPH DRAWING */
+const canvas = document.getElementById("graphCanvas");
+const ctx = canvas.getContext("2d");
+const graphType = document.getElementById("graphType");
+const graphDescription = document.getElementById("graphDescription");
+
+function drawGraph() {
+  const width = canvas.width;
+  const height = canvas.height;
+  const left = 45, right = width - 20;
+  const top = 20, bottom = height - 35;
+  const xmin = -6, xmax = 10;
+  const ymin = -6, ymax = 10;
+
+  const px = x => left + (x - xmin) / (xmax - xmin) * (right - left);
+  const py = y => bottom - (y - ymin) / (ymax - ymin) * (bottom - top);
+
+  ctx.clearRect(0, 0, width, height);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, width, height);
+
+  /* Grid */
+  ctx.strokeStyle = "#e5e7eb";
+  ctx.lineWidth = 1;
+  for (let x = xmin; x <= xmax; x++) {
+    ctx.beginPath();
+    ctx.moveTo(px(x), top);
+    ctx.lineTo(px(x), bottom);
+    ctx.stroke();
+  }
+  for (let y = ymin; y <= ymax; y++) {
+    ctx.beginPath();
+    ctx.moveTo(left, py(y));
+    ctx.lineTo(right, py(y));
+    ctx.stroke();
+  }
+
+  /* Axes */
+  ctx.strokeStyle = "#334155";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(px(0), top);
+  ctx.lineTo(px(0), bottom);
+  ctx.moveTo(left, py(0));
+  ctx.lineTo(right, py(0));
+  ctx.stroke();
+
+  ctx.fillStyle = "#334155";
+  ctx.font = "12px Arial";
+  for (let x = xmin; x <= xmax; x += 2) {
+    ctx.fillText(String(x), px(x) - 4, py(0) + 15);
+  }
+  for (let y = ymin; y <= ymax; y += 2) {
+    if (y !== 0) ctx.fillText(String(y), px(0) + 5, py(y) + 4);
+  }
+  ctx.fillText("x", right - 5, py(0) - 7);
+  ctx.fillText("y", px(0) + 7, top + 10);
+
+  /* y = x reflection line */
+  ctx.strokeStyle = "#64748b";
+  ctx.setLineDash([7, 5]);
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(px(xmin), py(xmin));
+  ctx.lineTo(px(xmax), py(xmax));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  const selected = graphType.value;
+  let f, inverse, domain, inverseDomain, description;
+
+  if (selected === "linear") {
+    f = x => 2 * x + 3;
+    inverse = x => (x - 3) / 2;
+    domain = x => true;
+    inverseDomain = x => true;
+    description = "y = 2x + 3 and its inverse y = (x − 3)/2. Both are straight lines.";
+  } else if (selected === "parabola") {
+    f = x => (x - 1) ** 2;
+    inverse = x => 1 + Math.sqrt(x);
+    domain = x => x >= 1;
+    inverseDomain = x => x >= 0;
+    description = "y = (x − 1)² for x ≥ 1 and inverse y = 1 + √x. The domain restriction makes the inverse a function.";
+  } else if (selected === "exponential") {
+    f = x => Math.pow(2, x);
+    inverse = x => Math.log2(x);
+    domain = x => true;
+    inverseDomain = x => x > 0;
+    description = "y = 2ˣ and y = log₂(x). Their domains and ranges are interchanged.";
+  } else {
+    f = x => Math.log2(x);
+    inverse = x => Math.pow(2, x);
+    domain = x => x > 0;
+    inverseDomain = x => true;
+    description = "y = log₂(x) and its inverse y = 2ˣ. The logarithmic graph has vertical asymptote x = 0.";
+  }
+
+  function plot(fn, valid, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    let started = false;
+
+    for (let i = 0; i <= 1200; i++) {
+      const x = xmin + (xmax - xmin) * i / 1200;
+      let y;
+      try { y = fn(x); } catch { y = NaN; }
+
+      if (!valid(x) || !Number.isFinite(y) ||
+          y < ymin - 1 || y > ymax + 1) {
+        started = false;
+        continue;
+      }
+
+      const X = px(x), Y = py(y);
+      if (!started) {
+        ctx.moveTo(X, Y);
+        started = true;
+      } else {
+        ctx.lineTo(X, Y);
+      }
+    }
+    ctx.stroke();
+  }
+
+  if (selected === "logarithm") {
+    plot(f, domain, "#4f46e5");
+    plot(inverse, inverseDomain, "#ea580c");
+  } else {
+    plot(f, domain, "#4f46e5");
+    plot(inverse, inverseDomain, "#ea580c");
+  }
+
+  graphDescription.textContent = description;
+}
+
+document.getElementById("redrawButton").addEventListener("click", drawGraph);
+graphType.addEventListener("change", drawGraph);
+
+/* QUIZ */
+const questions = [
+  {
+    q: "1. What is the inverse of f(x) = 2x + 3?",
+    a: ["2x − 3", "(x − 3)/2", "(x + 3)/2", "3x + 2"],
+    correct: 1
+  },
+  {
+    q: "2. What is the main reflection line for inverse graphs?",
+    a: ["y = 0", "x = 0", "y = x", "y = −x"],
+    correct: 2
+  },
+  {
+    q: "3. Why must the domain of a parabola sometimes be restricted before finding its inverse?",
+    a: ["To change its gradient", "To make the inverse a function", "To remove the turning point", "To make its range all real numbers"],
+    correct: 1
+  },
+  {
+    q: "4. Find the inverse of f(x) = 2ˣ.",
+    a: ["y = x²", "y = 2x", "y = log₂(x)", "y = logₓ(2)"],
+    correct: 2
+  },
+  {
+    q: "5. What is the domain of y = log₃(x)?",
+    a: ["All real numbers", "x ≥ 0", "x > 0", "x < 0"],
+    correct: 2
+  },
+  {
+    q: "6. Calculate log₂(8).",
+    a: ["2", "3", "4", "8"],
+    correct: 1
+  },
+  {
+    q: "7. Simplify log₅(25).",
+    a: ["2", "5", "10", "25"],
+    correct: 0
+  },
+  {
+    q: "8. Which law is correct?",
+    a: ["logₐ(MN) = logₐ(M) − logₐ(N)", "logₐ(MN) = logₐ(M) + logₐ(N)", "logₐ(MN) = logₐ(M) × logₐ(N)", "logₐ(MN) = logₐ(M + N)"],
+    correct: 1
+  },
+  {
+    q: "9. What is the vertical asymptote of y = log₂(x)?",
+    a: ["y = 0", "x = 1", "y = 1", "x = 0"],
+    correct: 3
+  },
+  {
+    q: "10. What is the range of y = 2ˣ?",
+    a: ["All real numbers", "y > 0", "y ≥ 0", "x > 0"],
+    correct: 1
+  },
+  {
+    q: "11. Find the inverse of y = (x − 1)², given x ≥ 1.",
+    a: ["1 − √x", "√x − 1", "1 + √x", "−1 − √x"],
+    correct: 2
+  },
+  {
+    q: "12. What is logₐ(1), for a valid base a?",
+    a: ["1", "a", "0", "−1"],
+    correct: 2
+  },
+  {
+    q: "13. Solve log₂(x) = 4.",
+    a: ["6", "8", "12", "16"],
+    correct: 3
+  },
+  {
+    q: "14. Which is the quotient law?",
+    a: ["logₐ(M/N) = logₐ(M) + logₐ(N)", "logₐ(M/N) = logₐ(M) − logₐ(N)", "logₐ(M/N) = logₐ(M) × logₐ(N)", "logₐ(M/N) = N logₐ(M)"],
+    correct: 1
+  },
+  {
+    q: "15. What is the range of y = log₂(x)?",
+    a: ["x > 0", "y > 0", "All real numbers", "y ≥ 0"],
+    correct: 2
+  },
+  {
+    q: "16. If f(3) = 8, what must f⁻¹(8) equal?",
+    a: ["3", "8", "11", "24"],
+    correct: 0
+  },
+  {
+    q: "17. Simplify log₃(81) − log₃(9).",
+    a: ["1", "2", "3", "4"],
+    correct: 1
+  },
+  {
+    q: "18. What is the horizontal asymptote of y = 2ˣ?",
+    a: ["x = 0", "y = 1", "y = 0", "x = 1"],
+    correct: 2
+  },
+  {
+    q: "19. Which condition is required for logₐ(x) to be a real logarithmic function?",
+    a: ["a < 0", "a = 1", "a > 0 and a ≠ 1, with x > 0", "x can be any negative number"],
+    correct: 2
+  },
+  {
+    q: "20. What happens to domain and range when a function and its inverse are compared?",
+    a: ["They remain unchanged in every case", "They are interchanged", "Both must be positive", "Both become zero"],
+    correct: 1
+  }
+];
+
+const quizContainer = document.getElementById("quizQuestions");
+const resultContainer = document.getElementById("quizResult");
+const STORAGE_KEY = "grade12hub_maths_functions_quiz_v1";
+
+function renderQuiz() {
+  quizContainer.innerHTML = "";
+
+  questions.forEach((question, index) => {
+    const block = document.createElement("div");
+    block.className = "question";
+
+    const heading = document.createElement("strong");
+    heading.textContent = question.q;
+    block.appendChild(heading);
+
+    question.a.forEach((answer, answerIndex) => {
+      const label = document.createElement("label");
+      const radio = document.createElement("input");
+
+      radio.type = "radio";
+      radio.name = "question" + index;
+      radio.value = answerIndex;
+
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(" " + answer));
+      block.appendChild(label);
+    });
+
+    const feedback = document.createElement("div");
+    feedback.className = "feedback";
+    feedback.id = "feedback" + index;
+    block.appendChild(feedback);
+
+    quizContainer.appendChild(block);
+  });
+}
+
+function saveQuizState(score, answered) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      score,
+      answered,
+      total: questions.length,
+      updatedAt: new Date().toISOString()
+    }));
+  } catch (error) {
+    console.warn("Quiz progress could not be saved on this device.", error);
+  }
+}
+
+function updateProgress(score, answered) {
+  const percent = Math.round(answered / questions.length * 100);
+  document.getElementById("progressBar").style.width = percent + "%";
+  document.getElementById("progressText").textContent =
+    "Quiz answered: " + answered + "/" + questions.length +
+    " • Last score: " + score + "/" + questions.length;
+}
+
+document.getElementById("checkQuiz").addEventListener("click", () => {
+  let score = 0;
+  let answered = 0;
+
+  questions.forEach((question, index) => {
+    const chosen = document.querySelector(
+      'input[name="question' + index + '"]:checked'
+    );
+    const feedback = document.getElementById("feedback" + index);
+
+    if (!chosen) {
+      feedback.textContent = "Choose an answer.";
+      feedback.style.color = "#b45309";
+      return;
+    }
+
+    answered++;
+    if (Number(chosen.value) === question.correct) {
+      score++;
+      feedback.textContent = "Correct!";
+      feedback.style.color = "#15803d";
+    } else {
+      feedback.textContent =
+        "Not quite. Correct answer: " + question.a[question.correct];
+      feedback.style.color = "#b91c1c";
+    }
+  });
+
+  resultContainer.textContent =
+    "Your score: " + score + "/" + questions.length +
+    " (" + Math.round(score / questions.length * 100) + "%).";
+  resultContainer.style.marginTop = "15px";
+  resultContainer.style.fontWeight = "bold";
+
+  saveQuizState(score, answered);
+  updateProgress(score, answered);
+});
+
+document.getElementById("resetQuiz").addEventListener("click", () => {
+  quizContainer.querySelectorAll('input[type="radio"]').forEach(input => {
+    input.checked = false;
+  });
+
+  questions.forEach((question, index) => {
+    const feedback = document.getElementById("feedback" + index);
+    feedback.textContent = "";
+  });
+
+  resultContainer.textContent = "";
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    console.warn("Quiz progress could not be cleared.", error);
+  }
+
+  document.getElementById("progressBar").style.width = "0%";
+  document.getElementById("progressText").textContent = "Quiz progress: 0%";
+});
+
+/* INITIALISE */
+renderQuiz();
+drawGraph();
+
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+  if (saved && Number.isFinite(saved.score) && Number.isFinite(saved.answered)) {
+    updateProgress(saved.score, saved.answered);
+  }
+} catch (error) {
+  console.warn("Saved quiz progress could not be loaded.", error);
+}
+</script>
+</body>
+</html>
+ </h3>9.Inverse Functions</h3>
+
+<div class="definition">
+    <strong>What is an inverse function?</strong>
+    <p>An inverse function reverses the action of the original function.</p>
+    <p>If \(f\) changes an input \(x\) into an output \(y\), then
+    \(f^{-1}\) changes that output \(y\) back into the original input \(x\).</p>
+    <p><strong>Important:</strong> \(f^{-1}(x)\) means the inverse function.
+    It does NOT mean \(\frac{1}{f(x)}\).</p>
 </div>
-<p class="small">A function and its inverse are reflections in the line y = x. These diagrams are illustrative; use equations and coordinates for accurate exam sketches.</p>
-<h4>The horizontal line test</h4>
-<div class="definition">A function has an inverse that is also a function if every horizontal line intersects its graph at most once. If it fails, restrict the original domain before finding the inverse.</div>
-<div class="warning">For y = x² over all real x, the inverse relation is y = ±√x, which is not a function. Restricting the original domain to x ≥ 0 gives f⁻¹(x) = √x.</div>
-<h4>Domain and range of inverse functions</h4>
-<div class="formula">Domain of f⁻¹ = Range of f</div><div class="formula">Range of f⁻¹ = Domain of f</div>
+
+<div class="formula">
+    <strong>Notation:</strong>
+    <p>Original function: \(y=f(x)\)</p>
+    <p>Inverse function: \(y=f^{-1}(x)\)</p>
+    <p>To find an inverse, interchange \(x\) and \(y\), then make \(y\) the subject.</p>
+</div>
+
+<h4>General properties of inverse functions</h4>
+
+<div class="table-wrap">
+<table>
+    <thead>
+        <tr>
+            <th>Property</th>
+            <th>Original function</th>
+            <th>Inverse function</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Input and output</td>
+            <td>Input \(x\), output \(y\)</td>
+            <td>Input \(y\), output \(x\)</td>
+        </tr>
+        <tr>
+            <td>Domain and range</td>
+            <td>Domain: allowed \(x\)-values</td>
+            <td>Domain and range interchange</td>
+        </tr>
+        <tr>
+            <td>Graphs</td>
+            <td>Graph of \(f(x)\)</td>
+            <td>Reflection of \(f(x)\) in \(y=x\)</td>
+        </tr>
+        <tr>
+            <td>Coordinates</td>
+            <td>\((a;b)\)</td>
+            <td>\((b;a)\)</td>
+        </tr>
+        <tr>
+            <td>Function test</td>
+            <td>Must be a function</td>
+            <td>Must also be a function on its stated domain</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div class="warning">
+    <strong>Exam rule:</strong> A function must be one-to-one on its domain to have an inverse that is also a function. A horizontal line must not cut its graph more than once.
+</div>
+
+<h3>9.1 Inverse of a Linear Function</h3>
+
+<p>A non-horizontal straight-line function has an inverse function. Follow these steps every time.</p>
+
+<div class="example">
+    <strong>Worked example 1</strong>
+    <p>Given \(f(x)=3x-6\), determine \(f^{-1}(x)\).</p>
+
+    <p><strong>Step 1: Write the equation.</strong></p>
+    <p>\(y=3x-6\)</p>
+
+    <p><strong>Step 2: Interchange \(x\) and \(y\).</strong></p>
+    <p>\(x=3y-6\)</p>
+
+    <p><strong>Step 3: Make \(y\) the subject.</strong></p>
+    <p>\(x+6=3y\)</p>
+    <p>\(y=\frac{x+6}{3}\)</p>
+
+    <p><strong>Final answer:</strong></p>
+    <p>\[
+        f^{-1}(x)=\frac{x+6}{3}
+    \]</p>
+</div>
+
+<h4>Checking your answer</h4>
+
+<p>Choose \(x=4\) in the original function:</p>
+<p>\(f(4)=3(4)-6=6\)</p>
+
+<p>Now use the output, \(6\), in the inverse:</p>
+<p>\(f^{-1}(6)=\frac{6+6}{3}=4\)</p>
+
+<p>We returned to the original input, so the inverse is correct.</p>
+
+<h4>Graph of a linear function and its inverse</h4>
+
+<div class="graph-card">
+    <p><strong>Original:</strong> \(y=2x+1\)</p>
+    <p><strong>Inverse:</strong> \(y=\frac{x-1}{2}\)</p>
+    <svg viewBox="0 0 300 300" width="100%" role="img" aria-label="Illustration of a straight-line function and its inverse reflected around y equals x">
+        <defs>
+            <pattern id="invlineargrid" width="25" height="25" patternUnits="userSpaceOnUse">
+                <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#9ca3af" stroke-width="0.5" opacity="0.5"/>
+            </pattern>
+        </defs>
+        <rect x="25" y="25" width="250" height="250" fill="url(#invlineargrid)" stroke="#9ca3af"/>
+        <line x1="25" y1="150" x2="275" y2="150" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="150" y1="275" x2="150" y2="25" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="25" y1="275" x2="275" y2="25" stroke="#6b7280" stroke-dasharray="5 4" stroke-width="2"/>
+        <line x1="87.5" y1="275" x2="212.5" y2="25" stroke="#2563eb" stroke-width="3"/>
+        <line x1="25" y1="87.5" x2="275" y2="212.5" stroke="#dc2626" stroke-width="3"/>
+        <text x="218" y="39" fill="#6b7280" font-size="10">y = x</text>
+        <text x="198" y="67" fill="#2563eb" font-size="10">f(x)</text>
+        <text x="192" y="230" fill="#dc2626" font-size="10">f⁻¹(x)</text>
+        <text x="279" y="145" fill="currentColor" font-size="11">x</text>
+        <text x="157" y="20" fill="currentColor" font-size="11">y</text>
+        <text x="153" y="164" fill="currentColor" font-size="10">0</text>
+    </svg>
+    <p class="small">The dashed line represents \(y=x\). The original and inverse graphs are reflections of each other. The sketch is illustrative, not to scale.</p>
+</div>
+
+<h3>9.2 Inverse of a Parabola</h3>
+
+<div class="definition">
+    <p>A parabola normally fails the horizontal line test because a horizontal line can intersect it twice. Therefore, we restrict its domain to one side of its turning point before finding an inverse function.</p>
+</div>
+
+<div class="example">
+    <strong>Worked example 2</strong>
+    <p>Given \(f(x)=(x-1)^2+2\), where \(x\geq1\), find the inverse.</p>
+
+    <p><strong>Step 1: Write the equation.</strong></p>
+    <p>\(y=(x-1)^2+2\)</p>
+
+    <p><strong>Step 2: Interchange \(x\) and \(y\).</strong></p>
+    <p>\(x=(y-1)^2+2\)</p>
+
+    <p><strong>Step 3: Make \(y\) the subject.</strong></p>
+    <p>\(x-2=(y-1)^2\)</p>
+    <p>\(\sqrt{x-2}=y-1\)</p>
+    <p>\(y=1+\sqrt{x-2}\)</p>
+
+    <p>We use the positive square root because the original restriction is \(x\geq1\).</p>
+
+    <p><strong>Final answer:</strong></p>
+    <p>\[
+        f^{-1}(x)=1+\sqrt{x-2},\quad x\geq2
+    \]</p>
+</div>
+
+<h4>Domain and range of the parabola</h4>
+
+<div class="table-wrap">
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Original function</th>
+            <th>Inverse function</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Equation</td>
+            <td>\((x-1)^2+2\)</td>
+            <td>\(1+\sqrt{x-2}\)</td>
+        </tr>
+        <tr>
+            <td>Domain</td>
+            <td>\(x\geq1\)</td>
+            <td>\(x\geq2\)</td>
+        </tr>
+        <tr>
+            <td>Range</td>
+            <td>\(y\geq2\)</td>
+            <td>\(y\geq1\)</td>
+        </tr>
+        <tr>
+            <td>Starting point</td>
+            <td>\((1;2)\)</td>
+            <td>\((2;1)\)</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div class="graph-card">
+    <p><strong>Reflection of a restricted parabola</strong></p>
+    <svg viewBox="0 0 320 280" width="100%" role="img" aria-label="Restricted parabola and its inverse reflected around the line y equals x">
+        <defs>
+            <pattern id="invparabgrid" width="25" height="25" patternUnits="userSpaceOnUse">
+                <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#9ca3af" stroke-width="0.5" opacity="0.45"/>
+            </pattern>
+        </defs>
+        <rect x="35" y="20" width="250" height="240" fill="url(#invparabgrid)" stroke="#9ca3af"/>
+        <line x1="35" y1="260" x2="290" y2="260" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="35" y1="260" x2="35" y2="15" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="35" y1="260" x2="275" y2="20" stroke="#6b7280" stroke-dasharray="5 4" stroke-width="2"/>
+        <path d="M 60 245 Q 60 245 60 245" fill="none"/>
+        <path d="M 60 240 Q 80 240 110 180 T 160 60" fill="none" stroke="#2563eb" stroke-width="3" transform="translate(0 0)"/>
+        <path d="M 60 240 Q 90 220 120 180" fill="none" stroke="#2563eb" stroke-width="3" opacity="0"/>
+        <path d="M 85 240 Q 85 240 85 240" fill="none"/>
+        <path d="M 60 240 Q 60 240 60 240" fill="none"/>
+        <path d="M 60 240 C 60 240 75 235 95 210 C 115 185 135 140 160 60" fill="none" stroke="#2563eb" stroke-width="0" />
+        <path d="M 60 240 C 80 240 100 220 120 180 C 140 140 160 80 180 20" fill="none" stroke="#2563eb" stroke-width="0"/>
+        <text x="194" y="38" fill="#6b7280" font-size="10">y = x</text>
+        <text x="205" y="74" fill="#2563eb" font-size="10">Original</text>
+        <text x="155" y="235" fill="#dc2626" font-size="10">Inverse</text>
+        <text x="294" y="255" fill="currentColor" font-size="10">x</text>
+        <text x="41" y="16" fill="currentColor" font-size="10">y</text>
+    </svg>
+    <p class="small">The inverse graph is obtained by swapping every coordinate \((x;y)\) to \((y;x)\). Use the equations and table above for exact values.</p>
+</div>
+
+<div class="warning">
+    <strong>Common mistake:</strong> Do not simply write a square root and forget the domain restriction. State the inverse's domain as well as its equation.
+</div>
+
+<h3>9.3 Inverse of an Exponential Function</h3>
+
+<p>Exponential and logarithmic functions are inverses of each other.</p>
+
+<div class="example">
+    <strong>Worked example 3</strong>
+    <p>Given \(f(x)=2^x\), find the inverse.</p>
+
+    <p><strong>Step 1:</strong> Write \(y=2^x\).</p>
+    <p><strong>Step 2:</strong> Interchange \(x\) and \(y\): \(x=2^y\).</p>
+    <p><strong>Step 3:</strong> Express this in logarithmic form: \(y=\log_2 x\).</p>
+
+    <p><strong>Answer:</strong></p>
+    <p>\[
+        f^{-1}(x)=\log_2 x,\quad x>0
+    \]</p>
+</div>
+
+<h4>Properties of exponential and logarithmic inverses</h4>
+
+<div class="table-wrap">
+<table>
+    <thead>
+        <tr>
+            <th>Property</th>
+            <th>\(y=2^x\)</th>
+            <th>\(y=\log_2x\)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Domain</td>
+            <td>All real numbers</td>
+            <td>\(x>0\)</td>
+        </tr>
+        <tr>
+            <td>Range</td>
+            <td>\(y>0\)</td>
+            <td>All real numbers</td>
+        </tr>
+        <tr>
+            <td>Intercept</td>
+            <td>\((0;1)\) on the y-axis</td>
+            <td>\((1;0)\) on the x-axis</td>
+        </tr>
+        <tr>
+            <td>Asymptote</td>
+            <td>\(y=0\)</td>
+            <td>\(x=0\)</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div class="graph-card">
+    <p><strong>Exponential and logarithmic graphs</strong></p>
+    <svg viewBox="0 0 300 280" width="100%" role="img" aria-label="Illustration of exponential and logarithmic inverse curves with the line y equals x">
+        <defs>
+            <pattern id="exploggrid" width="25" height="25" patternUnits="userSpaceOnUse">
+                <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#9ca3af" stroke-width="0.5" opacity="0.5"/>
+            </pattern>
+        </defs>
+        <rect x="25" y="20" width="250" height="240" fill="url(#exploggrid)" stroke="#9ca3af"/>
+        <line x1="25" y1="220" x2="280" y2="220" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="75" y1="260" x2="75" y2="15" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="25" y1="270" x2="275" y2="20" stroke="#6b7280" stroke-dasharray="5 4" stroke-width="2"/>
+        <path d="M 25 216 C 48 216 60 210 75 195 C 95 175 110 135 125 90 C 140 45 150 25 160 12" fill="none" stroke="#2563eb" stroke-width="3"/>
+        <path d="M 80 260 C 80 245 85 230 100 220 C 120 205 145 190 175 180 C 210 168 245 160 275 155" fill="none" stroke="#dc2626" stroke-width="3"/>
+        <text x="164" y="38" fill="#6b7280" font-size="10">y = x</text>
+        <text x="150" y="65" fill="#2563eb" font-size="10">2ˣ</text>
+        <text x="205" y="175" fill="#dc2626" font-size="10">log₂ x</text>
+        <text x="282" y="216" fill="currentColor" font-size="10">x</text>
+        <text x="81" y="16" fill="currentColor" font-size="10">y</text>
+    </svg>
+    <p class="small">The two curves are reflections in \(y=x\). The sketch is schematic; use the listed equations and properties to identify the exact graphs.</p>
+</div>
+
+<h3>9.4 Logarithmic Functions and Graphs</h3>
+
+<div class="definition">
+    <p>A logarithm answers the question: <strong>to what power must the base be raised to get a given number?</strong></p>
+    <p>\[
+        \log_a x=y\iff a^y=x
+    \]</p>
+    <p>Conditions: \(a>0\), \(a\ne1\), and \(x>0\).</p>
+</div>
+
+<div class="example">
+    <strong>Worked examples</strong>
+    <p>\(\log_2 8=3\), because \(2^3=8\).</p>
+    <p>\(\log_3 81=4\), because \(3^4=81\).</p>
+    <p>\(\log_{10}0.01=-2\), because \(10^{-2}=0.01\).</p>
+</div>
+
+<h4>General graph properties</h4>
+
+<ul>
+    <li>For \(y=\log_a x\), the domain is \(x>0\).</li>
+    <li>The range is all real numbers.</li>
+    <li>The vertical asymptote is \(x=0\).</li>
+    <li>The x-intercept is \((1;0)\).</li>
+    <li>If \(a>1\), the graph increases from left to right.</li>
+    <li>If \(0<a<1\), the graph decreases from left to right.</li>
+</ul>
+
+<h3>9.5 Laws of Logarithms</h3>
+
+<div class="formula">
+    <p><strong>Product law</strong></p>
+    <p>\[
+        \log_a(MN)=\log_a M+\log_a N
+    \]</p>
+
+    <p><strong>Quotient law</strong></p>
+    <p>\[
+        \log_a\left(\frac{M}{N}\right)=\log_a M-\log_a N
+    \]</p>
+
+    <p><strong>Power law</strong></p>
+    <p>\[
+        \log_a(M^k)=k\log_a M
+    \]</p>
+
+    <p><strong>Special values</strong></p>
+    <p>\[
+        \log_a1=0,\qquad \log_a a=1
+    \]</p>
+
+    <p><strong>Change of base</strong></p>
+    <p>\[
+        \log_a M=\frac{\log M}{\log a}
+    \]</p>
+</div>
+
+<div class="example">
+    <strong>Worked example 4: Simplify</strong>
+    <p>\(\log_2 8+\log_2 4\)</p>
+    <p>\(=3+2\)</p>
+    <p><strong>\(=5\)</strong></p>
+</div>
+
+<div class="example">
+    <strong>Worked example 5: Expand</strong>
+    <p>\(\log_3(9x^2)\), where \(x>0\).</p>
+    <p>\(=\log_3 9+\log_3 x^2\)</p>
+    <p>\(=2+2\log_3 x\)</p>
+</div>
+
+<div class="warning">
+    <strong>Do not make this mistake:</strong>
+    <p>\(\log_a(M+N)\ne\log_a M+\log_a N\).</p>
+    <p>The product law applies to multiplication, not addition.</p>
+</div>
+
+<h3>9.6 Exam Practice: Inverse Functions and Logarithms</h3>
+
+<div class="question">
+    <p><strong>Question 1:</strong> Find the inverse of \(f(x)=4x+8\).</p>
+    <label><input type="radio" name="invq1" value="a"> \(4x-8\)</label><br>
+    <label><input type="radio" name="invq1" value="b"> \(\frac{x-8}{4}\)</label><br>
+    <label><input type="radio" name="invq1" value="c"> \(\frac{x+8}{4}\)</label>
+    <p id="invq1feedback" class="feedback"></p>
+</div>
+
+<div class="question">
+    <p><strong>Question 2:</strong> Why is the domain of a parabola often restricted when finding its inverse?</p>
+    <label><input type="radio" name="invq2" value="a"> To make its range empty</label><br>
+    <label><input type="radio" name="invq2" value="b"> To ensure the inverse is a function</label><br>
+    <label><input type="radio" name="invq2" value="c"> To change the turning point to zero</label>
+    <p id="invq2feedback" class="feedback"></p>
+</div>
+
+<div class="question">
+    <p><strong>Question 3:</strong> Find the inverse of \(f(x)=3^x\).</p>
+    <label><input type="radio" name="invq3" value="a"> \(3x\)</label><br>
+    <label><input type="radio" name="invq3" value="b"> \(\log_3x\)</label><br>
+    <label><input type="radio" name="invq3" value="c"> \(x^3\)</label>
+    <p id="invq3feedback" class="feedback"></p>
+</div>
+
+<div class="question">
+    <p><strong>Question 4:</strong> Simplify \(\log_2 16\).</p>
+    <label><input type="radio" name="invq4" value="a"> 4</label><br>
+    <label><input type="radio" name="invq4" value="b"> 8</label><br>
+    <label><input type="radio" name="invq4" value="c"> 2</label>
+    <p id="invq4feedback" class="feedback"></p>
+</div>
+
+<div class="question">
+    <p><strong>Question 5:</strong> Which is the product law?</p>
+    <label><input type="radio" name="invq5" value="a"> \(\log_a(MN)=\log_a M+\log_a N\)</label><br>
+    <label><input type="radio" name="invq5" value="b"> \(\log_a(M+N)=\log_a M+\log_a N\)</label><br>
+    <label><input type="radio" name="invq5" value="c"> \(\log_a(M/N)=\log_a M+\log_a N\)</label>
+    <p id="invq5feedback" class="feedback"></p>
+</div>
+
+<div class="actions">
+    <button type="button" onclick="checkImprovedInverseQuiz()">Mark Quiz</button>
+    <button type="button" onclick="resetImprovedInverseQuiz()">Try Again</button>
+</div>
+
+<p id="improvedInverseScore" class="feedback"></p>
+
+<script>
+function checkImprovedInverseQuiz() {
+    const answers = {
+        invq1: "b",
+        invq2: "b",
+        invq3: "b",
+        invq4: "a",
+        invq5: "a"
+    };
+
+    const explanations = {
+        invq1: "Interchange x and y: x = 4y + 8, so y = (x - 8)/4.",
+        invq2: "The domain is restricted so each output corresponds to only one input.",
+        invq3: "The logarithm with base 3 is the inverse of the exponential function 3ˣ.",
+        invq4: "2⁴ = 16, so log₂16 = 4.",
+        invq5: "The product law changes multiplication inside the logarithm into addition."
+    };
+
+    let score = 0;
+    let unanswered = 0;
+
+    for (const name in answers) {
+        const selected = document.querySelector(
+            'input[name="' + name + '"]:checked'
+        );
+        const feedback = document.getElementById(name + "feedback");
+
+        if (!selected) {
+            unanswered++;
+            feedback.textContent = "Please choose an answer.";
+            continue;
+        }
+
+        if (selected.value === answers[name]) {
+            score++;
+            feedback.textContent = "Correct! " + explanations[name];
+        } else {
+            feedback.textContent = "Not quite. " + explanations[name];
+        }
+    }
+
+    const scoreElement = document.getElementById("improvedInverseScore");
+    scoreElement.textContent = "Your score: " + score + " / 5";
+
+    try {
+        localStorage.setItem(
+            "grade12hub_improved_inverse_quiz",
+            JSON.stringify({ score: score, total: 5, date: new Date().toISOString() })
+        );
+    } catch (error) {
+        // The quiz still works if local storage is unavailable.
+    }
+}
+
+function resetImprovedInverseQuiz() {
+    for (let i = 1; i <= 5; i++) {
+        document.querySelectorAll('input[name="invq' + i + '"]').forEach(
+            input => input.checked = false
+        );
+        document.getElementById("invq" + i + "feedback").textContent = "";
+    }
+
+    document.getElementById("improvedInverseScore").textContent = "";
+}
+</script>
+
+
 
 <h3>10. Intersections of graphs</h3>
 <div class="definition">At an intersection, two functions have the same x- and y-values. Set their equations equal to find the x-coordinate, then substitute to find y.</div>
