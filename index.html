@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +9,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" href="icon-192.png">
+
     <meta name="theme-color" content="#4f46e5">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,7 +19,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
@@ -35,8 +37,15 @@
             text-align: center;
         }
 
-        header h1 { margin: 0; font-size: 28px; }
-        header p { margin: 8px 0 0; font-size: 15px; }
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            font-size: 15px;
+        }
 
         .container {
             width: 92%;
@@ -44,7 +53,8 @@
             margin: 25px auto;
         }
 
-        .welcome, .creator {
+        .welcome,
+        .creator {
             background: white;
             padding: 20px;
             border-radius: 15px;
@@ -52,12 +62,16 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
-        .welcome h2, .creator h3 {
+        .welcome h2,
+        .creator h3 {
             margin-top: 0;
             color: #4f46e5;
         }
 
-        .welcome p, .creator p { color: #555; }
+        .welcome p,
+        .creator p {
+            color: #555;
+        }
 
         .goal {
             background: #eef2ff;
@@ -86,9 +100,20 @@
             cursor: pointer;
         }
 
-        .card:hover { transform: translateY(-3px); }
-        .card .icon { font-size: 35px; margin-bottom: 10px; }
-        .card h3 { margin: 5px 0; color: #4f46e5; }
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card .icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            margin: 5px 0;
+            color: #4f46e5;
+        }
+
         .card p {
             margin: 5px 0 0;
             color: #666;
@@ -101,9 +126,15 @@
             text-align: center;
         }
 
-        .creator p { margin: 8px 0; }
+        .creator p {
+            margin: 8px 0;
+        }
 
-        .account-area { text-align: center; margin-top: 15px; }
+        .account-area {
+            text-align: center;
+            margin-top: 15px;
+        }
+
         .account-email {
             font-size: 13px;
             opacity: 0.9;
@@ -121,7 +152,9 @@
             cursor: pointer;
         }
 
-        .logout-button:hover { background: #eef2ff; }
+        .logout-button:hover {
+            background: #eef2ff;
+        }
 
         footer {
             text-align: center;
@@ -131,6 +164,7 @@
         }
 
         /* WELCOME BACK POPUP */
+
         .welcome-popup {
             display: none;
             position: fixed;
@@ -152,18 +186,25 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .welcome-icon { font-size: 45px; margin-bottom: 10px; }
+        .welcome-icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
 
         .welcome-card h2 {
             margin: 0 0 15px;
             color: #1d4ed8;
         }
 
-        .welcome-message, .welcome-goal, .welcome-motivation {
+        .welcome-message,
+        .welcome-goal,
+        .welcome-motivation {
             line-height: 1.5;
         }
 
-        .welcome-message { color: #555; }
+        .welcome-message {
+            color: #555;
+        }
 
         .welcome-goal {
             background: #eff6ff;
@@ -201,6 +242,7 @@
         }
 
         /* PROFILE SETUP */
+
         #profileSetupOverlay {
             position: fixed;
             inset: 0;
@@ -245,7 +287,9 @@
             margin-bottom: 7px;
         }
 
-        input[type="text"], select, textarea {
+        input[type="text"],
+        select,
+        textarea {
             width: 100%;
             padding: 13px;
             border: 1px solid #ccc;
@@ -255,7 +299,10 @@
             background: white;
         }
 
-        textarea { min-height: 100px; resize: vertical; }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
 
         .grade-display {
             width: 100%;
@@ -284,8 +331,13 @@
             cursor: pointer;
         }
 
-        .subject-option:hover { background: #eef2ff; }
-        .subject-option input { margin-right: 8px; }
+        .subject-option:hover {
+            background: #eef2ff;
+        }
+
+        .subject-option input {
+            margin-right: 8px;
+        }
 
         .terms-box {
             background: #f8fafc;
@@ -338,9 +390,17 @@
         }
 
         @media (max-width: 500px) {
-            .subjects { grid-template-columns: 1fr; }
-            header h1 { font-size: 24px; }
-            .setup-box { padding: 20px; }
+            .subjects {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            .setup-box {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -355,7 +415,10 @@
         <div class="account-email" id="accountEmail">
             Checking account...
         </div>
-        <button class="logout-button" id="logoutButton">Logout</button>
+
+        <button class="logout-button" id="logoutButton">
+            Logout
+        </button>
     </div>
 </header>
 
@@ -363,13 +426,15 @@
 
     <section class="welcome">
         <h2 id="welcomeMessage">Welcome to Grade 12 Hub! 👋</h2>
+
         <p>Learn, revise, practise and prepare for your future.</p>
+
         <div class="goal" id="homeGoal">
             🎯 Set your study goal when you first enter the app.
         </div>
     </section>
 
-    <!-- APP FEATURES: existing cards preserved -->
+    <!-- APP FEATURES -->
 
     <section class="cards">
 
@@ -385,6 +450,14 @@
             <p>Revise important topics, definitions and formulas.</p>
         </a>
 
+        <!-- NEW QUIZ CENTRE CARD -->
+
+        <a href="quiz.html" class="card">
+            <div class="icon">📝</div>
+            <h3>Quiz Centre</h3>
+            <p>Take personalised quizzes for your selected subjects and track your progress.</p>
+        </a>
+
         <a class="card" href="ai-helper.html">
             <div class="icon">🤖</div>
             <h3>AI Study Helper</h3>
@@ -397,13 +470,13 @@
             <p>Join subject groups and study with other learners.</p>
         </a>
 
-        <div class="card coming-soon" onclick="showComingSoon('Motivation')">
+        <div class="card coming-soon"
+             onclick="showComingSoon('Motivation')">
             <div class="icon">🔥</div>
             <h3>Motivation</h3>
             <p>Get study motivation and exam tips.</p>
         </div>
 
-        <!-- UPDATED: opens the existing university page -->
         <a class="card" href="varsity.html">
             <div class="icon">🎓</div>
             <h3>Apply to Varsity</h3>
@@ -416,7 +489,8 @@
             <p>View and update your learner profile and goals.</p>
         </a>
 
-        <div class="card coming-soon" onclick="showComingSoon('Career Guidance')">
+        <div class="card coming-soon"
+             onclick="showComingSoon('Career Guidance')">
             <div class="icon">💼</div>
             <h3>Career Guidance</h3>
             <p>Explore careers and possible study choices.</p>
@@ -433,11 +507,15 @@
 
 </main>
 
-<footer>Created by MH Masina &amp; NP Machete</footer>
+<footer>
+    Created by MH Masina &amp; NP Machete
+</footer>
 
 <!-- WELCOME BACK POPUP -->
+
 <div id="welcomePopup" class="welcome-popup">
     <div class="welcome-card">
+
         <div class="welcome-icon">🎯</div>
 
         <h2>
@@ -457,26 +535,34 @@
             💪 Stay focused. 📚 Keep studying. 🌟 You can do it!
         </p>
 
-        <button class="start-studying-btn" onclick="closeWelcomePopup()">
+        <button class="start-studying-btn"
+                onclick="closeWelcomePopup()">
             📚 Start Studying
         </button>
 
-        <button class="close-welcome-btn" onclick="closeWelcomePopup()">
+        <button class="close-welcome-btn"
+                onclick="closeWelcomePopup()">
             Close
         </button>
+
     </div>
 </div>
 
 <!-- PROFILE SETUP -->
+
 <div id="profileSetupOverlay">
     <div class="setup-container">
         <div class="setup-box">
 
             <h2>👋 Welcome to Grade 12 Hub</h2>
-            <p class="intro">Let's set up your profile before you enter the app.</p>
+
+            <p class="intro">
+                Let's set up your profile before you enter the app.
+            </p>
 
             <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" placeholder="Enter your full name">
+            <input type="text" id="fullName"
+                   placeholder="Enter your full name">
 
             <label>Grade</label>
             <div class="grade-display">🎓 Grade 12</div>
@@ -496,12 +582,15 @@
             </select>
 
             <label for="area">Area / Town</label>
-            <input type="text" id="area" placeholder="Enter your area or town">
+            <input type="text" id="area"
+                   placeholder="Enter your area or town">
 
             <label for="school">School</label>
-            <input type="text" id="school" placeholder="Enter your school name">
+            <input type="text" id="school"
+                   placeholder="Enter your school name">
 
             <label>Your Subjects</label>
+
             <div class="subjects">
                 <label class="subject-option"><input type="checkbox" value="English Home Language">English Home Language</label>
                 <label class="subject-option"><input type="checkbox" value="English Additional Language">English Additional Language</label>
@@ -545,28 +634,38 @@
             </div>
 
             <label for="studyGoal">What is your study goal?</label>
-            <textarea id="studyGoal" placeholder="Example: I want to improve my Mathematics mark and pass Grade 12 with good results."></textarea>
+
+            <textarea id="studyGoal"
+                placeholder="Example: I want to improve my Mathematics mark and pass Grade 12 with good results."></textarea>
 
             <label>Terms &amp; Community Rules</label>
+
             <div class="terms-box">
-                <strong>Grade 12 Hub Community Rules</strong><br><br>
+                <strong>Grade 12 Hub Community Rules</strong>
+                <br><br>
                 By using Grade 12 Hub, you agree to use the platform respectfully and responsibly.
-                <br><br>• Treat other learners with respect.
+                <br><br>
+                • Treat other learners with respect.
                 <br>• No bullying, harassment or threats.
                 <br>• No inappropriate or sexual content.
                 <br>• No sharing of personal contact information such as phone numbers.
                 <br>• No spam or harmful content.
                 <br>• Study groups should be used for educational purposes.
                 <br>• Report inappropriate content when necessary.
-                <br><br>Grade 12 Hub may review reported content and take appropriate action when community rules are broken.
+                <br><br>
+                Grade 12 Hub may review reported content and take appropriate action when community rules are broken.
             </div>
 
             <label class="terms-checkbox">
                 <input type="checkbox" id="termsAccepted">
-                <span>I agree to the Grade 12 Hub Terms &amp; Community Rules.</span>
+                <span>
+                    I agree to the Grade 12 Hub Terms &amp; Community Rules.
+                </span>
             </label>
 
-            <button class="save-button" id="saveProfileButton" onclick="saveFirstProfile()">
+            <button class="save-button"
+                    id="saveProfileButton"
+                    onclick="saveFirstProfile()">
                 Save &amp; Enter App
             </button>
 
@@ -580,8 +679,12 @@
 
 <script>
     /* SUPABASE SETTINGS */
-    const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+    const SUPABASE_URL =
+        "https://hdlhhbnawltisszzsbvw.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
     const supabaseClient = window.supabase.createClient(
         SUPABASE_URL,
@@ -589,8 +692,10 @@
     );
 
     /* CHECK LOGIN */
+
     async function checkSupabaseUser() {
-        const { data, error } = await supabaseClient.auth.getUser();
+        const { data, error } =
+            await supabaseClient.auth.getUser();
 
         if (error || !data.user) {
             window.location.href = "login.html";
@@ -604,88 +709,180 @@
     }
 
     /* LOGOUT */
-    document.getElementById("logoutButton").addEventListener("click", async function() {
-        const { error } = await supabaseClient.auth.signOut();
 
-        if (error) {
-            alert(error.message);
-            return;
-        }
+    document.getElementById("logoutButton")
+        .addEventListener("click", async function() {
 
-        localStorage.removeItem("new_login");
-        window.location.href = "login.html";
-    });
+            const { error } =
+                await supabaseClient.auth.signOut();
+
+            if (error) {
+                alert(error.message);
+                return;
+            }
+
+            localStorage.removeItem("new_login");
+            window.location.href = "login.html";
+        });
 
     /* PROFILE CHECK */
+
     async function checkFirstTimeUser(user) {
-        const { data: profile, error } = await supabaseClient
-            .from("learner_profiles")
-            .select("*")
-            .eq("user_id", user.id)
-            .maybeSingle();
+        const { data: profile, error } =
+            await supabaseClient
+                .from("learner_profiles")
+                .select("*")
+                .eq("user_id", user.id)
+                .maybeSingle();
 
         if (error) {
             console.error("Profile check error:", error);
-            alert("We could not check your profile.\n\n" + error.message);
+
+            alert(
+                "We could not check your profile.\n\n" +
+                error.message
+            );
+
             return false;
         }
 
         if (!profile) {
-            document.getElementById("profileSetupOverlay").style.display = "block";
+            document.getElementById(
+                "profileSetupOverlay"
+            ).style.display = "block";
+
             document.body.style.overflow = "hidden";
+
             return false;
         }
 
         saveProfileToLocalStorage(profile);
         loadHomeProfile();
+
         return true;
     }
 
     /* SAVE PROFILE LOCALLY FOR DISPLAY */
+
     function saveProfileToLocalStorage(profile) {
-        localStorage.setItem("grade12_name", profile.full_name || "");
+        localStorage.setItem(
+            "grade12_name",
+            profile.full_name || ""
+        );
+
         localStorage.setItem("grade12_grade", "Grade 12");
-        localStorage.setItem("grade12_province", profile.province || "");
-        localStorage.setItem("grade12_area", profile.area || "");
-        localStorage.setItem("grade12_school", profile.school || "");
-        localStorage.setItem("grade12_subjects", JSON.stringify(profile.subjects || []));
-        localStorage.setItem("grade12_goal", profile.study_goal || "");
-        localStorage.setItem("grade12_terms_accepted", profile.terms_accepted ? "true" : "false");
-        localStorage.setItem("grade12_profile_created", "true");
+
+        localStorage.setItem(
+            "grade12_province",
+            profile.province || ""
+        );
+
+        localStorage.setItem(
+            "grade12_area",
+            profile.area || ""
+        );
+
+        localStorage.setItem(
+            "grade12_school",
+            profile.school || ""
+        );
+
+        localStorage.setItem(
+            "grade12_subjects",
+            JSON.stringify(profile.subjects || [])
+        );
+
+        localStorage.setItem(
+            "grade12_goal",
+            profile.study_goal || ""
+        );
+
+        localStorage.setItem(
+            "grade12_terms_accepted",
+            profile.terms_accepted ? "true" : "false"
+        );
+
+        localStorage.setItem(
+            "grade12_profile_created",
+            "true"
+        );
     }
 
     /* SAVE NEW PROFILE */
+
     async function saveFirstProfile() {
-        const button = document.getElementById("saveProfileButton");
+        const button =
+            document.getElementById("saveProfileButton");
 
-        const name = document.getElementById("fullName").value.trim();
-        const province = document.getElementById("province").value.trim();
-        const area = document.getElementById("area").value.trim();
-        const school = document.getElementById("school").value.trim();
-        const goal = document.getElementById("studyGoal").value.trim();
-        const termsAccepted = document.getElementById("termsAccepted").checked;
+        const name =
+            document.getElementById("fullName").value.trim();
 
-        const subjectCheckboxes = document.querySelectorAll(
-            '.subject-option input[type="checkbox"]'
-        );
+        const province =
+            document.getElementById("province").value.trim();
+
+        const area =
+            document.getElementById("area").value.trim();
+
+        const school =
+            document.getElementById("school").value.trim();
+
+        const goal =
+            document.getElementById("studyGoal").value.trim();
+
+        const termsAccepted =
+            document.getElementById("termsAccepted").checked;
+
+        const subjectCheckboxes =
+            document.querySelectorAll(
+                '.subject-option input[type="checkbox"]'
+            );
 
         const subjects = [];
+
         subjectCheckboxes.forEach(function(checkbox) {
-            if (checkbox.checked) subjects.push(checkbox.value);
+            if (checkbox.checked) {
+                subjects.push(checkbox.value);
+            }
         });
 
-        if (!name) return alert("Please enter your full name.");
-        if (!province) return alert("Please select your province.");
-        if (!area) return alert("Please enter your area or town.");
-        if (!school) return alert("Please enter your school name.");
-        if (subjects.length === 0) return alert("Please select at least one subject.");
-        if (!goal) return alert("Please enter your study goal.");
-        if (!termsAccepted) return alert("Please accept the Grade 12 Hub Terms & Community Rules before continuing.");
+        if (!name) {
+            return alert("Please enter your full name.");
+        }
 
-        const { data: userData, error: userError } = await supabaseClient.auth.getUser();
+        if (!province) {
+            return alert("Please select your province.");
+        }
+
+        if (!area) {
+            return alert("Please enter your area or town.");
+        }
+
+        if (!school) {
+            return alert("Please enter your school name.");
+        }
+
+        if (subjects.length === 0) {
+            return alert("Please select at least one subject.");
+        }
+
+        if (!goal) {
+            return alert("Please enter your study goal.");
+        }
+
+        if (!termsAccepted) {
+            return alert(
+                "Please accept the Grade 12 Hub Terms & Community Rules before continuing."
+            );
+        }
+
+        const { data: userData, error: userError } =
+            await supabaseClient.auth.getUser();
 
         if (userError || !userData.user) {
-            alert("Your login session has expired. Please log in again.");
+            alert(
+                "Your login session has expired. Please log in again."
+            );
+
             window.location.href = "login.html";
             return;
         }
@@ -696,40 +893,56 @@
         try {
             const currentUser = userData.user;
 
-            const { data: savedProfile, error: profileError } = await supabaseClient
-                .from("learner_profiles")
-                .upsert({
-                    user_id: currentUser.id,
-                    full_name: name,
-                    grade: 12,
-                    province: province,
-                    area: area,
-                    school: school,
-                    subjects: subjects,
-                    study_goal: goal,
-                    terms_accepted: true,
-                    terms_accepted_at: new Date().toISOString(),
-                    subjects_locked: true,
-                    updated_at: new Date().toISOString()
-                }, { onConflict: "user_id" })
-                .select()
-                .single();
+            const { data: savedProfile, error: profileError } =
+                await supabaseClient
+                    .from("learner_profiles")
+                    .upsert({
+                        user_id: currentUser.id,
+                        full_name: name,
+                        grade: 12,
+                        province: province,
+                        area: area,
+                        school: school,
+                        subjects: subjects,
+                        study_goal: goal,
+                        terms_accepted: true,
+                        terms_accepted_at:
+                            new Date().toISOString(),
+                        subjects_locked: true,
+                        updated_at: new Date().toISOString()
+                    }, {
+                        onConflict: "user_id"
+                    })
+                    .select()
+                    .single();
 
-            if (profileError) throw profileError;
+            if (profileError) {
+                throw profileError;
+            }
 
             saveProfileToLocalStorage(savedProfile);
 
-            document.getElementById("profileSetupOverlay").style.display = "none";
+            document.getElementById(
+                "profileSetupOverlay"
+            ).style.display = "none";
+
             document.body.style.overflow = "auto";
+
             loadHomeProfile();
 
             if (localStorage.getItem("new_login") === "true") {
                 localStorage.removeItem("new_login");
                 showWelcomePopup();
             }
+
         } catch (error) {
             console.error("Profile save error:", error);
-            alert("Your profile could not be saved.\n\n" + error.message);
+
+            alert(
+                "Your profile could not be saved.\n\n" +
+                error.message
+            );
+
         } finally {
             button.disabled = false;
             button.textContent = "Save & Enter App";
@@ -737,47 +950,73 @@
     }
 
     /* LOAD HOME PROFILE */
+
     function loadHomeProfile() {
-        const name = localStorage.getItem("grade12_name");
-        const goal = localStorage.getItem("grade12_goal");
+        const name =
+            localStorage.getItem("grade12_name");
+
+        const goal =
+            localStorage.getItem("grade12_goal");
 
         if (name) {
-            document.getElementById("welcomeMessage").textContent =
-                "Welcome back, " + name + "! 👋";
+            document.getElementById(
+                "welcomeMessage"
+            ).textContent = "Welcome back, " + name + "! 👋";
         }
 
         if (goal) {
-            document.getElementById("homeGoal").textContent = "🎯 Your goal: " + goal;
+            document.getElementById(
+                "homeGoal"
+            ).textContent = "🎯 Your goal: " + goal;
         }
     }
 
     /* WELCOME BACK POPUP */
+
     function showWelcomePopup() {
-        document.getElementById("welcomeName").textContent =
+        document.getElementById(
+            "welcomeName"
+        ).textContent =
             localStorage.getItem("grade12_name") || "Learner";
 
-        document.getElementById("welcomeGoal").textContent =
-            localStorage.getItem("grade12_goal") || "Keep working towards your goal";
+        document.getElementById(
+            "welcomeGoal"
+        ).textContent =
+            localStorage.getItem("grade12_goal") ||
+            "Keep working towards your goal";
 
-        document.getElementById("welcomePopup").style.display = "flex";
+        document.getElementById(
+            "welcomePopup"
+        ).style.display = "flex";
     }
 
     function closeWelcomePopup() {
-        document.getElementById("welcomePopup").style.display = "none";
+        document.getElementById(
+            "welcomePopup"
+        ).style.display = "none";
     }
 
     /* COMING SOON */
+
     function showComingSoon(feature) {
         alert(feature + " is coming soon! 🚀");
     }
 
     /* START APP */
+
     window.addEventListener("load", async function() {
         const user = await checkSupabaseUser();
-        if (!user) return;
 
-        const profileExists = await checkFirstTimeUser(user);
-        if (!profileExists) return;
+        if (!user) {
+            return;
+        }
+
+        const profileExists =
+            await checkFirstTimeUser(user);
+
+        if (!profileExists) {
+            return;
+        }
 
         if (localStorage.getItem("new_login") === "true") {
             localStorage.removeItem("new_login");
@@ -786,6 +1025,7 @@
     });
 
     /* SERVICE WORKER */
+
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", function() {
             navigator.serviceWorker.register("service-worker.js")
@@ -793,11 +1033,14 @@
                     console.log("Service Worker registered.");
                 })
                 .catch(function(error) {
-                    console.log("Service Worker registration failed:", error);
+                    console.log(
+                        "Service Worker registration failed:",
+                        error
+                    );
                 });
         });
     }
 </script>
 
 </body>
-</html>
+    </html>
