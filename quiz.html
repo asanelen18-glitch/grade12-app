@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4f46e5">
+  <title>Quiz Centre | Grade 12 Hub</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --background: #f4f6f8;
+      --text: #172033;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 20px 16px;
+    }
+
+    .header-inner, main {
+      max-width: 850px;
+      margin: auto;
+    }
+
+    header a { color: white; text-decoration: none; }
+    header h1 { margin: 16px 0 6px; font-size: 26px; }
+    header p { margin: 0; line-height: 1.5; }
+
+    main { padding: 18px 14px 40px; }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 19px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 14px #1720330b;
+    }
+
+    h2 { font-size: 20px; margin: 0 0 12px; }
+    h3 { margin: 0 0 8px; }
+    .muted { color: var(--muted); line-height: 1.5; }
+    .status { margin: 10px 0; }
+
+    .subject-list, .quiz-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .subject-card, .quiz-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .subject-card h3 { color: var(--primary); }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 15px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    button:disabled { opacity: .55; cursor: wait; }
+
+    .secondary {
+      color: var(--primary);
+      background: #eef2ff;
+      margin: 8px 5px 0 0;
+    }
+
+    .question {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .question p { font-weight: 700; line-height: 1.5; }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      margin: 8px 0;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+
+    .option input { margin-top: 3px; }
+    .correct { background: #dcfce7; border-color: #86efac; }
+    .incorrect { background: #fee2e2; border-color: #fca5a5; }
+
+    .explanation {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted);
+      margin: 10px 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      background: #eef2ff;
+      color: #4338ca;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 23px; }
+      .card { padding: 15px; }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <a href="index.html">← Back to Grade 12 Hub</a>
+    <h1>📝 Quiz Centre</h1>
+    <p id="welcome">Personalised quizzes for your school subjects.</p>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Your subjects</h2>
+    <p class="muted">
+      Your quizzes are selected automatically from the subjects saved
+      in your Grade 12 Hub profile.
+    </p>
+    <div id="subjects" class="subject-list"></div>
+    <p id="status" class="status muted" role="status">
+      Checking your account...
+    </p>
+    <button id="refresh" class="secondary hidden" type="button">
+      Refresh quizzes
+    </button>
+  </section>
+
+  <section id="quizSection" class="card hidden">
+    <span id="quizSubject" class="badge"></span>
+    <h2 id="quizTitle"></h2>
+    <p id="quizDescription" class="muted"></p>
+    <p id="questionCount" class="muted"></p>
+
+    <form id="quizForm">
+      <div id="questions"></div>
+      <button id="submitQuiz" type="submit">Submit answers</button>
+    </form>
+
+    <div id="result" class="hidden" aria-live="polite"></div>
+    <button id="backToQuizzes" class="secondary hidden" type="button">
+      Back to my quizzes
+    </button>
+  </section>
+
+  <section class="card">
+    <h2>Available quizzes</h2>
+    <p class="muted">
+      Choose a quiz from one of your selected subjects.
+    </p>
+    <div id="quizList" class="quiz-list"></div>
+  </section>
+
+  <section class="card">
+    <h2>My recent results</h2>
+    <div id="history" class="muted">Loading your results...</div>
+  </section>
+</main>
+
+<script>
+  const SUPABASE_URL =
+    "https://hdlhhbnawltisszzsbvw.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+  const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  const $ = id => document.getElementById(id);
+
+  let currentUser = null;
+  let learner = null;
+  let subjects = [];
+  let quizzes = [];
+  let activeQuiz = null;
+  let activeQuestions = [];
+  let submitted = false;
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[c]);
+  }
+
+  function normaliseSubjects(value) {
+    if (Array.isArray(value)) return value;
+    if (typeof value === "string") {
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  }
+
+  async function initialise() {
+    $("status").textContent = "Checking your login...";
+
+    const { data: auth, error: authError } =
+      await db.auth.getUser();
+
+    if (authError || !auth.user) {
+      window.location.replace("login.html");
+      return;
+    }
+
+    currentUser = auth.user;
+
+    const { data: profile, error: profileError } = await db
+      .from("learner_profiles")
+      .select("user_id, full_name, subjects")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+    if (profileError) {
+      console.error(profileError);
+      $("status").textContent =
+        "Could not load your profile. Check your learner_profiles read policy.";
+      return;
+    }
+
+    if (!profile) {
+      $("status").innerHTML =
+        'Your learner profile is not set up yet. ' +
+        '<a href="profile.html">Set up your profile</a>.';
+      return;
+    }
+
+    learner = profile;
+    subjects = normaliseSubjects(profile.subjects);
+
+    $("welcome").textContent =
+      `Welcome${profile.full_name ? ", " + profile.full_name : ""}! ` +
+      "Here are quizzes for your selected subjects.";
+
+    renderSubjects();
+
+    if (!subjects.length) {
+      $("status").textContent =
+        "You have not selected any subjects. Update your subjects in your profile first.";
+      $("refresh").classList.remove("hidden");
+      return;
+    }
+
+    await loadQuizzes();
+    await loadHistory();
+  }
+
+  function renderSubjects() {
+    $("subjects").innerHTML = subjects.map(subject => `
+      <div class="subject-card">
+        <h3>${escapeHTML(subject)}</h3>
+        <p class="muted">Your selected subject</p>
+      </div>
+    `).join("");
+  }
+
+  async function loadQuizzes() {
+    $("status").textContent = "Loading your subject quizzes...";
+    $("quizList").innerHTML = "";
+    $("refresh").disabled = true;
+
+    // Row-level security also checks each learner's saved subjects.
+    const { data, error } = await db
+      .from("quizzes")
+      .select("id,subject,title,topic,grade,description")
+      .eq("is_active", true)
+      .order("subject")
+      .order("title");
+
+    $("refresh").disabled = false;
+
+    if (error) {
+      console.error(error);
+      $("status").textContent =
+        "Could not load quizzes. Check the quiz tables and Supabase policies.";
+      return;
+    }
+
+    const selected = new Set(subjects.map(s => s.toLowerCase()));
+
+    quizzes = (data || []).filter(q =>
+      selected.has(String(q.subject).toLowerCase())
+    );
+
+    renderQuizList();
+
+    $("status").textContent = quizzes.length
+      ? `${quizzes.length} quiz${quizzes.length === 1 ? "" : "zes"} available for your subjects.`
+      : "No quizzes are available for your selected subjects yet. More quizzes can be added to the database.";
+  }
+
+  function renderQuizList() {
+    if (!quizzes.length) {
+      $("quizList").innerHTML =
+        '<p class="muted">No quizzes available yet for your selected subjects.</p>';
+      return;
+    }
+
+    $("quizList").innerHTML = quizzes.map(q => `
+      <article class="quiz-card">
+        <span class="badge">${escapeHTML(q.subject)}</span>
+        <h3>${escapeHTML(q.title)}</h3>
+        <p class="muted">${escapeHTML(q.topic || "General")} · Grade ${escapeHTML(q.grade)}</p>
+        <p class="muted">${escapeHTML(q.description || "Practise this topic.")}</p>
+        <button type="button" data-quiz-id="${q.id}">
+          Start quiz
+        </button>
+      </article>
+    `).join("");
+
+    $("quizList").querySelectorAll("[data-quiz-id]").forEach(button => {
+      button.addEventListener("click", () =>
+        startQuiz(button.dataset.quizId)
+      );
+    });
+  }
+
+  async function startQuiz(quizId) {
+    activeQuiz = quizzes.find(q => String(q.id) === String(quizId));
+    if (!activeQuiz) return;
+
+    $("quizSection").classList.remove("hidden");
+    $("quizTitle").textContent = activeQuiz.title;
+    $("quizSubject").textContent = activeQuiz.subject;
+    $("quizDescription").textContent =
+      activeQuiz.description || activeQuiz.topic || "";
+    $("questions").innerHTML = "Loading questions...";
+    $("result").classList.add("hidden");
+    $("backToQuizzes").classList.add("hidden");
+    $("submitQuiz").classList.remove("hidden");
+    $("submitQuiz").disabled = false;
+    $("quizForm").classList.remove("hidden");
+    $("quizList").scrollIntoView({ behavior: "smooth", block: "start" });
+
+    const { data, error } = await db
+      .from("quiz_questions")
+      .select("id,question,options,correct_answer,explanation,question_number")
+      .eq("quiz_id", activeQuiz.id)
+      .order("question_number");
+
+    if (error) {
+      console.error(error);
+      $("questions").textContent =
+        "Questions could not be loaded. Please check your database policies.";
+      return;
+    }
+
+    activeQuestions = data || [];
+    submitted = false;
+
+    if (!activeQuestions.length) {
+      $("questions").textContent =
+        "No questions have been added to this quiz yet.";
+      $("submitQuiz").classList.add("hidden");
+      return;
+    }
+
+    $("questionCount").textContent =
+      `${activeQuestions.length} questions`;
+
+    $("questions").innerHTML = activeQuestions.map((q, index) => {
+      const options = Array.isArray(q.options) ? q.options : [];
+
+      return `
+        <div class="question" data-question-id="${q.id}">
+          <p>${index + 1}. ${escapeHTML(q.question)}</p>
+          ${options.map((option, optionIndex) => `
+            <label class="option" data-option-index="${optionIndex}">
+              <input
+                type="radio"
+                name="question-${q.id}"
+                value="${escapeHTML(option)}"
+                required>
+              <span>${escapeHTML(option)}</span>
+            </label>
+          `).join("")}
+          <div class="explanation hidden"></div>
+        </div>
+      `;
+    }).join("");
+
+    $("quizSection").scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  $("quizForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    if (submitted || !activeQuiz || !activeQuestions.length) return;
+
+    // Check every question has an answer before marking.
+    for (const q of activeQuestions) {
+      if (!$(`questions`).querySelector(
+        `input[name="question-${q.id}"]:checked`
+      )) {
+        alert("Please answer every question before submitting.");
+        return;
+      }
+    }
+
+    submitted = true;
+    $("submitQuiz").disabled = true;
+
+    let score = 0;
+
+    activeQuestions.forEach(q => {
+      const questionElement = $("questions").querySelector(
+        `[data-question-id="${q.id}"]`
+      );
+      const chosen = questionElement.querySelector("input:checked");
+      const correct = String(chosen.value) === String(q.correct_answer);
+
+      if (correct) score++;
+
+      questionElement.querySelectorAll(".option").forEach(label => {
+        const input = label.querySelector("input");
+        input.disabled = true;
+
+        if (String(input.value) === String(q.correct_answer)) {
+          label.classList.add("correct");
+        } else if (input.checked && !correct) {
+          label.classList.add("incorrect");
+        }
+      });
+
+      const explanation = questionElement.querySelector(".explanation");
+      explanation.textContent =
+        (correct ? "Correct. " : "Not quite. ") +
+        (q.explanation || "Review this concept and try again.");
+      explanation.classList.remove("hidden");
+    });
+
+    const total = activeQuestions.length;
+    const percentage = Math.round((score / total) * 100);
+
+    $("result").innerHTML = `
+      <div class="subject-card">
+        <h3>Quiz completed!</h3>
+        <p>You scored <strong>${score} out of ${total}</strong> (${percentage}%).</p>
+        <p>${percentage >= 80
+          ? "Excellent work. Keep practising!"
+          : percentage >= 50
+            ? "Good effort. Review the explanations and keep going."
+            : "Keep learning. Review the explanations and try another quiz."}</p>
+      </div>
+    `;
+
+    $("result").classList.remove("hidden");
+    $("backToQuizzes").classList.remove("hidden");
+
+    // Save the result for the currently signed-in learner.
+    const { error } = await db.from("quiz_attempts").insert({
+      user_id: currentUser.id,
+      quiz_id: activeQuiz.id,
+      score,
+      total_questions: total
+    });
+
+    if (error) {
+      console.error(error);
+      $("result").innerHTML +=
+        '<p class="muted">Your score is shown, but it could not be saved. ' +
+        'Check the quiz_attempts insert policy.</p>';
+    } else {
+      $("result").innerHTML +=
+        '<p class="muted">Your result has been saved to your account.</p>';
+      await loadHistory();
+    }
+
+    $("submitQuiz").classList.add("hidden");
+  });
+
+  async function loadHistory() {
+    const { data, error } = await db
+      .from("quiz_attempts")
+      .select("id,quiz_id,score,total_questions,completed_at")
+      .eq("user_id", currentUser.id)
+      .order("completed_at", { ascending: false })
+      .limit(10);
+
+    if (error) {
+      console.error(error);
+      $("history").textContent =
+        "Your results could not be loaded.";
+      return;
+    }
+
+    if (!data || !data.length) {
+      $("history").textContent =
+        "No quiz attempts yet. Complete your first quiz to see your results here.";
+      return;
+    }
+
+    $("history").innerHTML = data.map(attempt => {
+      const quiz = quizzes.find(q => String(q.id) === String(attempt.quiz_id));
+      const date = new Date(attempt.completed_at).toLocaleDateString();
+
+      return `
+        <div class="question">
+          <strong>${escapeHTML(quiz?.title || "Quiz")}</strong>
+          <p>${attempt.score} / ${attempt.total_questions} correct</p>
+          <span class="muted">${escapeHTML(date)}</span>
+        </div>
+      `;
+    }).join("");
+  }
+
+  $("backToQuizzes").addEventListener("click", () => {
+    $("quizSection").classList.add("hidden");
+    $("quizList").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  $("refresh").addEventListener("click", async () => {
+    await initialise();
+  });
+
+  initialise();
+</script>
+</body>
+</html>
