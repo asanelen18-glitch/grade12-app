@@ -13,7 +13,9 @@
 body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#202338}
 header{background:#4f46e5;color:white;padding:20px}
 header a{color:white}
-main{max-width:800px;margin:auto;padding:18px}
+header h1{margin-bottom:8px}
+header p{margin-bottom:0}
+main{max-width:1000px;margin:auto;padding:18px}
 .card{background:white;padding:22px;border-radius:16px;margin-bottom:18px;box-shadow:0 3px 12px #0000000c}
 label{display:block;font-weight:bold;margin:12px 0 6px}
 input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;font-size:16px}
@@ -26,7 +28,7 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .timer{text-align:center;font-size:clamp(48px,15vw,82px);font-weight:bold;color:#4f46e5;margin:20px 0;font-variant-numeric:tabular-nums}
 .status{background:#eef2ff;padding:12px;border-radius:9px;margin:12px 0;line-height:1.5}
 .muted{color:#64748b;font-size:14px;line-height:1.5}
-.item{padding:12px 0;border-bottom:1px solid #eee}
+.item{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
 .music-box{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:16px}
 .music-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .music-heading h3{margin:0;color:#3730a3}
@@ -40,67 +42,131 @@ button:disabled{opacity:.55;cursor:not-allowed}
 footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
 [hidden]{display:none!important}
 
-/* FIVE STUDY PROFILES */
+/* FIVE PHOTOGRAPHIC STUDY PROFILES */
 .profile-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:12px 0 20px}
-.profile{background:#f1f5f9;color:#334155;border:2px solid transparent;padding:12px 3px;line-height:1.8;font-size:13px;margin:0}
-.profile.selected{border-color:#4f46e5;background:#eef2ff}
+.profile{
+ min-height:130px;
+ background-color:#1e293b;
+ color:white;
+ border:3px solid transparent;
+ border-radius:12px;
+ padding:12px 3px;
+ line-height:1.8;
+ font-size:13px;
+ margin:0;
+ background-size:cover;
+ background-position:center;
+ text-shadow:0 2px 5px #000;
+ box-shadow:inset 0 -65px 45px -15px #0009;
+}
+.profile[data-profile="classic"]{
+ background-image:linear-gradient(0deg,#0009,transparent 85%),
+ url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=85");
+}
+.profile[data-profile="sunset"]{
+ background-image:linear-gradient(0deg,#0009,transparent 85%),
+ url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=85");
+}
+.profile[data-profile="ocean"]{
+ background-image:linear-gradient(0deg,#0009,transparent 85%),
+ url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=85");
+}
+.profile[data-profile="forest"]{
+ background-image:linear-gradient(0deg,#0009,transparent 85%),
+ url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=85");
+}
+.profile[data-profile="galaxy"]{
+ background-image:linear-gradient(0deg,#0009,transparent 85%),
+ url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=600&q=85");
+}
+.profile.selected{
+ border-color:#4f46e5;
+ box-shadow:inset 0 -65px 45px -15px #0009,0 0 0 2px #a5b4fc;
+}
 .profile:focus-visible,button:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
 .profile-description{font-size:12px;line-height:1.4;margin-top:8px}
 
-body[data-profile="classic"]{--focus-bg:linear-gradient(145deg,#1e1b4b,#4f46e5,#a5b4fc);--accent:#c7d2fe}
-body[data-profile="sunset"]{--focus-bg:linear-gradient(145deg,#7c2d12,#f43f5e,#fbbf24);--accent:#ffedd5}
-body[data-profile="ocean"]{--focus-bg:linear-gradient(145deg,#082f49,#0284c7,#67e8f9);--accent:#cffafe}
-body[data-profile="forest"]{--focus-bg:linear-gradient(145deg,#052e16,#15803d,#86efac);--accent:#dcfce7}
-body[data-profile="galaxy"]{--focus-bg:linear-gradient(145deg,#1e1b4b,#6d28d9,#c026d3);--accent:#f5d0fe}
+/* PHOTOGRAPHIC FULLSCREEN BACKGROUNDS */
+body[data-profile="classic"]{
+ --focus-bg:linear-gradient(0deg,#111827aa,#11182755),
+ url("https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1920&q=90") center/cover;
+ --accent:#c7d2fe;
+}
+body[data-profile="sunset"]{
+ --focus-bg:linear-gradient(0deg,#43140799,#7c2d1244),
+ url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1920&q=90") center/cover;
+ --accent:#ffedd5;
+}
+body[data-profile="ocean"]{
+ --focus-bg:linear-gradient(0deg,#082f4999,#082f4944),
+ url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1920&q=90") center/cover;
+ --accent:#cffafe;
+}
+body[data-profile="forest"]{
+ --focus-bg:linear-gradient(0deg,#052e1699,#052e1644),
+ url("https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1920&q=90") center/cover;
+ --accent:#dcfce7;
+}
+body[data-profile="galaxy"]{
+ --focus-bg:linear-gradient(0deg,#1e1b4b99,#1e1b4b44),
+ url("https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1920&q=90") center/cover;
+ --accent:#f5d0fe;
+}
 
-/* Full-screen design changes with the selected profile */
+/* FULLSCREEN FOCUS MODE */
 #focusScreen{
  position:fixed;inset:0;z-index:9999;
  background:var(--focus-bg);
+ background-color:#1e1b4b;
  color:white;display:flex;flex-direction:column;
  justify-content:center;align-items:center;
  padding:22px;text-align:center;overflow-y:auto;
- isolation:isolate
+ isolation:isolate;
 }
 #focusScreen:before{
  content:"";position:absolute;z-index:-1;
  width:min(78vw,430px);height:min(78vw,430px);
  border:2px solid var(--accent);opacity:.3;
- border-radius:50%;pointer-events:none
+ border-radius:50%;pointer-events:none;
 }
 #focusScreen:after{
  content:"";position:absolute;z-index:-1;
  width:min(65vw,350px);height:min(65vw,350px);
  border:1px dashed var(--accent);opacity:.25;
- border-radius:50%;pointer-events:none
+ border-radius:50%;pointer-events:none;
 }
 #focusScreen[data-profile="sunset"]:before{
  width:min(85vw,450px);height:min(85vw,450px);
- border:0;border-radius:50% 50% 12% 12%;
- background:linear-gradient(0deg,#fbbf24aa,#fb718555);
- opacity:.45;transform:translateY(190px)
+ border:0;border-radius:50%;
+ background:linear-gradient(0deg,#fbbf2444,#fb718522);
+ opacity:.45;
 }
 #focusScreen[data-profile="ocean"]:before{
- width:130%;height:35%;bottom:-10%;border:0;border-radius:50%;
- background:#67e8f955;opacity:.55;transform:rotate(-8deg)
+ width:130%;height:35%;bottom:-10%;
+ border:0;border-radius:50%;background:#67e8f933;
+ opacity:.55;transform:rotate(-8deg);
 }
 #focusScreen[data-profile="forest"]:before{
- width:170px;height:260px;border-radius:100% 0 100% 0;
- background:#86efac33;transform:rotate(-30deg);border:1px solid #dcfce7
+ width:170px;height:260px;
+ border-radius:100% 0 100% 0;
+ background:#86efac22;transform:rotate(-30deg);
+ border:1px solid #dcfce7;
 }
 #focusScreen[data-profile="galaxy"]:before{
  width:min(90vw,460px);height:min(90vw,460px);
- border:2px solid #f5d0fe;transform:rotate(-30deg) scaleY(.35)
+ border:2px solid #f5d0fe;
+ transform:rotate(-30deg) scaleY(.35);
 }
 #focusScreen[data-profile="galaxy"]:after{
  width:min(75vw,380px);height:min(75vw,380px);
- border:2px dashed #f5d0fe;transform:rotate(35deg) scaleY(.45)
+ border:2px dashed #f5d0fe;
+ transform:rotate(35deg) scaleY(.45);
 }
 #focusScreen button{background:white;color:#312e81;margin:5px}
 #focusScreen .focus-time{
  font-size:clamp(64px,18vw,120px);font-weight:800;
  margin:22px 0;font-variant-numeric:tabular-nums;
- text-shadow:0 3px 18px #0002
+ text-shadow:0 3px 18px #0008;
 }
 #focusScreen .focus-message{font-size:clamp(18px,4vw,25px);max-width:520px;line-height:1.5}
 #focusScreen .focus-progress{width:min(450px,90%)}
@@ -110,11 +176,15 @@ body[data-profile="galaxy"]{--focus-bg:linear-gradient(145deg,#1e1b4b,#6d28d9,#c
 #focusScreen .focus-top{position:absolute;top:14px;right:14px}
 #focusScreen .profile-name{letter-spacing:3px;text-transform:uppercase;font-size:12px;font-weight:bold}
 body.focus-open{overflow:hidden}
-@media(max-width:480px){
+
+@media(max-width:600px){
+ main{padding:12px}
  .profile-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
- .profile{font-size:12px;padding:10px 2px}
+ .profile{font-size:12px;padding:10px 2px;min-height:115px}
  header h1{font-size:25px}
  .card{padding:16px}
+ #focusScreen{padding:16px}
+ #focusScreen .focus-time{margin:14px 0}
 }
 </style>
 </head>
@@ -172,7 +242,7 @@ body.focus-open{overflow:hidden}
   <button class="secondary" id="resetBtn" type="button">↻ Reset</button>
   <button class="secondary" id="notificationBtn" type="button">🔔 Notifications</button>
  </div>
- <p class="muted">Start opens full-screen Focus Mode. Ending a study session early records it as unfinished.</p>
+ <p class="muted">Start opens fullscreen Focus Mode. Ending a study session early records it as unfinished.</p>
 </section>
 
 <section class="card">
@@ -262,40 +332,45 @@ let audioPlaying = false;
 let previewing = false;
 
 const profiles = {
- classic: {
-  icon:"🏔️",name:"Classic",description:"A clean, organised space for steady progress.",
+ classic:{
+  icon:"🏔️",name:"Classic",
+  description:"A clean, organised space for steady progress.",
   messages:[
    "Every small step brings you closer to your goal.",
    "Stay focused. Your effort matters.",
    "One question at a time. You've got this!"
   ]
  },
- sunset: {
-  icon:"🌅",name:"Sunset",description:"Warm, uplifting encouragement for a fresh start.",
+ sunset:{
+  icon:"🌅",name:"Sunset",
+  description:"Warm, uplifting encouragement for a fresh start.",
   messages:[
    "A fresh session is a fresh opportunity.",
    "Your future self will thank you for trying today.",
    "You are capable of learning difficult things."
   ]
  },
- ocean: {
-  icon:"🌊",name:"Ocean",description:"A calm atmosphere to help you take things one step at a time.",
+ ocean:{
+  icon:"🌊",name:"Ocean",
+  description:"A calm atmosphere to help you take things one step at a time.",
   messages:[
    "Breathe slowly and focus on the task in front of you.",
    "Stay calm. Progress takes practice.",
    "You don't need to know everything at once."
   ]
  },
- forest: {
-  icon:"🌲",name:"Forest",description:"A gentle, grounded style for growing your knowledge.",
+ forest:{
+  icon:"🌲",name:"Forest",
+  description:"A gentle, grounded style for growing your knowledge.",
   messages:[
    "Grow your knowledge one step at a time.",
    "Be patient with yourself as you learn.",
    "Small steps can lead to great progress."
   ]
  },
- galaxy: {
-  icon:"🪐",name:"Galaxy",description:"A space-inspired reminder to keep reaching for your goals.",
+ galaxy:{
+  icon:"🪐",name:"Galaxy",
+  description:"A space-inspired reminder to keep reaching for your goals.",
   messages:[
    "Dream big and keep working toward your goals.",
    "Your possibilities are bigger than today's challenge.",
@@ -304,119 +379,124 @@ const profiles = {
  }
 };
 
-function msg(text) {
+function msg(text){
  $("message").textContent = text;
 }
 
-function chooseEncouragement() {
+function chooseEncouragement(){
  const choices = profiles[selectedProfile].messages;
- return choices[Math.floor(Math.random() * choices.length)];
+ return choices[Math.floor(Math.random()*choices.length)];
 }
 
-function selectProfile(name) {
- if (!profiles[name]) return;
+function selectProfile(name){
+ if(!profiles[name]) return;
  selectedProfile = name;
  document.body.dataset.profile = name;
  $("focusScreen").dataset.profile = name;
- $("focusProfileName").textContent = profiles[name].icon + " " + profiles[name].name.toUpperCase() + " MODE";
- $("profileDescription").textContent = profiles[name].name + ": " + profiles[name].description;
+ $("focusProfileName").textContent =
+  profiles[name].icon+" "+profiles[name].name.toUpperCase()+" MODE";
+ $("profileDescription").textContent =
+  profiles[name].name+": "+profiles[name].description;
 
- document.querySelectorAll(".profile").forEach(button => {
-  const selected = button.dataset.profile === name;
-  button.classList.toggle("selected", selected);
-  button.setAttribute("aria-pressed", String(selected));
+ document.querySelectorAll(".profile").forEach(button=>{
+  const selected = button.dataset.profile===name;
+  button.classList.toggle("selected",selected);
+  button.setAttribute("aria-pressed",String(selected));
  });
 
- try { localStorage.setItem("grade12StudyProfile", name); } catch (error) {}
+ try{localStorage.setItem("grade12StudyProfile",name)}catch(error){}
  $("focusEncouragement").textContent = chooseEncouragement();
 }
 
-document.querySelectorAll(".profile").forEach(button => {
- button.addEventListener("click", () => selectProfile(button.dataset.profile));
+document.querySelectorAll(".profile").forEach(button=>{
+ button.addEventListener("click",()=>selectProfile(button.dataset.profile));
 });
 
-try {
+try{
  const savedProfile = localStorage.getItem("grade12StudyProfile");
- if (savedProfile && profiles[savedProfile]) selectedProfile = savedProfile;
-} catch (error) {}
+ if(savedProfile && profiles[savedProfile]) selectedProfile = savedProfile;
+}catch(error){}
 selectProfile(selectedProfile);
 
-function duration() {
+function duration(){
  let value;
- if ($("mode").value === "custom") {
+ if($("mode").value==="custom"){
   value = Number($("customMinutes").value);
-  if (!Number.isInteger(value) || value < 1 || value > 1440)
+  if(!Number.isInteger(value)||value<1||value>1440)
    throw new Error("Custom duration must be from 1 to 1440 minutes.");
- } else if (phase === "break") {
+ }else if(phase==="break"){
   value = Number($("breakMinutes").value);
-  if (!Number.isInteger(value) || value < 1 || value > 60)
+  if(!Number.isInteger(value)||value<1||value>60)
    throw new Error("Break duration must be from 1 to 60 minutes.");
- } else {
+ }else{
   value = Number($("studyMinutes").value);
-  if (!Number.isInteger(value) || value < 1 || value > 180)
+  if(!Number.isInteger(value)||value<1||value>180)
    throw new Error("Study duration must be from 1 to 180 minutes.");
  }
- return value * 60;
+ return value*60;
 }
 
-function formatTime(seconds) {
- seconds = Math.max(0, Math.ceil(seconds));
- return String(Math.floor(seconds / 60)).padStart(2, "0") + ":" +
-  String(seconds % 60).padStart(2, "0");
+function formatTime(seconds){
+ seconds = Math.max(0,Math.ceil(seconds));
+ return String(Math.floor(seconds/60)).padStart(2,"0")+":"+
+  String(seconds%60).padStart(2,"0");
 }
 
-function updateDisplay() {
+function updateDisplay(){
  $("display").textContent = formatTime(remaining);
  $("focusDisplay").textContent = formatTime(remaining);
- const elapsed = totalSeconds > 0 ? (totalSeconds - remaining) / totalSeconds * 100 : 0;
- const width = Math.max(0, Math.min(100, elapsed)) + "%";
+ const elapsed = totalSeconds>0?(totalSeconds-remaining)/totalSeconds*100:0;
+ const width = Math.max(0,Math.min(100,elapsed))+"%";
  $("progressBar").style.width = width;
  $("focusProgress").style.width = width;
- document.title = formatTime(remaining) + " | Study Timer";
+ document.title = formatTime(remaining)+" | Study Timer";
 }
 
-function openFocus() {
+function openFocus(){
  $("focusScreen").hidden = false;
  document.body.classList.add("focus-open");
- $("focusSubject").textContent = phase === "break" ? "Break time" : sessionSubject;
- $("focusGreeting").textContent = phase === "study" ? "You've got this!" : "Take a well-earned break!";
- $("focusEncouragement").textContent = phase === "study" ? chooseEncouragement() : "Rest, breathe, and recharge.";
- $("focusStatus").textContent = phase === "study" ? "One task at a time. You can do this!" : "Enjoy your break.";
+ $("focusSubject").textContent = phase==="break"?"Break time":sessionSubject;
+ $("focusGreeting").textContent =
+  phase==="study"?"You've got this!":"Take a well-earned break!";
+ $("focusEncouragement").textContent =
+  phase==="study"?chooseEncouragement():"Rest, breathe, and recharge.";
+ $("focusStatus").textContent =
+  phase==="study"?"One task at a time. You can do this!":"Enjoy your break.";
  syncFocusButtons();
  updateDisplay();
 }
 
-function closeFocus() {
+function closeFocus(){
  $("focusScreen").hidden = true;
  document.body.classList.remove("focus-open");
 }
 
-function syncFocusButtons() {
+function syncFocusButtons(){
  $("focusPauseBtn").hidden = !running;
  $("focusResumeBtn").hidden = running;
  $("focusPauseBtn").disabled = !running;
- $("focusResumeBtn").disabled = running || savingSession;
- $("startBtn").disabled = running || savingSession;
+ $("focusResumeBtn").disabled = running||savingSession;
+ $("startBtn").disabled = running||savingSession;
  $("pauseBtn").disabled = !running;
  $("endSessionBtn").disabled = savingSession;
 }
 
-$("exitFocusBtn").addEventListener("click", closeFocus);
+$("exitFocusBtn").addEventListener("click",closeFocus);
 
-function updateMode() {
- if (running || savingSession || sessionStartedAt) return;
+function updateMode(){
+ if(running||savingSession||sessionStartedAt) return;
  stopAudio();
  phase = "study";
  focusedSeconds = 0;
  focusStartedAt = null;
- $("pomodoroFields").hidden = $("mode").value !== "pomodoro";
- $("customFields").hidden = $("mode").value !== "custom";
+ $("pomodoroFields").hidden = $("mode").value!=="pomodoro";
+ $("customFields").hidden = $("mode").value!=="custom";
 
- try {
+ try{
   remaining = duration();
   totalSeconds = remaining;
   $("timerStatus").textContent = "Ready to focus!";
- } catch (error) {
+ }catch(error){
   remaining = 1500;
   totalSeconds = remaining;
   $("timerStatus").textContent = error.message;
@@ -424,85 +504,86 @@ function updateMode() {
  updateDisplay();
 }
 
-$("mode").addEventListener("change", updateMode);
-$("studyMinutes").addEventListener("change", updateMode);
-$("breakMinutes").addEventListener("change", updateMode);
-$("customMinutes").addEventListener("change", updateMode);
+$("mode").addEventListener("change",updateMode);
+$("studyMinutes").addEventListener("change",updateMode);
+$("breakMinutes").addEventListener("change",updateMode);
+$("customMinutes").addEventListener("change",updateMode);
 
-/* AUTHENTICATION AND HISTORY */
-async function initialise() {
- try {
+/* LOGIN AND STUDY HISTORY */
+async function initialise(){
+ try{
   const {data,error} = await db.auth.getSession();
-  if (error) throw error;
+  if(error) throw error;
 
-  if (!data.session) {
+  if(!data.session){
    $("summary").textContent = "Please log in to view your saved sessions.";
    msg("Please log in to Grade 12 Hub to save study progress.");
    return;
   }
   user = data.session.user;
   await loadSessions();
- } catch (error) {
+ }catch(error){
   console.error(error);
-  msg("Could not check your login: " + error.message);
+  msg("Could not check your login: "+error.message);
  }
 }
 
-/* TIMER */
-async function startTimer() {
- if (running || savingSession) return;
- if (!user) {
+/* TIMER CONTROLS */
+async function startTimer(){
+ if(running||savingSession) return;
+ if(!user){
   msg("Please log in to Grade 12 Hub first.");
   return;
  }
 
- try {
-  if (remaining <= 0) {
+ try{
+  if(remaining<=0){
    remaining = duration();
    totalSeconds = remaining;
   }
- } catch (error) {
+ }catch(error){
   msg(error.message);
   $("timerStatus").textContent = error.message;
   return;
  }
 
- if (phase === "study" && !sessionStartedAt) {
+ if(phase==="study"&&!sessionStartedAt){
   sessionStartedAt = new Date().toISOString();
-  sessionDuration = Math.ceil(remaining / 60);
-  sessionSubject = $("subject").value.trim() || "General study";
+  sessionDuration = Math.ceil(remaining/60);
+  sessionSubject = $("subject").value.trim()||"General study";
   focusedSeconds = 0;
  }
 
  running = true;
- deadline = Date.now() + remaining * 1000;
+ deadline = Date.now()+remaining*1000;
  focusStartedAt = Date.now();
 
- $("timerStatus").textContent = phase === "study" ? "Focus time! You can do this!" : "Break time. Relax!";
+ $("timerStatus").textContent =
+  phase==="study"?"Focus time! You can do this!":"Break time. Relax!";
  $("focusStatus").textContent = $("timerStatus").textContent;
  openFocus();
  syncFocusButtons();
 
  clearInterval(interval);
- interval = setInterval(tick, 250);
+ interval = setInterval(tick,250);
  tick();
 
- if ($("musicToggle").checked) {
-  try { await startAudio(); }
-  catch (error) {
+ if($("musicToggle").checked){
+  try{await startAudio()}
+  catch(error){
    console.error(error);
    $("musicMessage").textContent = "Audio could not start. Try Preview sound.";
   }
  }
 }
 
-function pauseTimer() {
- if (!running) return;
+function pauseTimer(){
+ if(!running) return;
 
- if (deadline) {
-  remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
-  if (phase === "study" && focusStartedAt) {
-   focusedSeconds += Math.max(0, Math.floor((Date.now() - focusStartedAt) / 1000));
+ if(deadline){
+  remaining = Math.max(0,Math.ceil((deadline-Date.now())/1000));
+  if(phase==="study"&&focusStartedAt){
+   focusedSeconds += Math.max(0,Math.floor((Date.now()-focusStartedAt)/1000));
   }
  }
 
@@ -516,14 +597,13 @@ function pauseTimer() {
  updateDisplay();
  $("focusStatus").textContent = "Timer paused. Resume when you're ready.";
  $("timerStatus").textContent = "Timer paused.";
- if ($("musicToggle").checked) $("musicMessage").textContent = "Music paused with your timer.";
+ if($("musicToggle").checked) $("musicMessage").textContent = "Music paused with your timer.";
 }
 
-function resetTimer() {
- if (running || sessionStartedAt) {
-  if (!confirm("Reset this timer? The current session will not be saved.")) return;
+function resetTimer(){
+ if(running||sessionStartedAt){
+  if(!confirm("Reset this timer? The current session will not be saved.")) return;
  }
-
  pauseTimer();
  phase = "study";
  sessionStartedAt = null;
@@ -531,11 +611,11 @@ function resetTimer() {
  focusStartedAt = null;
  savingSession = false;
 
- try {
+ try{
   remaining = duration();
   totalSeconds = remaining;
   $("timerStatus").textContent = "Timer reset. Ready when you are!";
- } catch (error) {
+ }catch(error){
   remaining = 1500;
   totalSeconds = remaining;
   $("timerStatus").textContent = error.message;
@@ -545,16 +625,15 @@ function resetTimer() {
  updateDisplay();
 }
 
-function tick() {
- if (!running || !deadline) return;
- remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+function tick(){
+ if(!running||!deadline) return;
+ remaining = Math.max(0,Math.ceil((deadline-Date.now())/1000));
  updateDisplay();
 
- if (remaining <= 0) {
-  if (phase === "study" && focusStartedAt) {
-   focusedSeconds += Math.max(0, Math.floor((Date.now() - focusStartedAt) / 1000));
+ if(remaining<=0){
+  if(phase==="study"&&focusStartedAt){
+   focusedSeconds += Math.max(0,Math.floor((Date.now()-focusStartedAt)/1000));
   }
-
   running = false;
   deadline = null;
   focusStartedAt = null;
@@ -566,11 +645,11 @@ function tick() {
  }
 }
 
-async function timerFinished() {
- if (phase === "study") {
+async function timerFinished(){
+ if(phase==="study"){
   const startedAt = sessionStartedAt;
   const plannedMinutes = sessionDuration;
-  const elapsedMinutes = Math.max(0, Math.round(focusedSeconds / 60));
+  const elapsedMinutes = Math.max(0,Math.round(focusedSeconds/60));
   const endedAt = new Date().toISOString();
   sessionStartedAt = null;
 
@@ -579,15 +658,18 @@ async function timerFinished() {
   });
 
   $("focusGreeting").textContent = "You did it! 🎉";
-  $("focusEncouragement").textContent = "You followed through on your goal. Be proud of your effort!";
-  $("focusStatus").textContent = saved ? "Your completed study session has been saved." : "Timer complete, but saving failed. Check your connection.";
+  $("focusEncouragement").textContent =
+   "You followed through on your goal. Be proud of your effort!";
+  $("focusStatus").textContent = saved
+   ?"Your completed study session has been saved."
+   :"Timer complete, but saving failed. Check your connection.";
   $("endSessionBtn").hidden = true;
   $("focusPauseBtn").hidden = true;
   $("focusResumeBtn").hidden = true;
 
-  if ($("mode").value === "pomodoro") {
+  if($("mode").value==="pomodoro"){
    phase = "break";
-   try { remaining = duration(); } catch (error) { remaining = 300; }
+   try{remaining = duration()}catch(error){remaining = 300}
    totalSeconds = remaining;
    $("timerStatus").textContent = "🎉 Study session complete! Start your break when ready.";
    $("focusSubject").textContent = "Break time";
@@ -595,21 +677,21 @@ async function timerFinished() {
    $("focusStatus").textContent = "Your study session is complete. Take a well-earned break.";
    $("focusResumeBtn").hidden = false;
    $("focusResumeBtn").textContent = "▶ Start break";
-   notify("Study session complete!", "Time for your break.");
-  } else {
+   notify("Study session complete!","Time for your break.");
+  }else{
    remaining = 0;
    totalSeconds = 0;
    $("timerStatus").textContent = "🎉 Timer complete! Well done!";
-   notify("Timer complete!", "Well done on finishing your session.");
+   notify("Timer complete!","Well done on finishing your session.");
    closeFocus();
   }
 
-  if (!saved) msg("The timer finished, but your session could not be saved. Please check your Supabase table and policies.");
- } else {
+  if(!saved) msg("The timer finished, but your session could not be saved. Check your Supabase table and policies.");
+ }else{
   phase = "study";
   sessionStartedAt = null;
   focusedSeconds = 0;
-  try { remaining = duration(); } catch (error) { remaining = 1500; }
+  try{remaining = duration()}catch(error){remaining = 1500}
   totalSeconds = remaining;
   $("timerStatus").textContent = "Break finished. Ready for another study session?";
   $("focusGreeting").textContent = "Welcome back!";
@@ -617,15 +699,16 @@ async function timerFinished() {
   $("focusStatus").textContent = "Start when you're ready.";
   $("focusResumeBtn").textContent = "▶ Start study";
   $("endSessionBtn").hidden = false;
-  notify("Break finished!", "Ready for another study session?");
+  notify("Break finished!","Ready for another study session?");
  }
 
  syncFocusButtons();
  updateDisplay();
 }
 
-async function saveSession({status,plannedMinutes,elapsedMinutes,startedAt,endedAt}) {
- if (!user) {
+/* SAVE SESSIONS TO SUPABASE */
+async function saveSession({status,plannedMinutes,elapsedMinutes,startedAt,endedAt}){
+ if(!user){
   msg("Please log in to save your study progress.");
   return false;
  }
@@ -633,46 +716,48 @@ async function saveSession({status,plannedMinutes,elapsedMinutes,startedAt,ended
  savingSession = true;
  syncFocusButtons();
 
- try {
+ try{
   const record = {
    user_id:user.id,
    subject:sessionSubject,
    mode:$("mode").value,
    duration_minutes:plannedMinutes,
    elapsed_minutes:elapsedMinutes,
-   started_at:startedAt || new Date().toISOString(),
-   completed_at:status === "completed" ? endedAt : null,
+   started_at:startedAt||new Date().toISOString(),
+   completed_at:status==="completed"?endedAt:null,
    ended_at:endedAt,
    status:status
   };
 
   const {error} = await db.from("study_sessions").insert(record);
-  if (error) throw error;
+  if(error) throw error;
 
-  msg(status === "completed" ? "Your completed study session was saved!" : "Your unfinished session was saved.");
+  msg(status==="completed"
+   ?"Your completed study session was saved!"
+   :"Your unfinished session was saved.");
   await loadSessions();
   return true;
- } catch (error) {
+ }catch(error){
   console.error(error);
-  msg("Session saving failed: " + error.message);
+  msg("Session saving failed: "+error.message);
   return false;
- } finally {
+ }finally{
   savingSession = false;
   syncFocusButtons();
  }
 }
 
 /* END A STUDY SESSION EARLY */
-async function endStudySessionEarly() {
- if (savingSession) return;
+async function endStudySessionEarly(){
+ if(savingSession) return;
 
- if (phase === "break") {
-  if (!confirm("End your break and return to the study timer?")) return;
-  if (running) pauseTimer();
+ if(phase==="break"){
+  if(!confirm("End your break and return to the study timer?")) return;
+  if(running) pauseTimer();
   phase = "study";
   sessionStartedAt = null;
   focusedSeconds = 0;
-  try { remaining = duration(); } catch (error) { remaining = 1500; }
+  try{remaining = duration()}catch(error){remaining = 1500}
   totalSeconds = remaining;
   $("timerStatus").textContent = "Break ended. Ready for your next study session.";
   $("focusGreeting").textContent = "Welcome back!";
@@ -685,17 +770,20 @@ async function endStudySessionEarly() {
   return;
  }
 
- if (!sessionStartedAt) {
+ if(!sessionStartedAt){
   $("focusStatus").textContent = "There is no active study session to end.";
   return;
  }
 
- if (!confirm("End this study session early? It will be saved as UNFINISHED.")) return;
+ if(!confirm("End this study session early? It will be saved as UNFINISHED.")) return;
 
- if (running && deadline) {
-  remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
-  if (focusStartedAt) focusedSeconds += Math.max(0, Math.floor((Date.now() - focusStartedAt) / 1000));
+ if(running&&deadline){
+  remaining = Math.max(0,Math.ceil((deadline-Date.now())/1000));
+  if(focusStartedAt){
+   focusedSeconds += Math.max(0,Math.floor((Date.now()-focusStartedAt)/1000));
+  }
  }
+
  running = false;
  deadline = null;
  focusStartedAt = null;
@@ -705,7 +793,7 @@ async function endStudySessionEarly() {
 
  const startedAt = sessionStartedAt;
  const plannedMinutes = sessionDuration;
- const elapsedMinutes = Math.floor(focusedSeconds / 60);
+ const elapsedMinutes = Math.floor(focusedSeconds/60);
  const endedAt = new Date().toISOString();
 
  syncFocusButtons();
@@ -714,7 +802,7 @@ async function endStudySessionEarly() {
   status:"unfinished",plannedMinutes,elapsedMinutes,startedAt,endedAt
  });
 
- if (!saved) {
+ if(!saved){
   $("focusStatus").textContent = "We couldn't save this session. Check your connection and Supabase table, then try again.";
   return;
  }
@@ -724,16 +812,17 @@ async function endStudySessionEarly() {
  phase = "study";
  $("timerStatus").textContent = "Session ended early and saved as unfinished.";
  $("focusGreeting").textContent = "💛 Your effort still counts.";
- $("focusEncouragement").textContent = "It's okay to stop and regroup. You still made an effort today. Take a breath, and try again when you're ready.";
+ $("focusEncouragement").textContent =
+  "It's okay to stop and regroup. You still made an effort today. Take a breath, and try again when you're ready.";
  $("focusStatus").textContent = "This session was saved as UNFINISHED.";
  $("endSessionBtn").hidden = true;
  $("focusPauseBtn").hidden = true;
  $("focusResumeBtn").hidden = false;
  $("focusResumeBtn").textContent = "▶ Start again";
  msg("💛 Your unfinished session was saved. Every attempt is a chance to learn.");
- notify("Your effort still counts!", "Your session was saved as unfinished.");
+ notify("Your effort still counts!","Your session was saved as unfinished.");
 
- try { remaining = duration(); } catch (error) { remaining = 1500; }
+ try{remaining = duration()}catch(error){remaining = 1500}
  totalSeconds = remaining;
  updateDisplay();
  closeFocus();
@@ -741,105 +830,106 @@ async function endStudySessionEarly() {
 }
 
 /* STUDY HISTORY */
-async function loadSessions() {
- if (!user) return;
+async function loadSessions(){
+ if(!user) return;
  $("summary").textContent = "Loading study progress...";
 
- try {
+ try{
   const {data,error} = await db.from("study_sessions")
    .select("id,subject,mode,duration_minutes,elapsed_minutes,started_at,status,ended_at")
    .eq("user_id",user.id)
    .order("started_at",{ascending:false})
    .limit(50);
 
-  if (error) throw error;
-  const sessions = data || [];
-  const completed = sessions.filter(s => (s.status || "completed") === "completed");
-  const unfinished = sessions.filter(s => s.status === "unfinished");
+  if(error) throw error;
+  const sessions = data||[];
+  const completed = sessions.filter(s=>(s.status||"completed")==="completed");
+  const unfinished = sessions.filter(s=>s.status==="unfinished");
   const totalMinutes = completed.reduce(
-   (sum,s) => sum + Number(s.elapsed_minutes ?? s.duration_minutes ?? 0),0
+   (sum,s)=>sum+Number(s.elapsed_minutes??s.duration_minutes??0),0
   );
 
-  $("summary").textContent = completed.length + " completed sessions · " +
-   totalMinutes + " completed study minutes · " +
-   unfinished.length + " unfinished sessions";
+  $("summary").textContent =
+   completed.length+" completed sessions · "+
+   totalMinutes+" completed study minutes · "+
+   unfinished.length+" unfinished sessions";
 
   $("history").replaceChildren();
 
-  if (!sessions.length) {
+  if(!sessions.length){
    $("history").textContent = "Your study sessions will appear here.";
    return;
   }
 
-  sessions.forEach(session => {
-   const isUnfinished = session.status === "unfinished";
+  sessions.forEach(session=>{
+   const isUnfinished = session.status==="unfinished";
    const item = document.createElement("div");
    item.className = "item";
 
    const title = document.createElement("strong");
-   title.textContent = (session.subject || "General study") + " — " +
+   title.textContent = (session.subject||"General study")+" — "+
     (isUnfinished
-     ? "⏸ UNFINISHED · " + Number(session.elapsed_minutes || 0) +
-       " minutes focused of " + session.duration_minutes + " planned"
-     : Number(session.elapsed_minutes ?? session.duration_minutes ?? 0) +
-       " minutes · ✅ COMPLETED");
+     ?"⏸ UNFINISHED · "+Number(session.elapsed_minutes||0)+
+      " minutes focused of "+session.duration_minutes+" planned"
+     :Number(session.elapsed_minutes??session.duration_minutes??0)+
+      " minutes · ✅ COMPLETED");
 
    const detail = document.createElement("p");
    detail.className = "muted";
-   detail.textContent = (session.mode || "study") + " · " +
+   detail.textContent = (session.mode||"study")+" · "+
     new Date(session.started_at).toLocaleString();
 
    item.append(title,detail);
    $("history").appendChild(item);
   });
- } catch (error) {
+ }catch(error){
   console.error(error);
-  $("summary").textContent = "Could not load study history: " + error.message;
+  $("summary").textContent = "Could not load study history: "+error.message;
  }
 }
 
 /* BROWSER NOTIFICATIONS */
-async function enableNotifications() {
- if (!("Notification" in window)) {
+async function enableNotifications(){
+ if(!("Notification" in window)){
   msg("Notifications are not supported in this browser.");
   return;
  }
 
- try {
+ try{
   const permission = await Notification.requestPermission();
-  msg(permission === "granted"
-   ? "Notifications enabled for this browser."
-   : "Notifications were not enabled. You can still use the timer.");
- } catch (error) {
-  msg("Could not enable notifications: " + error.message);
+  msg(permission==="granted"
+   ?"Notifications enabled for this browser."
+   :"Notifications were not enabled. You can still use the timer.");
+ }catch(error){
+  msg("Could not enable notifications: "+error.message);
  }
 }
 
-function notify(title,body) {
- if ("Notification" in window && Notification.permission === "granted") {
-  try { new Notification(title,{body}); }
-  catch (error) { console.log("Notification unavailable:",error); }
+function notify(title,body){
+ if("Notification" in window&&Notification.permission==="granted"){
+  try{new Notification(title,{body})}
+  catch(error){console.log("Notification unavailable:",error)}
  }
 }
 
 /* GENERATED FOCUS SOUNDS */
-function getAudioContext() {
- if (!audioContext) {
-  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContextClass) throw new Error("This browser does not support Web Audio.");
+function getAudioContext(){
+ if(!audioContext){
+  const AudioContextClass = window.AudioContext||window.webkitAudioContext;
+  if(!AudioContextClass) throw new Error("This browser does not support Web Audio.");
   audioContext = new AudioContextClass();
  }
  return audioContext;
 }
 
-function addNode(node) { audioNodes.push(node); return node; }
-function addSource(source) { audioSources.push(source); return source; }
+function addNode(node){audioNodes.push(node);return node}
+function addSource(source){audioSources.push(source);return source}
 
-function createNoiseSource() {
+function createNoiseSource(){
  const context = getAudioContext();
- const buffer = context.createBuffer(1,context.sampleRate * 3,context.sampleRate);
+ const buffer = context.createBuffer(1,context.sampleRate*3,context.sampleRate);
  const channel = buffer.getChannelData(0);
- for (let i=0;i<channel.length;i++) channel[i] = Math.random()*2-1;
+ for(let i=0;i<channel.length;i++) channel[i] = Math.random()*2-1;
 
  const source = context.createBufferSource();
  source.buffer = buffer;
@@ -848,7 +938,7 @@ function createNoiseSource() {
  return source;
 }
 
-function connectSoftNoise({frequency,type,gain}) {
+function connectSoftNoise({frequency,type,gain}){
  const context = getAudioContext();
  const source = createNoiseSource();
  const filter = addNode(context.createBiquadFilter());
@@ -862,7 +952,7 @@ function connectSoftNoise({frequency,type,gain}) {
  source.start();
 }
 
-function createTone(frequency,gainValue,waveType) {
+function createTone(frequency,gainValue,waveType){
  const context = getAudioContext();
  const oscillator = addSource(context.createOscillator());
  oscillator.type = waveType;
@@ -874,9 +964,9 @@ function createTone(frequency,gainValue,waveType) {
  oscillator.start();
 }
 
-async function startAudio() {
+async function startAudio(){
  const context = getAudioContext();
- if (context.state === "suspended") await context.resume();
+ if(context.state==="suspended") await context.resume();
  stopAudioNodesOnly();
 
  masterGain = addNode(context.createGain());
@@ -884,14 +974,14 @@ async function startAudio() {
  masterGain.connect(context.destination);
 
  const choice = $("soundChoice").value;
- if (choice === "calm") {
+ if(choice==="calm"){
   createTone(220,0.12,"sine");
   createTone(277.18,0.07,"sine");
   createTone(329.63,0.035,"sine");
- } else if (choice === "rain") {
+ }else if(choice==="rain"){
   connectSoftNoise({frequency:900,type:"lowpass",gain:0.48});
   connectSoftNoise({frequency:250,type:"lowpass",gain:0.22});
- } else {
+ }else{
   connectSoftNoise({frequency:1400,type:"bandpass",gain:0.28});
   connectSoftNoise({frequency:500,type:"lowpass",gain:0.18});
   createTone(523.25,0.012,"sine");
@@ -900,19 +990,19 @@ async function startAudio() {
  audioPlaying = true;
  previewing = false;
  $("musicState").textContent = "ON";
- $("musicMessage").textContent = choice === "calm"
-  ? "🎹 Calm ambient tones are playing."
-  : choice === "rain" ? "🌧️ Gentle rain sounds are playing."
-  : "🌿 Soft nature ambience is playing.";
+ $("musicMessage").textContent = choice==="calm"
+  ?"🎹 Calm ambient tones are playing."
+  :choice==="rain"?"🌧️ Gentle rain sounds are playing."
+  :"🌿 Soft nature ambience is playing.";
 }
 
-function stopAudioNodesOnly() {
- audioSources.forEach(source => {
-  try { source.stop(); } catch (error) {}
-  try { source.disconnect(); } catch (error) {}
+function stopAudioNodesOnly(){
+ audioSources.forEach(source=>{
+  try{source.stop()}catch(error){}
+  try{source.disconnect()}catch(error){}
  });
- audioNodes.forEach(node => {
-  try { node.disconnect(); } catch (error) {}
+ audioNodes.forEach(node=>{
+  try{node.disconnect()}catch(error){}
  });
  audioSources = [];
  audioNodes = [];
@@ -920,65 +1010,67 @@ function stopAudioNodesOnly() {
  audioPlaying = false;
 }
 
-function stopAudio() {
+function stopAudio(){
  stopAudioNodesOnly();
  previewing = false;
- $("musicState").textContent = $("musicToggle").checked ? "PAUSED" : "OFF";
- if (!$("musicToggle").checked) $("musicMessage").textContent = "Focus music is off.";
+ $("musicState").textContent = $("musicToggle").checked?"PAUSED":"OFF";
+ if(!$("musicToggle").checked) $("musicMessage").textContent = "Focus music is off.";
 }
 
-$("musicToggle").addEventListener("change",async function() {
+$("musicToggle").addEventListener("change",async function(){
  $("musicControls").hidden = !this.checked;
- if (!this.checked) {
+ if(!this.checked){
   stopAudio();
   $("musicState").textContent = "OFF";
   $("musicMessage").textContent = "Focus music is off.";
- } else if (running) {
-  try { await startAudio(); }
-  catch (error) { $("musicMessage").textContent = "Could not start audio. Try Preview sound."; }
- } else {
+ }else if(running){
+  try{await startAudio()}
+  catch(error){$("musicMessage").textContent = "Could not start audio. Try Preview sound."}
+ }else{
   $("musicState").textContent = "READY";
   $("musicMessage").textContent = "Press Start or Preview sound to hear it.";
  }
 });
 
-$("previewBtn").addEventListener("click",async () => {
- if (!$("musicToggle").checked) {
+$("previewBtn").addEventListener("click",async()=>{
+ if(!$("musicToggle").checked){
   $("musicToggle").checked = true;
   $("musicControls").hidden = false;
  }
- try {
+ try{
   await startAudio();
   previewing = true;
   $("musicMessage").textContent = "Previewing sound. Press Stop preview to stop it.";
- } catch (error) {
-  $("musicMessage").textContent = "Could not play audio: " + error.message;
+ }catch(error){
+  $("musicMessage").textContent = "Could not play audio: "+error.message;
  }
 });
 
-$("stopPreviewBtn").addEventListener("click",() => {
+$("stopPreviewBtn").addEventListener("click",()=>{
  stopAudio();
- if (running && $("musicToggle").checked) {
-  startAudio().catch(error => console.error(error));
- } else {
+ if(running&&$("musicToggle").checked){
+  startAudio().catch(error=>console.error(error));
+ }else{
   $("musicMessage").textContent = $("musicToggle").checked
-   ? "Preview stopped. Sound will resume when you start the timer."
-   : "Focus music is off.";
+   ?"Preview stopped. Sound will resume when you start the timer."
+   :"Focus music is off.";
  }
 });
 
-$("soundChoice").addEventListener("change",() => {
- if (audioPlaying) startAudio().catch(error => console.error(error));
+$("soundChoice").addEventListener("change",()=>{
+ if(audioPlaying) startAudio().catch(error=>console.error(error));
 });
 
-$("volume").addEventListener("input",function() {
- $("volumeValue").textContent = this.value + "%";
- if (masterGain && audioContext) {
-  masterGain.gain.setTargetAtTime(Number(this.value)/100,audioContext.currentTime,0.05);
+$("volume").addEventListener("input",function(){
+ $("volumeValue").textContent = this.value+"%";
+ if(masterGain&&audioContext){
+  masterGain.gain.setTargetAtTime(
+   Number(this.value)/100,audioContext.currentTime,0.05
+  );
  }
 });
 
-/* BUTTONS */
+/* BUTTON EVENTS */
 $("startBtn").addEventListener("click",startTimer);
 $("pauseBtn").addEventListener("click",pauseTimer);
 $("resetBtn").addEventListener("click",resetTimer);
@@ -988,14 +1080,14 @@ $("focusPauseBtn").addEventListener("click",pauseTimer);
 $("focusResumeBtn").addEventListener("click",startTimer);
 $("endSessionBtn").addEventListener("click",endStudySessionEarly);
 
-document.addEventListener("visibilitychange",() => {
- if (!document.hidden && running) tick();
+document.addEventListener("visibilitychange",()=>{
+ if(!document.hidden&&running) tick();
 });
 
-if ("serviceWorker" in navigator) {
- window.addEventListener("load",() => {
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
   navigator.serviceWorker.register("./service-worker.js")
-   .catch(error => console.error("Service worker:",error));
+   .catch(error=>console.error("Service worker:",error));
  });
 }
 
