@@ -1,449 +1,705 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#4f46e5">
+<title>Grade 12 Mathematics | Grade 12 Hub</title>
 
-    <title>Grade 12 Mathematics</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f4f6f8;
-            color: #222;
-        }
-
-        header {
-            background: #4f46e5;
-            color: white;
-            text-align: center;
-            padding: 28px 20px;
-        }
-
-        header h1 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        header p {
-            font-size: 16px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .intro {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-
-        .paper {
-            background: #111827;
-            color: white;
-            padding: 18px;
-            border-radius: 12px;
-            margin: 30px 0 15px;
-            text-align: center;
-        }
-
-        .paper h2 {
-            font-size: 24px;
-        }
-
-        .paper p {
-            margin-top: 6px;
-            font-size: 14px;
-        }
-
-        .topic {
-            background: white;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 15px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-
-        .topic h3 {
-            color: #4f46e5;
-            margin-bottom: 10px;
-            font-size: 21px;
-        }
-
-        .topic p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-
-        .topic ul {
-            margin-left: 20px;
-            color: #444;
-            line-height: 1.8;
-        }
-
-        .formula {
-            background: #f0f0ff;
-            padding: 12px;
-            margin-top: 12px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .back {
-            display: inline-block;
-            margin-top: 20px;
-            color: #4f46e5;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #666;
-            font-size: 14px;
-        }
-    </style>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f4f6f8;color:#202334;line-height:1.65}
+header{background:#4f46e5;color:white;padding:25px 16px;text-align:center}
+header h1{font-size:27px;margin-bottom:6px}
+header p{font-size:14px}
+.container{max-width:950px;margin:auto;padding:16px}
+.card,.lesson,.intro,.progress-card{background:white;border-radius:15px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #0000000c}
+h2{font-size:22px;margin-bottom:10px}
+h3{color:#4f46e5;font-size:19px;margin-bottom:8px}
+h4{margin:13px 0 6px;color:#3730a3}
+p{margin:8px 0}
+ul,ol{padding-left:23px;margin:8px 0}
+li{margin:5px 0}
+.paper-title{background:#111827;color:white;padding:16px;border-radius:12px;margin:24px 0 14px}
+.paper-title h2{margin:0}
+.paper-title p{font-size:13px}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.topic-card{border:1px solid #e5e7eb;border-radius:12px;padding:15px;background:white}
+.topic-card h3{font-size:17px}
+.topic-card p{font-size:14px;color:#606575}
+.topic-card button{margin-top:8px}
+button{background:#4f46e5;color:white;border:0;padding:11px 14px;border-radius:9px;cursor:pointer;font-weight:bold;font-size:14px}
+button:active{transform:scale(.98)}
+button.secondary{background:#e9e7ff;color:#3730a3}
+button:disabled{opacity:.5}
+.lesson{scroll-margin-top:12px}
+.definition{background:#eef2ff;border-left:5px solid #4f46e5;padding:14px;border-radius:8px;margin:12px 0}
+.formula{background:#f1f0ff;padding:14px;border-radius:10px;margin:10px 0;text-align:center;font-size:18px;font-weight:bold;overflow-wrap:anywhere}
+.hint{background:#fff7df;border-left:5px solid #eab308;padding:13px;border-radius:8px;margin:12px 0}
+.example{background:#f0fdf4;border-left:5px solid #16a34a;padding:14px;border-radius:8px;margin:12px 0}
+.arrow-flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:15px 0}
+.flow-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:12px;text-align:center;width:100%;max-width:520px}
+.flow-arrow{color:#4f46e5;font-size:25px;font-weight:bold;line-height:1}
+.diagram{background:#fafaff;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:14px 0;overflow:hidden}
+.diagram svg{display:block;width:100%;height:auto;max-height:310px}
+.caption{font-size:13px;color:#656b78;text-align:center}
+details{border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin:10px 0}
+summary{cursor:pointer;font-weight:bold;color:#3730a3}
+.question{border-top:1px solid #e5e7eb;padding:14px 0}
+.question label{display:block;margin:7px 0;cursor:pointer}
+.feedback{padding:10px;border-radius:8px;margin-top:8px}
+.correct{background:#dcfce7;color:#166534}
+.incorrect{background:#fee2e2;color:#991b1b}
+.progress-track{height:10px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin:10px 0}
+.progress-fill{height:100%;width:0;background:#4f46e5;transition:width .25s}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.back{display:inline-block;color:#4f46e5;text-decoration:none;font-weight:bold;margin:14px 0}
+footer{text-align:center;padding:24px;color:#6b7280;font-size:13px}
+.hidden{display:none!important}
+.small{font-size:13px;color:#626879}
+input[type=radio]{margin-right:6px}
+@media(max-width:480px){
+header h1{font-size:23px}
+.container{padding:11px}
+.card,.lesson,.intro,.progress-card{padding:14px}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>📐 Grade 12 Mathematics</h1>
-    <p>Paper 1 & Paper 2 Notes and Revision</p>
+  <h1>📐 Grade 12 Mathematics</h1>
+  <p>Understand the concepts. Follow the steps. Master the questions.</p>
 </header>
 
-<div class="container">
+<main class="container">
 
-    <div class="intro">
-        <h2>Mathematics Revision</h2>
-        <p>
-            Select a topic below to revise important Grade 12
-            Mathematics concepts, formulas and skills.
-        </p>
+  <section class="intro">
+    <h2>Mathematics Learning Centre</h2>
+    <p>
+      Welcome to your Mathematics revision space. Learn definitions,
+      understand diagrams, study worked examples and practise exam questions.
+    </p>
+    <p class="small">
+      Select a topic to open its learning notes. More detailed lessons can
+      be added to each topic as the learning centre grows.
+    </p>
+  </section>
+
+  <section class="progress-card">
+    <h3>📊 My Learning Progress</h3>
+    <p id="progressText">0 topics completed</p>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <p class="small">
+      Your progress is saved on this device in this browser.
+      It is not yet synchronised with your Grade 12 Hub profile.
+    </p>
+  </section>
+
+  <div class="paper-title">
+    <h2>📘 PAPER 1</h2>
+    <p>Algebra, patterns, functions, finance, calculus and probability</p>
+  </div>
+
+  <div class="topic-grid">
+
+    <article class="topic-card">
+      <h3>1. Algebra</h3>
+      <p>Expressions, factorisation, exponents, surds and quadratic equations.</p>
+      <button onclick="openLesson('algebra')">Study Algebra</button>
+    </article>
+
+    <article class="topic-card">
+      <h3>2. Sequences and Series</h3>
+      <p>Arithmetic and geometric patterns, general terms and sums.</p>
+      <button onclick="openLesson('sequences')">Study Sequences</button>
+    </article>
+
+    <article class="topic-card">
+      <h3>3. Functions and Graphs</h3>
+      <p>Parabolas, hyperbolas, exponential graphs and transformations.</p>
+      <button onclick="openLesson('functions')">Study Functions</button>
+    </article>
+
+    <article class="topic-card">
+      <h3>4. Finance</h3>
+      <p>Interest, depreciation, inflation, growth and decay.</p>
+      <button onclick="openLesson('finance')">Study Finance</button>
+    </article>
+
+    <article class="topic-card">
+      <h3>5. Differential Calculus</h3>
+      <p>Derivatives, gradients, stationary points and optimisation.</p>
+      <button onclick="openLesson('calculus')">Study Calculus</button>
+    </article>
+
+    <article class="topic-card">
+      <h3>6. Probability</h3>
+      <p>Events, probability rules, independence and counting outcomes.</p>
+      <button onclick="openLesson('probability')">Study Probability</button>
+    </article>
+
+  </div>
+
+  <div class="paper-title">
+    <h2>📕 PAPER 2</h2>
+    <p>Statistics, analytical geometry, trigonometry and Euclidean geometry</p>
+  </div>
+
+  <div class="topic-grid">
+
+    <article class="topic-card">
+      <h3>1. Statistics</h3>
+      <p>Measures of central tendency, spread and data interpretation.</p>
+      <button onclick="openLesson('statistics')">Study Statistics</button>
+    </article>
+
+    <article class="topic-card">
+      <h3>2. Analytical Geometry</h3>
+      <p>Coordinates, distance, midpoint, gradient and circle geometry.</p>
+      <button onclick="openLesson('geometry')">Study Analytical Geometry</button>
+    </article>
+
+    <article class="topic-card">
+      <h3>3. Trigonometry</h3>
+      <p>Identities, equations, compound angles and graphs.</p>
+      <button onclick="openLesson('trigonometry')">Study Trigonometry</button>
+    </article>
+
+    <article class="topic-card">
+      <h3>4. Euclidean Geometry</h3>
+      <p>Circle theorems, angle relationships and geometric proofs.</p>
+      <button onclick="openLesson('euclidean')">Study Euclidean Geometry</button>
+    </article>
+
+  </div>
+
+  <!-- ALGEBRA LESSON -->
+
+  <section class="lesson" id="algebra">
+    <h2>📘 Algebra: Quadratic Equations</h2>
+
+    <div class="definition">
+      <strong>Definition: Quadratic equation</strong>
+      <p>
+        A quadratic equation is an equation whose highest power of the
+        unknown variable is 2.
+      </p>
+      <div class="formula">ax² + bx + c = 0, where a ≠ 0</div>
+      <p>
+        <strong>a</strong> is the coefficient of x² →
+        <strong>b</strong> is the coefficient of x →
+        <strong>c</strong> is the constant term.
+      </p>
     </div>
 
+    <h3>1. What are roots?</h3>
 
-    <!-- ========================= -->
-    <!-- PAPER 1 -->
-    <!-- ========================= -->
-
-    <div class="paper">
-        <h2>📘 PAPER 1</h2>
-        <p>Algebra, Functions, Finance, Calculus and Probability</p>
+    <div class="definition">
+      A <strong>root</strong> is a value of x that makes an equation true.
+      For a quadratic equation, roots are also called solutions or zeros.
     </div>
 
-
-    <!-- 1 -->
-    <div class="topic">
-        <h3>1. Algebra</h3>
-
-        <p>
-            Algebra deals with expressions, equations and solving for unknown
-            values.
-        </p>
-
-        <ul>
-            <li>Algebraic expressions</li>
-            <li>Factorisation</li>
-            <li>Exponents</li>
-            <li>Surds</li>
-            <li>Equations and inequalities</li>
-            <li>Quadratic equations</li>
-        </ul>
-
-        <div class="formula">
-            x = (-b ± √(b² - 4ac)) / 2a
-        </div>
+    <div class="arrow-flow">
+      <div class="flow-box">
+        <strong>Quadratic equation</strong>
+        <div>3x² + 2x − 4 = 0</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">
+        <strong>Identify a, b and c</strong>
+        <div>a = 3, b = 2, c = −4</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">
+        <strong>Calculate the discriminant</strong>
+        <div>Δ = b² − 4ac</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">
+        <strong>Determine the nature of the roots</strong>
+        <div>Two distinct irrational real roots</div>
+      </div>
     </div>
 
+    <h3>2. The quadratic formula</h3>
 
-    <!-- 2 -->
-    <div class="topic">
-        <h3>2. Patterns, Sequences and Series</h3>
+    <p>
+      Use the quadratic formula to solve a quadratic equation when it is
+      difficult to factorise, or to verify answers obtained by factorisation.
+    </p>
 
-        <p>
-            Study number patterns, arithmetic sequences and geometric
-            sequences.
-        </p>
-
-        <ul>
-            <li>Arithmetic sequences</li>
-            <li>Geometric sequences</li>
-            <li>General term</li>
-            <li>Arithmetic series</li>
-            <li>Geometric series</li>
-            <li>Infinite geometric series</li>
-        </ul>
-
-        <div class="formula">
-            Arithmetic: Tₙ = a + (n - 1)d
-        </div>
-
-        <div class="formula">
-            Geometric: Tₙ = arⁿ⁻¹
-        </div>
-
-        <div class="formula">
-            Sum of arithmetic series:
-            Sₙ = n/2[2a + (n - 1)d]
-        </div>
+    <div class="formula">
+      x = (−b ± √(b² − 4ac)) / 2a
     </div>
 
-
-    <!-- 3 -->
-    <div class="topic">
-        <h3>3. Functions and Graphs</h3>
-
-        <p>
-            Functions describe relationships between variables and can be
-            represented using graphs.
-        </p>
-
-        <ul>
-            <li>Linear functions</li>
-            <li>Quadratic functions</li>
-            <li>Exponential functions</li>
-            <li>Hyperbolic functions</li>
-            <li>Inverse functions</li>
-            <li>Graph transformations</li>
-            <li>Domain and range</li>
-        </ul>
+    <div class="diagram">
+      <svg viewBox="0 0 320 100" role="img"
+           aria-label="Quadratic formula with a, b and c identified">
+        <rect x="3" y="8" width="314" height="84" rx="10"
+              fill="#eef2ff" stroke="#a5b4fc"/>
+        <text x="160" y="32" text-anchor="middle"
+              font-size="12" fill="#3730a3">Identify a, b and c first</text>
+        <text x="160" y="59" text-anchor="middle"
+              font-size="19" font-weight="bold" fill="#312e81">
+          ax² + bx + c = 0
+        </text>
+        <text x="160" y="79" text-anchor="middle"
+              font-size="11" fill="#3730a3">Then substitute into the formula</text>
+      </svg>
+      <p class="caption">Always write down a, b and c before substituting.</p>
     </div>
 
+    <h3>3. What is the discriminant?</h3>
 
-    <!-- 4 -->
-    <div class="topic">
-        <h3>4. Finance, Growth and Decay</h3>
-
-        <p>
-            This topic involves financial mathematics and situations where
-            quantities increase or decrease over time.
-        </p>
-
-        <ul>
-            <li>Simple interest</li>
-            <li>Compound interest</li>
-            <li>Depreciation</li>
-            <li>Inflation</li>
-            <li>Present value</li>
-            <li>Future value</li>
-            <li>Growth and decay</li>
-        </ul>
-
-        <div class="formula">
-            A = P(1 + i)ⁿ
-        </div>
+    <div class="definition">
+      The <strong>discriminant</strong> is the expression under the square
+      root in the quadratic formula. It helps us determine the nature
+      of the roots before solving the equation.
+      <div class="formula">Δ = b² − 4ac</div>
     </div>
 
+    <h4>Follow the arrows to classify the roots</h4>
 
-    <!-- 5 -->
-    <div class="topic">
-        <h3>5. Differential Calculus</h3>
-
-        <p>
-            Calculus studies rates of change and gradients of functions.
-        </p>
-
-        <ul>
-            <li>Limits</li>
-            <li>First principles</li>
-            <li>Derivatives</li>
-            <li>Gradient functions</li>
-            <li>Increasing and decreasing functions</li>
-            <li>Stationary points</li>
-            <li>Maximum and minimum points</li>
-        </ul>
-
-        <div class="formula">
-            If y = xⁿ, then dy/dx = nxⁿ⁻¹
-        </div>
+    <div class="arrow-flow">
+      <div class="flow-box">
+        <strong>Calculate Δ = b² − 4ac</strong>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">
+        <strong>If Δ &lt; 0</strong>
+        <p>No real roots. The roots are non-real complex numbers.</p>
+      </div>
+      <div class="flow-box">
+        <strong>If Δ = 0</strong>
+        <p>Two equal real roots, also called a repeated root.</p>
+      </div>
+      <div class="flow-box">
+        <strong>If Δ &gt; 0</strong>
+        <p>Two distinct real roots. Check whether Δ is a perfect square
+        to determine if the roots are rational or irrational.</p>
+      </div>
     </div>
 
-
-    <!-- 6 -->
-    <div class="topic">
-        <h3>6. Probability</h3>
-
-        <p>
-            Probability measures the likelihood that an event will occur.
-        </p>
-
-        <ul>
-            <li>Sample spaces</li>
-            <li>Events</li>
-            <li>Mutually exclusive events</li>
-            <li>Independent events</li>
-            <li>Dependent events</li>
-            <li>Conditional probability</li>
-            <li>Probability rules</li>
-        </ul>
-
-        <div class="formula">
-            P(A) = Number of favourable outcomes ÷ Total outcomes
-        </div>
+    <div class="diagram">
+      <h4>Diagram: roots and the parabola</h4>
+      <svg viewBox="0 0 320 230" role="img"
+           aria-label="Parabola crossing the x-axis at two roots">
+        <defs>
+          <marker id="axisArrow" markerWidth="7" markerHeight="7"
+                  refX="5" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6" fill="#555"/>
+          </marker>
+        </defs>
+        <line x1="20" y1="130" x2="302" y2="130"
+              stroke="#555" stroke-width="1.5" marker-end="url(#axisArrow)"/>
+        <line x1="160" y1="211" x2="160" y2="14"
+              stroke="#555" stroke-width="1.5" marker-end="url(#axisArrow)"/>
+        <path d="M45 25 Q160 330 275 25"
+              fill="none" stroke="#4f46e5" stroke-width="3"/>
+        <circle cx="92" cy="130" r="4" fill="#16a34a"/>
+        <circle cx="228" cy="130" r="4" fill="#16a34a"/>
+        <text x="91" y="149" font-size="12" text-anchor="middle" fill="#166534">x₁</text>
+        <text x="228" y="149" font-size="12" text-anchor="middle" fill="#166534">x₂</text>
+        <text x="298" y="121" font-size="12" fill="#555">x</text>
+        <text x="170" y="19" font-size="12" fill="#555">y</text>
+        <text x="160" y="218" text-anchor="middle" font-size="11" fill="#555">Two x-intercepts = two distinct real roots</text>
+      </svg>
+      <p class="caption">
+        Illustration of a parabola with two x-intercepts. The exact positions
+        depend on the equation.
+      </p>
     </div>
 
+    <h3>4. Worked example</h3>
 
-    <!-- ========================= -->
-    <!-- PAPER 2 -->
-    <!-- ========================= -->
+    <div class="example">
+      <strong>Question:</strong> Determine the nature of the roots of
+      3x² + 2x − 4 = 0.
 
-    <div class="paper">
-        <h2>📕 PAPER 2</h2>
-        <p>Statistics, Analytical Geometry, Trigonometry and Geometry</p>
+      <p><strong>Step 1: Identify the coefficients.</strong></p>
+      <div class="formula">a = 3, b = 2, c = −4</div>
+
+      <p><strong>Step 2: Calculate the discriminant.</strong></p>
+      <div class="formula">
+        Δ = b² − 4ac<br>
+        = 2² − 4(3)(−4)<br>
+        = 4 + 48<br>
+        = 52
+      </div>
+
+      <p><strong>Step 3: Interpret the answer.</strong></p>
+      <p>
+        52 is positive, so there are two distinct real roots.
+        Since 52 is not a perfect square, the roots are irrational.
+      </p>
+
+      <p><strong>Step 4: Calculate the roots.</strong></p>
+      <div class="formula">
+        x = (−2 ± √52) / 6<br>
+        x = (−1 ± √13) / 3
+      </div>
     </div>
 
-
-    <!-- 1 -->
-    <div class="topic">
-        <h3>1. Statistics</h3>
-
-        <p>
-            Statistics involves collecting, analysing and interpreting data.
-        </p>
-
-        <ul>
-            <li>Mean</li>
-            <li>Median</li>
-            <li>Mode</li>
-            <li>Quartiles</li>
-            <li>Percentiles</li>
-            <li>Variance</li>
-            <li>Standard deviation</li>
-            <li>Box-and-whisker diagrams</li>
-            <li>Scatter plots</li>
-        </ul>
+    <div class="hint">
+      <strong>💡 Exam hint</strong>
+      <p>
+        A positive discriminant does not automatically mean the roots
+        are irrational. For integer coefficients, check whether the
+        discriminant is a perfect square.
+      </p>
     </div>
 
+    <details>
+      <summary>Understand the number sets</summary>
+      <ul>
+        <li><strong>Natural numbers (ℕ):</strong> 1, 2, 3, 4, …</li>
+        <li><strong>Whole numbers (ℕ₀):</strong> 0, 1, 2, 3, …</li>
+        <li><strong>Integers (ℤ):</strong> …, −2, −1, 0, 1, 2, …</li>
+        <li><strong>Rational numbers (ℚ):</strong> numbers expressible as p/q, where p and q are integers and q ≠ 0.</li>
+        <li><strong>Irrational numbers:</strong> real numbers that cannot be expressed as a ratio of two integers, such as √2.</li>
+        <li><strong>Real numbers (ℝ):</strong> all rational and irrational numbers.</li>
+        <li><strong>Non-real complex numbers:</strong> numbers that are not real, such as i where i² = −1.</li>
+      </ul>
+      <p class="small">
+        Notation for natural numbers can differ between textbooks. Here,
+        ℕ₀ is used for whole numbers including zero.
+      </p>
+    </details>
 
-    <!-- 2 -->
-    <div class="topic">
-        <h3>2. Analytical Geometry</h3>
+    <h3>5. Test yourself</h3>
 
-        <p>
-            Analytical geometry uses coordinates and equations to solve
-            geometric problems.
-        </p>
+    <div class="card" id="algebraQuiz">
+      <p><strong>Question 1:</strong> What is the discriminant of
+      x² − 6x + 9 = 0?</p>
 
-        <ul>
-            <li>Distance between two points</li>
-            <li>Midpoint</li>
-            <li>Gradient</li>
-            <li>Equation of a straight line</li>
-            <li>Parallel lines</li>
-            <li>Perpendicular lines</li>
-            <li>Inclination</li>
-            <li>Circle geometry</li>
-        </ul>
+      <label><input type="radio" name="q1" value="a"> −36</label>
+      <label><input type="radio" name="q1" value="b"> 0</label>
+      <label><input type="radio" name="q1" value="c"> 36</label>
 
-        <div class="formula">
-            Gradient:
-            m = (y₂ - y₁) / (x₂ - x₁)
-        </div>
+      <p><strong>Question 2:</strong> If Δ &lt; 0, how many real roots are there?</p>
 
-        <div class="formula">
-            Distance:
-            AB = √[(x₂ - x₁)² + (y₂ - y₁)²]
-        </div>
+      <label><input type="radio" name="q2" value="a"> Two distinct real roots</label>
+      <label><input type="radio" name="q2" value="b"> One repeated real root</label>
+      <label><input type="radio" name="q2" value="c"> No real roots</label>
+
+      <p><strong>Question 3:</strong> What are the roots of
+      x² − 6x + 9 = 0?</p>
+
+      <label><input type="radio" name="q3" value="a"> x = 3 and x = 3</label>
+      <label><input type="radio" name="q3" value="b"> x = −3 and x = 3</label>
+      <label><input type="radio" name="q3" value="c"> No real roots</label>
+
+      <div class="actions">
+        <button onclick="checkQuiz()">Check answers</button>
+        <button class="secondary" onclick="resetQuiz()">Try again</button>
+      </div>
+
+      <div id="quizFeedback" aria-live="polite"></div>
     </div>
 
-
-    <!-- 3 -->
-    <div class="topic">
-        <h3>3. Trigonometry</h3>
-
-        <p>
-            Trigonometry deals with relationships between angles and sides
-            and the properties of trigonometric functions.
-        </p>
-
-        <ul>
-            <li>Trigonometric ratios</li>
-            <li>Trigonometric identities</li>
-            <li>Reduction formulae</li>
-            <li>Compound angles</li>
-            <li>Double angles</li>
-            <li>Trigonometric equations</li>
-            <li>Trigonometric graphs</li>
-            <li>General solutions</li>
-        </ul>
-
-        <div class="formula">
-            sin²θ + cos²θ = 1
-        </div>
-
-        <div class="formula">
-            sin(A ± B) = sinA cosB ± cosA sinB
-        </div>
+    <div class="actions">
+      <button onclick="markComplete('algebra')">
+        ✓ Mark Algebra complete
+      </button>
+      <button class="secondary" onclick="unmarkComplete('algebra')">
+        Undo completion
+      </button>
     </div>
 
+    <p id="algebraStatus" class="small"></p>
+  </section>
 
-    <!-- 4 -->
-    <div class="topic">
-        <h3>4. Euclidean Geometry</h3>
+  <!-- OTHER TOPIC STARTERS -->
 
-        <p>
-            Euclidean geometry focuses on geometric theorems and relationships
-            between angles, lines and shapes.
-        </p>
-
-        <ul>
-            <li>Geometric theorems</li>
-            <li>Similarity</li>
-            <li>Congruency</li>
-            <li>Triangles</li>
-            <li>Parallel lines</li>
-            <li>Circle geometry</li>
-            <li>Proofs</li>
-        </ul>
+  <section class="lesson hidden" id="sequences">
+    <h2>Sequences and Series</h2>
+    <div class="definition">
+      A <strong>sequence</strong> is an ordered list of numbers following
+      a pattern → a <strong>series</strong> is the sum of the terms in a sequence.
     </div>
+    <h3>Arithmetic sequence</h3>
+    <p>Each term is found by adding the same common difference, d.</p>
+    <div class="formula">Tₙ = a + (n − 1)d</div>
+    <h3>Geometric sequence</h3>
+    <p>Each term is found by multiplying by the same common ratio, r.</p>
+    <div class="formula">Tₙ = arⁿ⁻¹</div>
+    <div class="hint">Hint: subtract consecutive terms to check for an arithmetic pattern. Divide consecutive non-zero terms to check for a geometric pattern.</div>
+    <div class="example">Example: 3, 7, 11, 15, … → common difference d = 4 → Tₙ = 3 + 4(n − 1).</div>
+    <button onclick="markComplete('sequences')">✓ Mark complete</button>
+  </section>
 
-
-    <!-- 5 -->
-    <div class="topic">
-        <h3>5. Measurement</h3>
-
-        <p>
-            Measurement involves calculating lengths, areas, volumes and
-            related quantities.
-        </p>
-
-        <ul>
-            <li>Perimeter</li>
-            <li>Area</li>
-            <li>Surface area</li>
-            <li>Volume</li>
-            <li>Circles</li>
-            <li>Three-dimensional shapes</li>
-        </ul>
+  <section class="lesson hidden" id="functions">
+    <h2>Functions and Graphs</h2>
+    <div class="definition">
+      A <strong>function</strong> assigns each allowed input x exactly one output y.
+      Input x → rule → output y.
     </div>
+    <div class="formula">Quadratic function: y = ax² + bx + c</div>
+    <ul>
+      <li><strong>Domain:</strong> the allowed input values.</li>
+      <li><strong>Range:</strong> the possible output values.</li>
+      <li><strong>x-intercept:</strong> where the graph crosses or touches the x-axis.</li>
+      <li><strong>y-intercept:</strong> where the graph crosses the y-axis.</li>
+      <li><strong>Turning point:</strong> the maximum or minimum point of a parabola.</li>
+    </ul>
+    <div class="hint">Hint: to find x-intercepts, set y = 0 and solve. To find the y-intercept, set x = 0.</div>
+    <button onclick="markComplete('functions')">✓ Mark complete</button>
+  </section>
 
+  <section class="lesson hidden" id="finance">
+    <h2>Finance, Growth and Decay</h2>
+    <div class="definition">
+      <strong>Compound interest</strong> is interest calculated on the original
+      amount and on interest already accumulated → the balance changes each period.
+    </div>
+    <div class="formula">A = P(1 + i)ⁿ</div>
+    <ul>
+      <li>A = accumulated amount</li>
+      <li>P = initial amount or principal</li>
+      <li>i = interest rate per period, written as a decimal</li>
+      <li>n = number of periods</li>
+    </ul>
+    <div class="example">Example: R1 000 invested at 10% per year for 2 years: A = 1 000(1.10)² = R1 210.</div>
+    <div class="hint">Hint: convert 8% to 0.08 before substituting. Make sure the interest rate and number of periods use the same time unit.</div>
+    <button onclick="markComplete('finance')">✓ Mark complete</button>
+  </section>
 
-    <a href="notes.html" class="back">
-        ← Back to Notes
-    </a>
+  <section class="lesson hidden" id="calculus">
+    <h2>Differential Calculus</h2>
+    <div class="definition">
+      A <strong>derivative</strong> measures the instantaneous rate of change
+      of a function → geometrically, it gives the gradient of the tangent.
+    </div>
+    <div class="formula">If y = xⁿ, then dy/dx = nxⁿ⁻¹</div>
+    <div class="example">
+      Example: y = 3x² + 4x − 1<br>
+      Differentiate each term → dy/dx = 6x + 4.
+    </div>
+    <ul>
+      <li>Differentiate powers of x.</li>
+      <li>Find stationary points by setting dy/dx = 0.</li>
+      <li>Use the original function to calculate the y-coordinate.</li>
+      <li>Determine whether a stationary point is a maximum or minimum.</li>
+    </ul>
+    <div class="hint">Hint: the derivative of a constant is zero.</div>
+    <button onclick="markComplete('calculus')">✓ Mark complete</button>
+  </section>
 
-</div>
+  <section class="lesson hidden" id="probability">
+    <h2>Probability</h2>
+    <div class="definition">
+      Probability measures how likely an event is to occur.
+      0 → impossible event; 1 → certain event.
+    </div>
+    <div class="formula">P(A) = favourable outcomes / total equally likely outcomes</div>
+    <div class="example">Example: a fair six-sided die → P(rolling a 4) = 1/6.</div>
+    <ul>
+      <li>Complement: P(not A) = 1 − P(A).</li>
+      <li>Mutually exclusive events cannot occur together.</li>
+      <li>Independent events do not change each other's probabilities.</li>
+    </ul>
+    <div class="hint">Hint: always check whether the outcomes are equally likely before using the simple fraction formula.</div>
+    <button onclick="markComplete('probability')">✓ Mark complete</button>
+  </section>
 
+  <section class="lesson hidden" id="statistics">
+    <h2>Statistics</h2>
+    <div class="definition">
+      Statistics is the collection, organisation, analysis and interpretation
+      of data → use numerical summaries and graphs to describe a data set.
+    </div>
+    <ul>
+      <li><strong>Mean:</strong> sum of observations ÷ number of observations.</li>
+      <li><strong>Median:</strong> middle observation after arranging data in order.</li>
+      <li><strong>Mode:</strong> most frequently occurring value.</li>
+      <li><strong>Range:</strong> maximum − minimum.</li>
+      <li><strong>Quartiles:</strong> values that divide ordered data into four parts.</li>
+      <li><strong>Standard deviation:</strong> measures the spread of data around its mean.</li>
+    </ul>
+    <div class="hint">Hint: arrange the data in ascending order before finding the median or quartiles.</div>
+    <button onclick="markComplete('statistics')">✓ Mark complete</button>
+  </section>
+
+  <section class="lesson hidden" id="geometry">
+    <h2>Analytical Geometry</h2>
+    <div class="definition">
+      Analytical geometry uses coordinates and algebra to investigate
+      geometric relationships → points on a plane can be described using (x, y).
+    </div>
+    <div class="formula">Gradient: m = (y₂ − y₁)/(x₂ − x₁)</div>
+    <div class="formula">Distance: AB = √[(x₂ − x₁)² + (y₂ − y₁)²]</div>
+    <div class="formula">Midpoint: M = ((x₁ + x₂)/2, (y₁ + y₂)/2)</div>
+    <div class="hint">Hint: subtract coordinates in the same order in the numerator and denominator when calculating a gradient.</div>
+    <button onclick="markComplete('geometry')">✓ Mark complete</button>
+  </section>
+
+  <section class="lesson hidden" id="trigonometry">
+    <h2>Trigonometry</h2>
+    <div class="definition">
+      Trigonometry studies relationships between angles and trigonometric
+      ratios → identities help simplify expressions and solve equations.
+    </div>
+    <div class="formula">sin²θ + cos²θ = 1</div>
+    <div class="formula">tan θ = sin θ / cos θ, when cos θ ≠ 0</div>
+    <div class="formula">sin(A ± B) = sin A cos B ± cos A sin B</div>
+    <div class="hint">Hint: check the specified interval when solving trigonometric equations. Do not give only a general solution if a restricted interval is requested.</div>
+    <button onclick="markComplete('trigonometry')">✓ Mark complete</button>
+  </section>
+
+  <section class="lesson hidden" id="euclidean">
+    <h2>Euclidean Geometry</h2>
+    <div class="definition">
+      Euclidean geometry uses definitions, established results and theorems
+      to prove relationships between angles, lines and shapes.
+    </div>
+    <div class="arrow-flow">
+      <div class="flow-box">Given information</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">Identify the applicable theorem</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">Show each logical step and reason</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">State the conclusion</div>
+    </div>
+    <ul>
+      <li>Angles in the same segment are equal.</li>
+      <li>The angle subtended by a diameter at the circumference is 90°.</li>
+      <li>Opposite angles of a cyclic quadrilateral add up to 180°.</li>
+      <li>The tangent is perpendicular to the radius at the point of contact.</li>
+    </ul>
+    <div class="hint">Hint: write a reason for every important statement in a geometry proof.</div>
+    <button onclick="markComplete('euclidean')">✓ Mark complete</button>
+  </section>
+
+  <a href="notes.html" class="back">← Back to Notes</a>
+
+</main>
 
 <footer>
-    <p>© 2026 Grade 12 Hub</p>
-    <p>Study smart. Stay focused. Succeed.</p>
+  <p>© 2026 Grade 12 Hub</p>
+  <p>Study smart. Stay focused. Succeed.</p>
 </footer>
 
+<script>
+const topicIds = [
+  "algebra", "sequences", "functions", "finance",
+  "calculus", "probability", "statistics", "geometry",
+  "trigonometry", "euclidean"
+];
+
+const storageKey = "grade12hub_maths_completed_v1";
+
+function getCompleted() {
+  try {
+    const value = JSON.parse(localStorage.getItem(storageKey) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveCompleted(items) {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(items));
+  } catch (error) {
+    // The page still works if browser storage is unavailable.
+  }
+}
+
+function updateProgress() {
+  const completed = getCompleted();
+  const count = topicIds.filter(id => completed.includes(id)).length;
+  const percentage = Math.round(count / topicIds.length * 100);
+
+  document.getElementById("progressText").textContent =
+    count + " of " + topicIds.length + " topics completed (" +
+    percentage + "%)";
+
+  document.getElementById("progressFill").style.width =
+    percentage + "%";
+
+  topicIds.forEach(id => {
+    const status = document.getElementById(id + "Status");
+    if (status) {
+      status.textContent = completed.includes(id)
+        ? "✓ This topic is marked complete."
+        : "This topic is not marked complete yet.";
+    }
+  });
+}
+
+function markComplete(id) {
+  const completed = getCompleted();
+  if (!completed.includes(id)) completed.push(id);
+  saveCompleted(completed);
+  updateProgress();
+}
+
+function unmarkComplete(id) {
+  saveCompleted(getCompleted().filter(item => item !== id));
+  updateProgress();
+}
+
+function openLesson(id) {
+  document.querySelectorAll(".lesson").forEach(lesson => {
+    lesson.classList.add("hidden");
+  });
+
+  const target = document.getElementById(id);
+  if (!target) return;
+
+  target.classList.remove("hidden");
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function checkQuiz() {
+  const answers = { q1: "b", q2: "c", q3: "a" };
+  let score = 0;
+  let answered = 0;
+
+  Object.keys(answers).forEach(name => {
+    const selected = document.querySelector(
+      'input[name="' + name + '"]:checked'
+    );
+    if (selected) {
+      answered++;
+      if (selected.value === answers[name]) score++;
+    }
+  });
+
+  const feedback = document.getElementById("quizFeedback");
+  feedback.className = "feedback " +
+    (score === 3 ? "correct" : "incorrect");
+
+  feedback.textContent = answered < 3
+    ? "You answered " + answered + " of 3 questions. Your current score is " +
+      score + "/3. Answer all questions to complete the test."
+    : "Your score: " + score + "/3. " +
+      (score === 3
+        ? "Excellent! You understand these concepts."
+        : "Review the worked example and try again.");
+
+  if (answered === 3 && score === 3) {
+    markComplete("algebra");
+  }
+}
+
+function resetQuiz() {
+  document.querySelectorAll('#algebraQuiz input[type="radio"]')
+    .forEach(input => input.checked = false);
+
+  const feedback = document.getElementById("quizFeedback");
+  feedback.textContent = "";
+  feedback.className = "feedback";
+}
+
+updateProgress();
+</script>
+
 </body>
-    </html>
+</html>
