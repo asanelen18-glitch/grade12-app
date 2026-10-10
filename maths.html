@@ -16,7 +16,7 @@ header p{font-size:14px}
 .container{max-width:950px;margin:auto;padding:16px}
 .card,.lesson,.intro,.progress-card{background:white;border-radius:15px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #0000000c}
 h2{font-size:22px;margin-bottom:10px}
-h3{color:#4f46e5;font-size:19px;margin-bottom:8px}
+h3{color:#4f46e5;font-size:19px;margin:16px 0 8px}
 h4{margin:13px 0 6px;color:#3730a3}
 p{margin:8px 0}
 ul,ol{padding-left:23px;margin:8px 0}
@@ -26,18 +26,19 @@ li{margin:5px 0}
 .paper-title p{font-size:13px}
 .topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .topic-card{border:1px solid #e5e7eb;border-radius:12px;padding:15px;background:white}
-.topic-card h3{font-size:17px}
+.topic-card h3{font-size:17px;margin-top:0}
 .topic-card p{font-size:14px;color:#606575}
-.topic-card button{margin-top:8px}
 button{background:#4f46e5;color:white;border:0;padding:11px 14px;border-radius:9px;cursor:pointer;font-weight:bold;font-size:14px}
 button:active{transform:scale(.98)}
 button.secondary{background:#e9e7ff;color:#3730a3}
 button:disabled{opacity:.5}
+.topic-card button{margin-top:8px}
 .lesson{scroll-margin-top:12px}
 .definition{background:#eef2ff;border-left:5px solid #4f46e5;padding:14px;border-radius:8px;margin:12px 0}
 .formula{background:#f1f0ff;padding:14px;border-radius:10px;margin:10px 0;text-align:center;font-size:18px;font-weight:bold;overflow-wrap:anywhere}
 .hint{background:#fff7df;border-left:5px solid #eab308;padding:13px;border-radius:8px;margin:12px 0}
 .example{background:#f0fdf4;border-left:5px solid #16a34a;padding:14px;border-radius:8px;margin:12px 0}
+.warning{background:#fff1f2;border-left:5px solid #e11d48;padding:13px;border-radius:8px;margin:12px 0}
 .arrow-flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:15px 0}
 .flow-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:12px;text-align:center;width:100%;max-width:520px}
 .flow-arrow{color:#4f46e5;font-size:25px;font-weight:bold;line-height:1}
@@ -59,10 +60,15 @@ footer{text-align:center;padding:24px;color:#6b7280;font-size:13px}
 .hidden{display:none!important}
 .small{font-size:13px;color:#626879}
 input[type=radio]{margin-right:6px}
+table{border-collapse:collapse;width:100%;margin:12px 0;background:white}
+th,td{border:1px solid #dbe0e8;padding:9px;text-align:left}
+th{background:#eef2ff;color:#3730a3}
+.table-wrap{overflow-x:auto}
 @media(max-width:480px){
 header h1{font-size:23px}
 .container{padding:11px}
 .card,.lesson,.intro,.progress-card{padding:14px}
+.formula{font-size:16px}
 }
 </style>
 </head>
@@ -79,12 +85,12 @@ header h1{font-size:23px}
   <section class="intro">
     <h2>Mathematics Learning Centre</h2>
     <p>
-      Welcome to your Mathematics revision space. Learn definitions,
-      understand diagrams, study worked examples and practise exam questions.
+      Learn definitions, follow illustrated explanations, study worked
+      examples and practise exam-style questions.
     </p>
     <p class="small">
-      Select a topic to open its learning notes. More detailed lessons can
-      be added to each topic as the learning centre grows.
+      Start with Algebra, then continue to the other topics.
+      Your topic completion is saved in this browser on this device.
     </p>
   </section>
 
@@ -95,8 +101,8 @@ header h1{font-size:23px}
       <div class="progress-fill" id="progressFill"></div>
     </div>
     <p class="small">
-      Your progress is saved on this device in this browser.
-      It is not yet synchronised with your Grade 12 Hub profile.
+      Progress is currently saved on this device. It is not yet synchronised
+      with your Grade 12 Hub profile or Supabase account.
     </p>
   </section>
 
@@ -106,10 +112,9 @@ header h1{font-size:23px}
   </div>
 
   <div class="topic-grid">
-
     <article class="topic-card">
       <h3>1. Algebra</h3>
-      <p>Expressions, factorisation, exponents, surds and quadratic equations.</p>
+      <p>Expressions, exponents, surds, factorisation, equations and roots.</p>
       <button onclick="openLesson('algebra')">Study Algebra</button>
     </article>
 
@@ -142,7 +147,6 @@ header h1{font-size:23px}
       <p>Events, probability rules, independence and counting outcomes.</p>
       <button onclick="openLesson('probability')">Study Probability</button>
     </article>
-
   </div>
 
   <div class="paper-title">
@@ -151,7 +155,6 @@ header h1{font-size:23px}
   </div>
 
   <div class="topic-grid">
-
     <article class="topic-card">
       <h3>1. Statistics</h3>
       <p>Measures of central tendency, spread and data interpretation.</p>
@@ -175,246 +178,611 @@ header h1{font-size:23px}
       <p>Circle theorems, angle relationships and geometric proofs.</p>
       <button onclick="openLesson('euclidean')">Study Euclidean Geometry</button>
     </article>
-
   </div>
 
-  <!-- ALGEBRA LESSON -->
+  <!-- FULL ALGEBRA LESSON -->
 
   <section class="lesson" id="algebra">
-    <h2>📘 Algebra: Quadratic Equations</h2>
+    <h2>📘 Algebra: Complete Learning Chapter</h2>
+    <p>
+      Work through each section in order. Follow the arrows, study the
+      examples, then complete the practice quiz.
+    </p>
 
     <div class="definition">
-      <strong>Definition: Quadratic equation</strong>
+      <strong>What is algebra?</strong>
       <p>
-        A quadratic equation is an equation whose highest power of the
-        unknown variable is 2.
+        Algebra is the branch of mathematics that uses letters and symbols
+        to represent numbers and relationships.
       </p>
-      <div class="formula">ax² + bx + c = 0, where a ≠ 0</div>
+      <div class="arrow-flow">
+        <div class="flow-box">An unknown number → represent it with x</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">Describe the relationship → form an equation</div>
+        <div class="flow-arrow">↓</div>
+        <div class="flow-box">Solve the equation → find the unknown value</div>
+      </div>
+    </div>
+
+    <!-- SECTION 1 -->
+    <h3>1. Algebraic expressions and like terms</h3>
+
+    <div class="definition">
+      An <strong>algebraic expression</strong> is a mathematical phrase
+      containing numbers, variables and operations. It does not have an
+      equals sign unless it is part of an equation.
+      <p><strong>Example:</strong> 3x + 5</p>
       <p>
-        <strong>a</strong> is the coefficient of x² →
-        <strong>b</strong> is the coefficient of x →
-        <strong>c</strong> is the constant term.
+        <strong>Variable</strong> → a letter representing a number.
+        <br>
+        <strong>Coefficient</strong> → the number multiplying a variable.
+        <br>
+        <strong>Constant</strong> → a number without a variable.
+        <br>
+        <strong>Term</strong> → a part separated by plus or minus signs.
       </p>
     </div>
 
-    <h3>1. What are roots?</h3>
+    <div class="diagram">
+      <svg viewBox="0 0 340 150" role="img"
+           aria-label="An algebraic expression showing coefficient, variable and constant">
+        <rect x="8" y="12" width="324" height="44" rx="9" fill="#eef2ff" stroke="#a5b4fc"/>
+        <text x="170" y="41" text-anchor="middle" font-size="23" font-weight="bold" fill="#312e81">3x + 5</text>
+        <path d="M95 57 L70 83" stroke="#4f46e5" stroke-width="2" fill="none"/>
+        <path d="M135 57 L165 83" stroke="#4f46e5" stroke-width="2" fill="none"/>
+        <path d="M246 57 L270 83" stroke="#4f46e5" stroke-width="2" fill="none"/>
+        <text x="65" y="103" text-anchor="middle" font-size="12" fill="#3730a3">3 = coefficient</text>
+        <text x="165" y="103" text-anchor="middle" font-size="12" fill="#3730a3">x = variable</text>
+        <text x="270" y="103" text-anchor="middle" font-size="12" fill="#3730a3">5 = constant</text>
+        <text x="170" y="135" text-anchor="middle" font-size="11" fill="#555">Identify each part before simplifying.</text>
+      </svg>
+      <p class="caption">An expression can contain several terms.</p>
+    </div>
+
+    <h4>Simplifying like terms</h4>
+    <p>
+      Like terms have the same variables raised to the same powers.
+      Combine their coefficients, but do not combine unlike terms.
+    </p>
+
+    <div class="arrow-flow">
+      <div class="flow-box">4x + 3x − 2 + 5</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">Group like terms → (4x + 3x) + (−2 + 5)</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">Simplify → 7x + 3</div>
+    </div>
+
+    <div class="example">
+      <strong>Worked example:</strong> Simplify 5a + 2b − 3a + 4b.
+      <p>Group the a-terms and the b-terms:</p>
+      <div class="formula">(5a − 3a) + (2b + 4b)</div>
+      <div class="formula">= 2a + 6b</div>
+    </div>
+
+    <div class="hint">
+      <strong>Exam hint:</strong> 2x + 3x = 5x, but 2x + 3x² cannot be
+      combined because the powers of x are different.
+    </div>
+
+    <!-- SECTION 2 -->
+    <h3>2. Multiplying and dividing algebraic expressions</h3>
 
     <div class="definition">
-      A <strong>root</strong> is a value of x that makes an equation true.
-      For a quadratic equation, roots are also called solutions or zeros.
+      When multiplying a number by brackets, use the distributive law:
+      multiply the outside term by every term inside the brackets.
     </div>
 
     <div class="arrow-flow">
-      <div class="flow-box">
-        <strong>Quadratic equation</strong>
-        <div>3x² + 2x − 4 = 0</div>
-      </div>
+      <div class="flow-box">3(x + 4)</div>
+      <div class="flow-arrow">↓ Multiply each term by 3</div>
+      <div class="flow-box">3 × x + 3 × 4</div>
       <div class="flow-arrow">↓</div>
-      <div class="flow-box">
-        <strong>Identify a, b and c</strong>
-        <div>a = 3, b = 2, c = −4</div>
-      </div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">
-        <strong>Calculate the discriminant</strong>
-        <div>Δ = b² − 4ac</div>
-      </div>
-      <div class="flow-arrow">↓</div>
-      <div class="flow-box">
-        <strong>Determine the nature of the roots</strong>
-        <div>Two distinct irrational real roots</div>
+      <div class="flow-box">3x + 12</div>
+    </div>
+
+    <div class="example">
+      <strong>Example:</strong> Simplify 2(3x − 5) + 4x.
+      <div class="formula">= 6x − 10 + 4x</div>
+      <div class="formula">= 10x − 10</div>
+    </div>
+
+    <h4>Multiplying two brackets</h4>
+    <div class="example">
+      Expand (x + 2)(x + 3).
+      <div class="formula">
+        = x(x + 3) + 2(x + 3)
+        <br>
+        = x² + 3x + 2x + 6
+        <br>
+        = x² + 5x + 6
       </div>
     </div>
 
-    <h3>2. The quadratic formula</h3>
+    <!-- SECTION 3 -->
+    <h3>3. Exponents and exponent laws</h3>
 
+    <div class="definition">
+      An <strong>exponent</strong> tells you how many times a base is
+      multiplied by itself.
+      <p>For example: 2³ = 2 × 2 × 2 = 8.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>Law</th><th>Rule</th><th>Example</th></tr>
+        <tr><td>Multiply same base</td><td>aᵐ × aⁿ = aᵐ⁺ⁿ</td><td>x² × x³ = x⁵</td></tr>
+        <tr><td>Divide same base</td><td>aᵐ ÷ aⁿ = aᵐ⁻ⁿ</td><td>x⁵ ÷ x² = x³</td></tr>
+        <tr><td>Power of a power</td><td>(aᵐ)ⁿ = aᵐⁿ</td><td>(x²)³ = x⁶</td></tr>
+        <tr><td>Power of a product</td><td>(ab)ⁿ = aⁿbⁿ</td><td>(2x)² = 4x²</td></tr>
+        <tr><td>Zero exponent</td><td>a⁰ = 1, a ≠ 0</td><td>5⁰ = 1</td></tr>
+        <tr><td>Negative exponent</td><td>a⁻ⁿ = 1/aⁿ, a ≠ 0</td><td>x⁻² = 1/x²</td></tr>
+        <tr><td>Fractional exponent</td><td>a¹/² = √a</td><td>9¹/² = 3</td></tr>
+      </table>
+    </div>
+
+    <div class="example">
+      <strong>Worked example:</strong> Simplify (2x³)(4x²).
+      <div class="formula">
+        = (2 × 4)(x³ × x²)
+        <br>
+        = 8x⁵
+      </div>
+    </div>
+
+    <div class="hint">
+      <strong>Remember:</strong> when multiplying powers with the same base,
+      add the exponents. When dividing, subtract the exponents. Do not
+      multiply the exponents unless you have a power raised to another power.
+    </div>
+
+    <!-- SECTION 4 -->
+    <h3>4. Surds and square roots</h3>
+
+    <div class="definition">
+      A <strong>surd</strong> is an irrational root that is left in radical
+      form, such as √2 or √5.
+      <p>
+        Simplifying a surd means removing any perfect-square factor from
+        inside the square root.
+      </p>
+    </div>
+
+    <div class="arrow-flow">
+      <div class="flow-box">√72</div>
+      <div class="flow-arrow">↓ Find a perfect-square factor</div>
+      <div class="flow-box">√(36 × 2)</div>
+      <div class="flow-arrow">↓ Separate the square roots</div>
+      <div class="flow-box">√36 × √2</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">6√2</div>
+    </div>
+
+    <h4>Adding and subtracting surds</h4>
+    <div class="example">
+      Simplify 3√2 + 5√2 − √2.
+      <div class="formula">(3 + 5 − 1)√2 = 7√2</div>
+      <p>Only like surds can be combined directly.</p>
+    </div>
+
+    <h4>Rationalising a denominator</h4>
     <p>
-      Use the quadratic formula to solve a quadratic equation when it is
-      difficult to factorise, or to verify answers obtained by factorisation.
+      Rationalising means removing a surd from the denominator of a fraction.
     </p>
 
+    <div class="example">
+      Simplify 1/√3.
+      <div class="formula">
+        1/√3 × √3/√3
+        <br>
+        = √3/3
+      </div>
+    </div>
+
+    <div class="hint">
+      Do not add the numbers inside different surds:
+      √2 + √3 cannot be simplified to √5.
+    </div>
+
+    <!-- SECTION 5 -->
+    <h3>5. Factorisation</h3>
+
+    <div class="definition">
+      <strong>Factorisation</strong> means rewriting an expression as a
+      product of simpler factors.
+      <p>Expansion → multiply brackets. Factorisation → work backwards to brackets.</p>
+    </div>
+
+    <h4>Method A: Common factor</h4>
+    <div class="arrow-flow">
+      <div class="flow-box">6x² + 9x</div>
+      <div class="flow-arrow">↓ Find the common factor: 3x</div>
+      <div class="flow-box">3x(2x + 3)</div>
+    </div>
+
+    <h4>Method B: Difference of two squares</h4>
+    <div class="formula">a² − b² = (a − b)(a + b)</div>
+    <div class="example">
+      Factorise x² − 25.
+      <div class="formula">= x² − 5²</div>
+      <div class="formula">= (x − 5)(x + 5)</div>
+    </div>
+
+    <h4>Method C: Trinomials</h4>
+    <div class="example">
+      Factorise x² + 5x + 6.
+      <p>Find two numbers that:</p>
+      <ul>
+        <li>Multiply to give 6.</li>
+        <li>Add to give 5.</li>
+      </ul>
+      <p>The numbers are 2 and 3.</p>
+      <div class="formula">x² + 5x + 6 = (x + 2)(x + 3)</div>
+    </div>
+
+    <h4>Method D: Quadratic trinomials with a leading coefficient</h4>
+    <div class="example">
+      Factorise 2x² + 7x + 3.
+      <p>Multiply the first and last coefficients: 2 × 3 = 6.</p>
+      <p>Find two numbers whose product is 6 and sum is 7: 6 and 1.</p>
+      <div class="formula">2x² + 6x + x + 3</div>
+      <div class="formula">= 2x(x + 3) + 1(x + 3)</div>
+      <div class="formula">= (2x + 1)(x + 3)</div>
+    </div>
+
+    <div class="hint">
+      <strong>Factorisation check:</strong> expand your final brackets.
+      If the original expression returns, your factorisation is correct.
+    </div>
+
+    <!-- SECTION 6 -->
+    <h3>6. Linear equations</h3>
+
+    <div class="definition">
+      A <strong>linear equation</strong> has a highest power of 1 for its
+      unknown variable.
+      <p>Solving an equation means finding the value that makes both sides equal.</p>
+    </div>
+
+    <div class="arrow-flow">
+      <div class="flow-box">3x + 5 = 20</div>
+      <div class="flow-arrow">↓ Subtract 5 from both sides</div>
+      <div class="flow-box">3x = 15</div>
+      <div class="flow-arrow">↓ Divide both sides by 3</div>
+      <div class="flow-box">x = 5</div>
+      <div class="flow-arrow">↓ Check: 3(5) + 5 = 20</div>
+      <div class="flow-box">Correct ✓</div>
+    </div>
+
+    <div class="hint">
+      Whatever operation you perform on one side of an equation, perform
+      the same operation on the other side.
+    </div>
+
+    <!-- SECTION 7 -->
+    <h3>7. Inequalities</h3>
+
+    <div class="definition">
+      An <strong>inequality</strong> compares two expressions using
+      symbols instead of an equals sign.
+      <ul>
+        <li>x &lt; 4 means x is less than 4.</li>
+        <li>x &gt; 4 means x is greater than 4.</li>
+        <li>x ≤ 4 means x is less than or equal to 4.</li>
+        <li>x ≥ 4 means x is greater than or equal to 4.</li>
+      </ul>
+    </div>
+
+    <div class="example">
+      Solve 2x + 3 &lt; 11.
+      <div class="formula">2x &lt; 8</div>
+      <div class="formula">x &lt; 4</div>
+    </div>
+
+    <div class="warning">
+      <strong>Important rule:</strong> when multiplying or dividing an
+      inequality by a negative number, reverse the inequality sign.
+      <div class="formula">−2x &lt; 6 → x &gt; −3</div>
+    </div>
+
+    <!-- SECTION 8 -->
+    <h3>8. Quadratic equations</h3>
+
+    <div class="definition">
+      A <strong>quadratic equation</strong> is an equation whose highest
+      power of the unknown is 2.
+      <div class="formula">ax² + bx + c = 0, where a ≠ 0</div>
+      <p>
+        a → coefficient of x²
+        <br>
+        b → coefficient of x
+        <br>
+        c → constant term
+      </p>
+    </div>
+
+    <h4>Method A: Solve by factorisation</h4>
+    <div class="arrow-flow">
+      <div class="flow-box">x² − 5x + 6 = 0</div>
+      <div class="flow-arrow">↓ Factorise</div>
+      <div class="flow-box">(x − 2)(x − 3) = 0</div>
+      <div class="flow-arrow">↓ Set each factor equal to zero</div>
+      <div class="flow-box">x − 2 = 0 OR x − 3 = 0</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box">x = 2 OR x = 3</div>
+    </div>
+
+    <div class="hint">
+      <strong>Zero-product rule:</strong> if A × B = 0, then A = 0 or B = 0.
+      This rule applies after the equation has been written as a product
+      equal to zero.
+    </div>
+
+    <h4>Method B: Quadratic formula</h4>
     <div class="formula">
       x = (−b ± √(b² − 4ac)) / 2a
     </div>
 
     <div class="diagram">
-      <svg viewBox="0 0 320 100" role="img"
-           aria-label="Quadratic formula with a, b and c identified">
-        <rect x="3" y="8" width="314" height="84" rx="10"
-              fill="#eef2ff" stroke="#a5b4fc"/>
-        <text x="160" y="32" text-anchor="middle"
-              font-size="12" fill="#3730a3">Identify a, b and c first</text>
-        <text x="160" y="59" text-anchor="middle"
-              font-size="19" font-weight="bold" fill="#312e81">
-          ax² + bx + c = 0
-        </text>
-        <text x="160" y="79" text-anchor="middle"
-              font-size="11" fill="#3730a3">Then substitute into the formula</text>
+      <svg viewBox="0 0 320 120" role="img"
+           aria-label="Quadratic formula process">
+        <rect x="5" y="5" width="310" height="110" rx="10" fill="#eef2ff" stroke="#a5b4fc"/>
+        <text x="160" y="29" text-anchor="middle" font-size="12" fill="#3730a3">Step 1</text>
+        <text x="160" y="48" text-anchor="middle" font-size="14" font-weight="bold" fill="#312e81">Write ax² + bx + c = 0</text>
+        <path d="M160 54 L160 67" stroke="#4f46e5" stroke-width="2"/>
+        <path d="M154 62 L160 68 L166 62" fill="none" stroke="#4f46e5" stroke-width="2"/>
+        <text x="160" y="85" text-anchor="middle" font-size="12" fill="#3730a3">Step 2</text>
+        <text x="160" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#312e81">Identify a, b and c</text>
       </svg>
-      <p class="caption">Always write down a, b and c before substituting.</p>
+      <p class="caption">Then substitute carefully into the quadratic formula.</p>
     </div>
 
-    <h3>3. What is the discriminant?</h3>
+    <div class="example">
+      <strong>Worked example:</strong> Solve 2x² − 3x − 2 = 0.
+      <p>Step 1: Identify the coefficients.</p>
+      <div class="formula">a = 2, b = −3, c = −2</div>
+      <p>Step 2: Substitute into the formula.</p>
+      <div class="formula">
+        x = (−(−3) ± √[(-3)² − 4(2)(−2)]) / 4
+      </div>
+      <p>Step 3: Simplify.</p>
+      <div class="formula">
+        x = (3 ± √(9 + 16)) / 4
+        <br>
+        x = (3 ± 5) / 4
+      </div>
+      <p>Step 4: Calculate both roots.</p>
+      <div class="formula">x = 2 OR x = −½</div>
+    </div>
+
+    <!-- SECTION 9 -->
+    <h3>9. Nature of roots and the discriminant</h3>
 
     <div class="definition">
       The <strong>discriminant</strong> is the expression under the square
-      root in the quadratic formula. It helps us determine the nature
-      of the roots before solving the equation.
+      root in the quadratic formula. It tells us about the roots.
       <div class="formula">Δ = b² − 4ac</div>
     </div>
 
-    <h4>Follow the arrows to classify the roots</h4>
-
     <div class="arrow-flow">
-      <div class="flow-box">
-        <strong>Calculate Δ = b² − 4ac</strong>
-      </div>
+      <div class="flow-box"><strong>Calculate Δ = b² − 4ac</strong></div>
       <div class="flow-arrow">↓</div>
       <div class="flow-box">
-        <strong>If Δ &lt; 0</strong>
-        <p>No real roots. The roots are non-real complex numbers.</p>
+        <strong>Δ &lt; 0</strong>
+        <p>No real roots.</p>
       </div>
       <div class="flow-box">
-        <strong>If Δ = 0</strong>
-        <p>Two equal real roots, also called a repeated root.</p>
+        <strong>Δ = 0</strong>
+        <p>Two equal real roots (a repeated root).</p>
       </div>
       <div class="flow-box">
-        <strong>If Δ &gt; 0</strong>
-        <p>Two distinct real roots. Check whether Δ is a perfect square
-        to determine if the roots are rational or irrational.</p>
+        <strong>Δ &gt; 0</strong>
+        <p>Two distinct real roots.</p>
+        <p>For integer coefficients, a perfect-square discriminant gives rational roots; a non-square discriminant gives irrational roots.</p>
       </div>
     </div>
 
     <div class="diagram">
-      <h4>Diagram: roots and the parabola</h4>
-      <svg viewBox="0 0 320 230" role="img"
-           aria-label="Parabola crossing the x-axis at two roots">
-        <defs>
-          <marker id="axisArrow" markerWidth="7" markerHeight="7"
-                  refX="5" refY="3" orient="auto">
-            <path d="M0,0 L6,3 L0,6" fill="#555"/>
-          </marker>
-        </defs>
-        <line x1="20" y1="130" x2="302" y2="130"
-              stroke="#555" stroke-width="1.5" marker-end="url(#axisArrow)"/>
-        <line x1="160" y1="211" x2="160" y2="14"
-              stroke="#555" stroke-width="1.5" marker-end="url(#axisArrow)"/>
-        <path d="M45 25 Q160 330 275 25"
-              fill="none" stroke="#4f46e5" stroke-width="3"/>
-        <circle cx="92" cy="130" r="4" fill="#16a34a"/>
-        <circle cx="228" cy="130" r="4" fill="#16a34a"/>
-        <text x="91" y="149" font-size="12" text-anchor="middle" fill="#166534">x₁</text>
-        <text x="228" y="149" font-size="12" text-anchor="middle" fill="#166534">x₂</text>
-        <text x="298" y="121" font-size="12" fill="#555">x</text>
-        <text x="170" y="19" font-size="12" fill="#555">y</text>
-        <text x="160" y="218" text-anchor="middle" font-size="11" fill="#555">Two x-intercepts = two distinct real roots</text>
+      <h4>Visualising roots on a parabola</h4>
+      <svg viewBox="0 0 320 220" role="img"
+           aria-label="An upward-opening parabola crossing the x-axis twice">
+        <line x1="18" y1="140" x2="304" y2="140" stroke="#555" stroke-width="1.5"/>
+        <line x1="160" y1="205" x2="160" y2="12" stroke="#555" stroke-width="1.5"/>
+        <path d="M55 30 Q160 350 265 30" fill="none" stroke="#4f46e5" stroke-width="3"/>
+        <circle cx="91" cy="140" r="4" fill="#16a34a"/>
+        <circle cx="229" cy="140" r="4" fill="#16a34a"/>
+        <text x="91" y="158" font-size="12" text-anchor="middle" fill="#166534">x₁</text>
+        <text x="229" y="158" font-size="12" text-anchor="middle" fill="#166534">x₂</text>
+        <text x="298" y="132" font-size="12" fill="#555">x</text>
+        <text x="169" y="19" font-size="12" fill="#555">y</text>
+        <text x="160" y="212" text-anchor="middle" font-size="11" fill="#555">Two x-intercepts = two real roots</text>
       </svg>
-      <p class="caption">
-        Illustration of a parabola with two x-intercepts. The exact positions
-        depend on the equation.
-      </p>
+      <p class="caption">Illustration only; the actual shape and intercepts depend on the equation.</p>
     </div>
 
-    <h3>4. Worked example</h3>
-
     <div class="example">
-      <strong>Question:</strong> Determine the nature of the roots of
+      <strong>Worked example:</strong> Determine the nature of the roots of
       3x² + 2x − 4 = 0.
-
-      <p><strong>Step 1: Identify the coefficients.</strong></p>
-      <div class="formula">a = 3, b = 2, c = −4</div>
-
-      <p><strong>Step 2: Calculate the discriminant.</strong></p>
+      <p>Identify: a = 3, b = 2, c = −4.</p>
       <div class="formula">
-        Δ = b² − 4ac<br>
-        = 2² − 4(3)(−4)<br>
-        = 4 + 48<br>
+        Δ = b² − 4ac
+        <br>
+        = 2² − 4(3)(−4)
+        <br>
+        = 4 + 48
+        <br>
         = 52
       </div>
-
-      <p><strong>Step 3: Interpret the answer.</strong></p>
       <p>
-        52 is positive, so there are two distinct real roots.
-        Since 52 is not a perfect square, the roots are irrational.
+        52 is positive → two distinct real roots.
+        52 is not a perfect square → the roots are irrational.
       </p>
-
-      <p><strong>Step 4: Calculate the roots.</strong></p>
+      <p>Solving fully:</p>
       <div class="formula">
-        x = (−2 ± √52) / 6<br>
+        x = (−2 ± √52) / 6
+        <br>
         x = (−1 ± √13) / 3
       </div>
     </div>
 
     <div class="hint">
-      <strong>💡 Exam hint</strong>
-      <p>
-        A positive discriminant does not automatically mean the roots
-        are irrational. For integer coefficients, check whether the
-        discriminant is a perfect square.
-      </p>
+      Do not confuse the sign of the discriminant with the signs of the roots.
+      The discriminant classifies the roots; it does not directly tell you
+      whether each root is positive or negative.
+    </div>
+
+    <!-- SECTION 10 -->
+    <h3>10. Completing the square</h3>
+
+    <div class="definition">
+      <strong>Completing the square</strong> rewrites a quadratic expression
+      using a squared bracket and a constant.
+    </div>
+
+    <div class="example">
+      Rewrite x² + 6x + 5 by completing the square.
+      <p>Step 1: Take half of the coefficient of x: 6 ÷ 2 = 3.</p>
+      <p>Step 2: Square that number: 3² = 9.</p>
+      <div class="formula">x² + 6x + 5 = (x + 3)² − 9 + 5</div>
+      <div class="formula">= (x + 3)² − 4</div>
+    </div>
+
+    <div class="hint">
+      For x² + bx, half b, then square it. Add and subtract the same
+      value so that the expression remains unchanged.
+    </div>
+
+    <!-- SECTION 11 -->
+    <h3>11. Simultaneous equations</h3>
+
+    <div class="definition">
+      <strong>Simultaneous equations</strong> are two or more equations
+      solved together to find values that satisfy all of them.
+    </div>
+
+    <div class="example">
+      Solve:
+      <div class="formula">x + y = 10</div>
+      <div class="formula">x − y = 2</div>
+      <p>Add the equations so that y cancels:</p>
+      <div class="formula">2x = 12 → x = 6</div>
+      <p>Substitute x = 6 into x + y = 10:</p>
+      <div class="formula">6 + y = 10 → y = 4</div>
+      <p><strong>Answer:</strong> x = 6 and y = 4.</p>
     </div>
 
     <details>
-      <summary>Understand the number sets</summary>
+      <summary>Explore number sets used in algebra</summary>
       <ul>
         <li><strong>Natural numbers (ℕ):</strong> 1, 2, 3, 4, …</li>
         <li><strong>Whole numbers (ℕ₀):</strong> 0, 1, 2, 3, …</li>
         <li><strong>Integers (ℤ):</strong> …, −2, −1, 0, 1, 2, …</li>
         <li><strong>Rational numbers (ℚ):</strong> numbers expressible as p/q, where p and q are integers and q ≠ 0.</li>
-        <li><strong>Irrational numbers:</strong> real numbers that cannot be expressed as a ratio of two integers, such as √2.</li>
+        <li><strong>Irrational numbers:</strong> real numbers that cannot be expressed as a ratio of integers, such as √2.</li>
         <li><strong>Real numbers (ℝ):</strong> all rational and irrational numbers.</li>
-        <li><strong>Non-real complex numbers:</strong> numbers that are not real, such as i where i² = −1.</li>
+        <li><strong>Non-real complex numbers:</strong> numbers involving i, where i² = −1.</li>
       </ul>
-      <p class="small">
-        Notation for natural numbers can differ between textbooks. Here,
-        ℕ₀ is used for whole numbers including zero.
-      </p>
+      <p class="small">Notation for natural numbers may differ between textbooks.</p>
     </details>
 
-    <h3>5. Test yourself</h3>
+    <!-- ALGEBRA QUIZ -->
+    <h3>12. Algebra practice quiz</h3>
+    <p>Choose one answer for each question, then tap “Check answers”.</p>
 
     <div class="card" id="algebraQuiz">
-      <p><strong>Question 1:</strong> What is the discriminant of
-      x² − 6x + 9 = 0?</p>
 
-      <label><input type="radio" name="q1" value="a"> −36</label>
-      <label><input type="radio" name="q1" value="b"> 0</label>
-      <label><input type="radio" name="q1" value="c"> 36</label>
+      <div class="question">
+        <p><strong>Question 1:</strong> Simplify 4x + 3x − 2x.</p>
+        <label><input type="radio" name="q1" value="a"> 5x</label>
+        <label><input type="radio" name="q1" value="b"> 9x</label>
+        <label><input type="radio" name="q1" value="c"> 5x²</label>
+      </div>
 
-      <p><strong>Question 2:</strong> If Δ &lt; 0, how many real roots are there?</p>
+      <div class="question">
+        <p><strong>Question 2:</strong> Simplify x³ × x⁴.</p>
+        <label><input type="radio" name="q2" value="a"> x¹²</label>
+        <label><input type="radio" name="q2" value="b"> x⁷</label>
+        <label><input type="radio" name="q2" value="c"> 2x⁷</label>
+      </div>
 
-      <label><input type="radio" name="q2" value="a"> Two distinct real roots</label>
-      <label><input type="radio" name="q2" value="b"> One repeated real root</label>
-      <label><input type="radio" name="q2" value="c"> No real roots</label>
+      <div class="question">
+        <p><strong>Question 3:</strong> Factorise x² − 16.</p>
+        <label><input type="radio" name="q3" value="a"> (x − 8)(x + 2)</label>
+        <label><input type="radio" name="q3" value="b"> (x − 4)²</label>
+        <label><input type="radio" name="q3" value="c"> (x − 4)(x + 4)</label>
+      </div>
 
-      <p><strong>Question 3:</strong> What are the roots of
-      x² − 6x + 9 = 0?</p>
+      <div class="question">
+        <p><strong>Question 4:</strong> Solve 2x + 6 = 14.</p>
+        <label><input type="radio" name="q4" value="a"> x = 4</label>
+        <label><input type="radio" name="q4" value="b"> x = 10</label>
+        <label><input type="radio" name="q4" value="c"> x = 8</label>
+      </div>
 
-      <label><input type="radio" name="q3" value="a"> x = 3 and x = 3</label>
-      <label><input type="radio" name="q3" value="b"> x = −3 and x = 3</label>
-      <label><input type="radio" name="q3" value="c"> No real roots</label>
+      <div class="question">
+        <p><strong>Question 5:</strong> What is the discriminant of x² − 6x + 9 = 0?</p>
+        <label><input type="radio" name="q5" value="a"> −36</label>
+        <label><input type="radio" name="q5" value="b"> 0</label>
+        <label><input type="radio" name="q5" value="c"> 36</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Question 6:</strong> If Δ &lt; 0, how many real roots does a quadratic have?</p>
+        <label><input type="radio" name="q6" value="a"> Two distinct real roots</label>
+        <label><input type="radio" name="q6" value="b"> One repeated real root</label>
+        <label><input type="radio" name="q6" value="c"> No real roots</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Question 7:</strong> Simplify √72.</p>
+        <label><input type="radio" name="q7" value="a"> 6√2</label>
+        <label><input type="radio" name="q7" value="b"> 8√2</label>
+        <label><input type="radio" name="q7" value="c"> 36√2</label>
+      </div>
+
+      <div class="question">
+        <p><strong>Question 8:</strong> Solve x² − 5x + 6 = 0.</p>
+        <label><input type="radio" name="q8" value="a"> x = −2 or −3</label>
+        <label><input type="radio" name="q8" value="b"> x = 2 or 3</label>
+        <label><input type="radio" name="q8" value="c"> x = 1 or 6</label>
+      </div>
 
       <div class="actions">
         <button onclick="checkQuiz()">Check answers</button>
         <button class="secondary" onclick="resetQuiz()">Try again</button>
       </div>
 
-      <div id="quizFeedback" aria-live="polite"></div>
+      <div id="quizFeedback" class="feedback" aria-live="polite"></div>
+
+      <details>
+        <summary>Show answers and explanations</summary>
+        <ol>
+          <li><strong>5x:</strong> combine 4x + 3x − 2x.</li>
+          <li><strong>x⁷:</strong> add the exponents, 3 + 4 = 7.</li>
+          <li><strong>(x − 4)(x + 4):</strong> difference of two squares.</li>
+          <li><strong>x = 4:</strong> 2x = 8, then divide by 2.</li>
+          <li><strong>0:</strong> Δ = (−6)² − 4(1)(9) = 36 − 36.</li>
+          <li><strong>No real roots:</strong> a negative discriminant gives no real roots.</li>
+          <li><strong>6√2:</strong> √72 = √(36 × 2).</li>
+          <li><strong>x = 2 or 3:</strong> (x − 2)(x − 3) = 0.</li>
+        </ol>
+      </details>
     </div>
 
     <div class="actions">
-      <button onclick="markComplete('algebra')">
-        ✓ Mark Algebra complete
-      </button>
-      <button class="secondary" onclick="unmarkComplete('algebra')">
-        Undo completion
-      </button>
+      <button onclick="markComplete('algebra')">✓ Mark Algebra complete</button>
+      <button class="secondary" onclick="unmarkComplete('algebra')">Undo completion</button>
     </div>
-
     <p id="algebraStatus" class="small"></p>
+
+    <div class="hint">
+      <strong>Before moving on:</strong> make sure you can explain each
+      method in your own words and solve similar questions without looking
+      at the worked examples.
+    </div>
   </section>
 
-  <!-- OTHER TOPIC STARTERS -->
+  <!-- OTHER TOPICS: EXISTING LESSONS PRESERVED -->
 
   <section class="lesson hidden" id="sequences">
     <h2>Sequences and Series</h2>
@@ -503,7 +871,7 @@ header h1{font-size:23px}
       <li>Mutually exclusive events cannot occur together.</li>
       <li>Independent events do not change each other's probabilities.</li>
     </ul>
-    <div class="hint">Hint: always check whether the outcomes are equally likely before using the simple fraction formula.</div>
+    <div class="hint">Hint: check whether the outcomes are equally likely before using the simple fraction formula.</div>
     <button onclick="markComplete('probability')">✓ Mark complete</button>
   </section>
 
@@ -547,7 +915,7 @@ header h1{font-size:23px}
     <div class="formula">sin²θ + cos²θ = 1</div>
     <div class="formula">tan θ = sin θ / cos θ, when cos θ ≠ 0</div>
     <div class="formula">sin(A ± B) = sin A cos B ± cos A sin B</div>
-    <div class="hint">Hint: check the specified interval when solving trigonometric equations. Do not give only a general solution if a restricted interval is requested.</div>
+    <div class="hint">Hint: check the specified interval when solving trigonometric equations.</div>
     <button onclick="markComplete('trigonometry')">✓ Mark complete</button>
   </section>
 
@@ -658,7 +1026,17 @@ function openLesson(id) {
 }
 
 function checkQuiz() {
-  const answers = { q1: "b", q2: "c", q3: "a" };
+  const answers = {
+    q1: "a",
+    q2: "b",
+    q3: "c",
+    q4: "a",
+    q5: "b",
+    q6: "c",
+    q7: "a",
+    q8: "b"
+  };
+
   let score = 0;
   let answered = 0;
 
@@ -666,6 +1044,7 @@ function checkQuiz() {
     const selected = document.querySelector(
       'input[name="' + name + '"]:checked'
     );
+
     if (selected) {
       answered++;
       if (selected.value === answers[name]) score++;
@@ -674,17 +1053,21 @@ function checkQuiz() {
 
   const feedback = document.getElementById("quizFeedback");
   feedback.className = "feedback " +
-    (score === 3 ? "correct" : "incorrect");
+    (answered === 8 && score === 8 ? "correct" : "incorrect");
 
-  feedback.textContent = answered < 3
-    ? "You answered " + answered + " of 3 questions. Your current score is " +
-      score + "/3. Answer all questions to complete the test."
-    : "Your score: " + score + "/3. " +
-      (score === 3
-        ? "Excellent! You understand these concepts."
-        : "Review the worked example and try again.");
+  if (answered < 8) {
+    feedback.textContent =
+      "You answered " + answered + " of 8 questions. Current score: " +
+      score + "/8. Answer all questions to finish the quiz.";
+    return;
+  }
 
-  if (answered === 3 && score === 3) {
+  feedback.textContent = "Your score: " + score + "/8. " +
+    (score === 8
+      ? "Excellent! You answered every question correctly."
+      : "Review the explanations in the answer section, then try again.");
+
+  if (score === 8) {
     markComplete("algebra");
   }
 }
