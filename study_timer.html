@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#4f46e5">
 <title>Study Timer | Grade 12 Hub</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -18,8 +17,8 @@ main{max-width:750px;margin:auto;padding:18px}
 .card{background:white;padding:22px;border-radius:16px;margin-bottom:18px;box-shadow:0 3px 12px #0000000c}
 label{display:block;font-weight:bold;margin:12px 0 6px}
 input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;font-size:16px}
-input[type="checkbox"]{width:20px;height:20px;accent-color:#4f46e5}
-input[type="range"]{padding:0;accent-color:#4f46e5}
+input[type=checkbox]{width:20px;height:20px;accent-color:#4f46e5}
+input[type=range]{padding:0}
 button{border:0;border-radius:9px;padding:12px 15px;background:#4f46e5;color:white;font-weight:bold;margin:5px 3px 0 0;cursor:pointer}
 button:disabled{opacity:.55;cursor:not-allowed}
 .secondary{background:#e5e7eb;color:#222}
@@ -40,150 +39,159 @@ button:disabled{opacity:.55;cursor:not-allowed}
 .button-row button{flex:1}
 footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
 [hidden]{display:none!important}
+
+.profile-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:12px 0 20px}
+.profile{background:#f1f5f9;color:#334155;border:2px solid transparent;padding:12px 3px;line-height:1.8;font-size:13px;margin:0}
+.profile.selected{border-color:#4f46e5;background:#eef2ff}
+.profile:focus-visible,button:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+
+body[data-profile="classic"]{--focus-bg:linear-gradient(145deg,#312e81,#4f46e5,#818cf8)}
+body[data-profile="sunset"]{--focus-bg:linear-gradient(145deg,#7c2d12,#fb7185,#fbbf24)}
+body[data-profile="ocean"]{--focus-bg:linear-gradient(145deg,#082f49,#0284c7,#67e8f9)}
+body[data-profile="forest"]{--focus-bg:linear-gradient(145deg,#052e16,#15803d,#86efac)}
+body[data-profile="galaxy"]{--focus-bg:linear-gradient(145deg,#1e1b4b,#6d28d9,#c026d3)}
+
+#focusScreen{position:fixed;inset:0;z-index:9999;background:var(--focus-bg,linear-gradient(145deg,#312e81,#4f46e5,#818cf8));color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;text-align:center;overflow-y:auto}
+#focusScreen button{background:white;color:#312e81;margin:6px}
+#focusScreen .focus-time{font-size:clamp(64px,18vw,120px);font-weight:800;margin:22px 0;font-variant-numeric:tabular-nums}
+#focusScreen .focus-message{font-size:clamp(18px,4vw,25px);max-width:520px;line-height:1.5}
+#focusScreen .focus-progress{width:min(450px,90%)}
+#focusScreen .focus-controls{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+#focusScreen .focus-status{max-width:550px;line-height:1.5}
+body.focus-open{overflow:hidden}
+@media(max-width:420px){.profile-grid{gap:4px}.profile{font-size:11px;padding:10px 1px}header h1{font-size:25px}}
 </style>
 </head>
 
-<body>
+<body data-profile="classic">
 <header>
-    <a href="index.html">← Back to Grade 12 Hub</a>
-    <h1>⏱️ Study Timer</h1>
-    <p>Focus on your goals, one session at a time.</p>
+  <a href="index.html">← Back to Grade 12 Hub</a>
+  <h1>⏱️ Study Timer</h1>
+  <p>Focus on your goals, one session at a time.</p>
 </header>
 
 <main>
-    <section class="card">
-        <h2>📚 Choose your timer</h2>
+<section class="card">
+  <h2>📚 Choose your timer</h2>
 
-        <label for="mode">Timer mode</label>
-        <select id="mode">
-            <option value="pomodoro">Pomodoro</option>
-            <option value="custom">Custom timer</option>
-        </select>
+  <h3>🎨 Choose your study profile</h3>
+  <p class="muted">Choose the background and encouragement style you prefer.</p>
 
-        <label for="subject">Subject</label>
-        <input id="subject" type="text" placeholder="e.g. Mathematics">
+  <div class="profile-grid" id="profileGrid">
+    <button type="button" class="profile selected" data-profile="classic">🏔️<br>Classic</button>
+    <button type="button" class="profile" data-profile="sunset">🌅<br>Sunset</button>
+    <button type="button" class="profile" data-profile="ocean">🌊<br>Ocean</button>
+    <button type="button" class="profile" data-profile="forest">🌲<br>Forest</button>
+    <button type="button" class="profile" data-profile="galaxy">🪐<br>Galaxy</button>
+  </div>
 
-        <div id="pomodoroFields">
-            <label for="studyMinutes">Study duration (minutes)</label>
-            <input id="studyMinutes" type="number" min="1" max="180" value="25">
+  <label for="mode">Timer mode</label>
+  <select id="mode">
+    <option value="pomodoro">Pomodoro</option>
+    <option value="custom">Custom timer</option>
+  </select>
 
-            <label for="breakMinutes">Break duration (minutes)</label>
-            <input id="breakMinutes" type="number" min="1" max="60" value="5">
-        </div>
+  <label for="subject">Subject</label>
+  <input id="subject" type="text" maxlength="100" placeholder="e.g. Mathematics">
 
-        <div id="customFields" hidden>
-            <label for="customMinutes">Custom duration (minutes)</label>
-            <input id="customMinutes" type="number" min="1" max="1440" value="45">
-        </div>
+  <div id="pomodoroFields">
+    <label for="studyMinutes">Study duration (minutes)</label>
+    <input id="studyMinutes" type="number" min="1" max="180" value="25">
+    <label for="breakMinutes">Break duration (minutes)</label>
+    <input id="breakMinutes" type="number" min="1" max="60" value="5">
+  </div>
 
-        <div class="timer" id="display">25:00</div>
-        <div class="progress">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="status" id="timerStatus" role="status" aria-live="polite">
-            Ready to focus!
-        </div>
+  <div id="customFields" hidden>
+    <label for="customMinutes">Custom duration (minutes)</label>
+    <input id="customMinutes" type="number" min="1" max="1440" value="45">
+  </div>
 
-        <div class="button-row">
-            <button id="startBtn" type="button">▶ Start</button>
-            <button class="secondary" id="pauseBtn" type="button">⏸ Pause</button>
-            <button class="secondary" id="resetBtn" type="button">↻ Reset</button>
-            <button class="secondary" id="notificationBtn" type="button">🔔 Notifications</button>
-        </div>
+  <div class="timer" id="display">25:00</div>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="status" id="timerStatus" role="status" aria-live="polite">Ready to focus!</div>
 
-        <p class="muted">
-            Pomodoro alternates between study and break sessions.
-            Custom mode runs a single study timer.
-        </p>
-    </section>
+  <div class="button-row">
+    <button id="startBtn" type="button">▶ Start</button>
+    <button class="secondary" id="pauseBtn" type="button">⏸ Pause</button>
+    <button class="secondary" id="resetBtn" type="button">↻ Reset</button>
+    <button class="secondary" id="notificationBtn" type="button">🔔 Notifications</button>
+  </div>
 
-    <!-- OPTIONAL FOCUS MUSIC -->
+  <p class="muted">Starting opens full-screen Focus Mode. Ending early records an unfinished session; completing the timer records a completed session.</p>
+</section>
 
-    <section class="card">
-        <h2>🎧 Focus Music</h2>
+<section class="card">
+  <h2>🎧 Focus Music</h2>
+  <div class="music-box">
+    <div class="music-heading"><h3>🎵 Background sounds</h3><strong id="musicState">OFF</strong></div>
+    <p class="muted">Focus audio is optional and off by default.</p>
 
-        <div class="music-box">
-            <div class="music-heading">
-                <h3>🎵 Background sounds</h3>
-                <strong id="musicState">OFF</strong>
-            </div>
+    <label class="music-toggle" for="musicToggle">
+      <input id="musicToggle" type="checkbox"> Enable focus music
+    </label>
 
-            <p class="muted">
-                Your choice! Focus audio is off by default. Turn it on only
-                when you want a little background sound while studying.
-            </p>
+    <div id="musicControls" hidden>
+      <label for="soundChoice">Choose your sound</label>
+      <select id="soundChoice">
+        <option value="calm">🎹 Calm ambient tones</option>
+        <option value="rain">🌧️ Gentle rain</option>
+        <option value="nature">🌿 Soft nature ambience</option>
+      </select>
+      <label for="volume">Volume: <span id="volumeValue">20%</span></label>
+      <input id="volume" type="range" min="0" max="50" value="20">
+      <div class="button-row">
+        <button class="secondary" id="previewBtn" type="button">▶ Preview sound</button>
+        <button class="secondary" id="stopPreviewBtn" type="button">⏹ Stop preview</button>
+      </div>
+    </div>
 
-            <label class="music-toggle" for="musicToggle">
-                <input id="musicToggle" type="checkbox">
-                Enable focus music
-            </label>
+    <div id="musicMessage" class="music-status" role="status" aria-live="polite">Focus music is off.</div>
+  </div>
+  <p class="muted">Sounds are generated by your browser. They are ambient sound effects, not commercial songs.</p>
+</section>
 
-            <div id="musicControls" hidden>
-                <label for="soundChoice">Choose your sound</label>
-                <select id="soundChoice">
-                    <option value="calm">🎹 Calm ambient tones</option>
-                    <option value="rain">🌧️ Gentle rain</option>
-                    <option value="nature">🌿 Soft nature ambience</option>
-                </select>
+<section class="card">
+  <h2>📊 My Study Progress</h2>
+  <div id="summary">Checking your study history...</div>
+  <h3>📘 Recent sessions</h3>
+  <div id="history"></div>
+  <button class="secondary" id="refreshBtn" type="button">Refresh progress</button>
+</section>
 
-                <label for="volume">
-                    Volume: <span id="volumeValue">20%</span>
-                </label>
-                <input id="volume" type="range" min="0" max="50" value="20">
-
-                <div class="button-row">
-                    <button class="secondary" id="previewBtn" type="button">
-                        ▶ Preview sound
-                    </button>
-                    <button class="secondary" id="stopPreviewBtn" type="button">
-                        ⏹ Stop preview
-                    </button>
-                </div>
-            </div>
-
-            <div id="musicMessage" class="music-status" role="status" aria-live="polite">
-                Focus music is off. Your timer works normally without it.
-            </div>
-        </div>
-
-        <p class="muted">
-            These sounds are generated by your browser, so no music files
-            or music subscriptions are needed. They are ambient sound effects,
-            not full commercial songs.
-        </p>
-    </section>
-
-    <section class="card">
-        <h2>📊 My Study Progress</h2>
-        <div id="summary">Checking your study history...</div>
-        <div id="history"></div>
-        <button class="secondary" id="refreshBtn" type="button">
-            Refresh progress
-        </button>
-    </section>
-
-    <p id="message" role="status" aria-live="polite"></p>
+<p id="message" role="status" aria-live="polite"></p>
 </main>
 
 <footer>Grade 12 Hub · Study smarter, one session at a time.</footer>
 
-<script>
-/* SUPABASE SETTINGS
-   Uses the same public project URL and publishable key as the homepage.
-   Never put a service_role secret in browser code.
-*/
+<!-- FULL-SCREEN FOCUS MODE -->
+<section id="focusScreen" hidden aria-label="Full-screen study timer">
+  <button id="exitFocusBtn" type="button">✕ Hide full-screen view</button>
+  <h2>🎓 Grade 12 Hub Focus Mode</h2>
+  <h3 id="focusGreeting">You've got this!</h3>
+  <p id="focusEncouragement" class="focus-message">Every small step brings you closer to your goal.</p>
+  <div class="focus-time" id="focusDisplay">25:00</div>
+  <p id="focusSubject">Study time</p>
+  <div class="progress focus-progress"><div class="progress-bar" id="focusProgress"></div></div>
+  <p id="focusStatus" class="focus-status" role="status" aria-live="polite">Take a breath. Focus on one thing at a time.</p>
+  <div class="focus-controls">
+    <button id="focusPauseBtn" type="button">⏸ Pause</button>
+    <button id="focusResumeBtn" type="button">▶ Resume</button>
+    <button id="endSessionBtn" type="button">End session</button>
+  </div>
+</section>
 
+<script>
+"use strict";
+
+/* SUPABASE */
 const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
 const SUPABASE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
-
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 
-/* ACCOUNT AND TIMER STATE */
-
 let user = null;
-let remaining = 25 * 60;
-let totalSeconds = 25 * 60;
+let remaining = 1500;
+let totalSeconds = 1500;
 let deadline = null;
 let interval = null;
 let running = false;
@@ -193,8 +201,10 @@ let sessionDuration = 25;
 let sessionSubject = "General study";
 let savingSession = false;
 
-/* AUDIO STATE */
-
+/* Counts actual focused seconds, excluding paused time. */
+let focusedSeconds = 0;
+let focusStartedAt = null;
+let selectedProfile = "classic";
 let audioContext = null;
 let masterGain = null;
 let audioNodes = [];
@@ -202,82 +212,147 @@ let audioSources = [];
 let audioPlaying = false;
 let previewing = false;
 
-/* GENERAL MESSAGES */
+const encouragements = {
+  classic: [
+    "Every small step brings you closer to your goal.",
+    "Stay focused. Your effort matters.",
+    "One question at a time. You've got this!"
+  ],
+  sunset: [
+    "A fresh session is a fresh opportunity.",
+    "Keep going. Your future self will thank you.",
+    "You are capable of learning difficult things."
+  ],
+  ocean: [
+    "Breathe slowly and focus on the task in front of you.",
+    "Stay calm. Progress takes practice.",
+    "You don't need to know everything at once."
+  ],
+  forest: [
+    "Grow your knowledge one step at a time.",
+    "Be patient with yourself as you learn.",
+    "Small steps can lead to great progress."
+  ],
+  galaxy: [
+    "Dream big and keep working toward your goals.",
+    "Your possibilities are bigger than today's challenge.",
+    "Keep learning. Your future is worth the effort."
+  ]
+};
 
 function msg(text) {
-    $("message").textContent = text;
+  $("message").textContent = text;
 }
 
-/* VALIDATE TIMER DURATION */
+function chooseEncouragement() {
+  const choices = encouragements[selectedProfile] || encouragements.classic;
+  return choices[Math.floor(Math.random() * choices.length)];
+}
+
+function selectProfile(name) {
+  if (!encouragements[name]) return;
+  selectedProfile = name;
+  document.body.dataset.profile = name;
+  $("focusScreen").dataset.profile = name;
+
+  document.querySelectorAll(".profile").forEach(button => {
+    button.classList.toggle("selected", button.dataset.profile === name);
+    button.setAttribute("aria-pressed", String(button.dataset.profile === name));
+  });
+
+  try { localStorage.setItem("grade12StudyProfile", name); } catch (error) {}
+
+  $("focusEncouragement").textContent = chooseEncouragement();
+}
+
+document.querySelectorAll(".profile").forEach(button => {
+  button.addEventListener("click", () => selectProfile(button.dataset.profile));
+});
+
+try {
+  const savedProfile = localStorage.getItem("grade12StudyProfile");
+  if (savedProfile && encouragements[savedProfile]) selectedProfile = savedProfile;
+} catch (error) {}
+selectProfile(selectedProfile);
 
 function duration() {
-    const mode = $("mode").value;
-    let value;
-
-    if (mode === "custom") {
-        value = Number($("customMinutes").value);
-        if (!Number.isInteger(value) || value < 1 || value > 1440) {
-            throw new Error("Custom duration must be from 1 to 1440 minutes.");
-        }
-    } else if (phase === "break") {
-        value = Number($("breakMinutes").value);
-        if (!Number.isInteger(value) || value < 1 || value > 60) {
-            throw new Error("Break duration must be from 1 to 60 minutes.");
-        }
-    } else {
-        value = Number($("studyMinutes").value);
-        if (!Number.isInteger(value) || value < 1 || value > 180) {
-            throw new Error("Study duration must be from 1 to 180 minutes.");
-        }
-    }
-
-    return value * 60;
+  let value;
+  if ($("mode").value === "custom") {
+    value = Number($("customMinutes").value);
+    if (!Number.isInteger(value) || value < 1 || value > 1440)
+      throw new Error("Custom duration must be from 1 to 1440 minutes.");
+  } else if (phase === "break") {
+    value = Number($("breakMinutes").value);
+    if (!Number.isInteger(value) || value < 1 || value > 60)
+      throw new Error("Break duration must be from 1 to 60 minutes.");
+  } else {
+    value = Number($("studyMinutes").value);
+    if (!Number.isInteger(value) || value < 1 || value > 180)
+      throw new Error("Study duration must be from 1 to 180 minutes.");
+  }
+  return value * 60;
 }
 
-/* TIMER DISPLAY */
-
 function formatTime(seconds) {
-    seconds = Math.max(0, Math.ceil(seconds));
-    return String(Math.floor(seconds / 60)).padStart(2, "0") + ":" +
-           String(seconds % 60).padStart(2, "0");
+  seconds = Math.max(0, Math.ceil(seconds));
+  return String(Math.floor(seconds / 60)).padStart(2, "0") + ":" +
+    String(seconds % 60).padStart(2, "0");
 }
 
 function updateDisplay() {
-    $("display").textContent = formatTime(remaining);
+  $("display").textContent = formatTime(remaining);
+  $("focusDisplay").textContent = formatTime(remaining);
 
-    const elapsed = totalSeconds > 0
-        ? (totalSeconds - remaining) / totalSeconds * 100
-        : 0;
+  const elapsed = totalSeconds > 0
+    ? (totalSeconds - remaining) / totalSeconds * 100 : 0;
+  const width = Math.max(0, Math.min(100, elapsed)) + "%";
 
-    $("progressBar").style.width =
-        Math.max(0, Math.min(100, elapsed)) + "%";
-
-    document.title = formatTime(remaining) + " | Study Timer";
+  $("progressBar").style.width = width;
+  $("focusProgress").style.width = width;
+  document.title = formatTime(remaining) + " | Study Timer";
 }
 
-/* TIMER MODE CHANGES */
+function openFocus() {
+  $("focusScreen").hidden = false;
+  document.body.classList.add("focus-open");
+  $("focusSubject").textContent = sessionSubject;
+  $("focusGreeting").textContent = phase === "study"
+    ? "You've got this!" : "Take a well-earned break!";
+  $("focusEncouragement").textContent = chooseEncouragement();
+  $("focusStatus").textContent = phase === "study"
+    ? "One task at a time. You can do this!"
+    : "Relax, breathe, and recharge.";
+  updateDisplay();
+}
+
+function closeFocus() {
+  $("focusScreen").hidden = true;
+  document.body.classList.remove("focus-open");
+}
+
+$("exitFocusBtn").addEventListener("click", closeFocus);
 
 function updateMode() {
-    if (running || savingSession) return;
+  if (running || savingSession) return;
+  stopAudio();
+  phase = "study";
+  sessionStartedAt = null;
+  focusedSeconds = 0;
+  focusStartedAt = null;
 
-    stopAudio();
-    phase = "study";
-    sessionStartedAt = null;
+  $("pomodoroFields").hidden = $("mode").value !== "pomodoro";
+  $("customFields").hidden = $("mode").value !== "custom";
 
-    $("pomodoroFields").hidden = $("mode").value !== "pomodoro";
-    $("customFields").hidden = $("mode").value !== "custom";
-
-    try {
-        remaining = duration();
-        totalSeconds = remaining;
-        $("timerStatus").textContent = "Ready to focus!";
-    } catch (error) {
-        remaining = 25 * 60;
-        totalSeconds = remaining;
-        $("timerStatus").textContent = error.message;
-    }
-
-    updateDisplay();
+  try {
+    remaining = duration();
+    totalSeconds = remaining;
+    $("timerStatus").textContent = "Ready to focus!";
+  } catch (error) {
+    remaining = 1500;
+    totalSeconds = remaining;
+    $("timerStatus").textContent = error.message;
+  }
+  updateDisplay();
 }
 
 $("mode").addEventListener("change", updateMode);
@@ -285,594 +360,604 @@ $("studyMinutes").addEventListener("change", updateMode);
 $("breakMinutes").addEventListener("change", updateMode);
 $("customMinutes").addEventListener("change", updateMode);
 
-/* LOGIN CHECK */
-
+/* AUTH AND HISTORY */
 async function initialise() {
-    try {
-        const { data, error } = await db.auth.getSession();
+  try {
+    const { data, error } = await db.auth.getSession();
+    if (error) throw error;
 
-        if (error) throw error;
-
-        if (!data.session) {
-            $("summary").textContent = "Please log in to view your saved sessions.";
-            msg("Please log in to Grade 12 Hub to save your study progress.");
-            return;
-        }
-
-        user = data.session.user;
-        await loadSessions();
-    } catch (error) {
-        console.error(error);
-        msg("Could not check your login: " + error.message);
+    if (!data.session) {
+      $("summary").textContent = "Please log in to view your saved sessions.";
+      msg("Please log in to Grade 12 Hub to save study progress.");
+      return;
     }
+
+    user = data.session.user;
+    await loadSessions();
+  } catch (error) {
+    console.error(error);
+    msg("Could not check your login: " + error.message);
+  }
 }
 
-/* START TIMER */
-
+/* TIMER */
 async function startTimer() {
-    if (running || savingSession) return;
+  if (running || savingSession) return;
+  if (!user) {
+    msg("Please log in to Grade 12 Hub first.");
+    return;
+  }
 
-    if (!user) {
-        msg("Please log in to Grade 12 Hub first.");
-        return;
+  try {
+    if (remaining <= 0) {
+      remaining = duration();
+      totalSeconds = remaining;
     }
+  } catch (error) {
+    msg(error.message);
+    $("timerStatus").textContent = error.message;
+    return;
+  }
 
-    try {
-        if (remaining <= 0) {
-            remaining = duration();
-            totalSeconds = remaining;
-        }
-    } catch (error) {
-        msg(error.message);
-        $("timerStatus").textContent = error.message;
-        return;
+  if (phase === "study" && !sessionStartedAt) {
+    sessionStartedAt = new Date().toISOString();
+    sessionDuration = Math.ceil(remaining / 60);
+    sessionSubject = $("subject").value.trim() || "General study";
+    focusedSeconds = 0;
+  }
+
+  running = true;
+  deadline = Date.now() + remaining * 1000;
+  focusStartedAt = Date.now();
+
+  $("timerStatus").textContent = phase === "study"
+    ? "Focus time! You can do this!" : "Break time. Relax!";
+  $("focusStatus").textContent = $("timerStatus").textContent;
+  $("startBtn").disabled = true;
+  $("focusPauseBtn").disabled = false;
+  $("focusResumeBtn").disabled = true;
+
+  openFocus();
+  clearInterval(interval);
+  interval = setInterval(tick, 250);
+  tick();
+
+  if ($("musicToggle").checked) {
+    try { await startAudio(); }
+    catch (error) {
+      console.error(error);
+      $("musicMessage").textContent = "Audio could not start. Try Preview sound.";
     }
-
-    if (phase === "study" && !sessionStartedAt) {
-        sessionStartedAt = new Date().toISOString();
-        sessionDuration = Math.ceil(remaining / 60);
-        sessionSubject = $("subject").value.trim() || "General study";
-    }
-
-    running = true;
-    deadline = Date.now() + remaining * 1000;
-
-    $("timerStatus").textContent =
-        phase === "study" ? "Focus time! You can do this." : "Break time. Relax!";
-    $("startBtn").disabled = true;
-
-    clearInterval(interval);
-    interval = setInterval(tick, 250);
-    tick();
-
-    if ($("musicToggle").checked) {
-        try {
-            await startAudio();
-        } catch (error) {
-            console.error("Audio could not start:", error);
-            $("musicMessage").textContent =
-                "Audio could not start. Try tapping Start again or check your browser.";
-        }
-    }
+  }
 }
-
-/* PAUSE TIMER */
 
 function pauseTimer() {
-    if (running && deadline) {
-        remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+  if (running && deadline) {
+    remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    if (phase === "study" && focusStartedAt) {
+      focusedSeconds += Math.max(0, Math.floor((Date.now() - focusStartedAt) / 1000));
     }
+  }
 
-    running = false;
-    deadline = null;
-    clearInterval(interval);
-    interval = null;
+  running = false;
+  deadline = null;
+  focusStartedAt = null;
+  clearInterval(interval);
+  interval = null;
 
-    $("startBtn").disabled = false;
-    stopAudio();
-    updateDisplay();
+  $("startBtn").disabled = false;
+  $("focusPauseBtn").disabled = true;
+  $("focusResumeBtn").disabled = false;
+  stopAudio();
+  updateDisplay();
 
-    if ($("musicToggle").checked) {
-        $("musicMessage").textContent =
-            "Music paused with your timer. It will resume when you press Start.";
-    }
+  $("focusStatus").textContent = "Timer paused. Take your time, then resume when ready.";
+  if ($("musicToggle").checked) {
+    $("musicMessage").textContent = "Music paused with your timer.";
+  }
 }
-
-/* RESET TIMER */
 
 function resetTimer() {
-    pauseTimer();
+  if (running || sessionStartedAt) {
+    if (!confirm("Reset this timer? The current active session will not be saved.")) return;
+  }
 
-    phase = "study";
-    sessionStartedAt = null;
-    savingSession = false;
+  pauseTimer();
+  phase = "study";
+  sessionStartedAt = null;
+  focusedSeconds = 0;
+  focusStartedAt = null;
+  savingSession = false;
 
-    try {
-        remaining = duration();
-        totalSeconds = remaining;
-        $("timerStatus").textContent = "Timer reset. Ready when you are!";
-    } catch (error) {
-        remaining = 25 * 60;
-        totalSeconds = remaining;
-        $("timerStatus").textContent = error.message;
-    }
+  try {
+    remaining = duration();
+    totalSeconds = remaining;
+    $("timerStatus").textContent = "Timer reset. Ready when you are!";
+  } catch (error) {
+    remaining = 1500;
+    totalSeconds = remaining;
+    $("timerStatus").textContent = error.message;
+  }
 
-    updateDisplay();
+  closeFocus();
+  updateDisplay();
 }
-
-/* COUNTDOWN */
 
 function tick() {
-    if (!running || !deadline) return;
+  if (!running || !deadline) return;
+  remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+  updateDisplay();
 
-    remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
-    updateDisplay();
-
-    if (remaining <= 0) {
-        running = false;
-        deadline = null;
-        clearInterval(interval);
-        interval = null;
-        $("startBtn").disabled = false;
-        stopAudio();
-        timerFinished();
+  if (remaining <= 0) {
+    if (phase === "study" && focusStartedAt) {
+      focusedSeconds += Math.max(0, Math.floor((Date.now() - focusStartedAt) / 1000));
     }
+    running = false;
+    deadline = null;
+    focusStartedAt = null;
+    clearInterval(interval);
+    interval = null;
+    $("startBtn").disabled = false;
+    $("focusPauseBtn").disabled = true;
+    $("focusResumeBtn").disabled = true;
+    stopAudio();
+    timerFinished();
+  }
 }
-
-/* TIMER COMPLETION */
 
 async function timerFinished() {
-    if (phase === "study") {
-        const completedStart = sessionStartedAt;
-        const completedMinutes = sessionDuration;
+  if (phase === "study") {
+    const startedAt = sessionStartedAt;
+    const plannedMinutes = sessionDuration;
+    const elapsedMinutes = Math.max(0, Math.round(focusedSeconds / 60));
+    sessionStartedAt = null;
 
-        sessionStartedAt = null;
+    const saved = await saveSession({
+      status: "completed",
+      plannedMinutes,
+      elapsedMinutes,
+      startedAt,
+      endedAt: new Date().toISOString()
+    });
 
-        await saveSession(completedMinutes, completedStart);
-
-        if ($("mode").value === "pomodoro") {
-            phase = "break";
-
-            try {
-                remaining = duration();
-            } catch (error) {
-                remaining = 5 * 60;
-            }
-
-            totalSeconds = remaining;
-            $("timerStatus").textContent =
-                "🎉 Study session complete! Start your break when ready.";
-            notify("Study session complete!", "Time for your break.");
-        } else {
-            remaining = 0;
-            totalSeconds = Math.max(1, totalSeconds);
-            $("timerStatus").textContent =
-                "🎉 Timer complete! Well done on finishing your study session.";
-            notify("Timer complete!", "Well done on finishing your session.");
-        }
+    if ($("mode").value === "pomodoro") {
+      phase = "break";
+      try { remaining = duration(); }
+      catch (error) { remaining = 300; }
+      totalSeconds = remaining;
+      $("timerStatus").textContent = "🎉 Study session complete! Start your break when ready.";
+      $("focusGreeting").textContent = "Amazing work!";
+      $("focusEncouragement").textContent = "You completed your session. Be proud of your effort!";
+      $("focusStatus").textContent = "Your study session is complete. Take a well-earned break.";
+      notify("Study session complete!", "Time for your break.");
     } else {
-        phase = "study";
-
-        try {
-            remaining = duration();
-        } catch (error) {
-            remaining = 25 * 60;
-        }
-
-        totalSeconds = remaining;
-        $("timerStatus").textContent =
-            "Break finished. Start your next study session when ready.";
-        notify("Break finished!", "Ready for another study session?");
+      remaining = 0;
+      $("timerStatus").textContent = "🎉 Timer complete! Well done on finishing your study session.";
+      $("focusGreeting").textContent = "You did it! 🎉";
+      $("focusEncouragement").textContent = "You followed through on your goal. Celebrate your progress!";
+      $("focusStatus").textContent = "Completed session.";
+      notify("Timer complete!", "Well done on finishing your session.");
+      closeFocus();
     }
 
-    updateDisplay();
+    if (!saved) {
+      msg("Your timer finished, but saving failed. Please check the error and try again.");
+    }
+  } else {
+    phase = "study";
+    try { remaining = duration(); }
+    catch (error) { remaining = 1500; }
+    totalSeconds = remaining;
+    $("timerStatus").textContent = "Break finished. Start your next study session when ready.";
+    $("focusGreeting").textContent = "Welcome back!";
+    $("focusEncouragement").textContent = chooseEncouragement();
+    $("focusStatus").textContent = "Ready for another study session?";
+    notify("Break finished!", "Ready for another study session?");
+  }
+
+  updateDisplay();
 }
 
-/* SAVE COMPLETED STUDY SESSION */
+async function saveSession({status, plannedMinutes, elapsedMinutes, startedAt, endedAt}) {
+  if (!user) {
+    msg("Please log in to save your study progress.");
+    return false;
+  }
 
-async function saveSession(minutes, startedAt) {
-    if (!user) {
-        msg("Session finished, but you must log in to save progress.");
-        return;
+  savingSession = true;
+  $("startBtn").disabled = true;
+  $("endSessionBtn").disabled = true;
+
+  try {
+    const record = {
+      user_id: user.id,
+      subject: sessionSubject,
+      mode: $("mode").value,
+      duration_minutes: plannedMinutes,
+      elapsed_minutes: elapsedMinutes,
+      started_at: startedAt || new Date().toISOString(),
+      completed_at: status === "completed" ? endedAt : null,
+      ended_at: endedAt,
+      status
+    };
+
+    const { error } = await db.from("study_sessions").insert(record);
+    if (error) throw error;
+
+    msg(status === "completed"
+      ? "Your completed study session was saved!"
+      : "Your unfinished session was saved.");
+
+    await loadSessions();
+    return true;
+  } catch (error) {
+    console.error(error);
+    msg("Session saving failed: " + error.message);
+    return false;
+  } finally {
+    savingSession = false;
+    $("startBtn").disabled = false;
+    $("endSessionBtn").disabled = false;
+  }
+}
+
+/* END SESSION EARLY */
+async function endStudySessionEarly() {
+  if (savingSession) return;
+
+  if (phase === "break") {
+    if (!confirm("End your break and return to the study timer?")) return;
+    pauseTimer();
+    phase = "study";
+    sessionStartedAt = null;
+    focusedSeconds = 0;
+    try { remaining = duration(); } catch (error) { remaining = 1500; }
+    totalSeconds = remaining;
+    $("timerStatus").textContent = "Break ended. Ready for your next study session.";
+    closeFocus();
+    updateDisplay();
+    return;
+  }
+
+  if (!sessionStartedAt) {
+    $("focusStatus").textContent = "There is no active study session to end.";
+    return;
+  }
+
+  if (!confirm("End this study session early? It will be saved as UNFINISHED.")) return;
+
+  if (running && deadline) {
+    remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    if (focusStartedAt) {
+      focusedSeconds += Math.max(0, Math.floor((Date.now() - focusStartedAt) / 1000));
     }
+  }
 
-    savingSession = true;
-    $("startBtn").disabled = true;
+  running = false;
+  deadline = null;
+  focusStartedAt = null;
+  clearInterval(interval);
+  interval = null;
+  stopAudio();
 
-    try {
-        const { error } = await db.from("study_sessions").insert({
-            user_id: user.id,
-            subject: sessionSubject,
-            mode: $("mode").value,
-            duration_minutes: minutes,
-            started_at: startedAt || new Date().toISOString(),
-            completed_at: new Date().toISOString()
-        });
+  const startedAt = sessionStartedAt;
+  const plannedMinutes = sessionDuration;
+  const elapsedMinutes = Math.floor(focusedSeconds / 60);
+  const endedAt = new Date().toISOString();
 
-        if (error) throw error;
+  $("startBtn").disabled = false;
+  $("focusPauseBtn").disabled = true;
 
-        msg("Your completed study session was saved to your account!");
-        await loadSessions();
-    } catch (error) {
-        console.error(error);
-        msg("Session saving failed: " + error.message);
-    } finally {
-        savingSession = false;
-        $("startBtn").disabled = false;
-    }
+  const saved = await saveSession({
+    status: "unfinished",
+    plannedMinutes,
+    elapsedMinutes,
+    startedAt,
+    endedAt
+  });
+
+  if (!saved) {
+    $("focusStatus").textContent =
+      "We couldn't save this unfinished session. Keep this page open and try again.";
+    return;
+  }
+
+  sessionStartedAt = null;
+  focusedSeconds = 0;
+  focusStartedAt = null;
+  phase = "study";
+
+  $("timerStatus").textContent = "Session ended early and saved as unfinished.";
+  $("focusGreeting").textContent = "💛 Your effort still counts.";
+  $("focusEncouragement").textContent =
+    "It's okay to stop and regroup. You still made an effort today. Take a breath, and try again when you're ready.";
+  $("focusStatus").textContent =
+    "This session was saved as UNFINISHED. You can return to your goals when you're ready.";
+
+  msg("💛 Your unfinished session was saved. Every attempt is a chance to learn.");
+
+  notify("Your effort still counts!", "Your session was saved as unfinished.");
+  closeFocus();
+
+  try { remaining = duration(); }
+  catch (error) { remaining = 1500; }
+  totalSeconds = remaining;
+  updateDisplay();
 }
 
 /* STUDY HISTORY */
-
 async function loadSessions() {
-    if (!user) return;
+  if (!user) return;
 
-    $("summary").textContent = "Loading study progress...";
+  $("summary").textContent = "Loading study progress...";
 
-    try {
-        const { data, error } = await db
-            .from("study_sessions")
-            .select("id,subject,mode,duration_minutes,started_at")
-            .eq("user_id", user.id)
-            .order("started_at", { ascending: false })
-            .limit(50);
+  try {
+    const { data, error } = await db
+      .from("study_sessions")
+      .select("id,subject,mode,duration_minutes,elapsed_minutes,started_at,status,ended_at")
+      .eq("user_id", user.id)
+      .order("started_at", { ascending: false })
+      .limit(50);
 
-        if (error) throw error;
+    if (error) throw error;
 
-        const sessions = data || [];
-        const totalMinutes = sessions.reduce(
-            (sum, session) => sum + Number(session.duration_minutes || 0), 0
-        );
+    const sessions = data || [];
+    const completed = sessions.filter(s => (s.status || "completed") === "completed");
+    const unfinished = sessions.filter(s => s.status === "unfinished");
 
-        $("summary").textContent =
-            sessions.length + " completed sessions · " +
-            totalMinutes + " recorded study minutes";
+    const totalMinutes = completed.reduce(
+      (sum, s) => sum + Number(s.elapsed_minutes ?? s.duration_minutes ?? 0), 0
+    );
 
-        $("history").replaceChildren();
+    $("summary").textContent =
+      completed.length + " completed sessions · " +
+      totalMinutes + " completed study minutes · " +
+      unfinished.length + " unfinished sessions";
 
-        if (!sessions.length) {
-            $("history").textContent =
-                "Your completed study sessions will appear here.";
-            return;
-        }
+    $("history").replaceChildren();
 
-        sessions.forEach(session => {
-            const item = document.createElement("div");
-            item.className = "item";
-
-            const title = document.createElement("strong");
-            title.textContent = session.subject + " — " +
-                session.duration_minutes + " minutes";
-
-            const detail = document.createElement("p");
-            detail.className = "muted";
-            detail.textContent = session.mode + " · " +
-                new Date(session.started_at).toLocaleString();
-
-            item.append(title, detail);
-            $("history").appendChild(item);
-        });
-    } catch (error) {
-        console.error(error);
-        $("summary").textContent = "Could not load study history: " + error.message;
+    if (!sessions.length) {
+      $("history").textContent = "Your study sessions will appear here.";
+      return;
     }
+
+    sessions.forEach(session => {
+      const isUnfinished = session.status === "unfinished";
+      const item = document.createElement("div");
+      item.className = "item";
+
+      const title = document.createElement("strong");
+      title.textContent = session.subject + " — " +
+        (isUnfinished
+          ? "UNFINISHED · " + Number(session.elapsed_minutes || 0) +
+            " minutes focused of " + session.duration_minutes + " planned"
+          : Number(session.elapsed_minutes ?? session.duration_minutes ?? 0) +
+            " minutes · COMPLETED");
+
+      const detail = document.createElement("p");
+      detail.className = "muted";
+      detail.textContent = session.mode + " · " +
+        new Date(session.started_at).toLocaleString();
+
+      item.append(title, detail);
+      $("history").appendChild(item);
+    });
+  } catch (error) {
+    console.error(error);
+    $("summary").textContent = "Could not load study history: " + error.message;
+  }
 }
 
-/* OPTIONAL NOTIFICATIONS */
-
+/* NOTIFICATIONS */
 async function enableNotifications() {
-    if (!("Notification" in window)) {
-        msg("Notifications are not supported in this browser.");
-        return;
-    }
+  if (!("Notification" in window)) {
+    msg("Notifications are not supported in this browser.");
+    return;
+  }
 
-    try {
-        const permission = await Notification.requestPermission();
-
-        msg(permission === "granted"
-            ? "Notifications enabled for this browser."
-            : "Notifications were not enabled. You can still use the timer.");
-    } catch (error) {
-        msg("Could not enable notifications: " + error.message);
-    }
+  try {
+    const permission = await Notification.requestPermission();
+    msg(permission === "granted"
+      ? "Notifications enabled for this browser."
+      : "Notifications were not enabled. You can still use the timer.");
+  } catch (error) {
+    msg("Could not enable notifications: " + error.message);
+  }
 }
 
 function notify(title, body) {
-    if ("Notification" in window && Notification.permission === "granted") {
-        try {
-            new Notification(title, { body });
-        } catch (error) {
-            console.log("Notification unavailable:", error);
-        }
-    }
+  if ("Notification" in window && Notification.permission === "granted") {
+    try { new Notification(title, {body}); }
+    catch (error) { console.log("Notification unavailable:", error); }
+  }
 }
 
-/* AUDIO ENGINE
-   Sounds are created locally with the browser's Web Audio API.
-   No external music files are downloaded.
-*/
-
+/* GENERATED FOCUS SOUNDS */
 function getAudioContext() {
-    if (!audioContext) {
-        const AudioContextClass =
-            window.AudioContext || window.webkitAudioContext;
-
-        if (!AudioContextClass) {
-            throw new Error("Your browser does not support Web Audio.");
-        }
-
-        audioContext = new AudioContextClass();
-    }
-
-    return audioContext;
+  if (!audioContext) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) throw new Error("This browser does not support Web Audio.");
+    audioContext = new AudioContextClass();
+  }
+  return audioContext;
 }
 
-function addNode(node) {
-    audioNodes.push(node);
-    return node;
-}
-
-function addSource(source) {
-    audioSources.push(source);
-    return source;
-}
+function addNode(node) { audioNodes.push(node); return node; }
+function addSource(source) { audioSources.push(source); return source; }
 
 function createNoiseSource() {
-    const context = getAudioContext();
-    const buffer = context.createBuffer(
-        1, context.sampleRate * 3, context.sampleRate
-    );
+  const context = getAudioContext();
+  const buffer = context.createBuffer(1, context.sampleRate * 3, context.sampleRate);
+  const channel = buffer.getChannelData(0);
+  for (let i = 0; i < channel.length; i++) channel[i] = Math.random() * 2 - 1;
 
-    const channel = buffer.getChannelData(0);
-
-    for (let i = 0; i < channel.length; i++) {
-        channel[i] = Math.random() * 2 - 1;
-    }
-
-    const source = context.createBufferSource();
-    source.buffer = buffer;
-    source.loop = true;
-
-    addSource(source);
-    return source;
+  const source = context.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  addSource(source);
+  return source;
 }
 
-function connectSoftNoise({ frequency, type, gain, highpass }) {
-    const context = getAudioContext();
-    const source = createNoiseSource();
+function connectSoftNoise({frequency, type, gain}) {
+  const context = getAudioContext();
+  const source = createNoiseSource();
+  const filter = addNode(context.createBiquadFilter());
+  filter.type = type;
+  filter.frequency.value = frequency;
 
-    const filter = addNode(context.createBiquadFilter());
-    filter.type = type;
-    filter.frequency.value = frequency;
+  const level = addNode(context.createGain());
+  level.gain.value = gain;
 
-    const level = addNode(context.createGain());
-    level.gain.value = gain;
-
-    source.connect(filter);
-
-    if (highpass) {
-        const high = addNode(context.createBiquadFilter());
-        high.type = "highpass";
-        high.frequency.value = highpass;
-        filter.connect(high);
-        high.connect(level);
-    } else {
-        filter.connect(level);
-    }
-
-    level.connect(masterGain);
-    source.start();
+  source.connect(filter);
+  filter.connect(level);
+  level.connect(masterGain);
+  source.start();
 }
 
 function createTone(frequency, gainValue, waveType) {
-    const context = getAudioContext();
+  const context = getAudioContext();
+  const oscillator = addSource(context.createOscillator());
+  oscillator.type = waveType;
+  oscillator.frequency.value = frequency;
 
-    const oscillator = addSource(context.createOscillator());
-    oscillator.type = waveType;
-    oscillator.frequency.value = frequency;
-
-    const level = addNode(context.createGain());
-    level.gain.value = gainValue;
-
-    oscillator.connect(level);
-    level.connect(masterGain);
-    oscillator.start();
+  const level = addNode(context.createGain());
+  level.gain.value = gainValue;
+  oscillator.connect(level);
+  level.connect(masterGain);
+  oscillator.start();
 }
 
 async function startAudio() {
-    const context = getAudioContext();
+  const context = getAudioContext();
+  if (context.state === "suspended") await context.resume();
 
-    if (context.state === "suspended") {
-        await context.resume();
-    }
+  stopAudioNodesOnly();
 
-    stopAudioNodesOnly();
+  masterGain = addNode(context.createGain());
+  masterGain.gain.value = Number($("volume").value) / 100;
+  masterGain.connect(context.destination);
 
-    masterGain = addNode(context.createGain());
-    masterGain.gain.value = Number($("volume").value) / 100;
-    masterGain.connect(context.destination);
+  const choice = $("soundChoice").value;
 
-    const choice = $("soundChoice").value;
+  if (choice === "calm") {
+    createTone(220, 0.12, "sine");
+    createTone(277.18, 0.07, "sine");
+    createTone(329.63, 0.035, "sine");
+  } else if (choice === "rain") {
+    connectSoftNoise({frequency:900,type:"lowpass",gain:0.48});
+    connectSoftNoise({frequency:250,type:"lowpass",gain:0.22});
+  } else {
+    connectSoftNoise({frequency:1400,type:"bandpass",gain:0.28});
+    connectSoftNoise({frequency:500,type:"lowpass",gain:0.18});
+    createTone(523.25, 0.012, "sine");
+  }
 
-    if (choice === "calm") {
-        createTone(220, 0.12, "sine");
-        createTone(277.18, 0.07, "sine");
-        createTone(329.63, 0.035, "sine");
-    } else if (choice === "rain") {
-        connectSoftNoise({
-            frequency: 900,
-            type: "lowpass",
-            gain: 0.48
-        });
-
-        connectSoftNoise({
-            frequency: 250,
-            type: "lowpass",
-            gain: 0.22
-        });
-    } else if (choice === "nature") {
-        connectSoftNoise({
-            frequency: 1400,
-            type: "bandpass",
-            gain: 0.28
-        });
-
-        connectSoftNoise({
-            frequency: 500,
-            type: "lowpass",
-            gain: 0.18
-        });
-
-        createTone(523.25, 0.012, "sine");
-    }
-
-    audioPlaying = true;
-    previewing = false;
-
-    $("musicState").textContent = "ON";
-    $("musicMessage").textContent =
-        choice === "calm" ? "🎹 Calm ambient tones are playing." :
-        choice === "rain" ? "🌧️ Gentle rain sounds are playing." :
-        "🌿 Soft nature ambience is playing.";
+  audioPlaying = true;
+  previewing = false;
+  $("musicState").textContent = "ON";
+  $("musicMessage").textContent =
+    choice === "calm" ? "🎹 Calm ambient tones are playing." :
+    choice === "rain" ? "🌧️ Gentle rain sounds are playing." :
+    "🌿 Soft nature ambience is playing.";
 }
 
 function stopAudioNodesOnly() {
-    audioSources.forEach(source => {
-        try { source.stop(); } catch (error) {}
-        try { source.disconnect(); } catch (error) {}
-    });
-
-    audioNodes.forEach(node => {
-        try { node.disconnect(); } catch (error) {}
-    });
-
-    audioSources = [];
-    audioNodes = [];
-    masterGain = null;
-    audioPlaying = false;
+  audioSources.forEach(source => {
+    try { source.stop(); } catch (error) {}
+    try { source.disconnect(); } catch (error) {}
+  });
+  audioNodes.forEach(node => {
+    try { node.disconnect(); } catch (error) {}
+  });
+  audioSources = [];
+  audioNodes = [];
+  masterGain = null;
+  audioPlaying = false;
 }
 
 function stopAudio() {
-    stopAudioNodesOnly();
-    previewing = false;
-
-    $("musicState").textContent =
-        $("musicToggle").checked ? "PAUSED" : "OFF";
-
-    if (!$("musicToggle").checked) {
-        $("musicMessage").textContent =
-            "Focus music is off. Your timer works normally without it.";
-    }
+  stopAudioNodesOnly();
+  previewing = false;
+  $("musicState").textContent = $("musicToggle").checked ? "PAUSED" : "OFF";
+  if (!$("musicToggle").checked) $("musicMessage").textContent = "Focus music is off.";
 }
 
-/* MUSIC CONTROLS */
-
 $("musicToggle").addEventListener("change", async function() {
-    musicControls.hidden = !this.checked;
+  $("musicControls").hidden = !this.checked;
 
-    if (!this.checked) {
-        stopAudio();
-        $("musicState").textContent = "OFF";
-        $("musicMessage").textContent =
-            "Focus music is off. Your timer works normally without it.";
-        return;
-    }
-
-    if (running) {
-        try {
-            await startAudio();
-        } catch (error) {
-            $("musicMessage").textContent =
-                "Could not start audio. Try again using the preview button.";
-        }
-    } else {
-        $("musicState").textContent = "READY";
-        $("musicMessage").textContent =
-            "Focus music enabled. Press Start on your timer or Preview sound to hear it.";
-    }
-});
-
-$("previewBtn").addEventListener("click", async function() {
-    if (!$("musicToggle").checked) {
-        $("musicToggle").checked = true;
-        $("musicControls").hidden = false;
-    }
-
-    try {
-        await startAudio();
-        previewing = true;
-        $("musicMessage").textContent =
-            "Previewing sound. Press Stop preview to stop it.";
-    } catch (error) {
-        $("musicMessage").textContent =
-            "Could not play audio: " + error.message;
-    }
-});
-
-$("stopPreviewBtn").addEventListener("click", function() {
+  if (!this.checked) {
     stopAudio();
-
-    if (running && $("musicToggle").checked) {
-        startAudio().catch(error => {
-            console.error("Could not resume focus sound:", error);
-        });
-    } else {
-        $("musicMessage").textContent =
-            $("musicToggle").checked
-            ? "Preview stopped. Sound will play again when you start the timer."
-            : "Focus music is off.";
-    }
+    $("musicState").textContent = "OFF";
+    $("musicMessage").textContent = "Focus music is off.";
+  } else if (running) {
+    try { await startAudio(); }
+    catch (error) { $("musicMessage").textContent = "Could not start audio. Try Preview sound."; }
+  } else {
+    $("musicState").textContent = "READY";
+    $("musicMessage").textContent = "Press Start or Preview sound to hear it.";
+  }
 });
 
-$("soundChoice").addEventListener("change", function() {
-    if (audioPlaying) {
-        startAudio().catch(error => {
-            console.error("Could not change sound:", error);
-        });
-    }
+$("previewBtn").addEventListener("click", async () => {
+  if (!$("musicToggle").checked) {
+    $("musicToggle").checked = true;
+    $("musicControls").hidden = false;
+  }
+  try {
+    await startAudio();
+    previewing = true;
+    $("musicMessage").textContent = "Previewing sound. Press Stop preview to stop it.";
+  } catch (error) {
+    $("musicMessage").textContent = "Could not play audio: " + error.message;
+  }
+});
+
+$("stopPreviewBtn").addEventListener("click", () => {
+  stopAudio();
+  if (running && $("musicToggle").checked) {
+    startAudio().catch(error => console.error(error));
+  } else {
+    $("musicMessage").textContent = $("musicToggle").checked
+      ? "Preview stopped. Sound will resume when you start the timer."
+      : "Focus music is off.";
+  }
+});
+
+$("soundChoice").addEventListener("change", () => {
+  if (audioPlaying) startAudio().catch(error => console.error(error));
 });
 
 $("volume").addEventListener("input", function() {
-    $("volumeValue").textContent = this.value + "%";
-
-    if (masterGain && audioContext) {
-        masterGain.gain.setTargetAtTime(
-            Number(this.value) / 100,
-            audioContext.currentTime,
-            0.05
-        );
-    }
+  $("volumeValue").textContent = this.value + "%";
+  if (masterGain && audioContext) {
+    masterGain.gain.setTargetAtTime(Number(this.value) / 100, audioContext.currentTime, 0.05);
+  }
 });
 
 /* BUTTONS */
-
 $("startBtn").addEventListener("click", startTimer);
 $("pauseBtn").addEventListener("click", pauseTimer);
 $("resetBtn").addEventListener("click", resetTimer);
 $("notificationBtn").addEventListener("click", enableNotifications);
 $("refreshBtn").addEventListener("click", loadSessions);
+$("focusPauseBtn").addEventListener("click", pauseTimer);
+$("focusResumeBtn").addEventListener("click", startTimer);
+$("endSessionBtn").addEventListener("click", endStudySessionEarly);
 
-/* KEEP TIMER CONSISTENT IF PAGE IS HIDDEN */
-
-document.addEventListener("visibilitychange", function() {
-    if (document.hidden && audioContext && audioContext.state === "running") {
-        // The timer uses a timestamp deadline, so it can catch up when the
-        // learner returns to the page instead of losing time in the background.
-        tick();
-    }
+/* Keep the timestamp-based timer accurate when returning to the page. */
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && running) tick();
 });
 
-/* REGISTER THE EXISTING SERVICE WORKER */
-
+/* Existing service worker */
 if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function() {
-        navigator.serviceWorker.register("./service-worker.js")
-            .catch(error => console.error("Service worker:", error));
-    });
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(error => console.error("Service worker:", error));
+  });
 }
 
-/* INITIAL PAGE SETUP */
-
+/* INITIALISE */
 updateDisplay();
 initialise();
 </script>
