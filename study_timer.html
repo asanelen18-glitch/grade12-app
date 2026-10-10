@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#4f46e5">
+<title>Study Timer | Grade 12 Hub</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#202338}
+header{background:#4f46e5;color:white;padding:20px}
+header a{color:white}
+main{max-width:750px;margin:auto;padding:18px}
+.card{background:white;padding:22px;border-radius:16px;margin-bottom:18px;box-shadow:0 3px 12px #0000000c}
+label{display:block;font-weight:bold;margin:12px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;font-size:16px}
+button{border:0;border-radius:9px;padding:12px 15px;background:#4f46e5;color:white;font-weight:bold;margin:5px 3px 0 0;cursor:pointer}
+.secondary{background:#e5e7eb;color:#222}
+.timer{text-align:center;font-size:clamp(48px,15vw,82px);font-weight:bold;color:#4f46e5;margin:20px 0}
+.status{background:#eef2ff;padding:12px;border-radius:9px;margin:12px 0}
+.muted{color:#64748b}
+.item{padding:12px 0;border-bottom:1px solid #eee}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html">← Back to Grade 12 Hub</a>
+<h1>⏱️ Study Timer</h1>
+<p>Focus on your goals, one session at a time.</p>
+</header>
+<main>
+<section class="card">
+<h2>Choose your timer</h2>
+
+<label for="mode">Timer mode</label>
+<select id="mode">
+<option value="pomodoro">Pomodoro</option>
+<option value="custom">Custom timer</option>
+</select>
+
+<label for="subject">Subject</label>
+<input id="subject" placeholder="e.g. Mathematics">
+
+<div id="pomodoroFields">
+<label for="studyMinutes">Study duration (minutes)</label>
+<input id="studyMinutes" type="number" min="1" max="180" value="25">
+<label for="breakMinutes">Break duration (minutes)</label>
+<input id="breakMinutes" type="number" min="1" max="60" value="5">
+</div>
+
+<div id="customFields" hidden>
+<label for="customMinutes">Custom duration (minutes)</label>
+<input id="customMinutes" type="number" min="1" max="1440" value="45">
+</div>
+
+<div class="timer" id="display">25:00</div>
+<div class="status" id="timerStatus" role="status">Ready to focus!</div>
+
+<button id="startBtn" onclick="startTimer()">▶ Start</button>
+<button class="secondary" onclick="pauseTimer()">⏸ Pause</button>
+<button class="secondary" onclick="resetTimer()">↻ Reset</button>
+<button class="secondary" onclick="enableNotifications()">🔔 Notifications</button>
+</section>
+
+<section class="card">
+<h2>📊 My study progress</h2>
+<div id="summary">Loading...</div>
+<div id="history"></div>
+<button class="secondary" onclick="loadSessions()">Refresh progress</button>
+</section>
+<p id="message" role="status"></p>
+</main>
+
+<script>
+// Use the same Supabase URL and PUBLIC key as your login page.
+// Never put a service_role secret in browser code.
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL";
+const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
+const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const $ = id => document.getElementById(id);
+let user=null, remaining=1500, deadline=null, interval=null;
+let running=false, phase="study", sessionStartedAt=null;
+let sessionDuration=25;
+
+function msg(text){$("message").textContent=text}
+
+function duration(){
+  return Number($("mode").value==="custom"
+    ? $("customMinutes").value : $("studyMinutes").value);
+}
+
+function formatTime(seconds){
+  seconds=Math.max(0,Math.ceil(seconds));
+  return String(Math.floor(seconds/60)).padStart(2,"0")+":"+
+         String(seconds%60).padStart(2,"0");
+}
+
+function updateDisplay(){
+  $("display").textContent=formatTime(remaining);
+}
+
+function updateMode(){
+  pauseTimer();
+  phase="study";
+  sessionStartedAt=null;
+  $("pomodoroFields").hidden=$("mode").value!=="pomodoro";
+  $("customFields").hidden=$("mode").value!=="custom";
+  remaining=duration()*60;
+  $("timerStatus").textContent="Ready to focus!";
+  updateDisplay();
+}
+
+$("mode").addEventListener("change",updateMode);
+$("studyMinutes").addEventListener("change",updateMode);
+$("customMinutes").addEventListener("change",updateMode);
+
+async function initialise(){
+  if(SUPABASE_URL.includes("PASTE_")||SUPABASE_KEY.includes("PASTE_")){
+    msg("Add your existing Supabase URL and public key to this file.");
+    return;
+  }
+  const {data,error}=await db.auth.getSession();
+  if(error||!data.session){
+    msg("Please log in to Grade 12 Hub first.");
+    $("summary").textContent="Log in to view saved sessions.";
+    return;
+  }
+  user=data.session.user;
+  await loadSessions();
+}
+
+async function startTimer(){
+  if(!user){msg("Please log in first.");return}
+  if(running)return;
+
+  if(remaining<=0)remaining=duration()*60;
+
+  if(phase==="study"&&!sessionStartedAt){
+    sessionStartedAt=new Date().toISOString();
+    sessionDuration=Math.ceil(remaining/60);
+  }
+
+  running=true;
+  deadline=Date.now()+remaining*1000;
+  $("timerStatus").textContent=phase==="study"
+    ?"Focus time!":"Break time. Relax!";
+  clearInterval(interval);
+  interval=setInterval(tick,250);
+  tick();
+}
+
+function pauseTimer(){
+  if(running&&deadline){
+    remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000));
+  }
+  running=false;
+  deadline=null;
+  clearInterval(interval);
+  updateDisplay();
+}
+
+function resetTimer(){
+  pauseTimer();
+  phase="study";
+  sessionStartedAt=null;
+  remaining=duration()*60;
+  $("timerStatus").textContent="Timer reset. Ready when you are!";
+  updateDisplay();
+}
+
+function tick(){
+  if(!running)return;
+  remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000));
+  updateDisplay();
+  if(remaining===0){
+    pauseTimer();
+    timerFinished();
+  }
+}
+
+async function timerFinished(){
+  if(phase==="study"){
+    await saveSession(sessionDuration,sessionStartedAt);
+    sessionStartedAt=null;
+    $("timerStatus").textContent="Study session complete! 🎉";
+
+    if($("mode").value==="pomodoro"){
+      notify("Study session complete!","Time for your break.");
+      phase="break";
+      remaining=Number($("breakMinutes").value)*60;
+      updateDisplay();
+      $("timerStatus").textContent="Study complete! Start your break.";
+    }else{
+      notify("Timer complete!","Well done on finishing your session.");
+    }
+  }else{
+    phase="study";
+    remaining=Number($("studyMinutes").value)*60;
+    updateDisplay();
+    $("timerStatus").textContent="Break finished. Ready to focus again?";
+    notify("Break finished!","Ready for another study session?");
+  }
+}
+
+async function saveSession(minutes,startedAt){
+  if(!user)return;
+  const {error}=await db.from("study_sessions").insert({
+    user_id:user.id,
+    subject:$("subject").value.trim()||"General study",
+    mode:$("mode").value,
+    duration_minutes:minutes,
+    started_at:startedAt||new Date().toISOString(),
+    completed_at:new Date().toISOString()
+  });
+  if(error){msg("Session saving failed: "+error.message);return}
+  msg("Your completed study session was saved!");
+  await loadSessions();
+}
+
+async function loadSessions(){
+  if(!user)return;
+  const {data,error}=await db.from("study_sessions")
+    .select("id,subject,mode,duration_minutes,started_at")
+    .eq("user_id",user.id)
+    .order("started_at",{ascending:false})
+    .limit(50);
+
+  if(error){$("summary").textContent=error.message;return}
+  const sessions=data||[];
+  const total=sessions.reduce((sum,s)=>sum+Number(s.duration_minutes),0);
+  $("summary").textContent=
+    sessions.length+" completed sessions · "+total+" study minutes";
+  $("history").replaceChildren();
+
+  if(!sessions.length){
+    $("history").textContent="Your completed sessions will appear here.";
+    return;
+  }
+
+  sessions.forEach(s=>{
+    const item=document.createElement("div");
+    item.className="item";
+    const title=document.createElement("strong");
+    title.textContent=s.subject+" — "+s.duration_minutes+" minutes";
+    const detail=document.createElement("p");
+    detail.className="muted";
+    detail.textContent=s.mode+" · "+new Date(s.started_at).toLocaleString();
+    item.append(title,detail);
+    $("history").appendChild(item);
+  });
+}
+
+async function enableNotifications(){
+  if(!("Notification" in window)){
+    msg("Notifications are not supported by this browser.");return;
+  }
+  const permission=await Notification.requestPermission();
+  msg(permission==="granted"?"Notifications enabled.":"Notifications not enabled.");
+}
+
+function notify(title,body){
+  if("Notification" in window&&Notification.permission==="granted"){
+    new Notification(title,{body});
+  }
+}
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./sw.js")
+      .catch(e=>console.error("Service worker:",e));
+  });
+}
+
+initialise();
+updateDisplay();
+</script>
+</body>
+</html>
