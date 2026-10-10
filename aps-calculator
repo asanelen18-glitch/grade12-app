@@ -1,0 +1,893 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4f46e5">
+  <title>APS Calculator - Grade 12 Hub</title>
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --background: #f4f6f8;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success: #166534;
+      --success-bg: #dcfce7;
+      --warning: #92400e;
+      --warning-bg: #fef3c7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 22px 16px;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    header h1 {
+      margin: 0 0 5px;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    nav {
+      max-width: 900px;
+      margin: 14px auto 0;
+      padding: 0 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    nav a {
+      color: var(--primary-dark);
+      background: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 16px 35px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 21px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .subject-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(90px, 0.7fr);
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 2px solid #a5b4fc;
+      border-color: var(--primary);
+    }
+
+    button,
+    .button-link {
+      display: inline-block;
+      border: none;
+      border-radius: 9px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .primary-button {
+      background: var(--primary);
+      color: white;
+    }
+
+    .primary-button:hover {
+      background: var(--primary-dark);
+    }
+
+    .secondary-button {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .remove-button {
+      background: #fee2e2;
+      color: #991b1b;
+      margin-top: 5px;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .result {
+      display: none;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 18px;
+    }
+
+    .score {
+      font-size: 46px;
+      line-height: 1.2;
+      font-weight: bold;
+      color: var(--primary);
+      margin: 8px 0;
+    }
+
+    .score-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .result-list {
+      padding-left: 20px;
+    }
+
+    .notice {
+      padding: 12px;
+      border-radius: 8px;
+      background: #eef2ff;
+      color: #3730a3;
+      font-size: 14px;
+      margin-top: 12px;
+    }
+
+    .warning {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .success {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    .university-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .university-links a {
+      color: var(--primary-dark);
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 23px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .subject-row {
+        grid-template-columns: minmax(0, 1fr) 95px;
+        gap: 8px;
+      }
+
+      .score {
+        font-size: 40px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>🎓 APS Calculator</h1>
+      <p>Grade 12 Hub — Estimate your Admission Point Score</p>
+    </div>
+  </header>
+
+  <nav aria-label="Main navigation">
+    <a href="index.html">← Home</a>
+    <a href="varsity.html">University Applications</a>
+  </nav>
+
+  <main>
+    <section class="card">
+      <h2>1. Enter your subject marks</h2>
+      <p class="muted">
+        Enter each subject and its percentage mark. Life Orientation is
+        automatically excluded from the calculation. Add enough subjects
+        to calculate your best six eligible subjects.
+      </p>
+
+      <div id="subjects"></div>
+
+      <div class="actions">
+        <button type="button" class="secondary-button" id="addSubject">
+          + Add subject
+        </button>
+        <button type="button" class="primary-button" id="calculate">
+          Calculate my APS
+        </button>
+        <button type="button" class="secondary-button" id="reset">
+          Clear marks
+        </button>
+      </div>
+
+      <div id="apsResult" class="result" aria-live="polite">
+        <div class="score-label">Estimated APS from your best six subjects</div>
+        <div id="apsScore" class="score">0 / 42</div>
+        <p id="subjectCount"></p>
+        <h3>Subjects included</h3>
+        <ul id="includedSubjects" class="result-list"></ul>
+        <h3>Subjects not included</h3>
+        <ul id="excludedSubjects" class="result-list"></ul>
+        <div class="notice">
+          This is an estimate using a common 7-point scale. Universities may
+          calculate APS differently, exclude other subjects, or use different
+          rules for specific programmes. Always check the official course
+          requirements.
+        </div>
+      </div>
+
+      <div id="inputError" class="notice warning" role="alert" hidden></div>
+    </section>
+
+    <section class="card">
+      <h2>2. Check a course requirement</h2>
+      <p class="muted">
+        Use the minimum APS and subject requirements published by the
+        university for the exact course you want to study.
+      </p>
+
+      <div style="margin-bottom: 14px;">
+        <label for="university">University</label>
+        <select id="university">
+          <option value="">Select a university</option>
+          <option value="University of Johannesburg">University of Johannesburg (UJ)</option>
+          <option value="North-West University">North-West University (NWU)</option>
+          <option value="University of the Witwatersrand">University of the Witwatersrand (Wits)</option>
+          <option value="University of Pretoria">University of Pretoria (UP)</option>
+          <option value="University of Cape Town">University of Cape Town (UCT)</option>
+          <option value="University of the Free State">University of the Free State (UFS)</option>
+          <option value="University of KwaZulu-Natal">University of KwaZulu-Natal (UKZN)</option>
+          <option value="UNISA">University of South Africa (UNISA)</option>
+          <option value="Other">Other university</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label for="course">Course or qualification</label>
+        <input id="course" type="text" maxlength="120"
+          placeholder="e.g. Bachelor of Science">
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label for="minimumAPS">Published minimum APS for this course</label>
+        <input id="minimumAPS" type="number" min="0" max="100"
+          step="1" placeholder="Enter the official minimum APS">
+        <p class="muted">
+          Do not guess this value. Check the university's official
+          requirements for your course and admission year.
+        </p>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label for="requiredSubject">Required subject (optional)</label>
+        <select id="requiredSubject">
+          <option value="">No additional subject requirement</option>
+          <option value="Mathematics">Mathematics</option>
+          <option value="Mathematical Literacy">Mathematical Literacy</option>
+          <option value="Physical Sciences">Physical Sciences</option>
+          <option value="Life Sciences">Life Sciences</option>
+          <option value="English Home Language">English Home Language</option>
+          <option value="English First Additional Language">English First Additional Language</option>
+          <option value="Other">Other — enter below</option>
+        </select>
+      </div>
+
+      <div id="otherSubjectContainer" style="margin-bottom: 14px;" hidden>
+        <label for="otherSubject">Required subject name</label>
+        <input id="otherSubject" type="text" maxlength="100"
+          placeholder="Enter the subject name">
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label for="minimumSubjectMark">Minimum mark required for that subject (optional)</label>
+        <input id="minimumSubjectMark" type="number" min="0" max="100"
+          placeholder="e.g. 60">
+      </div>
+
+      <button type="button" class="primary-button" id="checkCourse">
+        Check my course requirements
+      </button>
+
+      <div id="courseResult" class="result" aria-live="polite"></div>
+      <div id="courseError" class="notice warning" role="alert" hidden></div>
+    </section>
+
+    <section class="card">
+      <h2>3. Official university information</h2>
+      <p class="muted">
+        Confirm admission requirements, subject marks, language requirements,
+        application dates and selection rules directly with the university.
+      </p>
+
+      <div class="university-links">
+        <div>
+          <strong>University of Johannesburg</strong><br>
+          <a href="https://www.uj.ac.za/admission-aid/undergraduate/"
+             target="_blank" rel="noopener noreferrer">Undergraduate admissions</a>
+        </div>
+        <div>
+          <strong>North-West University</strong><br>
+          <a href="https://studies.nwu.ac.za/studies/apply"
+             target="_blank" rel="noopener noreferrer">Applications and admissions</a>
+        </div>
+        <div>
+          <strong>Wits University</strong><br>
+          <a href="https://www.wits.ac.za/undergraduate/entry-requirements/"
+             target="_blank" rel="noopener noreferrer">Undergraduate entry requirements</a>
+        </div>
+        <div>
+          <strong>University of Pretoria</strong><br>
+          <a href="https://www.up.ac.za/"
+             target="_blank" rel="noopener noreferrer">Official university website</a>
+        </div>
+        <div>
+          <strong>University of Cape Town</strong><br>
+          <a href="https://www.uct.ac.za/"
+             target="_blank" rel="noopener noreferrer">Official university website</a>
+        </div>
+        <div>
+          <strong>University of the Free State</strong><br>
+          <a href="https://www.ufs.ac.za/"
+             target="_blank" rel="noopener noreferrer">Official university website</a>
+        </div>
+        <div>
+          <strong>University of KwaZulu-Natal</strong><br>
+          <a href="https://www.ukzn.ac.za/"
+             target="_blank" rel="noopener noreferrer">Official university website</a>
+        </div>
+        <div>
+          <strong>UNISA</strong><br>
+          <a href="https://www.unisa.ac.za/"
+             target="_blank" rel="noopener noreferrer">Official university website</a>
+        </div>
+      </div>
+
+      <div class="notice warning">
+        Meeting a minimum APS does not guarantee admission. Universities may
+        consider additional subject requirements, selection criteria,
+        available places and the admission year.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Grade 12 Hub · APS Calculator
+  </footer>
+
+  <script>
+    "use strict";
+
+    const subjectsContainer = document.getElementById("subjects");
+    const apsResult = document.getElementById("apsResult");
+    const apsScore = document.getElementById("apsScore");
+    const subjectCount = document.getElementById("subjectCount");
+    const includedSubjects = document.getElementById("includedSubjects");
+    const excludedSubjects = document.getElementById("excludedSubjects");
+    const inputError = document.getElementById("inputError");
+    const courseResult = document.getElementById("courseResult");
+    const courseError = document.getElementById("courseError");
+
+    let nextSubjectId = 0;
+    let lastCalculation = null;
+
+    // Common illustrative 7-point scale. Universities can use different rules.
+    function markToPoints(mark) {
+      if (mark >= 80) return 7;
+      if (mark >= 70) return 6;
+      if (mark >= 60) return 5;
+      if (mark >= 50) return 4;
+      if (mark >= 40) return 3;
+      if (mark >= 30) return 2;
+      return 1;
+    }
+
+    function isLifeOrientation(name) {
+      return name.trim().toLowerCase() === "life orientation";
+    }
+
+    function addSubject(name = "", mark = "") {
+      const id = nextSubjectId++;
+      const row = document.createElement("div");
+      row.className = "subject-row";
+      row.dataset.subjectId = String(id);
+
+      const nameBox = document.createElement("div");
+      const nameLabel = document.createElement("label");
+      nameLabel.htmlFor = "subjectName" + id;
+      nameLabel.textContent = "Subject " + (id + 1);
+
+      const nameInput = document.createElement("input");
+      nameInput.id = "subjectName" + id;
+      nameInput.type = "text";
+      nameInput.maxLength = 100;
+      nameInput.placeholder = "e.g. Mathematics";
+      nameInput.autocomplete = "off";
+      nameInput.value = name;
+      nameInput.className = "subject-name";
+
+      nameBox.append(nameLabel, nameInput);
+
+      const markBox = document.createElement("div");
+      const markLabel = document.createElement("label");
+      markLabel.htmlFor = "subjectMark" + id;
+      markLabel.textContent = "Mark (%)";
+
+      const markInput = document.createElement("input");
+      markInput.id = "subjectMark" + id;
+      markInput.type = "number";
+      markInput.min = "0";
+      markInput.max = "100";
+      markInput.step = "1";
+      markInput.placeholder = "0–100";
+      markInput.value = mark;
+      markInput.className = "subject-mark";
+      markInput.inputMode = "numeric";
+      markInput.setAttribute("aria-label", "Mark for subject " + (id + 1));
+
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "remove-button";
+      removeButton.textContent = "Remove";
+      removeButton.setAttribute("aria-label", "Remove subject " + (id + 1));
+      removeButton.addEventListener("click", () => {
+        row.remove();
+        updateSubjectLabels();
+        hideResults();
+      });
+
+      markBox.append(markLabel, markInput, removeButton);
+      row.append(nameBox, markBox);
+      subjectsContainer.appendChild(row);
+
+      nameInput.addEventListener("input", hideResults);
+      markInput.addEventListener("input", hideResults);
+
+      updateSubjectLabels();
+    }
+
+    function updateSubjectLabels() {
+      const rows = subjectsContainer.querySelectorAll(".subject-row");
+      rows.forEach((row, index) => {
+        const label = row.querySelector(".subject-row label");
+        const nameLabel = row.querySelector(".subject-name");
+        const markInput = row.querySelector(".subject-mark");
+
+        const labels = row.querySelectorAll("label");
+        if (labels[0]) {
+          labels[0].textContent = "Subject " + (index + 1);
+          labels[0].htmlFor = nameLabel.id;
+        }
+
+        if (labels[1]) {
+          labels[1].textContent = "Mark (%)";
+          labels[1].htmlFor = markInput.id;
+        }
+
+        const removeButton = row.querySelector(".remove-button");
+        if (removeButton) {
+          removeButton.setAttribute(
+            "aria-label",
+            "Remove subject " + (index + 1)
+          );
+        }
+      });
+    }
+
+    function hideResults() {
+      apsResult.style.display = "none";
+      courseResult.style.display = "none";
+      inputError.hidden = true;
+      courseError.hidden = true;
+      lastCalculation = null;
+    }
+
+    function showError(element, message) {
+      element.textContent = message;
+      element.hidden = false;
+    }
+
+    function appendListItem(list, text) {
+      const item = document.createElement("li");
+      item.textContent = text;
+      list.appendChild(item);
+    }
+
+    function calculateAPS() {
+      inputError.hidden = true;
+      courseError.hidden = true;
+
+      const rows = Array.from(
+        subjectsContainer.querySelectorAll(".subject-row")
+      );
+
+      const eligible = [];
+      const excluded = [];
+      let invalid = null;
+
+      rows.forEach((row, index) => {
+        const name = row.querySelector(".subject-name").value.trim();
+        const markText = row.querySelector(".subject-mark").value.trim();
+
+        // Ignore completely empty rows.
+        if (!name && !markText) return;
+
+        if (!name || !markText) {
+          invalid = "Please enter both a subject name and a mark for subject " +
+            (index + 1) + ".";
+          return;
+        }
+
+        const mark = Number(markText);
+
+        if (!Number.isFinite(mark) || mark < 0 || mark > 100) {
+          invalid = "Every mark must be a number between 0 and 100.";
+          return;
+        }
+
+        const subject = {
+          name: name,
+          mark: mark,
+          points: markToPoints(mark),
+          originalIndex: index
+        };
+
+        if (isLifeOrientation(name)) {
+          excluded.push({
+            name: name,
+            mark: mark,
+            reason: "Life Orientation is excluded."
+          });
+        } else {
+          eligible.push(subject);
+        }
+      });
+
+      if (invalid) {
+        showError(inputError, invalid);
+        return null;
+      }
+
+      if (eligible.length < 6) {
+        showError(
+          inputError,
+          "Please enter at least six valid subjects, excluding Life Orientation."
+        );
+        return null;
+      }
+
+      // Highest point scores first. Keep original order when points are equal.
+      eligible.sort((a, b) =>
+        (b.points - a.points) || (a.originalIndex - b.originalIndex)
+      );
+
+      const included = eligible.slice(0, 6);
+      const notIncluded = eligible.slice(6);
+      const total = included.reduce((sum, subject) => sum + subject.points, 0);
+
+      notIncluded.forEach(subject => {
+        excluded.push({
+          name: subject.name,
+          mark: subject.mark,
+          reason: "Not in the best six eligible subjects."
+        });
+      });
+
+      lastCalculation = {
+        total: total,
+        included: included,
+        excluded: excluded,
+        allEligible: eligible
+      };
+
+      apsScore.textContent = total + " / 42";
+      subjectCount.textContent =
+        "Calculated from " + included.length +
+        " eligible subjects. LO was excluded automatically.";
+
+      includedSubjects.replaceChildren();
+      excludedSubjects.replaceChildren();
+
+      included.forEach(subject => {
+        appendListItem(
+          includedSubjects,
+          subject.name + ": " + subject.mark + "% = " +
+          subject.points + " APS point(s)"
+        );
+      });
+
+      if (excluded.length === 0) {
+        appendListItem(excludedSubjects, "None");
+      } else {
+        excluded.forEach(subject => {
+          appendListItem(
+            excludedSubjects,
+            subject.name + ": " + subject.mark + "% — " + subject.reason
+          );
+        });
+      }
+
+      apsResult.style.display = "block";
+      return lastCalculation;
+    }
+
+    function findSubjectByName(name, calculation) {
+      const normalized = name.trim().toLowerCase();
+      return calculation.allEligible.find(subject =>
+        subject.name.trim().toLowerCase() === normalized
+      ) || null;
+    }
+
+    function checkCourse() {
+      courseResult.replaceChildren();
+      courseResult.style.display = "none";
+      courseError.hidden = true;
+
+      const calculation = lastCalculation || calculateAPS();
+      if (!calculation) return;
+
+      const university = document.getElementById("university").value;
+      const course = document.getElementById("course").value.trim();
+      const minimumText = document.getElementById("minimumAPS").value.trim();
+      const requiredSubjectChoice =
+        document.getElementById("requiredSubject").value;
+      const otherSubject =
+        document.getElementById("otherSubject").value.trim();
+      const minimumSubjectText =
+        document.getElementById("minimumSubjectMark").value.trim();
+
+      if (!university) {
+        showError(courseError, "Please select a university.");
+        return;
+      }
+
+      if (!course) {
+        showError(courseError, "Please enter the course or qualification name.");
+        return;
+      }
+
+      if (!minimumText) {
+        showError(
+          courseError,
+          "Enter the minimum APS from the official course requirements."
+        );
+        return;
+      }
+
+      const minimumAPS = Number(minimumText);
+      if (!Number.isFinite(minimumAPS) || minimumAPS < 0 || minimumAPS > 100) {
+        showError(courseError, "Enter a valid minimum APS.");
+        return;
+      }
+
+      let requiredSubject = requiredSubjectChoice;
+      if (requiredSubjectChoice === "Other") {
+        requiredSubject = otherSubject;
+        if (!requiredSubject) {
+          showError(courseError, "Please enter the required subject name.");
+          return;
+        }
+      }
+
+      let minimumSubjectMark = null;
+      if (minimumSubjectText !== "") {
+        minimumSubjectMark = Number(minimumSubjectText);
+        if (
+          !Number.isFinite(minimumSubjectMark) ||
+          minimumSubjectMark < 0 ||
+          minimumSubjectMark > 100
+        ) {
+          showError(
+            courseError,
+            "The required subject mark must be between 0 and 100."
+          );
+          return;
+        }
+      }
+
+      const heading = document.createElement("h3");
+      heading.textContent = "Your course requirement estimate";
+      courseResult.appendChild(heading);
+
+      const summary = document.createElement("p");
+      summary.textContent = university + " — " + course;
+      courseResult.appendChild(summary);
+
+      const apsText = document.createElement("p");
+      apsText.textContent =
+        "Your estimated APS: " + calculation.total +
+        ". Entered minimum APS: " + minimumAPS + ".";
+      courseResult.appendChild(apsText);
+
+      const apsMeets = calculation.total >= minimumAPS;
+      const apsStatus = document.createElement("div");
+      apsStatus.className = "status " +
+        (apsMeets ? "success" : "warning");
+      apsStatus.textContent = apsMeets
+        ? "Your estimated APS meets or exceeds the minimum you entered."
+        : "Your estimated APS is below the minimum you entered.";
+      courseResult.appendChild(apsStatus);
+
+      if (requiredSubject) {
+        const subject = findSubjectByName(requiredSubject, calculation);
+        const subjectLine = document.createElement("p");
+
+        if (!subject) {
+          subjectLine.textContent =
+            "Required subject: " + requiredSubject +
+            ". No matching eligible subject was found in your entered marks.";
+          courseResult.appendChild(subjectLine);
+        } else {
+          subjectLine.textContent =
+            requiredSubject + " mark: " + subject.mark + "%.";
+
+          if (minimumSubjectMark !== null) {
+            subjectLine.textContent +=
+              " Minimum entered: " + minimumSubjectMark + "%.";
+
+            const subjectStatus = document.createElement("div");
+            const subjectMeets = subject.mark >= minimumSubjectMark;
+            subjectStatus.className = "status " +
+              (subjectMeets ? "success" : "warning");
+            subjectStatus.textContent = subjectMeets
+              ? "Your entered mark meets or exceeds the subject minimum."
+              : "Your entered mark is below the subject minimum.";
+            courseResult.appendChild(subjectLine);
+            courseResult.appendChild(subjectStatus);
+          } else {
+            subjectLine.textContent +=
+              " Enter the required minimum subject mark from the official requirements to compare it.";
+            courseResult.appendChild(subjectLine);
+          }
+        }
+      }
+
+      const disclaimer = document.createElement("div");
+      disclaimer.className = "notice warning";
+      disclaimer.textContent =
+        "This is only a comparison against the values you entered. " +
+        "It does not confirm admission or verify the university's current requirements.";
+      courseResult.appendChild(disclaimer);
+
+      courseResult.style.display = "block";
+    }
+
+    document.getElementById("addSubject").addEventListener("click", () => {
+      addSubject();
+      hideResults();
+    });
+
+    document.getElementById("calculate").addEventListener("click", calculateAPS);
+
+    document.getElementById("reset").addEventListener("click", () => {
+      subjectsContainer.replaceChildren();
+      nextSubjectId = 0;
+      lastCalculation = null;
+      addSubject();
+      addSubject();
+      addSubject();
+      addSubject();
+      addSubject();
+      addSubject();
+      addSubject();
+      hideResults();
+    });
+
+    document.getElementById("checkCourse")
+      .addEventListener("click", checkCourse);
+
+    document.getElementById("requiredSubject")
+      .addEventListener("change", event => {
+        const showOther = event.target.value === "Other";
+        document.getElementById("otherSubjectContainer").hidden = !showOther;
+      });
+
+    // Start with seven subject rows, including room for LO if needed.
+    addSubject("English Home Language");
+    addSubject("Mathematics");
+    addSubject("Physical Sciences");
+    addSubject("Life Sciences");
+    addSubject("Life Orientation");
+    addSubject();
+    addSubject();
+  </script>
+</body>
+</html>
