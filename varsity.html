@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#4f46e5">
+<title>Apply to Varsity | Grade 12 Hub</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#1f2937}
+header{background:#4f46e5;color:white;padding:22px 16px}
+header h1{margin:0 0 8px;font-size:25px}
+header p{margin:0;line-height:1.5}
+main{max-width:900px;margin:auto;padding:18px}
+.back{display:inline-block;margin-bottom:16px;color:#4338ca;font-weight:bold;text-decoration:none}
+.panel,.uni,.checklist{background:white;padding:18px;border-radius:15px;margin-bottom:16px;box-shadow:0 3px 12px #0000000b}
+h2{font-size:20px;margin:0 0 12px}
+input[type=search]{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px}
+.uni h3{margin:0 0 8px;color:#3730a3}
+.uni p{font-size:14px;line-height:1.5;color:#4b5563}
+.tag{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:20px;padding:5px 9px;font-size:12px;margin-bottom:8px}
+.btn{display:inline-block;background:#4f46e5;color:white;text-decoration:none;padding:11px 14px;border-radius:9px;font-weight:bold}
+.note{font-size:13px;line-height:1.6;color:#64748b}
+.checkrow{display:flex;gap:10px;align-items:flex-start;margin:14px 0;line-height:1.5}
+.checkrow input{margin-top:4px;width:18px;height:18px}
+footer{text-align:center;padding:24px;color:#64748b;font-size:13px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎓 Apply to Varsity</h1>
+  <p>Your next step starts here. Explore universities and prepare to apply.</p>
+</header>
+
+<main>
+  <a class="back" href="index.html">← Back to Grade 12 Hub</a>
+
+  <section class="panel">
+    <h2>Find a university</h2>
+    <p>Search by university name. Open its official website to check courses, admission requirements, application dates and fees.</p>
+    <input id="search" type="search" placeholder="Search universities..." aria-label="Search universities">
+  </section>
+
+  <section class="grid" id="universities">
+
+    <article class="uni" data-name="north-west university nwu">
+      <span class="tag">North West</span>
+      <h3>North-West University (NWU)</h3>
+      <p>Explore qualifications, admission requirements and online applications.</p>
+      <a class="btn" href="https://studies.nwu.ac.za/studies/apply" target="_blank" rel="noopener noreferrer">Official application page ↗</a>
+    </article>
+
+    <article class="uni" data-name="university of johannesburg uj">
+      <span class="tag">Gauteng</span>
+      <h3>University of Johannesburg (UJ)</h3>
+      <p>Visit UJ's official website to find undergraduate application information.</p>
+      <a class="btn" href="https://www.uj.ac.za/" target="_blank" rel="noopener noreferrer">Visit official website ↗</a>
+    </article>
+
+    <article class="uni" data-name="university of pretoria up">
+      <span class="tag">Gauteng</span>
+      <h3>University of Pretoria (UP)</h3>
+      <p>Explore programmes and find official undergraduate application guidance.</p>
+      <a class="btn" href="https://www.up.ac.za/" target="_blank" rel="noopener noreferrer">Visit official website ↗</a>
+    </article>
+
+    <article class="uni" data-name="university of the witwatersrand wits">
+      <span class="tag">Gauteng</span>
+      <h3>Wits University</h3>
+      <p>Check application steps, programme requirements and closing dates.</p>
+      <a class="btn" href="https://www.wits.ac.za/undergraduate/apply-to-wits/" target="_blank" rel="noopener noreferrer">Application information ↗</a>
+    </article>
+
+    <article class="uni" data-name="university of cape town uct">
+      <span class="tag">Western Cape</span>
+      <h3>University of Cape Town (UCT)</h3>
+      <p>Review undergraduate application procedures and admission information.</p>
+      <a class="btn" href="https://www.uct.ac.za/students/applications-apply-undergraduate-qualifications/application-procedure" target="_blank" rel="noopener noreferrer">Application information ↗</a>
+    </article>
+
+    <article class="uni" data-name="stellenbosch university su">
+      <span class="tag">Western Cape</span>
+      <h3>Stellenbosch University</h3>
+      <p>Find programme selection criteria, required documents and application guidance.</p>
+      <a class="btn" href="https://www.su.ac.za/en/apply/undergrad/apply-0/how-apply" target="_blank" rel="noopener noreferrer">Application information ↗</a>
+    </article>
+
+    <article class="uni" data-name="cape peninsula university of technology cput">
+      <span class="tag">Western Cape</span>
+      <h3>CPUT</h3>
+      <p>Check qualifications, required supporting documents and application dates.</p>
+      <a class="btn" href="https://www.cput.ac.za/study-at-cput/undergraduate/apply" target="_blank" rel="noopener noreferrer">Application information ↗</a>
+    </article>
+
+    <article class="uni" data-name="university of the free state ufs">
+      <span class="tag">Free State</span>
+      <h3>University of the Free State (UFS)</h3>
+      <p>Visit the university's official website for applications and admission requirements.</p>
+      <a class="btn" href="https://www.ufs.ac.za/" target="_blank" rel="noopener noreferrer">Visit official website ↗</a>
+    </article>
+
+  </section>
+
+  <section class="checklist">
+    <h2>✅ My application checklist</h2>
+    <p>Tick items as you prepare. Your checklist is saved on this device and browser.</p>
+
+    <label class="checkrow">
+      <input type="checkbox" data-task="id">
+      <span>Prepare my ID document or valid passport.</span>
+    </label>
+    <label class="checkrow">
+      <input type="checkbox" data-task="results">
+      <span>Prepare my latest school results, such as Grade 11 results.</span>
+    </label>
+    <label class="checkrow">
+      <input type="checkbox" data-task="email">
+      <span>Make sure I can access my personal email address.</span>
+    </label>
+    <label class="checkrow">
+      <input type="checkbox" data-task="course">
+      <span>Check course requirements and any additional selection tests.</span>
+    </label>
+    <label class="checkrow">
+      <input type="checkbox" data-task="deadline">
+      <span>Confirm the closing date on the university's official website.</span>
+    </label>
+    <label class="checkrow">
+      <input type="checkbox" data-task="submit">
+      <span>Submit my application and save the confirmation.</span>
+    </label>
+
+    <button class="btn" id="resetChecklist" type="button">Reset checklist</button>
+    <p class="note">Checklist progress is stored locally in this browser; it does not sync between devices or learner accounts.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Important reminder</h2>
+    <p>Application dates, fees and admission requirements can change and may differ by qualification. Always confirm them on the university's official website before applying. Meeting minimum requirements does not guarantee admission.</p>
+    <p class="note">Grade 12 Hub provides links and planning tools. Applications are submitted directly to each university.</p>
+  </section>
+</main>
+
+<footer>Grade 12 Hub · Your Future. Your Goals. Your Success.</footer>
+
+<script>
+const search = document.getElementById("search");
+const universities = document.querySelectorAll(".uni");
+
+search.addEventListener("input", function () {
+  const query = this.value.toLowerCase().trim();
+
+  universities.forEach(function (university) {
+    const name = university.dataset.name.toLowerCase();
+    university.hidden = !name.includes(query);
+  });
+});
+
+const tasks = document.querySelectorAll("[data-task]");
+
+tasks.forEach(function (task) {
+  const key = "g12-varsity-" + task.dataset.task;
+
+  try {
+    task.checked = localStorage.getItem(key) === "true";
+
+    task.addEventListener("change", function () {
+      localStorage.setItem(key, String(task.checked));
+    });
+  } catch (error) {
+    console.warn("Local checklist saving is unavailable in this browser.");
+  }
+});
+
+document.getElementById("resetChecklist").addEventListener("click", function () {
+  tasks.forEach(function (task) {
+    task.checked = false;
+
+    try {
+      localStorage.removeItem("g12-varsity-" + task.dataset.task);
+    } catch (error) {
+      console.warn("Could not clear locally saved checklist.");
+    }
+  });
+});
+</script>
+
+</body>
+</html>
