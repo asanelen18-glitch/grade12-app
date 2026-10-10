@@ -6,7 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#4f46e5">
 <title>Study Timer | Grade 12 Hub</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#202338}
@@ -16,266 +18,863 @@ main{max-width:750px;margin:auto;padding:18px}
 .card{background:white;padding:22px;border-radius:16px;margin-bottom:18px;box-shadow:0 3px 12px #0000000c}
 label{display:block;font-weight:bold;margin:12px 0 6px}
 input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;font-size:16px}
+input[type="checkbox"]{width:20px;height:20px;accent-color:#4f46e5}
+input[type="range"]{padding:0;accent-color:#4f46e5}
 button{border:0;border-radius:9px;padding:12px 15px;background:#4f46e5;color:white;font-weight:bold;margin:5px 3px 0 0;cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
 .secondary{background:#e5e7eb;color:#222}
+.danger{background:#fee2e2;color:#991b1b}
 .timer{text-align:center;font-size:clamp(48px,15vw,82px);font-weight:bold;color:#4f46e5;margin:20px 0}
-.status{background:#eef2ff;padding:12px;border-radius:9px;margin:12px 0}
-.muted{color:#64748b}
+.status{background:#eef2ff;padding:12px;border-radius:9px;margin:12px 0;line-height:1.5}
+.muted{color:#64748b;font-size:14px;line-height:1.5}
 .item{padding:12px 0;border-bottom:1px solid #eee}
+.music-box{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:12px;padding:16px}
+.music-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.music-heading h3{margin:0;color:#3730a3}
+.music-toggle{display:flex;align-items:center;gap:10px;margin:15px 0;font-weight:bold;cursor:pointer}
+.music-toggle input{flex-shrink:0}
+.music-status{padding:10px;background:white;border-radius:8px;margin-top:12px;font-size:13px;line-height:1.5}
+.progress{height:9px;background:#e5e7eb;border-radius:20px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:#4f46e5;transition:width .2s}
+.button-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.button-row button{flex:1}
+footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
+[hidden]{display:none!important}
 </style>
 </head>
+
 <body>
 <header>
-<a href="index.html">← Back to Grade 12 Hub</a>
-<h1>⏱️ Study Timer</h1>
-<p>Focus on your goals, one session at a time.</p>
+    <a href="index.html">← Back to Grade 12 Hub</a>
+    <h1>⏱️ Study Timer</h1>
+    <p>Focus on your goals, one session at a time.</p>
 </header>
+
 <main>
-<section class="card">
-<h2>Choose your timer</h2>
+    <section class="card">
+        <h2>📚 Choose your timer</h2>
 
-<label for="mode">Timer mode</label>
-<select id="mode">
-<option value="pomodoro">Pomodoro</option>
-<option value="custom">Custom timer</option>
-</select>
+        <label for="mode">Timer mode</label>
+        <select id="mode">
+            <option value="pomodoro">Pomodoro</option>
+            <option value="custom">Custom timer</option>
+        </select>
 
-<label for="subject">Subject</label>
-<input id="subject" placeholder="e.g. Mathematics">
+        <label for="subject">Subject</label>
+        <input id="subject" type="text" placeholder="e.g. Mathematics">
 
-<div id="pomodoroFields">
-<label for="studyMinutes">Study duration (minutes)</label>
-<input id="studyMinutes" type="number" min="1" max="180" value="25">
-<label for="breakMinutes">Break duration (minutes)</label>
-<input id="breakMinutes" type="number" min="1" max="60" value="5">
-</div>
+        <div id="pomodoroFields">
+            <label for="studyMinutes">Study duration (minutes)</label>
+            <input id="studyMinutes" type="number" min="1" max="180" value="25">
 
-<div id="customFields" hidden>
-<label for="customMinutes">Custom duration (minutes)</label>
-<input id="customMinutes" type="number" min="1" max="1440" value="45">
-</div>
+            <label for="breakMinutes">Break duration (minutes)</label>
+            <input id="breakMinutes" type="number" min="1" max="60" value="5">
+        </div>
 
-<div class="timer" id="display">25:00</div>
-<div class="status" id="timerStatus" role="status">Ready to focus!</div>
+        <div id="customFields" hidden>
+            <label for="customMinutes">Custom duration (minutes)</label>
+            <input id="customMinutes" type="number" min="1" max="1440" value="45">
+        </div>
 
-<button id="startBtn" onclick="startTimer()">▶ Start</button>
-<button class="secondary" onclick="pauseTimer()">⏸ Pause</button>
-<button class="secondary" onclick="resetTimer()">↻ Reset</button>
-<button class="secondary" onclick="enableNotifications()">🔔 Notifications</button>
-</section>
+        <div class="timer" id="display">25:00</div>
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="status" id="timerStatus" role="status" aria-live="polite">
+            Ready to focus!
+        </div>
 
-<section class="card">
-<h2>📊 My study progress</h2>
-<div id="summary">Loading...</div>
-<div id="history"></div>
-<button class="secondary" onclick="loadSessions()">Refresh progress</button>
-</section>
-<p id="message" role="status"></p>
+        <div class="button-row">
+            <button id="startBtn" type="button">▶ Start</button>
+            <button class="secondary" id="pauseBtn" type="button">⏸ Pause</button>
+            <button class="secondary" id="resetBtn" type="button">↻ Reset</button>
+            <button class="secondary" id="notificationBtn" type="button">🔔 Notifications</button>
+        </div>
+
+        <p class="muted">
+            Pomodoro alternates between study and break sessions.
+            Custom mode runs a single study timer.
+        </p>
+    </section>
+
+    <!-- OPTIONAL FOCUS MUSIC -->
+
+    <section class="card">
+        <h2>🎧 Focus Music</h2>
+
+        <div class="music-box">
+            <div class="music-heading">
+                <h3>🎵 Background sounds</h3>
+                <strong id="musicState">OFF</strong>
+            </div>
+
+            <p class="muted">
+                Your choice! Focus audio is off by default. Turn it on only
+                when you want a little background sound while studying.
+            </p>
+
+            <label class="music-toggle" for="musicToggle">
+                <input id="musicToggle" type="checkbox">
+                Enable focus music
+            </label>
+
+            <div id="musicControls" hidden>
+                <label for="soundChoice">Choose your sound</label>
+                <select id="soundChoice">
+                    <option value="calm">🎹 Calm ambient tones</option>
+                    <option value="rain">🌧️ Gentle rain</option>
+                    <option value="nature">🌿 Soft nature ambience</option>
+                </select>
+
+                <label for="volume">
+                    Volume: <span id="volumeValue">20%</span>
+                </label>
+                <input id="volume" type="range" min="0" max="50" value="20">
+
+                <div class="button-row">
+                    <button class="secondary" id="previewBtn" type="button">
+                        ▶ Preview sound
+                    </button>
+                    <button class="secondary" id="stopPreviewBtn" type="button">
+                        ⏹ Stop preview
+                    </button>
+                </div>
+            </div>
+
+            <div id="musicMessage" class="music-status" role="status" aria-live="polite">
+                Focus music is off. Your timer works normally without it.
+            </div>
+        </div>
+
+        <p class="muted">
+            These sounds are generated by your browser, so no music files
+            or music subscriptions are needed. They are ambient sound effects,
+            not full commercial songs.
+        </p>
+    </section>
+
+    <section class="card">
+        <h2>📊 My Study Progress</h2>
+        <div id="summary">Checking your study history...</div>
+        <div id="history"></div>
+        <button class="secondary" id="refreshBtn" type="button">
+            Refresh progress
+        </button>
+    </section>
+
+    <p id="message" role="status" aria-live="polite"></p>
 </main>
 
+<footer>Grade 12 Hub · Study smarter, one session at a time.</footer>
+
 <script>
-// Use the same Supabase URL and PUBLIC key as your login page.
-// Never put a service_role secret in browser code.
-const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL";
-const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
-const db = window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+/* SUPABASE SETTINGS
+   Uses the same public project URL and publishable key as the homepage.
+   Never put a service_role secret in browser code.
+*/
 
+const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
-let user=null, remaining=1500, deadline=null, interval=null;
-let running=false, phase="study", sessionStartedAt=null;
-let sessionDuration=25;
 
-function msg(text){$("message").textContent=text}
+/* ACCOUNT AND TIMER STATE */
 
-function duration(){
-  return Number($("mode").value==="custom"
-    ? $("customMinutes").value : $("studyMinutes").value);
+let user = null;
+let remaining = 25 * 60;
+let totalSeconds = 25 * 60;
+let deadline = null;
+let interval = null;
+let running = false;
+let phase = "study";
+let sessionStartedAt = null;
+let sessionDuration = 25;
+let sessionSubject = "General study";
+let savingSession = false;
+
+/* AUDIO STATE */
+
+let audioContext = null;
+let masterGain = null;
+let audioNodes = [];
+let audioSources = [];
+let audioPlaying = false;
+let previewing = false;
+
+/* GENERAL MESSAGES */
+
+function msg(text) {
+    $("message").textContent = text;
 }
 
-function formatTime(seconds){
-  seconds=Math.max(0,Math.ceil(seconds));
-  return String(Math.floor(seconds/60)).padStart(2,"0")+":"+
-         String(seconds%60).padStart(2,"0");
-}
+/* VALIDATE TIMER DURATION */
 
-function updateDisplay(){
-  $("display").textContent=formatTime(remaining);
-}
+function duration() {
+    const mode = $("mode").value;
+    let value;
 
-function updateMode(){
-  pauseTimer();
-  phase="study";
-  sessionStartedAt=null;
-  $("pomodoroFields").hidden=$("mode").value!=="pomodoro";
-  $("customFields").hidden=$("mode").value!=="custom";
-  remaining=duration()*60;
-  $("timerStatus").textContent="Ready to focus!";
-  updateDisplay();
-}
-
-$("mode").addEventListener("change",updateMode);
-$("studyMinutes").addEventListener("change",updateMode);
-$("customMinutes").addEventListener("change",updateMode);
-
-async function initialise(){
-  if(SUPABASE_URL.includes("PASTE_")||SUPABASE_KEY.includes("PASTE_")){
-    msg("Add your existing Supabase URL and public key to this file.");
-    return;
-  }
-  const {data,error}=await db.auth.getSession();
-  if(error||!data.session){
-    msg("Please log in to Grade 12 Hub first.");
-    $("summary").textContent="Log in to view saved sessions.";
-    return;
-  }
-  user=data.session.user;
-  await loadSessions();
-}
-
-async function startTimer(){
-  if(!user){msg("Please log in first.");return}
-  if(running)return;
-
-  if(remaining<=0)remaining=duration()*60;
-
-  if(phase==="study"&&!sessionStartedAt){
-    sessionStartedAt=new Date().toISOString();
-    sessionDuration=Math.ceil(remaining/60);
-  }
-
-  running=true;
-  deadline=Date.now()+remaining*1000;
-  $("timerStatus").textContent=phase==="study"
-    ?"Focus time!":"Break time. Relax!";
-  clearInterval(interval);
-  interval=setInterval(tick,250);
-  tick();
-}
-
-function pauseTimer(){
-  if(running&&deadline){
-    remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000));
-  }
-  running=false;
-  deadline=null;
-  clearInterval(interval);
-  updateDisplay();
-}
-
-function resetTimer(){
-  pauseTimer();
-  phase="study";
-  sessionStartedAt=null;
-  remaining=duration()*60;
-  $("timerStatus").textContent="Timer reset. Ready when you are!";
-  updateDisplay();
-}
-
-function tick(){
-  if(!running)return;
-  remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000));
-  updateDisplay();
-  if(remaining===0){
-    pauseTimer();
-    timerFinished();
-  }
-}
-
-async function timerFinished(){
-  if(phase==="study"){
-    await saveSession(sessionDuration,sessionStartedAt);
-    sessionStartedAt=null;
-    $("timerStatus").textContent="Study session complete! 🎉";
-
-    if($("mode").value==="pomodoro"){
-      notify("Study session complete!","Time for your break.");
-      phase="break";
-      remaining=Number($("breakMinutes").value)*60;
-      updateDisplay();
-      $("timerStatus").textContent="Study complete! Start your break.";
-    }else{
-      notify("Timer complete!","Well done on finishing your session.");
+    if (mode === "custom") {
+        value = Number($("customMinutes").value);
+        if (!Number.isInteger(value) || value < 1 || value > 1440) {
+            throw new Error("Custom duration must be from 1 to 1440 minutes.");
+        }
+    } else if (phase === "break") {
+        value = Number($("breakMinutes").value);
+        if (!Number.isInteger(value) || value < 1 || value > 60) {
+            throw new Error("Break duration must be from 1 to 60 minutes.");
+        }
+    } else {
+        value = Number($("studyMinutes").value);
+        if (!Number.isInteger(value) || value < 1 || value > 180) {
+            throw new Error("Study duration must be from 1 to 180 minutes.");
+        }
     }
-  }else{
-    phase="study";
-    remaining=Number($("studyMinutes").value)*60;
+
+    return value * 60;
+}
+
+/* TIMER DISPLAY */
+
+function formatTime(seconds) {
+    seconds = Math.max(0, Math.ceil(seconds));
+    return String(Math.floor(seconds / 60)).padStart(2, "0") + ":" +
+           String(seconds % 60).padStart(2, "0");
+}
+
+function updateDisplay() {
+    $("display").textContent = formatTime(remaining);
+
+    const elapsed = totalSeconds > 0
+        ? (totalSeconds - remaining) / totalSeconds * 100
+        : 0;
+
+    $("progressBar").style.width =
+        Math.max(0, Math.min(100, elapsed)) + "%";
+
+    document.title = formatTime(remaining) + " | Study Timer";
+}
+
+/* TIMER MODE CHANGES */
+
+function updateMode() {
+    if (running || savingSession) return;
+
+    stopAudio();
+    phase = "study";
+    sessionStartedAt = null;
+
+    $("pomodoroFields").hidden = $("mode").value !== "pomodoro";
+    $("customFields").hidden = $("mode").value !== "custom";
+
+    try {
+        remaining = duration();
+        totalSeconds = remaining;
+        $("timerStatus").textContent = "Ready to focus!";
+    } catch (error) {
+        remaining = 25 * 60;
+        totalSeconds = remaining;
+        $("timerStatus").textContent = error.message;
+    }
+
     updateDisplay();
-    $("timerStatus").textContent="Break finished. Ready to focus again?";
-    notify("Break finished!","Ready for another study session?");
-  }
 }
 
-async function saveSession(minutes,startedAt){
-  if(!user)return;
-  const {error}=await db.from("study_sessions").insert({
-    user_id:user.id,
-    subject:$("subject").value.trim()||"General study",
-    mode:$("mode").value,
-    duration_minutes:minutes,
-    started_at:startedAt||new Date().toISOString(),
-    completed_at:new Date().toISOString()
-  });
-  if(error){msg("Session saving failed: "+error.message);return}
-  msg("Your completed study session was saved!");
-  await loadSessions();
+$("mode").addEventListener("change", updateMode);
+$("studyMinutes").addEventListener("change", updateMode);
+$("breakMinutes").addEventListener("change", updateMode);
+$("customMinutes").addEventListener("change", updateMode);
+
+/* LOGIN CHECK */
+
+async function initialise() {
+    try {
+        const { data, error } = await db.auth.getSession();
+
+        if (error) throw error;
+
+        if (!data.session) {
+            $("summary").textContent = "Please log in to view your saved sessions.";
+            msg("Please log in to Grade 12 Hub to save your study progress.");
+            return;
+        }
+
+        user = data.session.user;
+        await loadSessions();
+    } catch (error) {
+        console.error(error);
+        msg("Could not check your login: " + error.message);
+    }
 }
 
-async function loadSessions(){
-  if(!user)return;
-  const {data,error}=await db.from("study_sessions")
-    .select("id,subject,mode,duration_minutes,started_at")
-    .eq("user_id",user.id)
-    .order("started_at",{ascending:false})
-    .limit(50);
+/* START TIMER */
 
-  if(error){$("summary").textContent=error.message;return}
-  const sessions=data||[];
-  const total=sessions.reduce((sum,s)=>sum+Number(s.duration_minutes),0);
-  $("summary").textContent=
-    sessions.length+" completed sessions · "+total+" study minutes";
-  $("history").replaceChildren();
+async function startTimer() {
+    if (running || savingSession) return;
 
-  if(!sessions.length){
-    $("history").textContent="Your completed sessions will appear here.";
-    return;
-  }
+    if (!user) {
+        msg("Please log in to Grade 12 Hub first.");
+        return;
+    }
 
-  sessions.forEach(s=>{
-    const item=document.createElement("div");
-    item.className="item";
-    const title=document.createElement("strong");
-    title.textContent=s.subject+" — "+s.duration_minutes+" minutes";
-    const detail=document.createElement("p");
-    detail.className="muted";
-    detail.textContent=s.mode+" · "+new Date(s.started_at).toLocaleString();
-    item.append(title,detail);
-    $("history").appendChild(item);
-  });
+    try {
+        if (remaining <= 0) {
+            remaining = duration();
+            totalSeconds = remaining;
+        }
+    } catch (error) {
+        msg(error.message);
+        $("timerStatus").textContent = error.message;
+        return;
+    }
+
+    if (phase === "study" && !sessionStartedAt) {
+        sessionStartedAt = new Date().toISOString();
+        sessionDuration = Math.ceil(remaining / 60);
+        sessionSubject = $("subject").value.trim() || "General study";
+    }
+
+    running = true;
+    deadline = Date.now() + remaining * 1000;
+
+    $("timerStatus").textContent =
+        phase === "study" ? "Focus time! You can do this." : "Break time. Relax!";
+    $("startBtn").disabled = true;
+
+    clearInterval(interval);
+    interval = setInterval(tick, 250);
+    tick();
+
+    if ($("musicToggle").checked) {
+        try {
+            await startAudio();
+        } catch (error) {
+            console.error("Audio could not start:", error);
+            $("musicMessage").textContent =
+                "Audio could not start. Try tapping Start again or check your browser.";
+        }
+    }
 }
 
-async function enableNotifications(){
-  if(!("Notification" in window)){
-    msg("Notifications are not supported by this browser.");return;
-  }
-  const permission=await Notification.requestPermission();
-  msg(permission==="granted"?"Notifications enabled.":"Notifications not enabled.");
+/* PAUSE TIMER */
+
+function pauseTimer() {
+    if (running && deadline) {
+        remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    }
+
+    running = false;
+    deadline = null;
+    clearInterval(interval);
+    interval = null;
+
+    $("startBtn").disabled = false;
+    stopAudio();
+    updateDisplay();
+
+    if ($("musicToggle").checked) {
+        $("musicMessage").textContent =
+            "Music paused with your timer. It will resume when you press Start.";
+    }
 }
 
-function notify(title,body){
-  if("Notification" in window&&Notification.permission==="granted"){
-    new Notification(title,{body});
-  }
+/* RESET TIMER */
+
+function resetTimer() {
+    pauseTimer();
+
+    phase = "study";
+    sessionStartedAt = null;
+    savingSession = false;
+
+    try {
+        remaining = duration();
+        totalSeconds = remaining;
+        $("timerStatus").textContent = "Timer reset. Ready when you are!";
+    } catch (error) {
+        remaining = 25 * 60;
+        totalSeconds = remaining;
+        $("timerStatus").textContent = error.message;
+    }
+
+    updateDisplay();
 }
 
-if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>{
-    navigator.serviceWorker.register("./sw.js")
-      .catch(e=>console.error("Service worker:",e));
-  });
+/* COUNTDOWN */
+
+function tick() {
+    if (!running || !deadline) return;
+
+    remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    updateDisplay();
+
+    if (remaining <= 0) {
+        running = false;
+        deadline = null;
+        clearInterval(interval);
+        interval = null;
+        $("startBtn").disabled = false;
+        stopAudio();
+        timerFinished();
+    }
 }
 
-initialise();
+/* TIMER COMPLETION */
+
+async function timerFinished() {
+    if (phase === "study") {
+        const completedStart = sessionStartedAt;
+        const completedMinutes = sessionDuration;
+
+        sessionStartedAt = null;
+
+        await saveSession(completedMinutes, completedStart);
+
+        if ($("mode").value === "pomodoro") {
+            phase = "break";
+
+            try {
+                remaining = duration();
+            } catch (error) {
+                remaining = 5 * 60;
+            }
+
+            totalSeconds = remaining;
+            $("timerStatus").textContent =
+                "🎉 Study session complete! Start your break when ready.";
+            notify("Study session complete!", "Time for your break.");
+        } else {
+            remaining = 0;
+            totalSeconds = Math.max(1, totalSeconds);
+            $("timerStatus").textContent =
+                "🎉 Timer complete! Well done on finishing your study session.";
+            notify("Timer complete!", "Well done on finishing your session.");
+        }
+    } else {
+        phase = "study";
+
+        try {
+            remaining = duration();
+        } catch (error) {
+            remaining = 25 * 60;
+        }
+
+        totalSeconds = remaining;
+        $("timerStatus").textContent =
+            "Break finished. Start your next study session when ready.";
+        notify("Break finished!", "Ready for another study session?");
+    }
+
+    updateDisplay();
+}
+
+/* SAVE COMPLETED STUDY SESSION */
+
+async function saveSession(minutes, startedAt) {
+    if (!user) {
+        msg("Session finished, but you must log in to save progress.");
+        return;
+    }
+
+    savingSession = true;
+    $("startBtn").disabled = true;
+
+    try {
+        const { error } = await db.from("study_sessions").insert({
+            user_id: user.id,
+            subject: sessionSubject,
+            mode: $("mode").value,
+            duration_minutes: minutes,
+            started_at: startedAt || new Date().toISOString(),
+            completed_at: new Date().toISOString()
+        });
+
+        if (error) throw error;
+
+        msg("Your completed study session was saved to your account!");
+        await loadSessions();
+    } catch (error) {
+        console.error(error);
+        msg("Session saving failed: " + error.message);
+    } finally {
+        savingSession = false;
+        $("startBtn").disabled = false;
+    }
+}
+
+/* STUDY HISTORY */
+
+async function loadSessions() {
+    if (!user) return;
+
+    $("summary").textContent = "Loading study progress...";
+
+    try {
+        const { data, error } = await db
+            .from("study_sessions")
+            .select("id,subject,mode,duration_minutes,started_at")
+            .eq("user_id", user.id)
+            .order("started_at", { ascending: false })
+            .limit(50);
+
+        if (error) throw error;
+
+        const sessions = data || [];
+        const totalMinutes = sessions.reduce(
+            (sum, session) => sum + Number(session.duration_minutes || 0), 0
+        );
+
+        $("summary").textContent =
+            sessions.length + " completed sessions · " +
+            totalMinutes + " recorded study minutes";
+
+        $("history").replaceChildren();
+
+        if (!sessions.length) {
+            $("history").textContent =
+                "Your completed study sessions will appear here.";
+            return;
+        }
+
+        sessions.forEach(session => {
+            const item = document.createElement("div");
+            item.className = "item";
+
+            const title = document.createElement("strong");
+            title.textContent = session.subject + " — " +
+                session.duration_minutes + " minutes";
+
+            const detail = document.createElement("p");
+            detail.className = "muted";
+            detail.textContent = session.mode + " · " +
+                new Date(session.started_at).toLocaleString();
+
+            item.append(title, detail);
+            $("history").appendChild(item);
+        });
+    } catch (error) {
+        console.error(error);
+        $("summary").textContent = "Could not load study history: " + error.message;
+    }
+}
+
+/* OPTIONAL NOTIFICATIONS */
+
+async function enableNotifications() {
+    if (!("Notification" in window)) {
+        msg("Notifications are not supported in this browser.");
+        return;
+    }
+
+    try {
+        const permission = await Notification.requestPermission();
+
+        msg(permission === "granted"
+            ? "Notifications enabled for this browser."
+            : "Notifications were not enabled. You can still use the timer.");
+    } catch (error) {
+        msg("Could not enable notifications: " + error.message);
+    }
+}
+
+function notify(title, body) {
+    if ("Notification" in window && Notification.permission === "granted") {
+        try {
+            new Notification(title, { body });
+        } catch (error) {
+            console.log("Notification unavailable:", error);
+        }
+    }
+}
+
+/* AUDIO ENGINE
+   Sounds are created locally with the browser's Web Audio API.
+   No external music files are downloaded.
+*/
+
+function getAudioContext() {
+    if (!audioContext) {
+        const AudioContextClass =
+            window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) {
+            throw new Error("Your browser does not support Web Audio.");
+        }
+
+        audioContext = new AudioContextClass();
+    }
+
+    return audioContext;
+}
+
+function addNode(node) {
+    audioNodes.push(node);
+    return node;
+}
+
+function addSource(source) {
+    audioSources.push(source);
+    return source;
+}
+
+function createNoiseSource() {
+    const context = getAudioContext();
+    const buffer = context.createBuffer(
+        1, context.sampleRate * 3, context.sampleRate
+    );
+
+    const channel = buffer.getChannelData(0);
+
+    for (let i = 0; i < channel.length; i++) {
+        channel[i] = Math.random() * 2 - 1;
+    }
+
+    const source = context.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+
+    addSource(source);
+    return source;
+}
+
+function connectSoftNoise({ frequency, type, gain, highpass }) {
+    const context = getAudioContext();
+    const source = createNoiseSource();
+
+    const filter = addNode(context.createBiquadFilter());
+    filter.type = type;
+    filter.frequency.value = frequency;
+
+    const level = addNode(context.createGain());
+    level.gain.value = gain;
+
+    source.connect(filter);
+
+    if (highpass) {
+        const high = addNode(context.createBiquadFilter());
+        high.type = "highpass";
+        high.frequency.value = highpass;
+        filter.connect(high);
+        high.connect(level);
+    } else {
+        filter.connect(level);
+    }
+
+    level.connect(masterGain);
+    source.start();
+}
+
+function createTone(frequency, gainValue, waveType) {
+    const context = getAudioContext();
+
+    const oscillator = addSource(context.createOscillator());
+    oscillator.type = waveType;
+    oscillator.frequency.value = frequency;
+
+    const level = addNode(context.createGain());
+    level.gain.value = gainValue;
+
+    oscillator.connect(level);
+    level.connect(masterGain);
+    oscillator.start();
+}
+
+async function startAudio() {
+    const context = getAudioContext();
+
+    if (context.state === "suspended") {
+        await context.resume();
+    }
+
+    stopAudioNodesOnly();
+
+    masterGain = addNode(context.createGain());
+    masterGain.gain.value = Number($("volume").value) / 100;
+    masterGain.connect(context.destination);
+
+    const choice = $("soundChoice").value;
+
+    if (choice === "calm") {
+        createTone(220, 0.12, "sine");
+        createTone(277.18, 0.07, "sine");
+        createTone(329.63, 0.035, "sine");
+    } else if (choice === "rain") {
+        connectSoftNoise({
+            frequency: 900,
+            type: "lowpass",
+            gain: 0.48
+        });
+
+        connectSoftNoise({
+            frequency: 250,
+            type: "lowpass",
+            gain: 0.22
+        });
+    } else if (choice === "nature") {
+        connectSoftNoise({
+            frequency: 1400,
+            type: "bandpass",
+            gain: 0.28
+        });
+
+        connectSoftNoise({
+            frequency: 500,
+            type: "lowpass",
+            gain: 0.18
+        });
+
+        createTone(523.25, 0.012, "sine");
+    }
+
+    audioPlaying = true;
+    previewing = false;
+
+    $("musicState").textContent = "ON";
+    $("musicMessage").textContent =
+        choice === "calm" ? "🎹 Calm ambient tones are playing." :
+        choice === "rain" ? "🌧️ Gentle rain sounds are playing." :
+        "🌿 Soft nature ambience is playing.";
+}
+
+function stopAudioNodesOnly() {
+    audioSources.forEach(source => {
+        try { source.stop(); } catch (error) {}
+        try { source.disconnect(); } catch (error) {}
+    });
+
+    audioNodes.forEach(node => {
+        try { node.disconnect(); } catch (error) {}
+    });
+
+    audioSources = [];
+    audioNodes = [];
+    masterGain = null;
+    audioPlaying = false;
+}
+
+function stopAudio() {
+    stopAudioNodesOnly();
+    previewing = false;
+
+    $("musicState").textContent =
+        $("musicToggle").checked ? "PAUSED" : "OFF";
+
+    if (!$("musicToggle").checked) {
+        $("musicMessage").textContent =
+            "Focus music is off. Your timer works normally without it.";
+    }
+}
+
+/* MUSIC CONTROLS */
+
+$("musicToggle").addEventListener("change", async function() {
+    musicControls.hidden = !this.checked;
+
+    if (!this.checked) {
+        stopAudio();
+        $("musicState").textContent = "OFF";
+        $("musicMessage").textContent =
+            "Focus music is off. Your timer works normally without it.";
+        return;
+    }
+
+    if (running) {
+        try {
+            await startAudio();
+        } catch (error) {
+            $("musicMessage").textContent =
+                "Could not start audio. Try again using the preview button.";
+        }
+    } else {
+        $("musicState").textContent = "READY";
+        $("musicMessage").textContent =
+            "Focus music enabled. Press Start on your timer or Preview sound to hear it.";
+    }
+});
+
+$("previewBtn").addEventListener("click", async function() {
+    if (!$("musicToggle").checked) {
+        $("musicToggle").checked = true;
+        $("musicControls").hidden = false;
+    }
+
+    try {
+        await startAudio();
+        previewing = true;
+        $("musicMessage").textContent =
+            "Previewing sound. Press Stop preview to stop it.";
+    } catch (error) {
+        $("musicMessage").textContent =
+            "Could not play audio: " + error.message;
+    }
+});
+
+$("stopPreviewBtn").addEventListener("click", function() {
+    stopAudio();
+
+    if (running && $("musicToggle").checked) {
+        startAudio().catch(error => {
+            console.error("Could not resume focus sound:", error);
+        });
+    } else {
+        $("musicMessage").textContent =
+            $("musicToggle").checked
+            ? "Preview stopped. Sound will play again when you start the timer."
+            : "Focus music is off.";
+    }
+});
+
+$("soundChoice").addEventListener("change", function() {
+    if (audioPlaying) {
+        startAudio().catch(error => {
+            console.error("Could not change sound:", error);
+        });
+    }
+});
+
+$("volume").addEventListener("input", function() {
+    $("volumeValue").textContent = this.value + "%";
+
+    if (masterGain && audioContext) {
+        masterGain.gain.setTargetAtTime(
+            Number(this.value) / 100,
+            audioContext.currentTime,
+            0.05
+        );
+    }
+});
+
+/* BUTTONS */
+
+$("startBtn").addEventListener("click", startTimer);
+$("pauseBtn").addEventListener("click", pauseTimer);
+$("resetBtn").addEventListener("click", resetTimer);
+$("notificationBtn").addEventListener("click", enableNotifications);
+$("refreshBtn").addEventListener("click", loadSessions);
+
+/* KEEP TIMER CONSISTENT IF PAGE IS HIDDEN */
+
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden && audioContext && audioContext.state === "running") {
+        // The timer uses a timestamp deadline, so it can catch up when the
+        // learner returns to the page instead of losing time in the background.
+        tick();
+    }
+});
+
+/* REGISTER THE EXISTING SERVICE WORKER */
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function() {
+        navigator.serviceWorker.register("./service-worker.js")
+            .catch(error => console.error("Service worker:", error));
+    });
+}
+
+/* INITIAL PAGE SETUP */
+
 updateDisplay();
+initialise();
 </script>
 </body>
 </html>
