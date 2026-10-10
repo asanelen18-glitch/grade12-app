@@ -3,718 +3,644 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#4f46e5">
-<title>Grade 12 Mathematics | Grade 12 Hub</title>
+<title>Grade 12 Mathematics - Grade 12 Hub</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f4f6f8;color:#202334;line-height:1.65}
-header{background:#4f46e5;color:white;padding:25px 16px;text-align:center}
-header h1{font-size:27px;margin-bottom:6px}
-header p{font-size:14px}
-.container{max-width:950px;margin:auto;padding:16px}
-.card,.lesson,.intro,.progress-card{background:white;border-radius:15px;padding:18px;margin-bottom:16px;box-shadow:0 3px 12px #0000000c}
-h2{font-size:22px;margin-bottom:10px}
-h3{color:#4f46e5;font-size:19px;margin:16px 0 8px}
-h4{margin:13px 0 6px;color:#3730a3}
-p{margin:8px 0}
-ul,ol{padding-left:23px;margin:8px 0}
-li{margin:5px 0}
-.paper-title{background:#111827;color:white;padding:16px;border-radius:12px;margin:24px 0 14px}
-.paper-title h2{margin:0}
-.paper-title p{font-size:13px}
-.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.topic-card{border:1px solid #e5e7eb;border-radius:12px;padding:15px;background:white}
-.topic-card h3{font-size:17px;margin-top:0}
-.topic-card p{font-size:14px;color:#606575}
-button{background:#4f46e5;color:white;border:0;padding:11px 14px;border-radius:9px;cursor:pointer;font-weight:bold;font-size:14px}
-button:active{transform:scale(.98)}
-button.secondary{background:#e9e7ff;color:#3730a3}
-.topic-card button{margin-top:8px}
-.lesson{scroll-margin-top:12px}
-.definition{background:#eef2ff;border-left:5px solid #4f46e5;padding:14px;border-radius:8px;margin:12px 0}
-.formula{background:#f1f0ff;padding:14px;border-radius:10px;margin:10px 0;text-align:center;font-size:18px;font-weight:bold;overflow-wrap:anywhere}
-.hint{background:#fff7df;border-left:5px solid #eab308;padding:13px;border-radius:8px;margin:12px 0}
-.example{background:#f0fdf4;border-left:5px solid #16a34a;padding:14px;border-radius:8px;margin:12px 0}
-.warning{background:#fff1f2;border-left:5px solid #e11d48;padding:13px;border-radius:8px;margin:12px 0}
-.arrow-flow{display:flex;flex-direction:column;align-items:center;gap:8px;margin:15px 0}
-.flow-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:12px;text-align:center;width:100%;max-width:520px}
-.flow-arrow{color:#4f46e5;font-size:25px;font-weight:bold;line-height:1}
-.diagram{background:#fafaff;border:1px solid #e5e7eb;border-radius:12px;padding:10px;margin:14px 0;overflow:hidden}
-.diagram svg{display:block;width:100%;height:auto;max-height:310px}
-.caption{font-size:13px;color:#656b78;text-align:center}
-details{border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin:10px 0}
-summary{cursor:pointer;font-weight:bold;color:#3730a3}
-.question{border-top:1px solid #e5e7eb;padding:14px 0}
-.question label{display:block;margin:7px 0;cursor:pointer}
-.feedback{padding:10px;border-radius:8px;margin-top:8px}
-.correct{background:#dcfce7;color:#166534}
-.incorrect{background:#fee2e2;color:#991b1b}
-.progress-track{height:10px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin:10px 0}
-.progress-fill{height:100%;width:0;background:#4f46e5;transition:width .25s}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.back{display:inline-block;color:#4f46e5;text-decoration:none;font-weight:bold;margin:14px 0}
-footer{text-align:center;padding:24px;color:#6b7280;font-size:13px}
-.hidden{display:none!important}
-.small{font-size:13px;color:#626879}
-input[type=radio]{margin-right:6px}
-table{border-collapse:collapse;width:100%;margin:12px 0;background:white}
-th,td{border:1px solid #dbe0e8;padding:9px;text-align:left}
-th{background:#eef2ff;color:#3730a3}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#222;line-height:1.65}
+header{background:#4f46e5;color:white;text-align:center;padding:22px 14px}
+header h1{margin:0;font-size:27px}
+header p{margin:7px 0 0}
+.container{width:94%;max-width:1000px;margin:22px auto}
+.top-actions,.lesson-nav,.lesson-actions,.quiz-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:15px}
+button,.back-link{display:inline-block;border:0;border-radius:9px;padding:11px 15px;background:#4f46e5;color:white;text-decoration:none;font-size:15px;cursor:pointer}
+button:hover,.back-link:hover{background:#3730a3}
+button.secondary{background:white;color:#4f46e5;border:1px solid #c7d2fe}
+.intro,.progress-card,.paper-section,.lesson{background:white;padding:18px;border-radius:14px;box-shadow:0 3px 10px #0000000c;margin-bottom:18px}
+h2,h3{color:#4f46e5}
+h2{margin-top:0}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}
+.topic-card{background:white;color:#222;text-align:left;width:100%;min-height:125px;border:1px solid #e5e7eb;padding:16px}
+.topic-card:hover{background:#fafaff;border-color:#4f46e5}
+.topic-card h3{font-size:17px;margin:5px 0}
+.topic-card p{color:#64748b;font-size:14px;margin:0}
+.topic-icon{font-size:27px}
+.topic-status,.small,.progress-text{font-size:13px;color:#64748b}
+.lesson{display:none}
+.lesson.active{display:block}
+.definition,.formula,.hint,.example,.warning,.success-box{padding:13px 15px;margin:13px 0;border-radius:9px}
+.definition{background:#eef2ff;border-left:4px solid #4f46e5}
+.formula{background:#f0fdf4;border-left:4px solid #16a34a}
+.hint{background:#fffbeb;border-left:4px solid #d97706}
+.example{background:#f8fafc;border-left:4px solid #64748b}
+.warning{background:#fef2f2;border-left:4px solid #dc2626}
+.success-box{background:#f0fdf4;border-left:4px solid #16a34a}
+.math{font-family:Cambria,serif;font-size:1.08em;overflow-wrap:anywhere}
 .table-wrap{overflow-x:auto}
-.graph-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.graph-card{border:1px solid #e5e7eb;border-radius:12px;padding:12px;background:#fafaff}
-.graph-card svg{display:block;width:100%;height:auto}
-.graph-card h4{margin-top:0}
-.graph{width:100%;height:auto;display:block}
-@media(max-width:480px){
-header h1{font-size:23px}
-.container{padding:11px}
-.card,.lesson,.intro,.progress-card{padding:14px}
-.formula{font-size:16px}
-}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #dbe0e7;padding:9px;text-align:left}
+th{background:#eef2ff}
+details{background:#f8fafc;border:1px solid #e2e8f0;padding:12px;border-radius:9px;margin:12px 0}
+summary{cursor:pointer;font-weight:bold;color:#4f46e5}
+.question{border:1px solid #e5e7eb;padding:13px;border-radius:10px;margin:13px 0}
+.question p{font-weight:bold;margin-top:0}
+.question label{display:block;font-weight:normal;margin:8px 0;cursor:pointer}
+.feedback{display:none;padding:12px;margin-top:12px;border-radius:8px}
+.feedback.correct{display:block;background:#dcfce7;color:#166534}
+.feedback.incorrect{display:block;background:#fee2e2;color:#991b1b}
+.progress-track{height:12px;background:#e5e7eb;border-radius:20px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:#16a34a;transition:width .2s}
+.lesson-actions{margin-top:20px}
+footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
+@media(max-width:500px){header h1{font-size:23px}.intro,.progress-card,.paper-section,.lesson{padding:14px}button,.back-link{font-size:14px}}
 </style>
 </head>
 <body>
+
 <header>
-  <h1>📐 Grade 12 Mathematics</h1>
-  <p>Understand the concepts. Follow the steps. Master the questions.</p>
+<h1>📐 Grade 12 Mathematics</h1>
+<p>Learn • Revise • Practise • Improve</p>
 </header>
 
 <main class="container">
+<div class="top-actions">
+<a class="back-link" href="index.html">← Back to Grade 12 Hub</a>
+<button class="secondary" onclick="showHome()">All Topics</button>
+</div>
+
 <section class="intro">
-  <h2>Mathematics Learning Centre</h2>
-  <p>Learn definitions, follow illustrated explanations, study worked examples and practise exam-style questions.</p>
-  <p class="small">Your topic completion is saved in this browser on this device.</p>
+<h2>Mathematics Study Centre</h2>
+<p>Study Grade 12 Mathematics Paper 1 and Paper 2 with definitions, formulas, worked examples, exam tips and practice quizzes.</p>
+<p class="small">Your chapter completion and quiz progress are saved in this browser on this device.</p>
 </section>
 
 <section class="progress-card">
-  <h3>📊 My Learning Progress</h3>
-  <p id="progressText">0 topics completed</p>
-  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  <p class="small">Progress is saved on this device. It is not yet synchronised with your Grade 12 Hub profile or Supabase account.</p>
+<strong>📊 Your Learning Progress</strong>
+<p id="progressText" class="progress-text">0 of 10 chapters completed</p>
+<div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+<p id="quizSummary" class="progress-text">No quiz attempts yet.</p>
 </section>
 
-<div class="paper-title"><h2>📘 PAPER 1</h2><p>Algebra, patterns, functions, finance, calculus and probability</p></div>
+<div id="topicHome">
+<section class="paper-section">
+<h2>📘 Paper 1</h2>
 <div class="topic-grid">
-  <article class="topic-card"><h3>1. Algebra</h3><p>Expressions, exponents, surds, factorisation, equations and roots.</p><button onclick="openLesson('algebra')">Study Algebra</button></article>
-  <article class="topic-card"><h3>2. Sequences and Series</h3><p>Arithmetic and geometric sequences, proofs, sums, sigma notation and infinite series.</p><button onclick="openLesson('sequences')">Study Sequences</button></article>
-  <article class="topic-card"><h3>3. Functions and Graphs</h3><p>Straight lines, parabolas, hyperbolas, exponential graphs, inverses and transformations.</p><button onclick="openLesson('functions')">Study Functions</button></article>
-  <article class="topic-card"><h3>4. Finance</h3><p>Interest, depreciation, inflation, growth and decay.</p><button onclick="openLesson('finance')">Study Finance</button></article>
-  <article class="topic-card"><h3>5. Differential Calculus</h3><p>Derivatives, gradients, stationary points and optimisation.</p><button onclick="openLesson('calculus')">Study Calculus</button></article>
-  <article class="topic-card"><h3>6. Probability</h3><p>Events, probability rules, independence and counting outcomes.</p><button onclick="openLesson('probability')">Study Probability</button></article>
+<button class="topic-card" onclick="openLesson('algebra')"><div class="topic-icon">🔢</div><h3>Algebra</h3><p>Expressions, equations, inequalities and exponents.</p><span class="topic-status" id="status-algebra">Not completed</span></button>
+<button class="topic-card" onclick="openLesson('sequences')"><div class="topic-icon">🔁</div><h3>Sequences and Series</h3><p>Arithmetic and geometric patterns, nth terms and sums.</p><span class="topic-status" id="status-sequences">Not completed</span></button>
+<button class="topic-card" onclick="openLesson('functions')"><div class="topic-icon">📈</div><h3>Functions and Graphs</h3><p>Parabolas, hyperbolas, exponentials, inverses and logarithms.</p><span class="topic-status" id="status-functions">Not completed</span></button>
+<button class="topic-card" onclick="openLesson('finance')"><div class="topic-icon">💰</div><h3>Finance</h3><p>Interest, depreciation and financial calculations.</p><span class="topic-status" id="status-finance">Not completed</span></button>
+<button class="topic-card" onclick="openLesson('calculus')"><div class="topic-icon">📉</div><h3>Differential Calculus</h3><p>Derivatives, gradients and stationary points.</p><span class="topic-status" id="status-calculus">Not completed</span></button>
+<button class="topic-card" onclick="openLesson('probability')"><div class="topic-icon">🎲</div><h3>Probability</h3><p>Events, complements and probability rules.</p><span class="topic-status" id="status-probability">Not completed</span></button>
 </div>
+</section>
 
-<div class="paper-title"><h2>📕 PAPER 2</h2><p>Statistics, analytical geometry, trigonometry and Euclidean geometry</p></div>
+<section class="paper-section">
+<h2>📗 Paper 2</h2>
 <div class="topic-grid">
-  <article class="topic-card"><h3>1. Statistics</h3><p>Measures of central tendency, spread and data interpretation.</p><button onclick="openLesson('statistics')">Study Statistics</button></article>
-  <article class="topic-card"><h3>2. Analytical Geometry</h3><p>Coordinates, distance, midpoint, gradient and circle geometry.</p><button onclick="openLesson('geometry')">Study Analytical Geometry</button></article>
-  <article class="topic-card"><h3>3. Trigonometry</h3><p>Identities, equations, compound angles and graphs.</p><button onclick="openLesson('trigonometry')">Study Trigonometry</button></article>
-  <article class="topic-card"><h3>4. Euclidean Geometry</h3><p>Circle theorems, angle relationships and geometric proofs.</p><button onclick="openLesson('euclidean')">Study Euclidean Geometry</button></article>
+<button class="topic-card" onclick="openLesson('statistics')"><div class="topic-icon">📊</div><h3>Statistics</h3><p>Mean, standard deviation, regression and data.</p><span class="topic-status" id="status-statistics">Not completed</span></button>
+<button class="topic-card" onclick="openLesson('analytical')"><div class="topic-icon">📍</div><h3>Analytical Geometry</h3><p>Gradients, distances, midpoints and equations.</p><span class="topic-status" id="status-analytical">Not completed</span></button>
+<button class="topic-card" onclick="openLesson('trigonometry')"><div class="topic-icon">📐</div><h3>Trigonometry</h3><p>Identities, equations and reduction formulae.</p><span class="topic-status" id="status-trigonometry">Not completed</span></button>
+<button class="topic-card" onclick="openLesson('euclidean')"><div class="topic-icon">△</div><h3>Euclidean Geometry</h3><p>Circle geometry and geometric proofs.</p><span class="topic-status" id="status-euclidean">Not completed</span></button>
+</div>
+</section>
 </div>
 
 <!-- ALGEBRA -->
-<section class="lesson hidden" id="algebra">
-<h2>📘 Algebra: Complete Learning Chapter</h2>
-<p>Work through each section in order. Study the examples, then complete the practice quiz.</p>
-
-<div class="definition"><strong>What is algebra?</strong><p>Algebra uses letters and symbols to represent numbers and relationships.</p>
-<div class="arrow-flow"><div class="flow-box">Represent an unknown number with x</div><div class="flow-arrow">↓</div><div class="flow-box">Describe the relationship using an equation</div><div class="flow-arrow">↓</div><div class="flow-box">Solve the equation to find the unknown</div></div></div>
-
-<h3>1. Algebraic expressions and like terms</h3>
-<div class="definition">An algebraic expression contains numbers, variables and operations.<p><strong>Variable:</strong> a letter representing a number.</p><p><strong>Coefficient:</strong> the number multiplying a variable.</p><p><strong>Constant:</strong> a number without a variable.</p><p><strong>Term:</strong> a part separated by plus or minus signs.</p><div class="formula">3x + 5</div></div>
-<div class="example">Simplify 4x + 3x − 2 + 5.<div class="formula">7x + 3</div></div>
-<div class="example">Simplify 5a + 2b − 3a + 4b.<div class="formula">2a + 6b</div></div>
-<div class="hint">Combine like terms only. For example, 2x and 3x² are unlike terms.</div>
-
-<h3>2. Multiplying and expanding brackets</h3>
-<div class="definition">Multiply the term outside a bracket by every term inside it.</div>
-<div class="example">Expand 3(x + 4).<div class="formula">3x + 12</div></div>
-<div class="example">Simplify 2(3x − 5) + 4x.<div class="formula">6x − 10 + 4x = 10x − 10</div></div>
-<div class="example">Expand (x + 2)(x + 3).<div class="formula">x² + 3x + 2x + 6 = x² + 5x + 6</div></div>
-
-<h3>3. Exponent laws</h3>
-<div class="table-wrap"><table>
-<tr><th>Law</th><th>Rule</th><th>Example</th></tr>
-<tr><td>Multiply same base</td><td>aᵐ × aⁿ = aᵐ⁺ⁿ</td><td>x² × x³ = x⁵</td></tr>
-<tr><td>Divide same base</td><td>aᵐ ÷ aⁿ = aᵐ⁻ⁿ</td><td>x⁵ ÷ x² = x³</td></tr>
-<tr><td>Power of a power</td><td>(aᵐ)ⁿ = aᵐⁿ</td><td>(x²)³ = x⁶</td></tr>
-<tr><td>Zero exponent</td><td>a⁰ = 1, a ≠ 0</td><td>5⁰ = 1</td></tr>
-<tr><td>Negative exponent</td><td>a⁻ⁿ = 1/aⁿ</td><td>x⁻² = 1/x²</td></tr>
-<tr><td>Fractional exponent</td><td>a¹/² = √a</td><td>9¹/² = 3</td></tr>
-</table></div>
-<div class="example">Simplify (2x³)(4x²).<div class="formula">8x⁵</div></div>
-
-<h3>4. Surds</h3>
-<div class="definition">A surd is an irrational root left in radical form, such as √2 or √5.</div>
-<div class="example">Simplify √72.<div class="formula">√72 = √(36 × 2) = 6√2</div></div>
-<div class="example">Simplify 3√2 + 5√2 − √2.<div class="formula">7√2</div></div>
-<div class="example">Rationalise 1/√3.<div class="formula">1/√3 × √3/√3 = √3/3</div></div>
-
-<h3>5. Factorisation</h3>
-<h4>Common factor</h4><div class="formula">6x² + 9x = 3x(2x + 3)</div>
-<h4>Difference of two squares</h4><div class="formula">a² − b² = (a − b)(a + b)</div>
-<div class="example">Factorise x² − 25.<div class="formula">(x − 5)(x + 5)</div></div>
-<h4>Trinomials</h4><div class="example">Factorise x² + 5x + 6.<div class="formula">(x + 2)(x + 3)</div></div>
-<div class="example">Factorise 2x² + 7x + 3.<div class="formula">2x² + 6x + x + 3 = (2x + 1)(x + 3)</div></div>
-
-<h3>6. Linear equations</h3>
-<div class="arrow-flow"><div class="flow-box">3x + 5 = 20</div><div class="flow-arrow">↓ Subtract 5</div><div class="flow-box">3x = 15</div><div class="flow-arrow">↓ Divide by 3</div><div class="flow-box">x = 5</div></div>
-<div class="hint">Perform the same operation on both sides of an equation.</div>
-
-<h3>7. Inequalities</h3>
-<p>Inequalities use the signs &lt;, &gt;, ≤ and ≥.</p>
-<div class="example">Solve 2x + 3 &lt; 11.<div class="formula">2x &lt; 8 → x &lt; 4</div></div>
-<div class="warning">When multiplying or dividing an inequality by a negative number, reverse its sign.<div class="formula">−2x &lt; 6 → x &gt; −3</div></div>
-
-<h3>8. Quadratic equations</h3>
-<div class="formula">ax² + bx + c = 0, where a ≠ 0</div>
-<div class="example">Solve x² − 5x + 6 = 0.<div class="formula">(x − 2)(x − 3) = 0</div><div class="formula">x = 2 or x = 3</div></div>
-<h4>Quadratic formula</h4><div class="formula">x = (−b ± √(b² − 4ac)) / 2a</div>
-<div class="example">Solve 2x² − 3x − 2 = 0.<div class="formula">x = (3 ± √25)/4</div><div class="formula">x = 2 or x = −½</div></div>
-
-<h3>9. The discriminant</h3><div class="formula">Δ = b² − 4ac</div>
-<ul><li>Δ &lt; 0: no real roots.</li><li>Δ = 0: one repeated real root.</li><li>Δ &gt; 0: two distinct real roots.</li></ul>
-
-<h3>10. Completing the square</h3><div class="example">Rewrite x² + 6x + 5.<div class="formula">x² + 6x + 5 = (x + 3)² − 4</div></div>
-
-<h3>11. Simultaneous equations</h3><div class="example">Solve x + y = 10 and x − y = 2.<div class="formula">Add: 2x = 12 → x = 6</div><div class="formula">6 + y = 10 → y = 4</div></div>
-
-<details><summary>Explore number sets</summary><ul><li><strong>Natural numbers:</strong> 1, 2, 3, …</li><li><strong>Whole numbers:</strong> 0, 1, 2, 3, …</li><li><strong>Integers:</strong> …, −2, −1, 0, 1, 2, …</li><li><strong>Rational numbers:</strong> numbers expressible as p/q, q ≠ 0.</li><li><strong>Irrational numbers:</strong> real numbers that cannot be expressed as a ratio of integers.</li><li><strong>Real numbers:</strong> rational and irrational numbers.</li></ul></details>
-
-<h3>12. Algebra practice quiz</h3>
-<div class="card" id="algebraQuiz">
-<div class="question"><p><strong>1.</strong> Simplify 4x + 3x − 2x.</p><label><input type="radio" name="q1" value="a"> 5x</label><label><input type="radio" name="q1" value="b"> 9x</label><label><input type="radio" name="q1" value="c"> 5x²</label></div>
-<div class="question"><p><strong>2.</strong> Simplify x³ × x⁴.</p><label><input type="radio" name="q2" value="a"> x¹²</label><label><input type="radio" name="q2" value="b"> x⁷</label><label><input type="radio" name="q2" value="c"> 2x⁷</label></div>
-<div class="question"><p><strong>3.</strong> Factorise x² − 16.</p><label><input type="radio" name="q3" value="a"> (x − 8)(x + 2)</label><label><input type="radio" name="q3" value="b"> (x − 4)²</label><label><input type="radio" name="q3" value="c"> (x − 4)(x + 4)</label></div>
-<div class="question"><p><strong>4.</strong> Solve 2x + 6 = 14.</p><label><input type="radio" name="q4" value="a"> x = 4</label><label><input type="radio" name="q4" value="b"> x = 10</label><label><input type="radio" name="q4" value="c"> x = 8</label></div>
-<div class="question"><p><strong>5.</strong> Find the discriminant of x² − 6x + 9 = 0.</p><label><input type="radio" name="q5" value="a"> −36</label><label><input type="radio" name="q5" value="b"> 0</label><label><input type="radio" name="q5" value="c"> 36</label></div>
-<div class="question"><p><strong>6.</strong> If Δ &lt; 0, how many real roots are there?</p><label><input type="radio" name="q6" value="a"> Two distinct real roots</label><label><input type="radio" name="q6" value="b"> One repeated real root</label><label><input type="radio" name="q6" value="c"> No real roots</label></div>
-<div class="question"><p><strong>7.</strong> Simplify √72.</p><label><input type="radio" name="q7" value="a"> 6√2</label><label><input type="radio" name="q7" value="b"> 8√2</label><label><input type="radio" name="q7" value="c"> 36√2</label></div>
-<div class="question"><p><strong>8.</strong> Solve x² − 5x + 6 = 0.</p><label><input type="radio" name="q8" value="a"> x = −2 or −3</label><label><input type="radio" name="q8" value="b"> x = 2 or 3</label><label><input type="radio" name="q8" value="c"> x = 1 or 6</label></div>
-<div class="actions"><button onclick="checkQuiz()">Check answers</button><button class="secondary" onclick="resetQuiz()">Try again</button></div>
-<div id="quizFeedback" class="feedback" aria-live="polite"></div>
-<details><summary>Show answers</summary><ol><li>5x</li><li>x⁷</li><li>(x − 4)(x + 4)</li><li>x = 4</li><li>0</li><li>No real roots</li><li>6√2</li><li>x = 2 or 3</li></ol></details>
+<section class="lesson" id="lesson-algebra">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('sequences')">Next: Sequences →</button></div>
+<h2>🔢 Algebra</h2>
+<div class="definition"><strong>Algebra</strong> uses letters and symbols to represent numbers and relationships.</div>
+<h3>1. Laws of exponents</h3>
+<div class="formula">
+<p class="math">aᵐ × aⁿ = aᵐ⁺ⁿ</p>
+<p class="math">aᵐ ÷ aⁿ = aᵐ⁻ⁿ, a ≠ 0</p>
+<p class="math">(aᵐ)ⁿ = aᵐⁿ</p>
+<p class="math">a⁰ = 1, a ≠ 0</p>
+<p class="math">a⁻ⁿ = 1/aⁿ, a ≠ 0</p>
 </div>
-<div class="actions"><button onclick="markComplete('algebra')">✓ Mark Algebra complete</button><button class="secondary" onclick="unmarkComplete('algebra')">Undo completion</button></div><p id="algebraStatus" class="small"></p>
+<div class="example"><strong>Example:</strong> Simplify x³ × x⁵ = x⁸.</div>
+<h3>2. Surds</h3>
+<p>Surds are irrational roots that cannot be simplified to rational numbers.</p>
+<div class="example">√50 = √(25 × 2) = 5√2.</div>
+<h3>3. Quadratic equations</h3>
+<div class="formula"><p class="math">ax² + bx + c = 0</p><p class="math">x = (-b ± √(b² - 4ac))/(2a)</p></div>
+<div class="example">Solve x² - 5x + 6 = 0.<br>(x - 2)(x - 3) = 0<br><strong>x = 2 or x = 3.</strong></div>
+<h3>4. Discriminant</h3>
+<p class="math">Δ = b² - 4ac</p>
+<ul><li>Δ &gt; 0: two distinct real roots.</li><li>Δ = 0: two equal real roots.</li><li>Δ &lt; 0: no real roots.</li></ul>
+<h3>5. Equations and inequalities</h3>
+<p>Whatever operation is performed on one side of an equation must also be performed on the other side.</p>
+<div class="warning">When multiplying or dividing an inequality by a negative number, reverse the inequality sign.</div>
+<h3>6. Simultaneous equations</h3>
+<div class="example">If x + y = 7 and x - y = 1, adding the equations gives 2x = 8. Therefore x = 4 and y = 3.</div>
+<h3>7. Algebraic fractions</h3>
+<p>Factorise first, then cancel common factors. A denominator cannot equal zero.</p>
+<div class="example">(x² - 9)/(x - 3) = ((x - 3)(x + 3))/(x - 3) = x + 3, where x ≠ 3.</div>
+<h3>8. Exam tips</h3>
+<ul><li>Show all working.</li><li>Check solutions in the original equation.</li><li>State restrictions for algebraic fractions and square roots.</li></ul>
+<div class="lesson-actions"><button onclick="markComplete('algebra')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('algebra')">Undo Completion</button></div>
+<p id="algebraStatus" class="small"></p>
 </section>
 
-<!-- SEQUENCES AND SERIES -->
-<section class="lesson hidden" id="sequences">
+<!-- SEQUENCES -->
+<section class="lesson" id="lesson-sequences">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('functions')">Next: Functions →</button></div>
 <h2>📘 Sequences and Series</h2>
-<p>Study arithmetic and geometric sequences, derive their formulas, calculate sums, and practise sigma notation.</p>
+<div class="definition"><strong>Sequence:</strong> an ordered list of numbers following a pattern. <strong>Series:</strong> the sum of terms in a sequence.</div>
+<h3>1. Arithmetic sequences</h3>
+<p>The difference between consecutive terms is constant.</p>
+<div class="formula"><p class="math">Tₙ = a + (n - 1)d</p><p class="math">Sₙ = n/2 [2a + (n - 1)d]</p><p class="math">Sₙ = n/2 (a + l)</p></div>
+<p>a = first term, d = common difference, n = number of terms, l = last term.</p>
+<div class="example"><strong>Example:</strong> 3, 7, 11, 15, ...<br>a = 3 and d = 4.<br>T₁₀ = 3 + 9(4) = <strong>39</strong>.</div>
+<h3>2. Geometric sequences</h3>
+<p>The ratio between consecutive non-zero terms is constant.</p>
+<div class="formula"><p class="math">Tₙ = arⁿ⁻¹</p><p class="math">Sₙ = a(rⁿ - 1)/(r - 1), r ≠ 1</p><p class="math">S∞ = a/(1 - r), when |r| &lt; 1</p></div>
+<div class="example"><strong>Example:</strong> 2, 6, 18, 54, ...<br>a = 2 and r = 3.<br>T₅ = 2(3⁴) = <strong>162</strong>.</div>
+<h3>3. Arithmetic versus geometric</h3>
+<div class="table-wrap"><table><tr><th>Feature</th><th>Arithmetic</th><th>Geometric</th></tr><tr><td>Pattern</td><td>Add the same number</td><td>Multiply by the same ratio</td></tr><tr><td>Rule</td><td>a + (n - 1)d</td><td>arⁿ⁻¹</td></tr><tr><td>Example</td><td>4, 7, 10, 13</td><td>4, 12, 36, 108</td></tr></table></div>
+<h3>4. Sigma notation</h3>
+<p class="math">Σ from k=1 to n of k = n(n + 1)/2</p>
+<div class="example">1 + 2 + 3 + 4 + 5 = 5(6)/2 = 15.</div>
+<h3>5. Exam tips</h3>
+<ul><li>Identify whether the pattern uses a difference or a ratio.</li><li>Write down a, d or r before substituting.</li><li>For an infinite geometric series, check that |r| &lt; 1.</li></ul>
 
-<div class="definition"><strong>Sequence:</strong> an ordered list of numbers following a rule.<br><strong>Series:</strong> the sum of terms in a sequence.
-<div class="formula">Sequence: 2, 5, 8, 11, …</div><div class="formula">Series: 2 + 5 + 8 + 11 + …</div></div>
-
-<h3>1. Important symbols</h3>
-<div class="table-wrap"><table>
-<tr><th>Symbol</th><th>Meaning</th></tr>
-<tr><td>a or T₁</td><td>First term</td></tr><tr><td>Tₙ</td><td>nth term</td></tr><tr><td>n</td><td>Term number or number of terms</td></tr><tr><td>d</td><td>Common difference</td></tr><tr><td>r</td><td>Common ratio</td></tr><tr><td>Sₙ</td><td>Sum of the first n terms</td></tr><tr><td>l</td><td>Last term of a finite sequence</td></tr><tr><td>Σ</td><td>Summation symbol</td></tr></table></div>
-
-<h3>2. Recognising patterns</h3>
-<div class="arrow-flow"><div class="flow-box">Subtract consecutive terms.</div><div class="flow-arrow">↓</div><div class="flow-box">Constant difference? Arithmetic sequence.</div><div class="flow-arrow">↓</div><div class="flow-box">Otherwise, divide consecutive terms to check the ratio.</div><div class="flow-arrow">↓</div><div class="flow-box">Constant ratio? Geometric sequence. Check second differences for quadratic patterns.</div></div>
-<div class="example">4, 7, 10, 13, … has d = 3.<br>3, 6, 12, 24, … has r = 2.</div>
-
-<h3>3. Arithmetic sequences: general term</h3>
-<div class="definition">An arithmetic sequence has a constant difference between consecutive terms.
-<div class="formula">Tₙ = a + (n − 1)d</div></div>
-<h4>Proof of the arithmetic general-term formula</h4>
-<div class="example">
-The terms are:
-<div class="formula">T₁ = a</div><div class="formula">T₂ = a + d</div><div class="formula">T₃ = a + 2d</div><div class="formula">T₄ = a + 3d</div>
-Each new term adds one more common difference. To reach term n, there are n − 1 differences.
-<div class="formula">Therefore, Tₙ = a + (n − 1)d</div>
+<div class="quiz-box">
+<h3>Sequences and Series Quiz</h3>
+<p>Select one answer for each question.</p>
+<form id="sequencesQuiz">
+<div class="question"><p>1. Find the common difference: 5, 9, 13, 17, ...</p><label><input type="radio" name="sq1" value="a"> 3</label><label><input type="radio" name="sq1" value="b"> 4</label><label><input type="radio" name="sq1" value="c"> 5</label></div>
+<div class="question"><p>2. What is the nth-term formula for an arithmetic sequence?</p><label><input type="radio" name="sq2" value="a"> arⁿ⁻¹</label><label><input type="radio" name="sq2" value="b"> a + (n - 1)d</label><label><input type="radio" name="sq2" value="c"> n(a + d)</label></div>
+<div class="question"><p>3. Find the 5th term of 2, 6, 18, ...</p><label><input type="radio" name="sq3" value="a"> 54</label><label><input type="radio" name="sq3" value="b"> 81</label><label><input type="radio" name="sq3" value="c"> 162</label></div>
+<div class="question"><p>4. Which is an arithmetic sequence?</p><label><input type="radio" name="sq4" value="a"> 2, 5, 8, 11</label><label><input type="radio" name="sq4" value="b"> 2, 4, 8, 16</label><label><input type="radio" name="sq4" value="c"> 1, 4, 16, 64</label></div>
+<div class="question"><p>5. The sum to infinity exists for a geometric series when:</p><label><input type="radio" name="sq5" value="a"> r &gt; 1</label><label><input type="radio" name="sq5" value="b"> r = 1</label><label><input type="radio" name="sq5" value="c"> |r| &lt; 1</label></div>
+<div class="question"><p>6. Find the sum of the first 5 positive integers.</p><label><input type="radio" name="sq6" value="a"> 10</label><label><input type="radio" name="sq6" value="b"> 15</label><label><input type="radio" name="sq6" value="c"> 20</label></div>
+<div class="question"><p>7. In an arithmetic sequence, a = 4 and d = 3. Find T₆.</p><label><input type="radio" name="sq7" value="a"> 16</label><label><input type="radio" name="sq7" value="b"> 19</label><label><input type="radio" name="sq7" value="c"> 22</label></div>
+<div class="question"><p>8. The common ratio of 3, 12, 48, ... is:</p><label><input type="radio" name="sq8" value="a"> 4</label><label><input type="radio" name="sq8" value="b"> 3</label><label><input type="radio" name="sq8" value="c"> 9</label></div>
+</form>
+<div class="quiz-actions"><button onclick="checkQuiz('sequences')">Check Answers</button><button class="secondary" onclick="resetQuiz('sequences')">Reset Quiz</button></div>
+<div id="sequencesQuizFeedback" class="feedback"></div>
 </div>
-<div class="example">Find the 20th term of 4, 9, 14, 19, …
-<p>a = 4, d = 5, n = 20.</p><div class="formula">T₂₀ = 4 + (20 − 1)(5) = 99</div></div>
-<div class="example">Which term of 7, 11, 15, 19, … is 63?
-<div class="formula">63 = 7 + (n − 1)4</div><div class="formula">56 = 4(n − 1)</div><div class="formula">14 = n − 1 → n = 15</div></div>
-
-<h3>4. Last term of an arithmetic sequence</h3>
-<div class="definition">If the sequence has n terms, the last term is Tₙ, often represented by l.
-<div class="formula">l = a + (n − 1)d</div></div>
-<div class="example">Find the last term if a = 5, d = 3 and n = 12.
-<div class="formula">l = 5 + (12 − 1)(3) = 38</div></div>
-<div class="hint">If you know the first term, common difference and number of terms, use the last-term formula. If you know the last term, you can use it to find n.</div>
-
-<h3>5. Arithmetic series: sum of n terms</h3>
-<div class="definition">An arithmetic series is the sum of terms from an arithmetic sequence.
-<div class="formula">Sₙ = n/2 (a + l)</div>
-<div class="formula">Sₙ = n/2 [2a + (n − 1)d]</div></div>
-<h4>Proof of the arithmetic sum formula</h4>
-<div class="example">
-Write the series forwards:
-<div class="formula">Sₙ = a + (a + d) + … + l</div>
-Write it backwards:
-<div class="formula">Sₙ = l + (l − d) + … + a</div>
-Add the two lines. Every pair adds to a + l, and there are n pairs:
-<div class="formula">2Sₙ = n(a + l)</div>
-Divide both sides by 2:
-<div class="formula">Sₙ = n(a + l)/2</div>
-Since l = a + (n − 1)d, substituting gives:
-<div class="formula">Sₙ = n/2 [2a + (n − 1)d]</div>
-</div>
-<div class="example">Find the sum of the first 10 terms of 2, 5, 8, 11, …
-<div class="formula">a = 2, d = 3, n = 10</div><div class="formula">S₁₀ = 10/2 [2(2) + 9(3)]</div><div class="formula">= 5(4 + 27) = 155</div></div>
-<div class="example">Find the sum of 5 + 8 + 11 + … + 35.
-<div class="formula">35 = 5 + (n − 1)3</div><div class="formula">30 = 3(n − 1) → n = 11</div><div class="formula">S₁₁ = 11/2 (5 + 35) = 220</div></div>
-
-<h3>6. Geometric sequences: general term</h3>
-<div class="definition">A geometric sequence has a constant ratio between consecutive non-zero terms.
-<div class="formula">Tₙ = arⁿ⁻¹</div></div>
-<h4>Proof of the geometric general-term formula</h4>
-<div class="example">
-<div class="formula">T₁ = a</div><div class="formula">T₂ = ar</div><div class="formula">T₃ = ar²</div><div class="formula">T₄ = ar³</div>
-The exponent is one less than the term number, so:
-<div class="formula">Tₙ = arⁿ⁻¹</div>
-</div>
-<div class="example">Find the sixth term of 2, 6, 18, 54, …
-<div class="formula">a = 2, r = 3</div><div class="formula">T₆ = 2(3)⁵ = 486</div></div>
-<div class="example">Find the general term of 80, 40, 20, 10, …
-<div class="formula">a = 80, r = ½</div><div class="formula">Tₙ = 80(½)ⁿ⁻¹</div></div>
-
-<h3>7. Finite geometric series: sum of n terms</h3>
-<div class="definition">For r ≠ 1, the sum of the first n terms is:
-<div class="formula">Sₙ = a(rⁿ − 1)/(r − 1)</div>
-An equivalent form is:
-<div class="formula">Sₙ = a(1 − rⁿ)/(1 − r)</div></div>
-<h4>Proof of the geometric sum formula</h4>
-<div class="example">
-Start with:
-<div class="formula">Sₙ = a + ar + ar² + … + arⁿ⁻¹</div>
-Multiply by r:
-<div class="formula">rSₙ = ar + ar² + … + arⁿ</div>
-Subtract the second equation from the first:
-<div class="formula">Sₙ − rSₙ = a − arⁿ</div>
-Factorise:
-<div class="formula">Sₙ(1 − r) = a(1 − rⁿ)</div>
-Divide by 1 − r:
-<div class="formula">Sₙ = a(1 − rⁿ)/(1 − r)</div>
-</div>
-<div class="example">Find the sum of the first four terms of 2, 6, 18, 54, …
-<div class="formula">S₄ = 2(3⁴ − 1)/(3 − 1)</div><div class="formula">= 2(80)/2 = 80</div></div>
-<div class="hint">When r = 1, every term is a. The sum is then Sₙ = na.</div>
-
-<h3>8. Sum to infinity</h3>
-<div class="definition">A geometric series has a finite sum to infinity only when |r| &lt; 1.
-<div class="formula">S∞ = a/(1 − r)</div>
-This condition means that the terms get closer to zero as n increases.</div>
-<div class="example">Find the sum to infinity of 12 + 6 + 3 + 1.5 + …
-<div class="formula">a = 12, r = ½</div><div class="formula">S∞ = 12/(1 − ½) = 24</div></div>
-<div class="example">Find the sum to infinity of 9 − 3 + 1 − ⅓ + …
-<div class="formula">a = 9, r = −⅓</div><div class="formula">S∞ = 9/[1 − (−⅓)] = 9/(4/3) = 27/4</div></div>
-<div class="warning">Do not use the sum-to-infinity formula when |r| ≥ 1. The series does not converge to a finite sum.</div>
-
-<h3>9. Quadratic patterns and second differences</h3>
-<div class="example">Consider 1, 4, 9, 16, 25, …
-<div class="table-wrap"><table><tr><th>Terms</th><td>1</td><td>4</td><td>9</td><td>16</td><td>25</td></tr><tr><th>First differences</th><td>—</td><td>3</td><td>5</td><td>7</td><td>9</td></tr><tr><th>Second differences</th><td>—</td><td>—</td><td>2</td><td>2</td><td>2</td></tr></table></div>
-<p>The second differences are constant. This is a quadratic pattern, and its general term is Tₙ = n².</p></div>
-
-<h3>10. Sigma notation (Σ)</h3>
-<div class="definition">Sigma notation is a compact way of writing a sum. The symbol Σ means that the expression should be added over a range of index values.</div>
-<div class="formula">Σ from k = 1 to n of aₖ</div>
-<ul><li><strong>k:</strong> the index variable.</li><li><strong>1:</strong> the starting value of the index.</li><li><strong>n:</strong> the ending value of the index.</li><li><strong>aₖ:</strong> the expression being added.</li></ul>
-<h4>Expanding sigma notation</h4>
-<div class="example">
-<div class="formula">Σ from k = 1 to 5 of k</div>
-Expand:
-<div class="formula">1 + 2 + 3 + 4 + 5 = 15</div>
-</div>
-<div class="example">
-<div class="formula">Σ from k = 1 to 4 of (2k + 1)</div>
-Substitute k = 1, 2, 3, 4:
-<div class="formula">3 + 5 + 7 + 9 = 24</div>
-</div>
-<h4>Writing a sum in sigma notation</h4>
-<div class="example">Write 2 + 4 + 6 + 8 + 10 in sigma notation.
-<div class="formula">Σ from k = 1 to 5 of 2k</div></div>
-<div class="example">Calculate the sum of the first four terms of the sequence defined by Tₖ = k².
-<div class="formula">Σ from k = 1 to 4 of k²</div><div class="formula">= 1² + 2² + 3² + 4² = 30</div></div>
-<div class="hint">Always check the starting index and ending index. If the index starts at 0, the first substitution must use 0.</div>
-
-<h3>11. Exam tips and common mistakes</h3>
-<div class="warning"><ul>
-<li>Do not confuse common difference d with common ratio r.</li>
-<li>Remember the n − 1 in the general-term formulas.</li>
-<li>Use Tₙ for a single term and Sₙ for a sum.</li>
-<li>Find the number of terms before using a sum formula if n is not given.</li>
-<li>Use the correct last term in Sₙ = n(a + l)/2.</li>
-<li>Check |r| &lt; 1 before calculating a sum to infinity.</li>
-<li>For sigma notation, substitute every index value, including the endpoints.</li>
-<li>Show your proof steps rather than writing only the final formula.</li>
-</ul></div>
-
-<h3>12. Sequences and Series practice quiz</h3>
-<div class="card" id="sequencesQuiz">
-<div class="question"><p><strong>1.</strong> What is the common difference of 6, 10, 14, 18, …?</p><label><input type="radio" name="sq1" value="a"> 2</label><label><input type="radio" name="sq1" value="b"> 4</label><label><input type="radio" name="sq1" value="c"> 6</label></div>
-<div class="question"><p><strong>2.</strong> Find the 10th term of 3, 7, 11, 15, …</p><label><input type="radio" name="sq2" value="a"> 35</label><label><input type="radio" name="sq2" value="b"> 39</label><label><input type="radio" name="sq2" value="c"> 43</label></div>
-<div class="question"><p><strong>3.</strong> Which is the arithmetic general-term formula?</p><label><input type="radio" name="sq3" value="a"> Tₙ = arⁿ⁻¹</label><label><input type="radio" name="sq3" value="b"> Tₙ = a + (n − 1)d</label><label><input type="radio" name="sq3" value="c"> S∞ = a/(1 − r)</label></div>
-<div class="question"><p><strong>4.</strong> What is the common ratio of 5, 15, 45, 135, …?</p><label><input type="radio" name="sq4" value="a"> 3</label><label><input type="radio" name="sq4" value="b"> 10</label><label><input type="radio" name="sq4" value="c"> 5</label></div>
-<div class="question"><p><strong>5.</strong> Find the fifth term of 2, 4, 8, 16, …</p><label><input type="radio" name="sq5" value="a"> 24</label><label><input type="radio" name="sq5" value="b"> 30</label><label><input type="radio" name="sq5" value="c"> 32</label></div>
-<div class="question"><p><strong>6.</strong> Find 1 + 2 + 3 + 4 + 5.</p><label><input type="radio" name="sq6" value="a"> 10</label><label><input type="radio" name="sq6" value="b"> 15</label><label><input type="radio" name="sq6" value="c"> 20</label></div>
-<div class="question"><p><strong>7.</strong> Find the sum to infinity of 8 + 4 + 2 + 1 + …</p><label><input type="radio" name="sq7" value="a"> 12</label><label><input type="radio" name="sq7" value="b"> 16</label><label><input type="radio" name="sq7" value="c"> 18</label></div>
-<div class="question"><p><strong>8.</strong> What does a constant second difference usually indicate?</p><label><input type="radio" name="sq8" value="a"> A quadratic pattern</label><label><input type="radio" name="sq8" value="b"> A constant arithmetic difference</label><label><input type="radio" name="sq8" value="c"> Every term is the same</label></div>
-<div class="question"><p><strong>9.</strong> Find the last term if a = 5, d = 3 and n = 12.</p><label><input type="radio" name="sq9" value="a"> 35</label><label><input type="radio" name="sq9" value="b"> 38</label><label><input type="radio" name="sq9" value="c"> 41</label></div>
-<div class="question"><p><strong>10.</strong> What is the sum of 2 + 4 + 6 + 8?</p><label><input type="radio" name="sq10" value="a"> 18</label><label><input type="radio" name="sq10" value="b"> 20</label><label><input type="radio" name="sq10" value="c"> 24</label></div>
-<div class="question"><p><strong>11.</strong> Which condition allows a geometric series to have a finite sum to infinity?</p><label><input type="radio" name="sq11" value="a"> r &gt; 1</label><label><input type="radio" name="sq11" value="b"> |r| &lt; 1</label><label><input type="radio" name="sq11" value="c"> r = 2</label></div>
-<div class="question"><p><strong>12.</strong> Calculate Σ from k = 1 to 3 of 2k.</p><label><input type="radio" name="sq12" value="a"> 6</label><label><input type="radio" name="sq12" value="b"> 12</label><label><input type="radio" name="sq12" value="c"> 9</label></div>
-<div class="actions"><button onclick="checkSequencesQuiz()">Check answers</button><button class="secondary" onclick="resetSequencesQuiz()">Try again</button></div>
-<div id="sequencesQuizFeedback" class="feedback" aria-live="polite"></div>
-<details><summary>Show answers</summary><ol><li>4</li><li>39</li><li>Tₙ = a + (n − 1)d</li><li>3</li><li>32</li><li>15</li><li>16</li><li>A quadratic pattern</li><li>38</li><li>20</li><li>|r| &lt; 1</li><li>12</li></ol></details>
-</div>
-<div class="actions"><button onclick="markComplete('sequences')">✓ Mark Sequences complete</button><button class="secondary" onclick="unmarkComplete('sequences')">Undo completion</button></div><p id="sequencesStatus" class="small"></p>
+<div class="lesson-actions"><button onclick="markComplete('sequences')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('sequences')">Undo Completion</button></div>
+<p id="sequencesStatus" class="small"></p>
 </section>
 
-<!-- FUNCTIONS AND GRAPHS -->
-<section class="lesson hidden" id="functions">
+<!-- FUNCTIONS -->
+<section class="lesson" id="lesson-functions">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('finance')">Next: Finance →</button></div>
 <h2>📈 Functions and Graphs</h2>
-<p>Study the main Grade 12 function families, compare their graphs, calculate important points, and learn inverse functions.</p>
+<p>This chapter covers function notation, domains and ranges, graph transformations, parabolas, hyperbolas, inverse functions, logarithms and exponential functions.</p>
 
-<div class="definition"><strong>What is a function?</strong><p>A function assigns exactly one output to each allowed input.</p><div class="arrow-flow"><div class="flow-box">Input x</div><div class="flow-arrow">↓</div><div class="flow-box">Apply the function rule</div><div class="flow-arrow">↓</div><div class="flow-box">Output y = f(x)</div></div>
-<p>If f(x) = 2x + 1, then f(3) = 2(3) + 1 = 7.</p></div>
+<h3>1. What is a function?</h3>
+<div class="definition">A function assigns exactly one output to each permitted input. We often write <span class="math">y = f(x)</span>.</div>
+<ul><li><strong>Domain:</strong> all permitted input values (x-values).</li><li><strong>Range:</strong> all possible output values (y-values).</li><li><strong>x-intercept:</strong> where the graph crosses or touches the x-axis; set y = 0.</li><li><strong>y-intercept:</strong> where the graph crosses the y-axis; set x = 0.</li></ul>
+<div class="example"><strong>Example:</strong> If f(x) = 2x + 3, then f(4) = 2(4) + 3 = 11.</div>
+<div class="hint">The vertical-line test checks whether a graph represents a function: every vertical line must intersect it at most once.</div>
 
-<h3>1. Important graph vocabulary</h3>
-<div class="table-wrap"><table><tr><th>Term</th><th>Meaning</th></tr>
-<tr><td>Domain</td><td>All allowed x-values.</td></tr><tr><td>Range</td><td>All possible y-values.</td></tr><tr><td>x-intercept</td><td>Where the graph crosses the x-axis; set y = 0.</td></tr><tr><td>y-intercept</td><td>Where the graph crosses the y-axis; set x = 0.</td></tr><tr><td>Turning point</td><td>A maximum or minimum point of a curve.</td></tr><tr><td>Axis of symmetry</td><td>A line dividing a symmetric graph into two matching halves.</td></tr><tr><td>Asymptote</td><td>A line that the graph approaches.</td></tr><tr><td>Gradient</td><td>The steepness and direction of a straight line.</td></tr></table></div>
+<h3>2. The parabola: quadratic functions</h3>
+<div class="formula"><p class="math">y = a(x - p)² + q, a ≠ 0</p><p>Turning point: (p, q). Axis of symmetry: x = p.</p></div>
+<ul><li>If a &gt; 0, the parabola opens upwards and has a minimum.</li><li>If a &lt; 0, it opens downwards and has a maximum.</li><li>The absolute value of a affects the width of the graph.</li></ul>
+<div class="example"><strong>Example:</strong> y = (x - 2)² - 3 has turning point (2, -3), axis x = 2, minimum y = -3 and range y ≥ -3.</div>
+<h3>Finding the intercepts</h3>
+<div class="example">For y = x² - 5x + 6, set y = 0:<br>x² - 5x + 6 = 0<br>(x - 2)(x - 3) = 0<br><strong>x-intercepts:</strong> (2, 0) and (3, 0).<br>Set x = 0 to find the y-intercept: y = 6, so (0, 6).</div>
 
-<h3>2. Function notation</h3>
-<div class="example">Given f(x) = 3x − 4, calculate f(5).
-<div class="formula">f(5) = 3(5) − 4 = 11</div></div>
-<div class="example">Given g(x) = x² + 2x, calculate g(−3).
-<div class="formula">g(−3) = (−3)² + 2(−3) = 9 − 6 = 3</div></div>
-<div class="hint">Use brackets when substituting negative numbers.</div>
+<h3>3. Hyperbolic functions</h3>
+<div class="formula"><p class="math">y = a/(x - p) + q, a ≠ 0</p><p>Vertical asymptote: x = p.</p><p>Horizontal asymptote: y = q.</p><p>Centre: (p, q).</p></div>
+<p>The domain excludes x = p and the range excludes y = q, when a ≠ 0.</p>
+<div class="example"><strong>Example:</strong> y = 2/(x - 1) + 3 has vertical asymptote x = 1, horizontal asymptote y = 3 and centre (1, 3).</div>
+<div class="hint">An asymptote is a line that the graph approaches. The graph does not cross either asymptote for this basic translated hyperbola.</div>
 
-<h3>3. Straight-line graphs</h3>
-<div class="definition">The general equation is:
-<div class="formula">y = mx + c</div>
-<p>m is the gradient and c is the y-intercept. A positive gradient rises from left to right; a negative gradient falls.</p></div>
-<div class="graph-grid">
-<div class="graph-card"><h4>Graph A: Positive gradient</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Line with positive gradient"><g stroke="#e2e8f0"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 160H280 M150 210V20" stroke="#64748b" stroke-width="1.5"/><path d="M40 190L250 50" stroke="#4f46e5" stroke-width="3"/><text x="185" y="45" fill="#4f46e5" font-size="12">y = 2x + 1</text></svg><p>Example: y = 2x + 1</p><p class="small">Positive gradient: rises left to right.</p></div>
-<div class="graph-card"><h4>Graph B: Negative gradient</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Line with negative gradient"><g stroke="#e2e8f0"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 160H280 M150 210V20" stroke="#64748b" stroke-width="1.5"/><path d="M40 50L250 190" stroke="#dc2626" stroke-width="3"/><text x="170" y="45" fill="#dc2626" font-size="12">y = −2x + 1</text></svg><p>Example: y = −2x + 1</p><p class="small">Negative gradient: falls left to right.</p></div>
+<h3>4. Exponential functions</h3>
+<div class="formula"><p class="math">y = ab^(x - p) + q, b &gt; 0, b ≠ 1</p><p>Horizontal asymptote: y = q.</p></div>
+<ul><li>For b &gt; 1, the basic function bˣ shows exponential growth.</li><li>For 0 &lt; b &lt; 1, the basic function bˣ shows exponential decay.</li><li>For y = abˣ + q, if a &gt; 0, the range is y &gt; q; if a &lt; 0, the range is y &lt; q.</li></ul>
+<div class="example"><strong>Example:</strong> y = 2ˣ has domain all real numbers, range y &gt; 0, y-intercept (0, 1), and horizontal asymptote y = 0.</div>
+
+<h3>5. Graph transformations</h3>
+<div class="table-wrap"><table><tr><th>Function</th><th>Transformation of y = f(x)</th></tr><tr><td>y = f(x) + q</td><td>Shift up q units if q is positive.</td></tr><tr><td>y = f(x) - q</td><td>Shift down q units if q is positive.</td></tr><tr><td>y = f(x - p)</td><td>Shift right p units if p is positive.</td></tr><tr><td>y = f(x + p)</td><td>Shift left p units if p is positive.</td></tr><tr><td>y = -f(x)</td><td>Reflect in the x-axis.</td></tr><tr><td>y = f(-x)</td><td>Reflect in the y-axis.</td></tr><tr><td>y = af(x)</td><td>Vertical scaling by |a|; negative a also reflects in the x-axis.</td></tr><tr><td>y = f(ax)</td><td>Horizontal scaling by factor 1/|a|; negative a also reflects in the y-axis.</td></tr></table></div>
+<div class="warning"><strong>Common mistake:</strong> horizontal shifts inside the brackets work in the opposite direction. For example, (x - 4) shifts a graph 4 units to the right.</div>
+
+<h3>6. Inverse functions: general properties</h3>
+<div class="definition">An inverse function reverses the action of the original function. It is written as <span class="math">f⁻¹(x)</span>. The notation f⁻¹(x) does not mean 1/f(x).</div>
+<p>To find an inverse algebraically:</p>
+<ol><li>Write y = f(x).</li><li>Swap x and y.</li><li>Solve for y.</li><li>Write the result as y = f⁻¹(x).</li></ol>
+<ul><li>The domain of the inverse is the range of the original function.</li><li>The range of the inverse is the domain of the original function.</li><li>The graphs of f and f⁻¹ are reflections of one another in the line y = x.</li><li>A function must be one-to-one on its domain to have an inverse that is also a function.</li></ul>
+<div class="hint">The horizontal-line test checks whether a function is one-to-one: every horizontal line must intersect its graph at most once.</div>
+
+<h3>7. Inverse of a straight-line function</h3>
+<div class="example"><strong>Question:</strong> Find the inverse of f(x) = 2x + 3.<br><br><strong>Step 1:</strong> y = 2x + 3<br><strong>Step 2:</strong> Swap x and y: x = 2y + 3<br><strong>Step 3:</strong> x - 3 = 2y<br>y = (x - 3)/2<br><strong>Answer:</strong> <span class="math">f⁻¹(x) = (x - 3)/2</span>.</div>
+<p>Check: f(f⁻¹(x)) = 2((x - 3)/2) + 3 = x.</p>
+
+<h3>8. Inverse of a quadratic function</h3>
+<div class="warning">A full parabola is not one-to-one over all real x-values. You must restrict its domain before defining its inverse as a function.</div>
+<div class="example"><strong>Question:</strong> Find the inverse of f(x) = (x - 1)² + 2, given x ≥ 1.<br><br><strong>Step 1:</strong> y = (x - 1)² + 2<br><strong>Step 2:</strong> Swap x and y: x = (y - 1)² + 2<br><strong>Step 3:</strong> x - 2 = (y - 1)²<br>y - 1 = ±√(x - 2)<br><br>Because the original domain is x ≥ 1, choose the positive branch:<br><strong>f⁻¹(x) = 1 + √(x - 2)</strong>.</div>
+<p>The original function has range y ≥ 2, so the inverse has domain x ≥ 2. Its range is y ≥ 1.</p>
+<div class="hint">If the original quadratic domain is restricted to x ≤ 1 instead, the inverse branch is y = 1 - √(x - 2).</div>
+
+<h3>9. Inverse of an exponential function</h3>
+<div class="example"><strong>Question:</strong> Find the inverse of f(x) = 2ˣ.<br><br>y = 2ˣ<br>Swap x and y: x = 2ʸ<br>Rewrite in logarithmic form: y = log₂x<br><strong>Answer:</strong> <span class="math">f⁻¹(x) = log₂x</span>.</div>
+<div class="table-wrap"><table><tr><th>Function</th><th>Domain</th><th>Range</th></tr><tr><td>y = 2ˣ</td><td>All real numbers</td><td>y &gt; 0</td></tr><tr><td>y = log₂x</td><td>x &gt; 0</td><td>All real numbers</td></tr></table></div>
+<p>The graphs y = 2ˣ and y = log₂x are reflections across y = x. The exponential horizontal asymptote y = 0 corresponds to the logarithmic vertical asymptote x = 0.</p>
+
+<h3>10. Logarithmic functions</h3>
+<div class="definition"><span class="math">logₐx = y</span> means <span class="math">aʸ = x</span>, where a &gt; 0, a ≠ 1 and x &gt; 0.</div>
+<ul><li>The domain of y = logₐx is x &gt; 0.</li><li>The range is all real numbers.</li><li>The vertical asymptote is x = 0.</li><li>If a &gt; 1, the graph increases.</li><li>If 0 &lt; a &lt; 1, the graph decreases.</li></ul>
+<div class="example"><strong>Example:</strong> log₂8 = 3 because 2³ = 8.<br>Also, log₁₀100 = 2 because 10² = 100.</div>
+
+<h3>11. Logarithm laws</h3>
+<div class="formula">
+<p class="math">logₐ(MN) = logₐM + logₐN</p>
+<p class="math">logₐ(M/N) = logₐM - logₐN</p>
+<p class="math">logₐ(Mᵏ) = k logₐM</p>
+<p class="math">logₐ1 = 0</p>
+<p class="math">logₐa = 1</p>
+<p class="math">logₐx = logᵦx / logᵦa</p>
 </div>
-<h4>Gradient between two points</h4><div class="formula">m = (y₂ − y₁)/(x₂ − x₁)</div>
-<div class="example">Find the gradient through A(1, 3) and B(4, 9).
-<div class="formula">m = (9 − 3)/(4 − 1) = 2</div></div>
-<h4>Finding intercepts</h4>
-<div class="example">For y = 2x − 6, the y-intercept is (0, −6). Set y = 0 to find the x-intercept: 0 = 2x − 6, so x = 3. The x-intercept is (3, 0).</div>
+<p>The last formula is the change-of-base rule. For real logarithms, the arguments M, N and x must be positive, and the base must be positive and not equal to 1.</p>
+<div class="example"><strong>Example 1:</strong> log₂(8 × 4) = log₂8 + log₂4 = 3 + 2 = 5.<br><strong>Example 2:</strong> log₃(x²) = 2log₃x for x &gt; 0.<br><strong>Example 3:</strong> log₅25 = 2 because 5² = 25.</div>
+<div class="warning">You cannot split log(M + N) into log M + log N. The product law applies to multiplication, not addition.</div>
 
-<h3>4. Parabolas (quadratic functions)</h3>
-<div class="definition">A quadratic function has the form y = ax² + bx + c, where a ≠ 0.
-<ul><li>a &gt; 0: opens upwards.</li><li>a &lt; 0: opens downwards.</li><li>Axis of symmetry: x = −b/(2a).</li><li>The turning point lies on the axis of symmetry.</li></ul></div>
-<div class="graph-grid">
-<div class="graph-card"><h4>Graph A: Opens upwards</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Upward-opening parabola"><g stroke="#e2e8f0"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 100H280 M150 215V20" stroke="#64748b" stroke-width="1.5"/><path d="M45 25 Q150 345 255 25" fill="none" stroke="#4f46e5" stroke-width="3"/><circle cx="150" cy="195" r="4" fill="#16a34a"/><text x="158" y="191" font-size="11" fill="#166534">Minimum</text></svg><p>Example: y = x²</p><p class="small">Turning point (0, 0); minimum value is 0.</p></div>
-<div class="graph-card"><h4>Graph B: Opens downwards</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Downward-opening parabola"><g stroke="#e2e8f0"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 160H280 M150 215V20" stroke="#64748b" stroke-width="1.5"/><path d="M45 205 Q150 -115 255 205" fill="none" stroke="#dc2626" stroke-width="3"/><circle cx="150" cy="45" r="4" fill="#16a34a"/><text x="158" y="40" font-size="11" fill="#166534">Maximum</text></svg><p>Example: y = −x²</p><p class="small">Turning point (0, 0); maximum value is 0.</p></div>
+<h3>12. Solving exponential and logarithmic equations</h3>
+<div class="example"><strong>Exponential example:</strong> Solve 2ˣ = 16.<br>Since 16 = 2⁴, x = 4.<br><br><strong>Logarithmic example:</strong> Solve log₃x = 2.<br>Rewrite in exponential form: x = 3² = 9.</div>
+<div class="hint">When the bases are the same, compare the exponents. When using logarithms, always check that logarithm arguments are positive.</div>
+
+<h3>13. Intersections of graphs</h3>
+<p>At an intersection, the two functions have the same x-value and y-value. Set their equations equal and solve.</p>
+<div class="example">Find where y = x + 1 and y = 5 meet.<br>x + 1 = 5, so x = 4. The intersection is <strong>(4, 5)</strong>.</div>
+
+<h3>14. Graph-sketching checklist</h3>
+<ol><li>Identify the type of function.</li><li>Find intercepts where possible.</li><li>Calculate the turning point or centre when applicable.</li><li>Identify asymptotes.</li><li>State the domain and range.</li><li>Plot enough points to show the shape.</li><li>Label axes, intercepts, turning points and asymptotes.</li></ol>
+
+<div class="quiz-box">
+<h3>Functions and Graphs Practice Quiz</h3>
+<p>Choose one answer for each question, then select Check Answers.</p>
+<form id="functionsQuiz">
+<div class="question"><p>1. What is the turning point of y = (x - 3)² + 2?</p><label><input type="radio" name="fq1" value="a"> (-3, 2)</label><label><input type="radio" name="fq1" value="b"> (3, 2)</label><label><input type="radio" name="fq1" value="c"> (3, -2)</label></div>
+<div class="question"><p>2. What is the horizontal asymptote of y = 2ˣ?</p><label><input type="radio" name="fq2" value="a"> y = 0</label><label><input type="radio" name="fq2" value="b"> x = 0</label><label><input type="radio" name="fq2" value="c"> y = 2</label></div>
+<div class="question"><p>3. Find the inverse of f(x) = 2x + 6.</p><label><input type="radio" name="fq3" value="a"> 2x - 6</label><label><input type="radio" name="fq3" value="b"> (x + 6)/2</label><label><input type="radio" name="fq3" value="c"> (x - 6)/2</label></div>
+<div class="question"><p>4. What is log₂8?</p><label><input type="radio" name="fq4" value="a"> 2</label><label><input type="radio" name="fq4" value="b"> 3</label><label><input type="radio" name="fq4" value="c"> 4</label></div>
+<div class="question"><p>5. The domain of y = log₃x is:</p><label><input type="radio" name="fq5" value="a"> x &gt; 0</label><label><input type="radio" name="fq5" value="b"> All real numbers</label><label><input type="radio" name="fq5" value="c"> x &lt; 0</label></div>
+<div class="question"><p>6. The graphs of a function and its inverse reflect across:</p><label><input type="radio" name="fq6" value="a"> The x-axis</label><label><input type="radio" name="fq6" value="b"> The y-axis</label><label><input type="radio" name="fq6" value="c"> The line y = x</label></div>
+<div class="question"><p>7. What is log₅25?</p><label><input type="radio" name="fq7" value="a"> 5</label><label><input type="radio" name="fq7" value="b"> 2</label><label><input type="radio" name="fq7" value="c"> 25</label></div>
+<div class="question"><p>8. Why must the domain of a quadratic sometimes be restricted before finding an inverse function?</p><label><input type="radio" name="fq8" value="a"> The full parabola is not one-to-one</label><label><input type="radio" name="fq8" value="b"> Quadratics have no range</label><label><input type="radio" name="fq8" value="c"> The x-intercepts must always be zero</label></div>
+</form>
+<div class="quiz-actions"><button onclick="checkQuiz('functions')">Check Answers</button><button class="secondary" onclick="resetQuiz('functions')">Reset Quiz</button></div>
+<div id="functionsQuizFeedback" class="feedback"></div>
 </div>
-<h4>Turning point and intercepts</h4>
-<div class="example">Find the turning point of y = x² − 4x + 3.
-<div class="formula">x = −b/(2a) = −(−4)/(2) = 2</div><div class="formula">y = 2² − 4(2) + 3 = −1</div>
-<p>Turning point: (2, −1). Axis of symmetry: x = 2. The parabola opens upwards.</p></div>
-<div class="example">Find the x-intercepts of y = x² − 4x + 3.
-<div class="formula">0 = x² − 4x + 3 = (x − 1)(x − 3)</div><div class="formula">x = 1 or x = 3</div><p>Intercepts: (1, 0) and (3, 0).</p></div>
-<div class="example">For y = (x − 2)² − 1, the turning point is (2, −1). Since it opens upwards, its range is y ≥ −1.</div>
-
-<h3>5. Hyperbolas</h3>
-<div class="definition">A common Grade 12 hyperbola is:
-<div class="formula">y = a/(x − p) + q</div>
-<p>Vertical asymptote: x = p. Horizontal asymptote: y = q. Centre: (p, q). Domain: x ≠ p. Range: y ≠ q.</p></div>
-<div class="graph-grid">
-<div class="graph-card"><h4>Graph A: Positive reciprocal</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Positive reciprocal hyperbola"><g stroke="#e2e8f0"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 115H280 M150 215V20" stroke="#64748b" stroke-width="1.5"/><path d="M151 20V215 M20 115H280" stroke="#dc2626" stroke-dasharray="5 4"/><path d="M170 25 C174 70 200 95 270 108 M30 122 C100 135 125 165 130 210" fill="none" stroke="#4f46e5" stroke-width="3"/></svg><p>Example: y = 1/x</p><p class="small">Branches in quadrants I and III.</p></div>
-<div class="graph-card"><h4>Graph B: Negative reciprocal</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Negative reciprocal hyperbola"><g stroke="#e2e8f0"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 115H280 M150 215V20" stroke="#64748b" stroke-width="1.5"/><path d="M151 20V215 M20 115H280" stroke="#dc2626" stroke-dasharray="5 4"/><path d="M30 30 C85 60 125 95 130 108 M170 122 C185 155 220 180 270 200" fill="none" stroke="#dc2626" stroke-width="3"/></svg><p>Example: y = −1/x</p><p class="small">Branches in quadrants II and IV.</p></div>
-</div>
-<div class="example">For y = 6/x + 2:
-<ul><li>Vertical asymptote: x = 0.</li><li>Horizontal asymptote: y = 2.</li><li>At x = 3, y = 4, so (3, 4) is on the graph.</li><li>For the x-intercept: 0 = 6/x + 2, so x = −3.</li><li>There is no y-intercept because x cannot be 0.</li></ul></div>
-
-<h3>6. Exponential functions</h3>
-<div class="definition">A common exponential function is y = abˣ + q, where a ≠ 0, b &gt; 0 and b ≠ 1.
-<ul><li>For a &gt; 0 and b &gt; 1, the graph increases.</li><li>For a &gt; 0 and 0 &lt; b &lt; 1, the graph decreases.</li><li>Horizontal asymptote: y = q.</li><li>Domain: all real x-values.</li></ul></div>
-<div class="graph-grid">
-<div class="graph-card"><h4>Graph A: Exponential growth</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Increasing exponential graph"><g stroke="#e2e8f0"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 185H280 M150 215V20" stroke="#64748b" stroke-width="1.5"/><path d="M20 185H280" stroke="#dc2626" stroke-dasharray="5 4"/><path d="M30 180 C100 180 130 175 150 155 S195 95 215 65 S255 35 275 25" fill="none" stroke="#4f46e5" stroke-width="3"/></svg><p>Example: y = 2ˣ</p><p class="small">Increasing curve; asymptote y = 0.</p></div>
-<div class="graph-card"><h4>Graph B: Exponential decay</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Decreasing exponential graph"><g stroke="#e2e8f0"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 185H280 M150 215V20" stroke="#64748b" stroke-width="1.5"/><path d="M20 185H280" stroke="#dc2626" stroke-dasharray="5 4"/><path d="M30 25 C50 45 75 95 110 140 S185 178 275 183" fill="none" stroke="#dc2626" stroke-width="3"/></svg><p>Example: y = (½)ˣ</p><p class="small">Decreasing curve; asymptote y = 0.</p></div>
-</div>
-<div class="example">For y = 2ˣ, the points include (−2, ¼), (−1, ½), (0, 1), (1, 2), and (2, 4). The y-intercept is (0, 1), and the range is y &gt; 0.</div>
-
-<h3>7. Domain and range</h3>
-<div class="table-wrap"><table><tr><th>Function</th><th>Domain</th><th>Range</th></tr>
-<tr><td>y = mx + c, m ≠ 0</td><td>All real x</td><td>All real y</td></tr>
-<tr><td>y = x²</td><td>All real x</td><td>y ≥ 0</td></tr>
-<tr><td>y = (x − 2)² − 1</td><td>All real x</td><td>y ≥ −1</td></tr>
-<tr><td>y = 1/x</td><td>x ≠ 0</td><td>y ≠ 0</td></tr>
-<tr><td>y = 2ˣ</td><td>All real x</td><td>y &gt; 0</td></tr>
-<tr><td>y = √x</td><td>x ≥ 0</td><td>y ≥ 0</td></tr></table></div>
-<div class="hint">A denominator cannot be zero. The turning point determines the minimum or maximum of a parabola.</div>
-
-<h3>8. Transformations of graphs</h3>
-<div class="table-wrap"><table><tr><th>New function</th><th>Effect</th></tr>
-<tr><td>y = f(x) + q</td><td>Moves up q units if q &gt; 0.</td></tr>
-<tr><td>y = f(x) − q</td><td>Moves down q units if q &gt; 0.</td></tr>
-<tr><td>y = f(x − p)</td><td>Moves right p units if p &gt; 0.</td></tr>
-<tr><td>y = f(x + p)</td><td>Moves left p units if p &gt; 0.</td></tr>
-<tr><td>y = −f(x)</td><td>Reflects in the x-axis.</td></tr>
-<tr><td>y = f(−x)</td><td>Reflects in the y-axis.</td></tr>
-<tr><td>y = af(x)</td><td>Vertical stretch/compression; negative a reflects in x-axis.</td></tr></table></div>
-<div class="example">Compare y = x² and y = (x − 3)² + 2. The second graph moves 3 units right and 2 units up. Its turning point is (3, 2) and its axis is x = 3.</div>
-<div class="warning">Horizontal shifts have the opposite sign inside the brackets: x − 3 moves right; x + 3 moves left.</div>
-
-<h3>9. Inverse functions</h3>
-<div class="definition">An inverse function reverses the input-output process. The inverse is written f⁻¹(x). It is not the same as 1/f(x).</div>
-<h4>How to find an inverse</h4>
-<div class="arrow-flow"><div class="flow-box">Write y = f(x).</div><div class="flow-arrow">↓</div><div class="flow-box">Swap x and y.</div><div class="flow-arrow">↓</div><div class="flow-box">Solve for y.</div><div class="flow-arrow">↓</div><div class="flow-box">Write y = f⁻¹(x).</div></div>
-<div class="example"><strong>Example 1:</strong> Find the inverse of f(x) = 2x + 1.
-<div class="formula">y = 2x + 1</div><p>Swap x and y:</p><div class="formula">x = 2y + 1</div><div class="formula">y = (x − 1)/2</div><p>Therefore:</p><div class="formula">f⁻¹(x) = (x − 1)/2</div></div>
-<div class="example"><strong>Example 2:</strong> Find the inverse of f(x) = x², given x ≥ 0.
-<div class="formula">y = x²</div><p>Swap x and y:</p><div class="formula">x = y²</div><p>Since the original domain is x ≥ 0, choose the non-negative square root:</p><div class="formula">f⁻¹(x) = √x</div></div>
-<div class="graph-grid">
-<div class="graph-card"><h4>Original function</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Straight line original function"><g stroke="#e5e7eb"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 180H280 M150 215V20" stroke="#64748b"/><path d="M50 190L250 50" stroke="#4f46e5" stroke-width="3"/><text x="170" y="45" font-size="12" fill="#4f46e5">f(x)</text></svg><p>f(x) = 2x + 1</p></div>
-<div class="graph-card"><h4>Inverse function</h4><svg class="graph" viewBox="0 0 300 230" role="img" aria-label="Inverse straight line function"><g stroke="#e5e7eb"><path d="M30 30V200 M70 30V200 M110 30V200 M150 30V200 M190 30V200 M230 30V200 M270 30V200 M20 40H280 M20 80H280 M20 120H280 M20 160H280 M20 200H280"/></g><path d="M20 180H280 M150 215V20" stroke="#64748b"/><path d="M50 190L250 50" stroke="#4f46e5" stroke-width="2" stroke-dasharray="5 4"/><path d="M35 195L245 55" stroke="#dc2626" stroke-width="3"/><text x="170" y="45" font-size="12" fill="#dc2626">f⁻¹(x)</text></svg><p>f⁻¹(x) = (x − 1)/2</p></div>
-</div>
-<p class="small">A function and its inverse are reflections in the line y = x. These diagrams are illustrative; use equations and coordinates for accurate exam sketches.</p>
-<h4>The horizontal line test</h4>
-<div class="definition">A function has an inverse that is also a function if every horizontal line intersects its graph at most once. If it fails, restrict the original domain before finding the inverse.</div>
-<div class="warning">For y = x² over all real x, the inverse relation is y = ±√x, which is not a function. Restricting the original domain to x ≥ 0 gives f⁻¹(x) = √x.</div>
-<h4>Domain and range of inverse functions</h4>
-<div class="formula">Domain of f⁻¹ = Range of f</div><div class="formula">Range of f⁻¹ = Domain of f</div>
-
-<h3>10. Intersections of graphs</h3>
-<div class="definition">At an intersection, two functions have the same x- and y-values. Set their equations equal to find the x-coordinate, then substitute to find y.</div>
-<div class="example">Find the intersection of y = x + 1 and y = 2x − 2.
-<div class="formula">x + 1 = 2x − 2 → x = 3</div><div class="formula">y = 3 + 1 = 4</div><p>Intersection: (3, 4).</p></div>
-
-<h3>11. Sketching a graph</h3>
-<div class="arrow-flow"><div class="flow-box">1. Identify the function type.</div><div class="flow-arrow">↓</div><div class="flow-box">2. Find intercepts and important points.</div><div class="flow-arrow">↓</div><div class="flow-box">3. Find turning points or asymptotes.</div><div class="flow-arrow">↓</div><div class="flow-box">4. Plot points and draw the correct curve.</div><div class="flow-arrow">↓</div><div class="flow-box">5. Label intercepts, axes, turning points and asymptotes.</div></div>
-<div class="example">For y = x² − 4: x-intercepts are (−2, 0) and (2, 0); y-intercept is (0, −4); turning point is (0, −4); axis is x = 0; range is y ≥ −4.</div>
-
-<h3>12. Functions and Graphs practice quiz</h3>
-<div class="card" id="functionsQuiz">
-<div class="question"><p><strong>1.</strong> If f(x) = 2x + 3, what is f(4)?</p><label><input type="radio" name="fq1" value="a"> 8</label><label><input type="radio" name="fq1" value="b"> 11</label><label><input type="radio" name="fq1" value="c"> 14</label></div>
-<div class="question"><p><strong>2.</strong> What is the gradient of y = −3x + 5?</p><label><input type="radio" name="fq2" value="a"> 5</label><label><input type="radio" name="fq2" value="b"> 3</label><label><input type="radio" name="fq2" value="c"> −3</label></div>
-<div class="question"><p><strong>3.</strong> What is the y-intercept of y = 2x − 6?</p><label><input type="radio" name="fq3" value="a"> (0, −6)</label><label><input type="radio" name="fq3" value="b"> (3, 0)</label><label><input type="radio" name="fq3" value="c"> (0, 2)</label></div>
-<div class="question"><p><strong>4.</strong> What is the axis of symmetry of y = x² − 6x + 5?</p><label><input type="radio" name="fq4" value="a"> x = −3</label><label><input type="radio" name="fq4" value="b"> x = 3</label><label><input type="radio" name="fq4" value="c"> y = 3</label></div>
-<div class="question"><p><strong>5.</strong> What is the turning point of y = (x − 2)² + 1?</p><label><input type="radio" name="fq5" value="a"> (−2, 1)</label><label><input type="radio" name="fq5" value="b"> (2, −1)</label><label><input type="radio" name="fq5" value="c"> (2, 1)</label></div>
-<div class="question"><p><strong>6.</strong> What is the horizontal asymptote of y = 4/x − 3?</p><label><input type="radio" name="fq6" value="a"> x = 4</label><label><input type="radio" name="fq6" value="b"> y = −3</label><label><input type="radio" name="fq6" value="c"> x = 0</label></div>
-<div class="question"><p><strong>7.</strong> What is the range of y = x² + 4?</p><label><input type="radio" name="fq7" value="a"> y ≥ 4</label><label><input type="radio" name="fq7" value="b"> y ≤ 4</label><label><input type="radio" name="fq7" value="c"> All real y-values</label></div>
-<div class="question"><p><strong>8.</strong> The graph y = f(x) + 3 moves:</p><label><input type="radio" name="fq8" value="a"> 3 units right</label><label><input type="radio" name="fq8" value="b"> 3 units down</label><label><input type="radio" name="fq8" value="c"> 3 units up</label></div>
-<div class="question"><p><strong>9.</strong> Find the inverse of f(x) = 2x + 1.</p><label><input type="radio" name="fq9" value="a"> 2x − 1</label><label><input type="radio" name="fq9" value="b"> (x − 1)/2</label><label><input type="radio" name="fq9" value="c"> (x + 1)/2</label></div>
-<div class="question"><p><strong>10.</strong> What is the horizontal asymptote of y = 2ˣ + 4?</p><label><input type="radio" name="fq10" value="a"> x = 4</label><label><input type="radio" name="fq10" value="b"> y = 0</label><label><input type="radio" name="fq10" value="c"> y = 4</label></div>
-<div class="question"><p><strong>11.</strong> What is the range of y = (x − 1)² + 2?</p><label><input type="radio" name="fq11" value="a"> y ≥ 2</label><label><input type="radio" name="fq11" value="b"> y ≤ 2</label><label><input type="radio" name="fq11" value="c"> All real numbers</label></div>
-<div class="question"><p><strong>12.</strong> Which test helps determine whether an inverse is a function?</p><label><input type="radio" name="fq12" value="a"> Vertical line test only</label><label><input type="radio" name="fq12" value="b"> Horizontal line test</label><label><input type="radio" name="fq12" value="c"> Gradient test only</label></div>
-<div class="actions"><button onclick="checkFunctionsQuiz()">Check answers</button><button class="secondary" onclick="resetFunctionsQuiz()">Try again</button></div>
-<div id="functionsQuizFeedback" class="feedback" aria-live="polite"></div>
-<details><summary>Show answers and explanations</summary><ol><li>11</li><li>−3</li><li>(0, −6)</li><li>x = 3</li><li>(2, 1)</li><li>y = −3</li><li>y ≥ 4</li><li>3 units up</li><li>(x − 1)/2</li><li>y = 4</li><li>y ≥ 2</li><li>Horizontal line test</li></ol></details>
-</div>
-<div class="actions"><button onclick="markComplete('functions')">✓ Mark Functions complete</button><button class="secondary" onclick="unmarkComplete('functions')">Undo completion</button></div><p id="functionsStatus" class="small"></p>
+<div class="lesson-actions"><button onclick="markComplete('functions')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('functions')">Undo Completion</button></div>
+<p id="functionsStatus" class="small"></p>
 </section>
 
 <!-- FINANCE -->
-<section class="lesson hidden" id="finance">
-<h2>Finance, Growth and Decay</h2>
-<div class="definition">Compound interest is calculated on the original amount and on interest already accumulated.</div>
-<div class="formula">A = P(1 + i)ⁿ</div>
-<ul><li>A = accumulated amount</li><li>P = initial amount or principal</li><li>i = interest rate per period as a decimal</li><li>n = number of periods</li></ul>
-<div class="example">R1 000 invested at 10% per year for 2 years: A = 1 000(1.10)² = R1 210.</div>
-<div class="hint">Convert 8% to 0.08 before substituting. Match the interest rate and number of periods.</div>
-<button onclick="markComplete('finance')">✓ Mark complete</button><p id="financeStatus" class="small"></p>
+<section class="lesson" id="lesson-finance">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('calculus')">Next: Calculus →</button></div>
+<h2>💰 Finance, Growth and Decay</h2>
+<h3>1. Simple interest</h3>
+<div class="formula"><p class="math">I = Pin</p><p class="math">A = P(1 + in)</p></div>
+<p>P = principal, i = interest rate per period, n = number of periods, I = interest, A = final amount.</p>
+<h3>2. Compound interest</h3>
+<div class="formula"><p class="math">A = P(1 + i)ⁿ</p></div>
+<div class="example">R1 000 is invested at 10% per year, compounded annually, for 2 years.<br>A = 1000(1.10)² = <strong>R1 210</strong>.</div>
+<h3>3. Depreciation</h3>
+<div class="formula"><p class="math">A = P(1 - i)ⁿ</p></div>
+<p>This formula models reducing-balance depreciation when the value decreases by a fixed percentage each period.</p>
+<h3>4. Annuities</h3>
+<p>An annuity involves regular payments or deposits. Use the formula specified in the question and identify whether payments occur at the beginning or end of each period.</p>
+<div class="hint">Make sure the interest rate and time period use matching units. For monthly calculations, convert the annual rate and number of periods as instructed.</div>
+<div class="lesson-actions"><button onclick="markComplete('finance')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('finance')">Undo Completion</button></div><p id="financeStatus" class="small"></p>
 </section>
 
 <!-- CALCULUS -->
-<section class="lesson hidden" id="calculus">
-<h2>Differential Calculus</h2>
-<div class="definition">A derivative measures the instantaneous rate of change of a function and gives the gradient of the tangent.</div>
-<div class="formula">If y = xⁿ, then dy/dx = nxⁿ⁻¹</div>
-<div class="example">y = 3x² + 4x − 1 → dy/dx = 6x + 4.</div>
-<ul><li>Differentiate powers of x.</li><li>Find stationary points by setting dy/dx = 0.</li><li>Use the original function to calculate the y-coordinate.</li><li>Determine whether a stationary point is a maximum or minimum.</li></ul>
-<div class="hint">The derivative of a constant is zero.</div>
-<button onclick="markComplete('calculus')">✓ Mark complete</button><p id="calculusStatus" class="small"></p>
+<section class="lesson" id="lesson-calculus">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('probability')">Next: Probability →</button></div>
+<h2>📉 Differential Calculus</h2>
+<div class="definition">Differentiation finds the gradient of a curve at a point and helps determine stationary points.</div>
+<h3>1. Power rule</h3>
+<div class="formula"><p class="math">If y = axⁿ, then dy/dx = anxⁿ⁻¹</p></div>
+<div class="example">If y = 3x² + 4x - 5, then dy/dx = 6x + 4.</div>
+<h3>2. Gradient at a point</h3>
+<p>Substitute the required x-value into the derivative to find the gradient at that point.</p>
+<div class="example">For y = x², dy/dx = 2x. At x = 3, the gradient is 6.</div>
+<h3>3. Stationary points</h3>
+<p>At a stationary point, dy/dx = 0. Solve this equation to find the x-coordinates, then substitute into the original function to find y.</p>
+<div class="example">For y = x² - 4x + 1:<br>dy/dx = 2x - 4.<br>Set 2x - 4 = 0, so x = 2.<br>y = 4 - 8 + 1 = -3.<br>Stationary point: <strong>(2, -3)</strong>.</div>
+<h3>4. Nature of stationary points</h3>
+<ul><li>For a parabola opening upwards, its turning point is a minimum.</li><li>For a parabola opening downwards, its turning point is a maximum.</li></ul>
+<div class="hint">In optimisation questions, define the variable, form the function, differentiate, set the derivative equal to zero and interpret the result in context.</div>
+<div class="lesson-actions"><button onclick="markComplete('calculus')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('calculus')">Undo Completion</button></div><p id="calculusStatus" class="small"></p>
 </section>
 
 <!-- PROBABILITY -->
-<section class="lesson hidden" id="probability">
-<h2>Probability</h2>
-<div class="definition">Probability measures how likely an event is to occur. 0 means impossible; 1 means certain.</div>
-<div class="formula">P(A) = favourable outcomes / total equally likely outcomes</div>
-<div class="example">For a fair six-sided die, P(rolling a 4) = 1/6.</div>
-<ul><li>Complement: P(not A) = 1 − P(A).</li><li>Mutually exclusive events cannot occur together.</li><li>Independent events do not change each other's probabilities.</li></ul>
-<div class="hint">Check whether outcomes are equally likely before using the simple fraction formula.</div>
-<button onclick="markComplete('probability')">✓ Mark complete</button><p id="probabilityStatus" class="small"></p>
+<section class="lesson" id="lesson-probability">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('statistics')">Next: Statistics →</button></div>
+<h2>🎲 Probability</h2>
+<div class="definition">Probability measures how likely an event is to occur. Its value is between 0 and 1.</div>
+<div class="formula"><p class="math">P(A) = favourable outcomes / equally likely possible outcomes</p><p class="math">P(A') = 1 - P(A)</p></div>
+<h3>1. Addition rule</h3>
+<div class="formula"><p class="math">P(A ∪ B) = P(A) + P(B) - P(A ∩ B)</p></div>
+<p>If A and B are mutually exclusive, P(A ∩ B) = 0.</p>
+<h3>2. Multiplication rule</h3>
+<div class="formula"><p class="math">P(A ∩ B) = P(A) × P(B|A)</p></div>
+<p>For independent events, P(B|A) = P(B), so P(A ∩ B) = P(A)P(B).</p>
+<h3>3. Example</h3>
+<p>A fair six-sided die is rolled.</p>
+<div class="example">P(rolling a 4) = 1/6.<br>P(not rolling a 4) = 1 - 1/6 = 5/6.</div>
+<h3>4. Two-way tables and tree diagrams</h3>
+<p>Use tables to organise information and tree diagrams to represent successive events. Multiply probabilities along a branch and add probabilities for separate branches that satisfy the event.</p>
+<div class="hint">Check whether events are independent, dependent, mutually exclusive or overlapping before choosing a formula.</div>
+<div class="lesson-actions"><button onclick="markComplete('probability')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('probability')">Undo Completion</button></div><p id="probabilityStatus" class="small"></p>
 </section>
 
 <!-- STATISTICS -->
-<section class="lesson hidden" id="statistics">
-<h2>Statistics</h2>
-<div class="definition">Statistics involves collecting, organising, analysing and interpreting data.</div>
-<ul><li><strong>Mean:</strong> sum of observations ÷ number of observations.</li><li><strong>Median:</strong> middle observation after arranging data in order.</li><li><strong>Mode:</strong> most frequent value.</li><li><strong>Range:</strong> maximum − minimum.</li><li><strong>Quartiles:</strong> values dividing ordered data into four parts.</li><li><strong>Standard deviation:</strong> measures spread around the mean.</li></ul>
-<div class="hint">Arrange data in ascending order before finding the median or quartiles.</div>
-<button onclick="markComplete('statistics')">✓ Mark complete</button><p id="statisticsStatus" class="small"></p>
+<section class="lesson" id="lesson-statistics">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('analytical')">Next: Analytical Geometry →</button></div>
+<h2>📊 Statistics</h2>
+<h3>1. Mean</h3>
+<div class="formula"><p class="math">Mean = sum of observations / number of observations</p></div>
+<div class="example">For 2, 4, 6, 8: mean = (2 + 4 + 6 + 8)/4 = 5.</div>
+<h3>2. Median and mode</h3>
+<ul><li><strong>Median:</strong> middle value after arranging data in order. For an even number of observations, average the two middle values.</li><li><strong>Mode:</strong> most frequently occurring value.</li><li><strong>Range:</strong> maximum minus minimum.</li></ul>
+<h3>3. Standard deviation</h3>
+<p>Standard deviation describes how spread out data values are around their mean. A larger standard deviation indicates greater spread.</p>
+<h3>4. Scatter plots and regression</h3>
+<p>A scatter plot displays paired data. Correlation describes the strength and direction of a linear relationship.</p>
+<ul><li>Positive correlation: as one variable increases, the other tends to increase.</li><li>Negative correlation: as one increases, the other tends to decrease.</li><li>Correlation does not by itself prove causation.</li></ul>
+<div class="hint">Use the calculator mode required by your examination, and interpret statistical results in the context of the question.</div>
+<div class="lesson-actions"><button onclick="markComplete('statistics')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('statistics')">Undo Completion</button></div><p id="statisticsStatus" class="small"></p>
 </section>
 
 <!-- ANALYTICAL GEOMETRY -->
-<section class="lesson hidden" id="geometry">
-<h2>Analytical Geometry</h2>
-<div class="definition">Analytical geometry uses coordinates and algebra to investigate geometric relationships.</div>
-<div class="formula">Gradient: m = (y₂ − y₁)/(x₂ − x₁)</div>
-<div class="formula">Distance: AB = √[(x₂ − x₁)² + (y₂ − y₁)²]</div>
-<div class="formula">Midpoint: M = ((x₁ + x₂)/2, (y₁ + y₂)/2)</div>
-<div class="hint">Subtract coordinates in the same order in the numerator and denominator when calculating a gradient.</div>
-<button onclick="markComplete('geometry')">✓ Mark complete</button><p id="geometryStatus" class="small"></p>
+<section class="lesson" id="lesson-analytical">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('trigonometry')">Next: Trigonometry →</button></div>
+<h2>📍 Analytical Geometry</h2>
+<h3>1. Gradient</h3>
+<div class="formula"><p class="math">m = (y₂ - y₁)/(x₂ - x₁)</p></div>
+<h3>2. Distance</h3>
+<div class="formula"><p class="math">d = √[(x₂ - x₁)² + (y₂ - y₁)²]</p></div>
+<h3>3. Midpoint</h3>
+<div class="formula"><p class="math">M = ((x₁ + x₂)/2, (y₁ + y₂)/2)</p></div>
+<h3>4. Equation of a straight line</h3>
+<div class="formula"><p class="math">y - y₁ = m(x - x₁)</p></div>
+<div class="example">For points (1, 2) and (3, 6), the gradient is (6 - 2)/(3 - 1) = 2.</div>
+<h3>5. Parallel and perpendicular lines</h3>
+<ul><li>Parallel lines have equal gradients.</li><li>For non-vertical perpendicular lines, m₁m₂ = -1.</li></ul>
+<h3>6. Circle geometry in coordinates</h3>
+<p>For a circle with centre (a, b) and radius r:</p>
+<div class="formula"><p class="math">(x - a)² + (y - b)² = r²</p></div>
+<div class="hint">Sketch the points where possible, show substitutions clearly and keep exact values until the final step.</div>
+<div class="lesson-actions"><button onclick="markComplete('analytical')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('analytical')">Undo Completion</button></div><p id="analyticalStatus" class="small"></p>
 </section>
 
 <!-- TRIGONOMETRY -->
-<section class="lesson hidden" id="trigonometry">
-<h2>Trigonometry</h2>
-<div class="definition">Trigonometry studies relationships between angles and trigonometric ratios.</div>
-<div class="formula">sin²θ + cos²θ = 1</div>
-<div class="formula">tan θ = sin θ / cos θ, when cos θ ≠ 0</div>
-<div class="formula">sin(A ± B) = sin A cos B ± cos A sin B</div>
-<div class="hint">Check the specified interval when solving trigonometric equations.</div>
-<button onclick="markComplete('trigonometry')">✓ Mark complete</button><p id="trigonometryStatus" class="small"></p>
+<section class="lesson" id="lesson-trigonometry">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button><button onclick="openLesson('euclidean')">Next: Euclidean Geometry →</button></div>
+<h2>📐 Trigonometry</h2>
+<h3>1. Fundamental identity</h3>
+<div class="formula"><p class="math">sin²θ + cos²θ = 1</p><p class="math">tanθ = sinθ/cosθ, where cosθ ≠ 0</p></div>
+<h3>2. Other identities</h3>
+<div class="formula"><p class="math">1 + tan²θ = 1/cos²θ</p><p class="math">sin(90° - θ) = cosθ</p><p class="math">cos(90° - θ) = sinθ</p></div>
+<h3>3. Reduction formulae</h3>
+<p>Use the reference angle and quadrant signs to simplify trigonometric expressions.</p>
+<div class="hint">ASTC helps determine signs by quadrant: all positive in quadrant I, sine in II, tangent in III and cosine in IV.</div>
+<h3>4. Solving trigonometric equations</h3>
+<p>Find the reference angle, determine all quadrants that satisfy the sign, and list every solution in the given interval.</p>
+<div class="example">For sin θ = 1/2, where 0° ≤ θ ≤ 360°, θ = 30° or 150°.</div>
+<h3>5. Double-angle identity</h3>
+<div class="formula"><p class="math">sin 2θ = 2sinθ cosθ</p><p class="math">cos 2θ = cos²θ - sin²θ</p></div>
+<div class="lesson-actions"><button onclick="markComplete('trigonometry')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('trigonometry')">Undo Completion</button></div><p id="trigonometryStatus" class="small"></p>
 </section>
 
 <!-- EUCLIDEAN GEOMETRY -->
-<section class="lesson hidden" id="euclidean">
-<h2>Euclidean Geometry</h2>
-<div class="definition">Euclidean geometry uses definitions, established results and theorems to prove relationships between angles, lines and shapes.</div>
-<div class="arrow-flow"><div class="flow-box">Given information</div><div class="flow-arrow">↓</div><div class="flow-box">Identify the applicable theorem</div><div class="flow-arrow">↓</div><div class="flow-box">Show each logical step and reason</div><div class="flow-arrow">↓</div><div class="flow-box">State the conclusion</div></div>
-<ul><li>Angles in the same segment are equal.</li><li>The angle subtended by a diameter at the circumference is 90°.</li><li>Opposite angles of a cyclic quadrilateral add up to 180°.</li><li>The tangent is perpendicular to the radius at the point of contact.</li></ul>
-<div class="hint">Write a reason for every important statement in a geometry proof.</div>
-<button onclick="markComplete('euclidean')">✓ Mark complete</button><p id="euclideanStatus" class="small"></p>
+<section class="lesson" id="lesson-euclidean">
+<div class="lesson-nav"><button class="secondary" onclick="showHome()">← All Topics</button></div>
+<h2>△ Euclidean Geometry</h2>
+<h3>1. Angles in a triangle</h3>
+<ul><li>The interior angles of a triangle add to 180°.</li><li>An exterior angle equals the sum of the two opposite interior angles.</li></ul>
+<h3>2. Similar and congruent triangles</h3>
+<p>Congruent triangles have the same shape and size. Similar triangles have equal corresponding angles and proportional corresponding sides.</p>
+<h3>3. Circle theorems</h3>
+<ul><li>The angle at the centre is twice the angle at the circumference subtended by the same arc.</li><li>Angles in the same segment are equal.</li><li>The angle in a semicircle is 90°.</li><li>Opposite angles of a cyclic quadrilateral add to 180°.</li><li>A tangent is perpendicular to the radius at the point of contact.</li><li>Tangents drawn from the same external point have equal lengths.</li></ul>
+<h3>4. Writing geometric proofs</h3>
+<ol><li>State the geometric fact or theorem.</li><li>Identify the relevant angles or lengths.</li><li>Show each deduction clearly.</li><li>Give a reason for every important step.</li></ol>
+<div class="hint">Do not write only a final answer. In proof questions, the reasons are an important part of your marks.</div>
+<div class="lesson-actions"><button onclick="markComplete('euclidean')">✓ Mark Chapter Complete</button><button class="secondary" onclick="unmarkComplete('euclidean')">Undo Completion</button></div><p id="euclideanStatus" class="small"></p>
 </section>
 
-<a href="notes.html" class="back">← Back to Notes</a>
 </main>
 
-<footer><p>© 2026 Grade 12 Hub</p><p>Study smart. Stay focused. Succeed.</p></footer>
+<footer>
+<p>Grade 12 Hub · Mathematics Study Centre</p>
+<p>Use your official syllabus and teacher's notes alongside these revision materials.</p>
+</footer>
 
 <script>
+"use strict";
+
 const topicIds = [
-  "algebra", "sequences", "functions", "finance",
-  "calculus", "probability", "statistics", "geometry",
-  "trigonometry", "euclidean"
+    "algebra",
+    "sequences",
+    "functions",
+    "finance",
+    "calculus",
+    "probability",
+    "statistics",
+    "analytical",
+    "trigonometry",
+    "euclidean"
 ];
-const storageKey = "grade12hub_maths_completed_v1";
 
-function getCompleted() {
-  try {
-    const value = JSON.parse(localStorage.getItem(storageKey) || "[]");
-    return Array.isArray(value) ? value : [];
-  } catch (error) {
-    return [];
-  }
-}
-
-function saveCompleted(items) {
-  try {
-    localStorage.setItem(storageKey, JSON.stringify(items));
-  } catch (error) {
-    // The page still works if browser storage is unavailable.
-  }
-}
-
-function updateProgress() {
-  const completed = getCompleted();
-  const count = topicIds.filter(id => completed.includes(id)).length;
-  const percentage = Math.round(count / topicIds.length * 100);
-  document.getElementById("progressText").textContent =
-    count + " of " + topicIds.length + " topics completed (" + percentage + "%)";
-  document.getElementById("progressFill").style.width = percentage + "%";
-
-  topicIds.forEach(id => {
-    const status = document.getElementById(id + "Status");
-    if (status) {
-      status.textContent = completed.includes(id)
-        ? "✓ This topic is marked complete."
-        : "This topic is not marked complete yet.";
+const quizAnswers = {
+    sequences: {
+        sq1: "b", sq2: "b", sq3: "c", sq4: "a",
+        sq5: "c", sq6: "b", sq7: "b", sq8: "a"
+    },
+    functions: {
+        fq1: "b", fq2: "a", fq3: "c", fq4: "b",
+        fq5: "a", fq6: "c", fq7: "b", fq8: "a"
     }
-  });
+};
+
+const quizLabels = {
+    sequences: "Sequences and Series",
+    functions: "Functions and Graphs"
+};
+
+function readArray(key) {
+    try {
+        const value = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(value) ? value : [];
+    } catch (error) {
+        return [];
+    }
 }
 
-function markComplete(id) {
-  const completed = getCompleted();
-  if (!completed.includes(id)) completed.push(id);
-  saveCompleted(completed);
-  updateProgress();
+function readObject(key) {
+    try {
+        const value = JSON.parse(localStorage.getItem(key) || "{}");
+        return value && typeof value === "object" && !Array.isArray(value)
+            ? value : {};
+    } catch (error) {
+        return {};
+    }
 }
 
-function unmarkComplete(id) {
-  saveCompleted(getCompleted().filter(item => item !== id));
-  updateProgress();
+function showHome() {
+    document.getElementById("topicHome").style.display = "block";
+    document.querySelectorAll(".lesson").forEach(function(lesson) {
+        lesson.classList.remove("active");
+    });
+    window.scrollTo({top: 0, behavior: "smooth"});
 }
 
 function openLesson(id) {
-  document.querySelectorAll(".lesson").forEach(lesson => lesson.classList.add("hidden"));
-  const target = document.getElementById(id);
-  if (!target) return;
-  target.classList.remove("hidden");
-  target.scrollIntoView({behavior:"smooth",block:"start"});
+    const lesson = document.getElementById("lesson-" + id);
+    if (!lesson) return;
+
+    document.getElementById("topicHome").style.display = "none";
+
+    document.querySelectorAll(".lesson").forEach(function(item) {
+        item.classList.remove("active");
+    });
+
+    lesson.classList.add("active");
+    window.scrollTo({top: 0, behavior: "smooth"});
 }
 
-function gradeQuiz(answers, feedbackId, completionId) {
-  let score = 0;
-  let answered = 0;
-  const names = Object.keys(answers);
+function markComplete(id) {
+    if (!topicIds.includes(id)) return;
 
-  names.forEach(name => {
-    const selected = document.querySelector('input[name="' + name + '"]:checked');
-    if (selected) {
-      answered++;
-      if (selected.value === answers[name]) score++;
+    const completed = readArray("grade12_math_completed");
+    if (!completed.includes(id)) completed.push(id);
+
+    localStorage.setItem("grade12_math_completed", JSON.stringify(completed));
+    updateProgress();
+
+    const status = document.getElementById(id + "Status");
+    if (status) status.textContent = "Chapter marked as complete.";
+}
+
+function unmarkComplete(id) {
+    const completed = readArray("grade12_math_completed");
+    localStorage.setItem(
+        "grade12_math_completed",
+        JSON.stringify(completed.filter(function(item) {
+            return item !== id;
+        }))
+    );
+
+    updateProgress();
+
+    const status = document.getElementById(id + "Status");
+    if (status) status.textContent = "Chapter completion removed.";
+}
+
+function updateProgress() {
+    const completed = readArray("grade12_math_completed");
+    const count = topicIds.filter(function(id) {
+        return completed.includes(id);
+    }).length;
+
+    const percentage = Math.round((count / topicIds.length) * 100);
+
+    document.getElementById("progressText").textContent =
+        count + " of " + topicIds.length + " chapters completed (" +
+        percentage + "%)";
+
+    document.getElementById("progressFill").style.width = percentage + "%";
+
+    topicIds.forEach(function(id) {
+        const status = document.getElementById("status-" + id);
+        if (status) {
+            status.textContent = completed.includes(id)
+                ? "✓ Completed"
+                : "Not completed";
+        }
+    });
+
+    const results = readObject("grade12_math_quiz_results");
+    const attempts = Object.keys(results);
+
+    if (attempts.length === 0) {
+        document.getElementById("quizSummary").textContent =
+            "No quiz attempts yet.";
+    } else {
+        let summary = attempts.map(function(id) {
+            const result = results[id];
+            return quizLabels[id] + ": " + result.score + "/" +
+                result.total + " (" + result.percentage + "%)";
+        });
+
+        document.getElementById("quizSummary").textContent =
+            "Latest saved quiz results — " + summary.join(" · ");
     }
-  });
-
-  const feedback = document.getElementById(feedbackId);
-  feedback.className = "feedback " +
-    (answered === names.length && score === names.length ? "correct" : "incorrect");
-
-  if (answered < names.length) {
-    feedback.textContent = "You answered " + answered + " of " + names.length +
-      " questions. Current score: " + score + "/" + names.length +
-      ". Answer all questions to finish the quiz.";
-    return;
-  }
-
-  feedback.textContent = "Your score: " + score + "/" + names.length + ". " +
-    (score === names.length
-      ? "Excellent! You answered every question correctly."
-      : "Review the answers and worked examples, then try again.");
-
-  if (score === names.length && completionId) markComplete(completionId);
 }
 
-function resetQuizByPrefix(prefix, feedbackId) {
-  document.querySelectorAll('input[name^="' + prefix + '"]').forEach(input => input.checked = false);
-  const feedback = document.getElementById(feedbackId);
-  feedback.textContent = "";
-  feedback.className = "feedback";
+function checkQuiz(type) {
+    const answers = quizAnswers[type];
+    if (!answers) return;
+
+    let score = 0;
+    let unanswered = 0;
+    const total = Object.keys(answers).length;
+
+    Object.keys(answers).forEach(function(questionName) {
+        const selected = document.querySelector(
+            'input[name="' + questionName + '"]:checked'
+        );
+
+        if (!selected) {
+            unanswered++;
+        } else if (selected.value === answers[questionName]) {
+            score++;
+        }
+    });
+
+    const feedback = document.getElementById(type + "QuizFeedback");
+    const percentage = Math.round((score / total) * 100);
+
+    const results = readObject("grade12_math_quiz_results");
+    results[type] = {
+        score: score,
+        total: total,
+        percentage: percentage,
+        date: new Date().toISOString()
+    };
+
+    localStorage.setItem("grade12_math_quiz_results", JSON.stringify(results));
+
+    feedback.className = "feedback " + (percentage >= 50 ? "correct" : "incorrect");
+    feedback.textContent = "Your score: " + score + "/" + total +
+        " (" + percentage + "%)." +
+        (unanswered ? " You left " + unanswered + " question(s) unanswered." : "") +
+        (percentage >= 50 ? " Good work! Review any questions you missed." :
+        " Keep practising and review the worked examples.");
+
+    updateProgress();
 }
 
-function checkQuiz() {
-  gradeQuiz({q1:"a",q2:"b",q3:"c",q4:"a",q5:"b",q6:"c",q7:"a",q8:"b"},
-    "quizFeedback","algebra");
-}
-function resetQuiz() {
-  resetQuizByPrefix("q","quizFeedback");
+function resetQuiz(type) {
+    const form = document.getElementById(type + "Quiz");
+    const feedback = document.getElementById(type + "QuizFeedback");
+
+    if (form) form.reset();
+
+    if (feedback) {
+        feedback.className = "feedback";
+        feedback.textContent = "";
+    }
 }
 
-function checkSequencesQuiz() {
-  gradeQuiz({
-    sq1:"b",sq2:"b",sq3:"b",sq4:"a",sq5:"c",sq6:"b",
-    sq7:"b",sq8:"a",sq9:"b",sq10:"b",sq11:"b",sq12:"b"
-  },"sequencesQuizFeedback","sequences");
-}
-function resetSequencesQuiz() {
-  resetQuizByPrefix("sq","sequencesQuizFeedback");
-}
+document.addEventListener("DOMContentLoaded", function() {
+    updateProgress();
 
-function checkFunctionsQuiz() {
-  gradeQuiz({
-    fq1:"b",fq2:"c",fq3:"a",fq4:"b",fq5:"c",fq6:"b",
-    fq7:"a",fq8:"c",fq9:"b",fq10:"c",fq11:"a",fq12:"b"
-  },"functionsQuizFeedback","functions");
-}
-function resetFunctionsQuiz() {
-  resetQuizByPrefix("fq","functionsQuizFeedback");
-}
-
-updateProgress();
+    topicIds.forEach(function(id) {
+        const status = document.getElementById(id + "Status");
+        if (status && readArray("grade12_math_completed").includes(id)) {
+            status.textContent = "Chapter marked as complete.";
+        }
+    });
+});
 </script>
+
 </body>
 </html>
