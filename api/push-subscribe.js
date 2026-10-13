@@ -3,32 +3,53 @@ import { createClient } from "@supabase/supabase-js";
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
 
-  // 1. Check the request method
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
-    return res.status(405).json({
-      error: "Use POST."
-    });
+    return res.status(405).json({ error: "Use POST." });
   }
 
-  // 2. Check server environment variables
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY;
 
-  if (!supabaseUrl || !serviceRoleKey) {
-    console.error("Push subscription configuration missing:", {
-      hasSupabaseUrl: Boolean(supabaseUrl),
-      hasServiceRoleKey: Boolean(serviceRoleKey)
+  if (!supabaseUrl || !serviceRoleKey || !publishableKey) {
+    console.error("Push API configuration check:", {
+      hasUrl: Boolean(supabaseUrl),
+      hasServiceKey: Boolean(serviceRoleKey),
+      hasPublishableKey: Boolean(publishableKey)
     });
 
     return res.status(500).json({
-      error:
-        "Server configuration is incomplete. Check SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in Vercel Production environment variables."
+      error: "Server configuration is incomplete. Check the three Supabase environment variables in Vercel."
     });
   }
 
-  // 3. Create the Supabase server client
-  const supabase = createClient(
+  const authorization = req.headers.authorization || "";
+  const token = authorization.startsWith("Bearer ")
+    ? authorization.slice(7).trim()
+    : "";
+
+  if (!token) {
+    return res.status(401).json({
+      error: "No login token was received. Sign in again."
+    });
+  }
+
+  // Use the public key to verify the learner's access token.
+  const authClient = createClient(
+    supabaseUrl,
+    publishableKey,
+    {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false
+      }
+    }
+  );
+
+  // Use the service-role key only for the protected database operation.
+  const adminClient = createClient(
     supabaseUrl,
     serviceRoleKey,
     {
@@ -40,39 +61,23 @@ export default async function handler(req, res) {
     }
   );
 
-  // 4. Verify the learner's login token
-  const authorization = req.headers.authorization || "";
-
-  const token = authorization.startsWith("Bearer ")
-    ? authorization.slice(7)
-    : "";
-
-  if (!token) {
-    return res.status(401).json({
-      error: "Please sign in first."
-    });
-  }
-
   try {
     const {
-      data: userResult,
-      error: userError
-    } = await supabase.auth.getUser(token);
+      data: userData,
+      error: authError
+    } = await authClient.auth.getUser(token);
 
-    const user = userResult?.user;
-
-    if (userError || !user) {
-      console.error(
-        "Authentication verification failed:",
-        userError?.message || "No user found"
-      );
+    if (authError || !userData?.user) {
+      console.error("Push API token verification failed:", {
+        status: authError?.status || null,
+        message: authError?.message || "No user returned"
+      });
 
       return res.status(401).json({
-        error: "Your session is invalid. Sign in again."
+        error: "Supabase rejected the login token. Check that the website and Vercel use the same Supabase project, then sign in again."
       });
     }
 
-    // 5. Validate the browser push subscription
     const subscription = req.body?.subscription;
 
     if (
@@ -85,43 +90,32 @@ export default async function handler(req, res) {
       });
     }
 
-    // 6. Save or update this learner's subscription
-    const { error: saveError } = await supabase
+    const { error: saveError } = await adminClient
       .from("push_subscriptions")
       .upsert(
         {
-          user_id: user.id,
+          user_id: userData.user.id,
           endpoint: subscription.endpoint,
           p256dh: subscription.keys.p256dh,
           auth: subscription.keys.auth
         },
-        {
-          onConflict: "endpoint"
-        }
+        { onConflict: "endpoint" }
       );
 
     if (saveError) {
-      console.error(
-        "Subscription save failed:",
-        saveError.message
-      );
+      console.error("Push subscription save failed:", saveError.message);
 
       return res.status(500).json({
-        error: "Could not save the notification subscription."
+        error: "Login verified, but the notification subscription could not be saved. Check the database configuration and permissions."
       });
     }
 
-    // 7. Confirm success
     return res.status(200).json({
       ok: true,
       message: "Push notifications enabled successfully."
     });
-
   } catch (error) {
-    console.error(
-      "Push subscribe error:",
-      error?.message || "Unknown server error"
-    );
+    console.error("Push API unexpected error:", error?.message);
 
     return res.status(500).json({
       error: "Unexpected server error while enabling notifications."
