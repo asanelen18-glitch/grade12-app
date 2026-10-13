@@ -2,328 +2,1154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#4f46e5">
-<title>Study Planner | Grade 12 Hub</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f4f6f8;color:#202338;font-family:Arial,sans-serif}
-header{background:#4f46e5;color:white;padding:20px}
-header a{color:white}
-main{max-width:850px;margin:auto;padding:18px}
-.card{background:white;border-radius:15px;padding:20px;margin-bottom:18px;box-shadow:0 3px 12px #0000000c}
-label{display:block;font-weight:bold;margin:12px 0 6px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:9px;font-size:16px;font-family:inherit}
-textarea{min-height:80px}
-button{border:0;border-radius:9px;padding:11px 15px;margin:5px 4px 0 0;background:#4f46e5;color:white;font-weight:bold;cursor:pointer}
-.secondary{background:#e5e7eb;color:#222}
-.delete{background:#b91c1c}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.task{padding:15px 0;border-bottom:1px solid #eee}
-.task h3{margin:0 0 8px}
-.muted{color:#64748b}
-.done{text-decoration:line-through;color:#64748b}
-.status{padding:10px;background:#eef2ff;border-radius:8px;margin:12px 0}
-@media(max-width:520px){.grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<header>
-<a href="index.html">← Back to Grade 12 Hub</a>
-<h1>📅 My Study Planner</h1>
-<p>Organise exams, tests, assignments and study sessions.</p>
-</header>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="description" content="Plan Grade 12 exams, tests, assignments and study sessions.">
+  <title>Study Planner | Grade 12 Hub</title>
 
-<main>
-<section class="card">
-<h2>Add a study plan</h2>
-<form id="planForm">
-<label for="title">Task name</label>
-<input id="title" maxlength="150" required placeholder="e.g. Mathematics Paper 1 revision">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<label for="subject">Subject</label>
-<input id="subject" maxlength="100" placeholder="e.g. Mathematics">
-
-<label for="type">Task type</label>
-<select id="type">
-<option>Study session</option>
-<option>Exam</option>
-<option>Test</option>
-<option>Assignment</option>
-<option>Revision</option>
-<option>Other</option>
-</select>
-
-<div class="grid">
-<div>
-<label for="planDate">Date</label>
-<input id="planDate" type="date" required>
-</div>
-<div>
-<label for="reminder">Reminder</label>
-<select id="reminder">
-<option value="0">At scheduled time</option>
-<option value="5">5 minutes before</option>
-<option value="15" selected>15 minutes before</option>
-<option value="30">30 minutes before</option>
-<option value="60">1 hour before</option>
-<option value="1440">1 day before</option>
-</select>
-</div>
-</div>
-
-<div class="grid">
-<div>
-<label for="startTime">Start time (optional)</label>
-<input id="startTime" type="time">
-</div>
-<div>
-<label for="endTime">End time (optional)</label>
-<input id="endTime" type="time">
-</div>
-</div>
-
-<label for="notes">Notes (optional)</label>
-<textarea id="notes" maxlength="2000" placeholder="Topics to study or materials to bring"></textarea>
-
-<button type="submit">＋ Save study plan</button>
-<button type="button" class="secondary" onclick="enableNotifications()">🔔 Enable reminders</button>
-</form>
-<div class="status" id="message" role="status">Log in to save your personal planner.</div>
-</section>
-
-<section class="card">
-<h2>📚 My tasks</h2>
-<label for="filter">Filter tasks</label>
-<select id="filter" onchange="renderPlans()">
-<option value="all">All tasks</option>
-<option value="upcoming">Not completed</option>
-<option value="completed">Completed</option>
-</select>
-<div id="planList">Loading your plans...</div>
-<button class="secondary" onclick="loadPlans()">↻ Refresh plans</button>
-</section>
-</main>
-
-<script>
-// Use the SAME Supabase URL and public key as your login page.
-// Never use the service_role secret in browser code.
-const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL";
-const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);
-
-let user=null;
-let plans=[];
-const alertedReminders=new Set();
-
-function message(text){$("message").textContent=text}
-
-function localDateString(date=new Date()){
-  const y=date.getFullYear();
-  const m=String(date.getMonth()+1).padStart(2,"0");
-  const d=String(date.getDate()).padStart(2,"0");
-  return `${y}-${m}-${d}`;
-}
-
-$("planDate").min=localDateString();
-$("planDate").value=localDateString();
-
-async function initialise(){
-  if(SUPABASE_URL.includes("PASTE_")||SUPABASE_KEY.includes("PASTE_")){
-    message("Add your existing Supabase URL and public key to this file.");
-    return;
-  }
-
-  const {data,error}=await db.auth.getSession();
-  if(error||!data.session){
-    message("Please log in to Grade 12 Hub first.");
-    $("planList").textContent="Your plans will appear after you log in.";
-    return;
-  }
-
-  user=data.session.user;
-  message("Your personal planner is ready.");
-  await loadPlans();
-  checkReminders();
-  setInterval(checkReminders,30000);
-}
-
-$("planForm").addEventListener("submit",async event=>{
-  event.preventDefault();
-  if(!user){message("Please log in before saving.");return}
-
-  const title=$("title").value.trim();
-  const date=$("planDate").value;
-  const start=$("startTime").value||null;
-  const end=$("endTime").value||null;
-
-  if(!title||!date){message("Enter a task name and date.");return}
-  if(start&&end&&end<=start){
-    message("The end time must be later than the start time.");return;
-  }
-
-  const {error}=await db.from("study_plans").insert({
-    user_id:user.id,
-    title,
-    subject:$("subject").value.trim(),
-    type:$("type").value,
-    plan_date:date,
-    start_time:start,
-    end_time:end,
-    notes:$("notes").value.trim(),
-    reminder_minutes:Number($("reminder").value),
-    completed:false
-  });
-
-  if(error){message("Could not save: "+error.message);return}
-
-  $("planForm").reset();
-  $("planDate").value=localDateString();
-  $("reminder").value="15";
-  message("Study plan saved successfully!");
-  await loadPlans();
-});
-
-async function loadPlans(){
-  if(!user)return;
-
-  const {data,error}=await db.from("study_plans")
-    .select("*")
-    .eq("user_id",user.id)
-    .order("plan_date",{ascending:true})
-    .order("start_time",{ascending:true});
-
-  if(error){$("planList").textContent="Could not load plans: "+error.message;return}
-  plans=data||[];
-  renderPlans();
-}
-
-function renderPlans(){
-  const filter=$("filter").value;
-  const visible=plans.filter(p=>{
-    if(filter==="upcoming")return !p.completed;
-    if(filter==="completed")return p.completed;
-    return true;
-  });
-
-  const list=$("planList");
-  list.replaceChildren();
-
-  if(!visible.length){
-    list.textContent="No tasks here yet. Add a study plan above!";
-    return;
-  }
-
-  visible.forEach(p=>{
-    const item=document.createElement("div");
-    item.className="task";
-
-    const heading=document.createElement("h3");
-    heading.textContent=p.title;
-    if(p.completed)heading.className="done";
-
-    const detail=document.createElement("p");
-    detail.className="muted";
-    detail.textContent=(p.subject||"General")+
-      " · "+p.plan_date+" · "+
-      (p.start_time?p.start_time.slice(0,5):"Time not set")+
-      (p.end_time?"–"+p.end_time.slice(0,5):"");
-
-    const kind=document.createElement("p");
-    kind.textContent="Type: "+(p.type||"Study session");
-
-    const notes=document.createElement("p");
-    notes.textContent=p.notes||"";
-
-    const status=document.createElement("p");
-    status.textContent=p.completed?"✅ Completed":"📝 Not completed";
-
-    const complete=document.createElement("button");
-    complete.textContent=p.completed?"Mark incomplete":"✓ Mark completed";
-    complete.onclick=()=>setCompleted(p.id,!p.completed);
-
-    const del=document.createElement("button");
-    del.className="delete";
-    del.textContent="Delete";
-    del.onclick=()=>deletePlan(p.id);
-
-    item.append(heading,detail,kind,notes,status,complete,del);
-    list.appendChild(item);
-  });
-}
-
-async function setCompleted(id,completed){
-  const {error}=await db.from("study_plans")
-    .update({completed})
-    .eq("id",id)
-    .eq("user_id",user.id);
-
-  if(error){message("Update failed: "+error.message);return}
-  message(completed?"Task completed!":"Task marked incomplete.");
-  await loadPlans();
-}
-
-async function deletePlan(id){
-  if(!confirm("Delete this study plan?"))return;
-
-  const {error}=await db.from("study_plans")
-    .delete()
-    .eq("id",id)
-    .eq("user_id",user.id);
-
-  if(error){message("Delete failed: "+error.message);return}
-  message("Study plan deleted.");
-  await loadPlans();
-}
-
-async function enableNotifications(){
-  if(!("Notification" in window)){
-    message("Notifications are not supported by this browser.");return;
-  }
-
-  const permission=await Notification.requestPermission();
-  message(permission==="granted"
-    ?"Notifications enabled. Keep the planner open for reminders."
-    :"Notifications were not enabled.");
-  checkReminders();
-}
-
-function checkReminders(){
-  if(!user||!("Notification" in window)||
-     Notification.permission!=="granted")return;
-
-  const now=Date.now();
-
-  plans.forEach(p=>{
-    if(p.completed||!p.start_time)return;
-
-    const start=new Date(p.plan_date+"T"+p.start_time).getTime();
-    const reminderAt=start-Number(p.reminder_minutes||0)*60000;
-    const key=p.id+":"+p.plan_date+":"+p.start_time;
-
-    // Includes reminders set for the exact scheduled time.
-    if(now>=reminderAt&&now<=start+30000&&
-       !alertedReminders.has(key)){
-      alertedReminders.add(key);
-      const notification=new Notification("Grade 12 Hub reminder",{
-        body:p.title+(p.subject?" — "+p.subject:"")
-      });
-      notification.onclick=()=>window.focus();
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #3730a3;
+      --background: #f4f6f8;
+      --card: #ffffff;
+      --text: #182033;
+      --muted: #687386;
+      --border: #e0e5ee;
+      --success: #166534;
+      --danger: #b91c1c;
     }
-  });
-}
 
-if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>{
-    navigator.serviceWorker.register("./sw.js")
-      .catch(error=>console.error("Service worker:",error));
-  });
-}
+    * {
+      box-sizing: border-box;
+    }
 
-initialise();
-</script>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      color: white;
+      padding: 24px 16px;
+    }
+
+    .header-inner,
+    main {
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+    }
+
+    header h1 {
+      margin: 14px 0 5px;
+      font-size: clamp(25px, 5vw, 36px);
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    main {
+      padding: 20px 14px 45px;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 19px;
+      border-radius: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 16px rgba(20, 30, 60, 0.06);
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 21px;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status {
+      background: #eef2ff;
+      color: #30368c;
+      padding: 11px 13px;
+      border-radius: 10px;
+      margin-top: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .status:empty {
+      display: none;
+    }
+
+    .status.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 13px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin: 13px 0 6px;
+    }
+
+    input,
+    select,
+    textarea {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd2df;
+      border-radius: 10px;
+      background: white;
+      color: var(--text);
+      font: inherit;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #a5b4fc;
+      border-color: var(--primary);
+    }
+
+    textarea {
+      min-height: 85px;
+      resize: vertical;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 15px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .secondary {
+      background: #e8eaff;
+      color: #30368c;
+    }
+
+    .danger {
+      background: #fee2e2;
+      color: var(--danger);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 14px;
+    }
+
+    .actions button {
+      min-height: 42px;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 15px;
+      margin-top: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .item h3 {
+      margin: 0 0 7px;
+      font-size: 18px;
+    }
+
+    .item.completed {
+      opacity: 0.68;
+      background: #f8fafc;
+    }
+
+    .item.completed h3 {
+      text-decoration: line-through;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      background: #e8eaff;
+      color: #3730a3;
+      padding: 4px 8px;
+      border-radius: 20px;
+      margin: 0 4px 7px 0;
+    }
+
+    .badge.overdue {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge.done {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 25px 10px;
+      color: var(--muted);
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .summary-box {
+      background: #f1f5f9;
+      padding: 13px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .summary-number {
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .summary-label {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .filter-buttons button.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 580px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .summary {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+
+      .summary-number {
+        font-size: 21px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .actions button {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="index.html">← Back to Grade 12 Hub</a>
+      <h1>📅 Study Planner</h1>
+      <p>Organise your exams, tests, assignments and study sessions.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>🔔 Browser push notifications</h2>
+      <p class="muted">
+        Enable notifications on this device to receive scheduled reminders
+        even when this planner page is closed. Your browser and phone must
+        support and permit push notifications.
+      </p>
+
+      <button class="primary" id="enablePush" type="button">
+        Enable push notifications
+      </button>
+
+      <div id="pushStatus" class="status" role="status" aria-live="polite">
+        Notifications have not been enabled on this device.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>➕ Add a planner item</h2>
+
+      <form id="plannerForm">
+        <label for="title">Task title *</label>
+        <input
+          id="title"
+          type="text"
+          maxlength="140"
+          placeholder="e.g. Mathematics Paper 1"
+          required
+        >
+
+        <div class="grid">
+          <div>
+            <label for="taskType">Task type *</label>
+            <select id="taskType" required>
+              <option value="Exam">Exam</option>
+              <option value="Test">Test</option>
+              <option value="Assignment">Assignment</option>
+              <option value="Study session" selected>Study session</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="subject">Subject</label>
+            <select id="subject">
+              <option value="">Select a subject</option>
+              <option>Mathematics</option>
+              <option>Mathematical Literacy</option>
+              <option>Technical Mathematics</option>
+              <option>Physical Sciences</option>
+              <option>Technical Sciences</option>
+              <option>Life Sciences</option>
+              <option>Agricultural Sciences</option>
+              <option>English Home Language</option>
+              <option>English First Additional Language</option>
+              <option>Afrikaans Home Language</option>
+              <option>Afrikaans First Additional Language</option>
+              <option>isiZulu</option>
+              <option>Setswana</option>
+              <option>Sesotho</option>
+              <option>Sepedi</option>
+              <option>isiXhosa</option>
+              <option>Accounting</option>
+              <option>Business Studies</option>
+              <option>Economics</option>
+              <option>Geography</option>
+              <option>History</option>
+              <option>Computer Applications Technology</option>
+              <option>Information Technology</option>
+              <option>Life Orientation</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <label for="dueAt">Due date and time *</label>
+            <input id="dueAt" type="datetime-local" required>
+          </div>
+
+          <div>
+            <label for="reminderAt">Reminder date and time *</label>
+            <input id="reminderAt" type="datetime-local" required>
+          </div>
+        </div>
+
+        <p class="muted">
+          Choose when you want the notification to arrive. The reminder time
+          must be at or before the due date.
+        </p>
+
+        <label for="notes">Notes (optional)</label>
+        <textarea
+          id="notes"
+          maxlength="2000"
+          placeholder="Topics to revise, chapters, or instructions..."
+        ></textarea>
+
+        <div class="actions">
+          <button class="primary" id="saveButton" type="submit">
+            Save planner item
+          </button>
+          <button class="secondary" id="clearButton" type="button">
+            Clear form
+          </button>
+        </div>
+      </form>
+
+      <div id="formStatus" class="status" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="card">
+      <h2>📚 My planner</h2>
+
+      <div class="summary">
+        <div class="summary-box">
+          <div class="summary-number" id="totalCount">0</div>
+          <div class="summary-label">Total tasks</div>
+        </div>
+        <div class="summary-box">
+          <div class="summary-number" id="upcomingCount">0</div>
+          <div class="summary-label">Upcoming</div>
+        </div>
+        <div class="summary-box">
+          <div class="summary-number" id="completedCount">0</div>
+          <div class="summary-label">Completed</div>
+        </div>
+      </div>
+
+      <div class="actions filter-buttons">
+        <button class="secondary active" type="button" data-filter="upcoming">
+          Upcoming
+        </button>
+        <button class="secondary" type="button" data-filter="all">
+          All tasks
+        </button>
+        <button class="secondary" type="button" data-filter="completed">
+          Completed
+        </button>
+        <button class="secondary" type="button" id="refreshButton">
+          Refresh
+        </button>
+      </div>
+
+      <div id="items" aria-live="polite">
+        Loading your planner...
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Grade 12 Hub · MH Masina &amp; NP Machete
+  </footer>
+
+  <script>
+    "use strict";
+
+    // --------------------------------------------------
+    // GRADE 12 HUB CONFIGURATION
+    // --------------------------------------------------
+
+    const SUPABASE_URL =
+      "https://hdlhhbnawltisszzsbvw.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+
+    // Replace with the PUBLIC VAPID key generated for Web Push.
+    // Never put the VAPID PRIVATE key or service-role key here.
+    const VAPID_PUBLIC_KEY =
+      "PASTE_YOUR_VAPID_PUBLIC_KEY_HERE";
+
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const $ = id => document.getElementById(id);
+
+    let currentUser = null;
+    let plannerItems = [];
+    let currentFilter = "upcoming";
+    let busy = false;
+
+    // --------------------------------------------------
+    // GENERAL HELPERS
+    // --------------------------------------------------
+
+    function showStatus(id, message, type = "") {
+      const element = $(id);
+      element.textContent = message;
+      element.className = "status" + (type ? " " + type : "");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
+
+    function formatDate(value) {
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return "Invalid date";
+      }
+
+      return date.toLocaleString([], {
+        dateStyle: "medium",
+        timeStyle: "short"
+      });
+    }
+
+    function localDateTimeValue(date) {
+      const copy = new Date(date);
+      copy.setMinutes(
+        copy.getMinutes() - copy.getTimezoneOffset()
+      );
+
+      return copy.toISOString().slice(0, 16);
+    }
+
+    function setSaving(saving) {
+      busy = saving;
+      $("saveButton").disabled = saving;
+      $("saveButton").textContent = saving
+        ? "Saving..."
+        : "Save planner item";
+    }
+
+    async function getCurrentSession() {
+      const { data, error } = await db.auth.getSession();
+
+      if (error) throw error;
+
+      return data.session;
+    }
+
+    // --------------------------------------------------
+    // AUTHENTICATION
+    // --------------------------------------------------
+
+    async function checkLogin() {
+      try {
+        const session = await getCurrentSession();
+
+        if (!session || !session.user) {
+          currentUser = null;
+
+          $("items").textContent =
+            "Please sign in to Grade 12 Hub to use your personal planner.";
+
+          $("plannerForm").querySelectorAll(
+            "input, select, textarea, button"
+          ).forEach(element => {
+            element.disabled = true;
+          });
+
+          $("enablePush").disabled = true;
+
+          showStatus(
+            "formStatus",
+            "You are not signed in. Please log in and then open the Study Planner.",
+            "error"
+          );
+
+          return false;
+        }
+
+        currentUser = session.user;
+
+        $("plannerForm").querySelectorAll(
+          "input, select, textarea, button"
+        ).forEach(element => {
+          element.disabled = false;
+        });
+
+        $("enablePush").disabled = false;
+
+        return true;
+      } catch (error) {
+        console.error("Login check failed:", error);
+
+        showStatus(
+          "formStatus",
+          "Could not check your login. Refresh the page and try again.",
+          "error"
+        );
+
+        return false;
+      }
+    }
+
+    // --------------------------------------------------
+    // PUSH NOTIFICATIONS
+    // --------------------------------------------------
+
+    function decodeVapidPublicKey(base64String) {
+      const padding = "=".repeat(
+        (4 - base64String.length % 4) % 4
+      );
+
+      const base64 = (base64String + padding)
+        .replace(/-/g, "+")
+        .replace(/_/g, "/");
+
+      const raw = atob(base64);
+
+      return Uint8Array.from(raw, character =>
+        character.charCodeAt(0)
+      );
+    }
+
+    async function enablePushNotifications() {
+      $("enablePush").disabled = true;
+
+      try {
+        if (!currentUser) {
+          throw new Error(
+            "Please sign in to Grade 12 Hub first."
+          );
+        }
+
+        if (!("serviceWorker" in navigator)) {
+          throw new Error(
+            "This browser does not support service workers."
+          );
+        }
+
+        if (!("PushManager" in window)) {
+          throw new Error(
+            "Web Push is not supported in this browser. Try Chrome on Android."
+          );
+        }
+
+        if (!("Notification" in window)) {
+          throw new Error(
+            "This browser does not support notifications."
+          );
+        }
+
+        if (
+          !VAPID_PUBLIC_KEY ||
+          VAPID_PUBLIC_KEY.includes("PASTE_YOUR")
+        ) {
+          throw new Error(
+            "Add your VAPID public key to this file before enabling notifications."
+          );
+        }
+
+        if (!window.isSecureContext) {
+          throw new Error(
+            "Push notifications require HTTPS. Open the secure Vercel website."
+          );
+        }
+
+        const permission =
+          await Notification.requestPermission();
+
+        if (permission !== "granted") {
+          throw new Error(
+            "Notification permission was not granted. Check your browser and phone settings."
+          );
+        }
+
+        // This file must be in the root of the deployed website.
+        const registration =
+          await navigator.serviceWorker.register(
+            "/service-worker.js"
+          );
+
+        await navigator.serviceWorker.ready;
+
+        let subscription =
+          await registration.pushManager.getSubscription();
+
+        if (!subscription) {
+          subscription =
+            await registration.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey:
+                decodeVapidPublicKey(VAPID_PUBLIC_KEY)
+            });
+        }
+
+        const session = await getCurrentSession();
+
+        if (!session || !session.access_token) {
+          throw new Error(
+            "Your login session has expired. Sign in again."
+          );
+        }
+
+        const response = await fetch(
+          "/api/push-subscribe",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization":
+                "Bearer " + session.access_token
+            },
+            body: JSON.stringify({
+              subscription: subscription.toJSON()
+            })
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            result.error ||
+            "The server could not save this device's subscription."
+          );
+        }
+
+        showStatus(
+          "pushStatus",
+          "Push notifications are enabled on this device. Keep browser notifications allowed in your phone settings.",
+          "success"
+        );
+      } catch (error) {
+        console.error("Push setup failed:", error);
+
+        showStatus(
+          "pushStatus",
+          "Could not enable notifications: " + error.message,
+          "error"
+        );
+      } finally {
+        $("enablePush").disabled = !currentUser;
+      }
+    }
+
+    // --------------------------------------------------
+    // SAVE A PLANNER ITEM
+    // --------------------------------------------------
+
+    async function savePlannerItem(event) {
+      event.preventDefault();
+
+      if (!currentUser || busy) return;
+
+      const title = $("title").value.trim();
+      const subject = $("subject").value;
+      const taskType = $("taskType").value;
+      const dueValue = $("dueAt").value;
+      const reminderValue = $("reminderAt").value;
+      const notes = $("notes").value.trim();
+
+      if (!title || !dueValue || !reminderValue) {
+        showStatus(
+          "formStatus",
+          "Please enter a task title, due date and reminder time.",
+          "error"
+        );
+        return;
+      }
+
+      const dueDate = new Date(dueValue);
+      const reminderDate = new Date(reminderValue);
+
+      if (
+        Number.isNaN(dueDate.getTime()) ||
+        Number.isNaN(reminderDate.getTime())
+      ) {
+        showStatus(
+          "formStatus",
+          "Please enter valid dates and times.",
+          "error"
+        );
+        return;
+      }
+
+      if (reminderDate > dueDate) {
+        showStatus(
+          "formStatus",
+          "Your reminder must be at or before the due date.",
+          "error"
+        );
+        return;
+      }
+
+      setSaving(true);
+
+      try {
+        const payload = {
+          user_id: currentUser.id,
+          title: title,
+          subject: subject,
+          task_type: taskType,
+          due_at: dueDate.toISOString(),
+          reminder_at: reminderDate.toISOString(),
+          notes: notes,
+          is_completed: false
+        };
+
+        const { error } = await db
+          .from("study_planner_items")
+          .insert(payload);
+
+        if (error) throw error;
+
+        $("plannerForm").reset();
+
+        // Restore convenient default dates after resetting.
+        setDefaultDates();
+
+        showStatus(
+          "formStatus",
+          "Planner item saved successfully!",
+          "success"
+        );
+
+        await loadPlannerItems();
+      } catch (error) {
+        console.error("Save failed:", error);
+
+        showStatus(
+          "formStatus",
+          "Could not save the planner item: " + error.message,
+          "error"
+        );
+      } finally {
+        setSaving(false);
+      }
+    }
+
+    // --------------------------------------------------
+    // LOAD AND DISPLAY ITEMS
+    // --------------------------------------------------
+
+    async function loadPlannerItems() {
+      if (!currentUser) return;
+
+      $("items").textContent = "Loading your planner...";
+
+      const { data, error } = await db
+        .from("study_planner_items")
+        .select(
+          "id,user_id,title,subject,task_type,due_at,reminder_at,notes,is_completed,reminder_sent_at,created_at"
+        )
+        .eq("user_id", currentUser.id)
+        .order("due_at", { ascending: true });
+
+      if (error) {
+        console.error("Load failed:", error);
+
+        $("items").textContent =
+          "Could not load your planner. Please refresh and try again.";
+
+        return;
+      }
+
+      plannerItems = data || [];
+
+      updateSummary();
+      renderPlannerItems();
+    }
+
+    function updateSummary() {
+      const now = Date.now();
+
+      const upcoming = plannerItems.filter(item =>
+        !item.is_completed &&
+        new Date(item.due_at).getTime() >= now
+      );
+
+      const completed = plannerItems.filter(item =>
+        item.is_completed
+      );
+
+      $("totalCount").textContent =
+        String(plannerItems.length);
+
+      $("upcomingCount").textContent =
+        String(upcoming.length);
+
+      $("completedCount").textContent =
+        String(completed.length);
+    }
+
+    function renderPlannerItems() {
+      const now = Date.now();
+
+      let visibleItems = plannerItems.filter(item => {
+        if (currentFilter === "completed") {
+          return item.is_completed;
+        }
+
+        if (currentFilter === "upcoming") {
+          return (
+            !item.is_completed &&
+            new Date(item.due_at).getTime() >= now
+          );
+        }
+
+        return true;
+      });
+
+      if (currentFilter === "upcoming") {
+        visibleItems.sort((a, b) =>
+          new Date(a.due_at) - new Date(b.due_at)
+        );
+      }
+
+      if (visibleItems.length === 0) {
+        const message = {
+          upcoming:
+            "No upcoming tasks. Add your next exam, test or study session above.",
+          all:
+            "Your planner is empty. Add your first item above.",
+          completed:
+            "You have not completed any tasks yet."
+        };
+
+        $("items").innerHTML =
+          '<div class="empty">' +
+          escapeHtml(message[currentFilter]) +
+          "</div>";
+
+        return;
+      }
+
+      $("items").innerHTML = visibleItems.map(item => {
+        const dueTime = new Date(item.due_at).getTime();
+        const overdue =
+          !item.is_completed && dueTime < now;
+
+        const stateBadge = item.is_completed
+          ? '<span class="badge done">Completed</span>'
+          : overdue
+            ? '<span class="badge overdue">Overdue</span>'
+            : '<span class="badge">Upcoming</span>';
+
+        return `
+          <article class="item ${item.is_completed ? "completed" : ""}">
+            ${stateBadge}
+            <span class="badge">${escapeHtml(item.task_type)}</span>
+
+            <h3>${escapeHtml(item.title)}</h3>
+
+            <div class="muted">
+              ${item.subject
+                ? "<strong>Subject:</strong> " +
+                  escapeHtml(item.subject) + "<br>"
+                : ""}
+
+              <strong>Due:</strong>
+              ${escapeHtml(formatDate(item.due_at))}
+              <br>
+
+              <strong>Reminder:</strong>
+              ${escapeHtml(formatDate(item.reminder_at))}
+              <br>
+
+              ${item.notes
+                ? "<strong>Notes:</strong> " +
+                  escapeHtml(item.notes)
+                : ""}
+            </div>
+
+            <div class="actions">
+              <button
+                type="button"
+                class="secondary"
+                data-toggle="${escapeHtml(item.id)}"
+                data-completed="${item.is_completed}"
+              >
+                ${item.is_completed
+                  ? "Mark incomplete"
+                  : "Mark completed"}
+              </button>
+
+              <button
+                type="button"
+                class="danger"
+                data-delete="${escapeHtml(item.id)}"
+              >
+                Delete
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      $("items").querySelectorAll("[data-toggle]")
+        .forEach(button => {
+          button.addEventListener("click", () => {
+            toggleCompleted(
+              button.dataset.toggle,
+              button.dataset.completed === "true"
+            );
+          });
+        });
+
+      $("items").querySelectorAll("[data-delete]")
+        .forEach(button => {
+          button.addEventListener("click", () => {
+            deletePlannerItem(button.dataset.delete);
+          });
+        });
+    }
+
+    // --------------------------------------------------
+    // COMPLETE / UNCOMPLETE AN ITEM
+    // --------------------------------------------------
+
+    async function toggleCompleted(id, wasCompleted) {
+      if (!currentUser) return;
+
+      const { error } = await db
+        .from("study_planner_items")
+        .update({
+          is_completed: !wasCompleted
+        })
+        .eq("id", id)
+        .eq("user_id", currentUser.id);
+
+      if (error) {
+        alert("Could not update the task: " + error.message);
+        return;
+      }
+
+      await loadPlannerItems();
+    }
+
+    // --------------------------------------------------
+    // DELETE AN ITEM
+    // --------------------------------------------------
+
+    async function deletePlannerItem(id) {
+      if (!currentUser) return;
+
+      const confirmed = confirm(
+        "Are you sure you want to delete this planner item?"
+      );
+
+      if (!confirmed) return;
+
+      const { error } = await db
+        .from("study_planner_items")
+        .delete()
+        .eq("id", id)
+        .eq("user_id", currentUser.id);
+
+      if (error) {
+        alert("Could not delete the task: " + error.message);
+        return;
+      }
+
+      await loadPlannerItems();
+    }
+
+    // --------------------------------------------------
+    // FILTERS AND DEFAULTS
+    // --------------------------------------------------
+
+    function setDefaultDates() {
+      const due = new Date(Date.now() + 24 * 60 * 60 * 1000);
+      due.setSeconds(0, 0);
+
+      const reminder = new Date(
+        due.getTime() - 60 * 60 * 1000
+      );
+
+      $("dueAt").value = localDateTimeValue(due);
+      $("reminderAt").value = localDateTimeValue(reminder);
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+
+      document.querySelectorAll("[data-filter]")
+        .forEach(button => {
+          button.classList.toggle(
+            "active",
+            button.dataset.filter === filter
+          );
+        });
+
+      renderPlannerItems();
+    }
+
+    // --------------------------------------------------
+    // EVENT LISTENERS
+    // --------------------------------------------------
+
+    $("plannerForm").addEventListener(
+      "submit",
+      savePlannerItem
+    );
+
+    $("enablePush").addEventListener(
+      "click",
+      enablePushNotifications
+    );
+
+    $("refreshButton").addEventListener(
+      "click",
+      loadPlannerItems
+    );
+
+    $("clearButton").addEventListener("click", () => {
+      $("plannerForm").reset();
+      setDefaultDates();
+
+      showStatus("formStatus", "");
+    });
+
+    document.querySelectorAll("[data-filter]")
+      .forEach(button => {
+        button.addEventListener("click", () => {
+          setFilter(button.dataset.filter);
+        });
+      });
+
+    // --------------------------------------------------
+    // STARTUP
+    // --------------------------------------------------
+
+    async function startPlanner() {
+      setDefaultDates();
+
+      const loggedIn = await checkLogin();
+
+      if (loggedIn) {
+        await loadPlannerItems();
+      }
+    }
+
+    startPlanner();
+  </script>
 </body>
 </html>
