@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,9 +22,7 @@
       --danger: #b91c1c;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -41,30 +38,21 @@
       padding: 24px 16px;
     }
 
-    .header-inner,
-    main {
+    .header-inner, main {
       max-width: 950px;
       margin: 0 auto;
     }
 
-    header a {
-      color: white;
-      text-decoration: none;
-    }
+    header a { color: white; text-decoration: none; }
 
     header h1 {
       margin: 14px 0 5px;
       font-size: clamp(25px, 5vw, 36px);
     }
 
-    header p {
-      margin: 0;
-      opacity: 0.95;
-    }
+    header p { margin: 0; opacity: 0.95; }
 
-    main {
-      padding: 20px 14px 45px;
-    }
+    main { padding: 20px 14px 45px; }
 
     .card {
       background: var(--card);
@@ -74,19 +62,10 @@
       box-shadow: 0 4px 16px rgba(20, 30, 60, 0.06);
     }
 
-    h2 {
-      margin: 0 0 12px;
-      font-size: 21px;
-    }
+    h2 { margin: 0 0 12px; font-size: 21px; }
+    h3 { margin-top: 0; }
 
-    h3 {
-      margin-top: 0;
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 14px;
-    }
+    .muted { color: var(--muted); font-size: 14px; }
 
     .status {
       background: #eef2ff;
@@ -97,19 +76,9 @@
       overflow-wrap: anywhere;
     }
 
-    .status:empty {
-      display: none;
-    }
-
-    .status.error {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .status.success {
-      background: #dcfce7;
-      color: #166534;
-    }
+    .status:empty { display: none; }
+    .status.error { background: #fee2e2; color: #991b1b; }
+    .status.success { background: #dcfce7; color: #166534; }
 
     .grid {
       display: grid;
@@ -123,9 +92,7 @@
       margin: 13px 0 6px;
     }
 
-    input,
-    select,
-    textarea {
+    input, select, textarea {
       display: block;
       width: 100%;
       padding: 12px;
@@ -136,17 +103,12 @@
       font: inherit;
     }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
+    input:focus, select:focus, textarea:focus {
       outline: 2px solid #a5b4fc;
       border-color: var(--primary);
     }
 
-    textarea {
-      min-height: 85px;
-      resize: vertical;
-    }
+    textarea { min-height: 85px; resize: vertical; }
 
     button {
       border: none;
@@ -157,29 +119,11 @@
       cursor: pointer;
     }
 
-    button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-
-    .primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .primary:hover {
-      background: var(--primary-dark);
-    }
-
-    .secondary {
-      background: #e8eaff;
-      color: #30368c;
-    }
-
-    .danger {
-      background: #fee2e2;
-      color: var(--danger);
-    }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .primary { background: var(--primary); color: white; }
+    .primary:hover { background: var(--primary-dark); }
+    .secondary { background: #e8eaff; color: #30368c; }
+    .danger { background: #fee2e2; color: var(--danger); }
 
     .actions {
       display: flex;
@@ -188,9 +132,7 @@
       margin-top: 14px;
     }
 
-    .actions button {
-      min-height: 42px;
-    }
+    .actions button { min-height: 42px; }
 
     .item {
       border: 1px solid var(--border);
@@ -200,19 +142,9 @@
       overflow-wrap: anywhere;
     }
 
-    .item h3 {
-      margin: 0 0 7px;
-      font-size: 18px;
-    }
-
-    .item.completed {
-      opacity: 0.68;
-      background: #f8fafc;
-    }
-
-    .item.completed h3 {
-      text-decoration: line-through;
-    }
+    .item h3 { margin: 0 0 7px; font-size: 18px; }
+    .item.completed { opacity: 0.68; background: #f8fafc; }
+    .item.completed h3 { text-decoration: line-through; }
 
     .badge {
       display: inline-block;
@@ -225,15 +157,8 @@
       margin: 0 4px 7px 0;
     }
 
-    .badge.overdue {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .badge.done {
-      background: #dcfce7;
-      color: #166534;
-    }
+    .badge.overdue { background: #fee2e2; color: #991b1b; }
+    .badge.done { background: #dcfce7; color: #166534; }
 
     .empty {
       text-align: center;
@@ -255,15 +180,8 @@
       text-align: center;
     }
 
-    .summary-number {
-      font-size: 25px;
-      font-weight: 800;
-    }
-
-    .summary-label {
-      font-size: 12px;
-      color: var(--muted);
-    }
+    .summary-number { font-size: 25px; font-weight: 800; }
+    .summary-label { font-size: 12px; color: var(--muted); }
 
     .filter-buttons button.active {
       background: var(--primary);
@@ -278,26 +196,11 @@
     }
 
     @media (max-width: 580px) {
-      .grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .summary {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-
-      .summary-number {
-        font-size: 21px;
-      }
-
-      .card {
-        padding: 15px;
-      }
-
-      .actions button {
-        flex: 1;
-      }
+      .grid { grid-template-columns: 1fr; gap: 0; }
+      .summary { grid-template-columns: 1fr 1fr 1fr; }
+      .summary-number { font-size: 21px; }
+      .card { padding: 15px; }
+      .actions button { flex: 1; }
     }
   </style>
 </head>
@@ -334,13 +237,8 @@
 
       <form id="plannerForm">
         <label for="title">Task title *</label>
-        <input
-          id="title"
-          type="text"
-          maxlength="140"
-          placeholder="e.g. Mathematics Paper 1"
-          required
-        >
+        <input id="title" type="text" maxlength="140"
+          placeholder="e.g. Mathematics Paper 1" required>
 
         <div class="grid">
           <div>
@@ -405,11 +303,8 @@
         </p>
 
         <label for="notes">Notes (optional)</label>
-        <textarea
-          id="notes"
-          maxlength="2000"
-          placeholder="Topics to revise, chapters, or instructions..."
-        ></textarea>
+        <textarea id="notes" maxlength="2000"
+          placeholder="Topics to revise, chapters, or instructions..."></textarea>
 
         <div class="actions">
           <button class="primary" id="saveButton" type="submit">
@@ -457,31 +352,23 @@
         </button>
       </div>
 
-      <div id="items" aria-live="polite">
-        Loading your planner...
-      </div>
+      <div id="items" aria-live="polite">Loading your planner...</div>
     </section>
   </main>
 
-  <footer>
-    Grade 12 Hub · MH Masina &amp; NP Machete
-  </footer>
+  <footer>Grade 12 Hub · MH Masina &amp; NP Machete</footer>
 
   <script>
     "use strict";
 
-    // --------------------------------------------------
     // GRADE 12 HUB CONFIGURATION
-    // --------------------------------------------------
-
     const SUPABASE_URL =
       "https://hdlhhbnawltisszzsbvw.supabase.co";
 
     const SUPABASE_PUBLISHABLE_KEY =
       "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
 
-    // Replace with the PUBLIC VAPID key generated for Web Push.
-    // Never put the VAPID PRIVATE key or service-role key here.
+    // This is the PUBLIC VAPID key. Never put private keys here.
     const VAPID_PUBLIC_KEY =
       "BMXUzEeCRtVbsuXjkFnOx0wUbFdsITUQU9zm7Q_0RUd7JKqh_sU7E3rZzIdut2cMKErJ_FbTfZ55V7Gg5mOzReE";
 
@@ -497,10 +384,7 @@
     let currentFilter = "upcoming";
     let busy = false;
 
-    // --------------------------------------------------
     // GENERAL HELPERS
-    // --------------------------------------------------
-
     function showStatus(id, message, type = "") {
       const element = $(id);
       element.textContent = message;
@@ -520,9 +404,7 @@
     function formatDate(value) {
       const date = new Date(value);
 
-      if (Number.isNaN(date.getTime())) {
-        return "Invalid date";
-      }
+      if (Number.isNaN(date.getTime())) return "Invalid date";
 
       return date.toLocaleString([], {
         dateStyle: "medium",
@@ -532,10 +414,7 @@
 
     function localDateTimeValue(date) {
       const copy = new Date(date);
-      copy.setMinutes(
-        copy.getMinutes() - copy.getTimezoneOffset()
-      );
-
+      copy.setMinutes(copy.getMinutes() - copy.getTimezoneOffset());
       return copy.toISOString().slice(0, 16);
     }
 
@@ -549,23 +428,17 @@
 
     async function getCurrentSession() {
       const { data, error } = await db.auth.getSession();
-
       if (error) throw error;
-
       return data.session;
     }
 
-    // --------------------------------------------------
     // AUTHENTICATION
-    // --------------------------------------------------
-
     async function checkLogin() {
       try {
         const session = await getCurrentSession();
 
         if (!session || !session.user) {
           currentUser = null;
-
           $("items").textContent =
             "Please sign in to Grade 12 Hub to use your personal planner.";
 
@@ -595,7 +468,6 @@
         });
 
         $("enablePush").disabled = false;
-
         return true;
       } catch (error) {
         console.error("Login check failed:", error);
@@ -610,10 +482,7 @@
       }
     }
 
-    // --------------------------------------------------
     // PUSH NOTIFICATIONS
-    // --------------------------------------------------
-
     function decodeVapidPublicKey(base64String) {
       const padding = "=".repeat(
         (4 - base64String.length % 4) % 4
@@ -635,9 +504,7 @@
 
       try {
         if (!currentUser) {
-          throw new Error(
-            "Please sign in to Grade 12 Hub first."
-          );
+          throw new Error("Please sign in to Grade 12 Hub first.");
         }
 
         if (!("serviceWorker" in navigator)) {
@@ -658,15 +525,14 @@
           );
         }
 
-        
-if (
-  !VAPID_PUBLIC_KEY ||
-  VAPID_PUBLIC_KEY === "PASTE_YOUR_VAPID_PUBLIC_KEY_HERE"
-) {
-  throw new Error(
-    "The VAPID public key has not been configured."
-  );
-}
+        if (
+          !VAPID_PUBLIC_KEY ||
+          VAPID_PUBLIC_KEY === "PASTE_YOUR_VAPID_PUBLIC_KEY_HERE"
+        ) {
+          throw new Error(
+            "The VAPID public key has not been configured."
+          );
+        }
 
         if (!window.isSecureContext) {
           throw new Error(
@@ -674,8 +540,7 @@ if (
           );
         }
 
-        const permission =
-          await Notification.requestPermission();
+        const permission = await Notification.requestPermission();
 
         if (permission !== "granted") {
           throw new Error(
@@ -683,7 +548,7 @@ if (
           );
         }
 
-        // This file must be in the root of the deployed website.
+        // Register the service worker at the website root.
         const registration =
           await navigator.serviceWorker.register(
             "/service-worker.js"
@@ -703,30 +568,61 @@ if (
             });
         }
 
-        const session = await getCurrentSession();
+        // IMPORTANT FIX:
+        // Refresh the Supabase session before sending the access token.
+        // This helps prevent an expired access token being rejected by
+        // the push-subscribe API.
+        const {
+          data: refreshedData,
+          error: refreshError
+        } = await db.auth.refreshSession();
 
-        if (!session || !session.access_token) {
+        if (refreshError) {
+          console.error(
+            "Session refresh failed:",
+            refreshError.message
+          );
+
           throw new Error(
-            "Your login session has expired. Sign in again."
+            "Your login session could not be refreshed. Please sign out, sign in again, and retry."
           );
         }
 
-        const response = await fetch(
-          "/api/push-subscribe",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization":
-                "Bearer " + session.access_token
-            },
-            body: JSON.stringify({
-              subscription: subscription.toJSON()
-            })
-          }
-        );
+        const session = refreshedData?.session;
 
-        const result = await response.json();
+        if (!session?.access_token || !session.user) {
+          currentUser = null;
+
+          throw new Error(
+            "Your login session has expired. Please sign in again."
+          );
+        }
+
+        currentUser = session.user;
+
+        // Send the freshly refreshed access token to the server.
+        const response = await fetch("/api/push-subscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            subscription: subscription.toJSON()
+          })
+        });
+
+        // Read the response safely in case the server returns non-JSON.
+        const responseText = await response.text();
+        let result = {};
+
+        try {
+          result = responseText ? JSON.parse(responseText) : {};
+        } catch {
+          throw new Error(
+            "The server returned an unexpected response. Check the latest Vercel function logs."
+          );
+        }
 
         if (!response.ok) {
           throw new Error(
@@ -745,7 +641,8 @@ if (
 
         showStatus(
           "pushStatus",
-          "Could not enable notifications: " + error.message,
+          "Could not enable notifications: " +
+            (error.message || "An unexpected error occurred."),
           "error"
         );
       } finally {
@@ -753,10 +650,7 @@ if (
       }
     }
 
-    // --------------------------------------------------
     // SAVE A PLANNER ITEM
-    // --------------------------------------------------
-
     async function savePlannerItem(event) {
       event.preventDefault();
 
@@ -807,12 +701,12 @@ if (
       try {
         const payload = {
           user_id: currentUser.id,
-          title: title,
-          subject: subject,
+          title,
+          subject,
           task_type: taskType,
           due_at: dueDate.toISOString(),
           reminder_at: reminderDate.toISOString(),
-          notes: notes,
+          notes,
           is_completed: false
         };
 
@@ -823,8 +717,6 @@ if (
         if (error) throw error;
 
         $("plannerForm").reset();
-
-        // Restore convenient default dates after resetting.
         setDefaultDates();
 
         showStatus(
@@ -847,10 +739,7 @@ if (
       }
     }
 
-    // --------------------------------------------------
     // LOAD AND DISPLAY ITEMS
-    // --------------------------------------------------
-
     async function loadPlannerItems() {
       if (!currentUser) return;
 
@@ -866,15 +755,12 @@ if (
 
       if (error) {
         console.error("Load failed:", error);
-
         $("items").textContent =
           "Could not load your planner. Please refresh and try again.";
-
         return;
       }
 
       plannerItems = data || [];
-
       updateSummary();
       renderPlannerItems();
     }
@@ -891,14 +777,9 @@ if (
         item.is_completed
       );
 
-      $("totalCount").textContent =
-        String(plannerItems.length);
-
-      $("upcomingCount").textContent =
-        String(upcoming.length);
-
-      $("completedCount").textContent =
-        String(completed.length);
+      $("totalCount").textContent = String(plannerItems.length);
+      $("upcomingCount").textContent = String(upcoming.length);
+      $("completedCount").textContent = String(completed.length);
     }
 
     function renderPlannerItems() {
@@ -926,7 +807,7 @@ if (
       }
 
       if (visibleItems.length === 0) {
-        const message = {
+        const messages = {
           upcoming:
             "No upcoming tasks. Add your next exam, test or study session above.",
           all:
@@ -937,7 +818,7 @@ if (
 
         $("items").innerHTML =
           '<div class="empty">' +
-          escapeHtml(message[currentFilter]) +
+          escapeHtml(messages[currentFilter]) +
           "</div>";
 
         return;
@@ -945,8 +826,7 @@ if (
 
       $("items").innerHTML = visibleItems.map(item => {
         const dueTime = new Date(item.due_at).getTime();
-        const overdue =
-          !item.is_completed && dueTime < now;
+        const overdue = !item.is_completed && dueTime < now;
 
         const stateBadge = item.is_completed
           ? '<span class="badge done">Completed</span>'
@@ -1023,18 +903,13 @@ if (
         });
     }
 
-    // --------------------------------------------------
     // COMPLETE / UNCOMPLETE AN ITEM
-    // --------------------------------------------------
-
     async function toggleCompleted(id, wasCompleted) {
       if (!currentUser) return;
 
       const { error } = await db
         .from("study_planner_items")
-        .update({
-          is_completed: !wasCompleted
-        })
+        .update({ is_completed: !wasCompleted })
         .eq("id", id)
         .eq("user_id", currentUser.id);
 
@@ -1046,10 +921,7 @@ if (
       await loadPlannerItems();
     }
 
-    // --------------------------------------------------
     // DELETE AN ITEM
-    // --------------------------------------------------
-
     async function deletePlannerItem(id) {
       if (!currentUser) return;
 
@@ -1073,10 +945,7 @@ if (
       await loadPlannerItems();
     }
 
-    // --------------------------------------------------
     // FILTERS AND DEFAULTS
-    // --------------------------------------------------
-
     function setDefaultDates() {
       const due = new Date(Date.now() + 24 * 60 * 60 * 1000);
       due.setSeconds(0, 0);
@@ -1103,10 +972,7 @@ if (
       renderPlannerItems();
     }
 
-    // --------------------------------------------------
     // EVENT LISTENERS
-    // --------------------------------------------------
-
     $("plannerForm").addEventListener(
       "submit",
       savePlannerItem
@@ -1125,7 +991,6 @@ if (
     $("clearButton").addEventListener("click", () => {
       $("plannerForm").reset();
       setDefaultDates();
-
       showStatus("formStatus", "");
     });
 
@@ -1136,10 +1001,19 @@ if (
         });
       });
 
-    // --------------------------------------------------
-    // STARTUP
-    // --------------------------------------------------
+    // Keep the planner aware of Supabase sign-in/sign-out changes.
+    db.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        currentUser = null;
+        $("items").textContent =
+          "Please sign in to Grade 12 Hub to use your personal planner.";
+        $("enablePush").disabled = true;
+      } else if (session?.user) {
+        currentUser = session.user;
+      }
+    });
 
+    // STARTUP
     async function startPlanner() {
       setDefaultDates();
 
