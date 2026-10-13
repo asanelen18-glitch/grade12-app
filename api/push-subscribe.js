@@ -102,13 +102,20 @@ export default async function handler(req, res) {
         { onConflict: "endpoint" }
       );
 
-    if (saveError) {
-      console.error("Push subscription save failed:", saveError.message);
+    
+if (saveError) {
+  console.error("Push subscription save failed:", {
+    message: saveError.message,
+    code: saveError.code,
+    status: saveError.status,
+    hint: saveError.hint
+  });
 
-      return res.status(500).json({
-        error: "Login verified, but the notification subscription could not be saved. Check the database configuration and permissions."
-      });
-    }
+  return res.status(500).json({
+    error: "Notification subscription could not be saved. Check the latest Vercel logs."
+  });
+}
+
 
     return res.status(200).json({
       ok: true,
