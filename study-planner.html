@@ -483,7 +483,7 @@
     // Replace with the PUBLIC VAPID key generated for Web Push.
     // Never put the VAPID PRIVATE key or service-role key here.
     const VAPID_PUBLIC_KEY =
-      "PASTE_YOUR_VAPID_PUBLIC_KEY_HERE";
+      "BMXUzEeCRtVbsuXjkFnOx0wUbFdsITUQU9zm7Q_0RUd7JKqh_sU7E3rZzIdut2cMKErJ_FbTfZ55V7Gg5mOzReE";
 
     const db = window.supabase.createClient(
       SUPABASE_URL,
@@ -660,10 +660,10 @@
 
         if (
           !VAPID_PUBLIC_KEY ||
-          VAPID_PUBLIC_KEY.includes("PASTE_YOUR")
+          VAPID_PUBLIC_KEY.includes("BMXUzEeCRtVbsuXjkFnOx0wUbFdsITUQU9zm7Q_0RUd7JKqh_sU7E3rZzIdut2cMKErJ_FbTfZ55V7Gg5mOzReE")
         ) {
           throw new Error(
-            "Add your VAPID public key to this file before enabling notifications."
+            "BMXUzEeCRtVbsuXjkFnOx0wUbFdsITUQU9zm7Q_0RUd7JKqh_sU7E3rZzIdut2cMKErJ_FbTfZ55V7Gg5mOzReE"
           );
         }
 
