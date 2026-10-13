@@ -658,14 +658,15 @@
           );
         }
 
-        if (
-          !VAPID_PUBLIC_KEY ||
-          VAPID_PUBLIC_KEY.includes("BMXUzEeCRtVbsuXjkFnOx0wUbFdsITUQU9zm7Q_0RUd7JKqh_sU7E3rZzIdut2cMKErJ_FbTfZ55V7Gg5mOzReE")
-        ) {
-          throw new Error(
-            "BMXUzEeCRtVbsuXjkFnOx0wUbFdsITUQU9zm7Q_0RUd7JKqh_sU7E3rZzIdut2cMKErJ_FbTfZ55V7Gg5mOzReE"
-          );
-        }
+        
+if (
+  !VAPID_PUBLIC_KEY ||
+  VAPID_PUBLIC_KEY === "PASTE_YOUR_VAPID_PUBLIC_KEY_HERE"
+) {
+  throw new Error(
+    "The VAPID public key has not been configured."
+  );
+}
 
         if (!window.isSecureContext) {
           throw new Error(
