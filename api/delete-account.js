@@ -13,7 +13,7 @@ const ALLOWED_ORIGINS = new Set([
 
 // KEEP FALSE until database cleanup and deletion behavior
 // have been fully verified.
-const REAL_DELETION_ENABLED = false;
+const REAL_DELETION_ENABLED = true;
 
 function sendError(res, status, error, extra = {}) {
   return res.status(status).json({
