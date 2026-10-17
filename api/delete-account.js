@@ -11,7 +11,7 @@ const ALLOWED_ORIGINS = new Set([
 ]);
 
 // Keep disabled until the trigger and deployment are verified.
-const REAL_DELETION_ENABLED = false;
+const REAL_DELETION_ENABLED = true;
 
 function sendError(res, status, error, extra = {}) {
   return res.status(status).json({
