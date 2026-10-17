@@ -14,13 +14,16 @@ export default async function handler(req, res) {
   const origin = req.headers.origin;
 
   // Check the request origin before processing anything.
-  if (origin && !allowedOrigins.has(origin)) {
-    return res.status(403).json({
-      success: false,
-      error: "This website is not allowed to use this endpoint.",
-      deletionPerformed: false
-    });
-  }
+  
+if (origin && !allowedOrigins.has(origin)) {
+  return res.status(403).json({
+    error: "This website is not allowed to use this endpoint.",
+    receivedOrigin: origin,
+    allowedOrigins: Array.from(allowedOrigins),
+    deletionPerformed: false
+  });
+}
+
 
   if (origin) {
     res.setHeader("Access-Control-Allow-Origin", origin);
