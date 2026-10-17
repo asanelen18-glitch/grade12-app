@@ -6,6 +6,7 @@ const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 const allowedOrigins = new Set([
   "https://grade12-app.vercel.app",
+  "https://grade12-izk22y0ov-grade-12-hub.vercel.app",
   "https://asanelen18-glitch.github.io"
 ]);
 
