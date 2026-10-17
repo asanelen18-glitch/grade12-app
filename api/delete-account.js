@@ -12,14 +12,15 @@ const allowedOrigins = new Set([
 export default async function handler(req, res) {
   const origin = req.headers.origin;
 
-  // Only allow requests from the approved website origins.
+  // Check the request origin before processing anything.
   if (origin && !allowedOrigins.has(origin)) {
     return res.status(403).json({
-      error: "This website is not allowed to use this endpoint."
+      success: false,
+      error: "This website is not allowed to use this endpoint.",
+      deletionPerformed: false
     });
   }
 
-  // CORS headers for the approved website.
   if (origin) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Vary", "Origin");
@@ -29,20 +30,18 @@ export default async function handler(req, res) {
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS"
   );
-
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Authorization, Content-Type"
   );
-
   res.setHeader("Cache-Control", "no-store");
 
-  // Browser CORS preflight. This never deletes an account.
+  // CORS preflight: no data is changed.
   if (req.method === "OPTIONS") {
     return res.status(204).end();
   }
 
-  // Safe health check. GET must never delete or modify user data.
+  // Safe endpoint health check.
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
@@ -51,32 +50,35 @@ export default async function handler(req, res) {
     });
   }
 
-  // Only POST can enter the deletion process.
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST, OPTIONS");
-
     return res.status(405).json({
-      error: "Method not allowed."
+      success: false,
+      error: "Method not allowed.",
+      deletionPerformed: false
     });
   }
 
-  // Confirm server environment variables exist.
+  // Verify server configuration.
   if (!supabaseUrl || !serviceRoleKey) {
     return res.status(500).json({
-      error: "Account deletion is not configured on the server."
+      success: false,
+      error: "Account deletion is not configured on the server.",
+      deletionPerformed: false
     });
   }
 
   const projectUrl = supabaseUrl.trim();
 
-  // Require the Supabase project base URL, without API paths.
   if (!/^https:\/\/[^/]+\/?$/.test(projectUrl)) {
     return res.status(500).json({
-      error: "SUPABASE_URL must be the project base URL."
+      success: false,
+      error: "SUPABASE_URL must be the project base URL without an API path.",
+      deletionPerformed: false
     });
   }
 
-  // Require a signed-in user's access token.
+  // Require the signed-in user's access token.
   const authorization = req.headers.authorization || "";
   const token = authorization.startsWith("Bearer ")
     ? authorization.slice(7).trim()
@@ -84,12 +86,14 @@ export default async function handler(req, res) {
 
   if (!token) {
     return res.status(401).json({
-      error: "Please sign in again before deleting your account."
+      success: false,
+      error: "Please sign in again before continuing.",
+      deletionPerformed: false
     });
   }
 
   const supabase = createClient(
-    projectUrl,
+    projectUrl.replace(/\/$/, ""),
     serviceRoleKey,
     {
       auth: {
@@ -100,19 +104,42 @@ export default async function handler(req, res) {
   );
 
   try {
-    // Verify the token with Supabase before touching user data.
+    // Verify the token with Supabase.
     const { data: userData, error: userError } =
       await supabase.auth.getUser(token);
 
     if (userError || !userData?.user?.id) {
       return res.status(401).json({
-        error: "Your session has expired. Please sign in again."
+        success: false,
+        error: "Your session has expired. Please sign in again.",
+        deletionPerformed: false
       });
     }
 
     const userId = userData.user.id;
 
-    // Delete only records belonging to this verified user.
+    // SAFE TEST:
+    // POST {"dryRun":true} validates the authenticated session.
+    // It does not delete, update, or insert any database records.
+    if (req.body?.dryRun === true) {
+      return res.status(200).json({
+        success: true,
+        dryRun: true,
+        authenticated: true,
+        deletionPerformed: false,
+        message: "API connection and authentication test passed. No data was changed."
+      });
+    }
+
+    // Require explicit confirmation for real deletion.
+    if (req.body?.confirmation !== "DELETE") {
+      return res.status(400).json({
+        success: false,
+        error: "Explicit account deletion confirmation is required.",
+        deletionPerformed: false
+      });
+    }
+
     async function deleteOwnRows(table, column = "user_id") {
       const { error } = await supabase
         .from(table)
@@ -124,13 +151,10 @@ export default async function handler(req, res) {
           `Account cleanup failed for ${table}:`,
           error.message
         );
-
         throw new Error(`Could not clean up ${table}.`);
       }
     }
 
-    // Preserve reports and moderation history, but remove
-    // references identifying this account.
     async function anonymiseRows(table, column) {
       const { error } = await supabase
         .from(table)
@@ -142,19 +166,18 @@ export default async function handler(req, res) {
           `Anonymisation failed for ${table}.${column}:`,
           error.message
         );
-
         throw new Error(`Could not anonymise ${table}.${column}.`);
       }
     }
 
-    // Preserve user reports involving other people.
+    // Preserve reports but remove links to this account.
     await anonymiseRows("user_reports", "reporter_id");
     await anonymiseRows("user_reports", "reported_user_id");
 
-    // Preserve moderation history without this account's user link.
+    // Preserve moderation history without this account link.
     await anonymiseRows("moderation_actions", "user_id");
 
-    // Remove the user's personal and activity records.
+    // Remove this user's personal records and activity.
     await deleteOwnRows("study_messages");
     await deleteOwnRows("study_group_members");
     await deleteOwnRows("quiz_attempts");
@@ -166,12 +189,11 @@ export default async function handler(req, res) {
     await deleteOwnRows("user_moderation_status");
     await deleteOwnRows("admin_users");
 
-    // These tables use different account-ID column names.
+    // Tables using different account ID columns.
     await deleteOwnRows("profiles", "id");
     await deleteOwnRows("learner_profiles", "user_id");
 
-    // Delete the Supabase Auth account only after the cleanup
-    // steps above have succeeded.
+    // Delete the login account last.
     const { error: deleteError } =
       await supabase.auth.admin.deleteUser(userId);
 
@@ -182,21 +204,26 @@ export default async function handler(req, res) {
       );
 
       return res.status(500).json({
+        success: false,
+        deletionPerformed: "partial",
         error:
-          "Personal records may have been cleaned up, but the login account could not be deleted. Do not retry immediately; contact support to review the account."
+          "Some personal records may already have been changed, but the login account could not be deleted. Do not retry immediately; review the account and database first."
       });
     }
 
     return res.status(200).json({
       success: true,
+      deletionPerformed: true,
       message: "Your account and personal records have been deleted."
     });
   } catch (error) {
     console.error("Account deletion failed:", error.message);
 
     return res.status(500).json({
+      success: false,
+      deletionPerformed: "unknown",
       error:
-        "Account cleanup did not finish. Some records may already have been changed. The login account was not intentionally deleted by this error handler. Contact support before retrying."
+        "Account cleanup did not finish. Some records may already have been changed. Review the database before retrying."
     });
   }
 }
