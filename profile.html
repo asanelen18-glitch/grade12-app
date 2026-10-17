@@ -472,9 +472,9 @@ function loadSavedMaterialCounts() {
 
 /*
  * SAFE API DIAGNOSTIC
- * Sends an intentionally invalid token.
- * Never sends the signed-in user's access token.
- * Does not change or delete database records.
+ * Tests the current signed-in learner's session.
+ * Sends dryRun: true, so no database records are changed.
+ * Actual account deletion remains disabled on the server.
  */
 $("testDeleteApiBtn").addEventListener("click", async () => {
     const button = $("testDeleteApiBtn");
@@ -482,51 +482,82 @@ $("testDeleteApiBtn").addEventListener("click", async () => {
 
     button.disabled = true;
     output.style.color = "#222";
-    output.textContent = "Testing API safely...";
+    output.textContent = "Checking your login and API safely...";
 
     try {
+        // Get the current signed-in session.
+        const { data, error } = await db.auth.getSession();
+
+        if (error) throw error;
+
+        const session = data?.session;
+
+        if (!session?.access_token) {
+            output.style.color = "#b45309";
+            output.textContent =
+                "You are not signed in. Please log in to Grade 12 Hub, " +
+                "return to My Profile, and try again.";
+            return;
+        }
+
+        // This request validates the real session.
+        // dryRun prevents database changes.
         const response = await fetch("/api/delete-account", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer invalid-test-token",
+                "Authorization": "Bearer " + session.access_token,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ confirmation: "TEST_ONLY" })
+            body: JSON.stringify({
+                dryRun: true
+            })
         });
 
         const responseText = await response.text();
 
         let result;
+
         try {
             result = JSON.parse(responseText);
         } catch {
-            result = { responseText: responseText };
+            result = { responseText };
         }
 
-        /*
-         * IMPORTANT FIX:
-         * Always display the real server response.
-         * Do not hide receivedOrigin behind a generic 403 message.
-         */
         output.textContent =
             "HTTP status: " + response.status + "\n\n" +
             JSON.stringify(result, null, 2);
 
-        output.style.color =
-            response.status === 401 ? "#166534" :
-            response.status === 403 ? "#dc2626" :
-            response.ok ? "#166534" : "#b45309";
-
+        if (
+            response.ok &&
+            result.success === true &&
+            result.dryRun === true &&
+            result.authenticated === true &&
+            result.deletionPerformed === false
+        ) {
+            output.style.color = "#166534";
+        } else {
+            output.style.color =
+                response.status === 401 ||
+                response.status === 403
+                    ? "#dc2626"
+                    : "#b45309";
+        }
     } catch (error) {
-        console.error("API safe test:", error);
+        console.error("Safe account API test failed:", error);
+
         output.style.color = "#dc2626";
         output.textContent =
-            "Request failed: " + error.message +
-            "\n\nCheck the website URL and Vercel deployment.";
+            "The safe test could not finish: " +
+            (error?.message || "Unknown error") +
+            "\n\nCheck your connection and sign-in status.";
     } finally {
         button.disabled = false;
     }
 });
+
+
+
+        
 
 /* REAL ACCOUNT DELETION REMAINS DISABLED */
 $("deleteAccountBtn").addEventListener("click", () => {
