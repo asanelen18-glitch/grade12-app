@@ -5,15 +5,13 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY =
   process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-// Only permanent website origins. Do not add deployment previews.
 const ALLOWED_ORIGINS = new Set([
   "https://grade12-app.vercel.app",
   "https://asanelen18-glitch.github.io"
 ]);
 
-// KEEP FALSE until database cleanup and deletion behavior
-// have been fully verified.
-const REAL_DELETION_ENABLED = true;
+// Keep disabled until the trigger and deployment are verified.
+const REAL_DELETION_ENABLED = false;
 
 function sendError(res, status, error, extra = {}) {
   return res.status(status).json({
@@ -65,11 +63,9 @@ export default async function handler(req, res) {
 
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST, OPTIONS");
-
     return sendError(res, 405, "Method not allowed.");
   }
 
-  // Require the server-side Supabase configuration.
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     return sendError(
       res,
@@ -88,7 +84,6 @@ export default async function handler(req, res) {
     );
   }
 
-  // Require a bearer token from the signed-in learner.
   const authorization = req.headers.authorization || "";
   const token = authorization.startsWith("Bearer ")
     ? authorization.slice(7).trim()
@@ -102,7 +97,6 @@ export default async function handler(req, res) {
     );
   }
 
-  // Only accept an ordinary JSON object as the request body.
   const body = req.body;
 
   if (
@@ -128,11 +122,8 @@ export default async function handler(req, res) {
     }
   );
 
-  let authAccountDeleted = false;
-  let profileRemoved = false;
-
   try {
-    // 1. Verify the session with Supabase.
+    // Verify the actual Supabase session.
     const { data: authData, error: authError } =
       await supabase.auth.getUser(token);
 
@@ -144,10 +135,9 @@ export default async function handler(req, res) {
       );
     }
 
-    // Never accept a user ID supplied by the browser.
     const userId = authData.user.id;
 
-    // 2. Fail closed if administrator status cannot be checked.
+    // Fail closed if administrator status cannot be checked.
     const { data: admin, error: adminError } =
       await supabase
         .from("admin_users")
@@ -176,7 +166,7 @@ export default async function handler(req, res) {
       );
     }
 
-    // 3. Safe test: nothing is deleted or updated.
+    // Dry run never changes database records.
     if (body.dryRun === true) {
       return res.status(200).json({
         success: true,
@@ -189,18 +179,16 @@ export default async function handler(req, res) {
       });
     }
 
-    // 4. Keep all destructive actions blocked for now.
     if (!REAL_DELETION_ENABLED) {
       return res.status(409).json({
         success: false,
         deletionEnabled: false,
         deletionPerformed: false,
         error:
-          "Account deletion is not enabled yet. No records were changed."
+          "Account deletion is temporarily disabled. No records were changed."
       });
     }
 
-    // 5. Require explicit confirmation.
     if (body.confirmDelete !== "DELETE_MY_ACCOUNT") {
       return sendError(
         res,
@@ -210,72 +198,34 @@ export default async function handler(req, res) {
     }
 
     /*
-     * IMPORTANT:
-     * Real deletion must remain disabled until the database
-     * relationships and cleanup procedure have been verified.
-     *
-     * Delete the verified Auth account first. This avoids removing
-     * the standalone profile before discovering that Auth deletion
-     * has failed.
+     * The database trigger must already be installed and verified.
+     * It removes public.profiles for this user as part of the Auth
+     * deletion transaction. Foreign-key cascade rules handle the
+     * other verified dependent records.
      */
-    const { error: deleteAuthError } =
+    const { error: deleteError } =
       await supabase.auth.admin.deleteUser(userId);
 
-    if (deleteAuthError) {
+    if (deleteError) {
       console.error(
         "Auth account deletion failed:",
-        deleteAuthError.message
+        deleteError.message
       );
 
       return sendError(
         res,
         500,
-        "The account was not confirmed as deleted. Check the account status before retrying."
+        "Account deletion failed. No successful deletion was confirmed. Check the account status before retrying."
       );
     }
-
-    authAccountDeleted = true;
-
-    /*
-     * The profiles table has no verified foreign key to auth.users,
-     * so it needs separate cleanup. Shared app content must not be
-     * deleted as part of this process.
-     */
-    const { data: removedProfiles, error: profileError } =
-      await supabase
-        .from("profiles")
-        .delete()
-        .eq("id", userId)
-        .select("id");
-
-    if (profileError) {
-      console.error(
-        "Standalone profile cleanup failed:",
-        profileError.message
-      );
-
-      return res.status(500).json({
-        success: false,
-        deletionPerformed: true,
-        authAccountDeleted: true,
-        profileRemoved: false,
-        error:
-          "The authentication account was deleted, but profile cleanup needs attention. Contact support before retrying."
-      });
-    }
-
-    profileRemoved =
-      Array.isArray(removedProfiles) &&
-      removedProfiles.length > 0;
 
     return res.status(200).json({
       success: true,
       deletionPerformed: true,
-      authAccountDeleted,
-      profileRemoved,
-      message: profileRemoved
-        ? "The authentication account and standalone profile were deleted."
-        : "The authentication account was deleted. No standalone profile row was found."
+      authAccountDeleted: true,
+      profileCleanup: "handled_by_database_trigger",
+      message:
+        "The account deletion request succeeded. The database trigger handled standalone profile cleanup."
     });
   } catch (error) {
     console.error(
@@ -283,14 +233,10 @@ export default async function handler(req, res) {
       error?.message || "Unknown error"
     );
 
-    return res.status(500).json({
-      success: false,
-      deletionPerformed: authAccountDeleted || profileRemoved,
-      authAccountDeleted,
-      profileRemoved,
-      error: authAccountDeleted
-        ? "The authentication account was deleted, but another cleanup step may need attention. Check the result before retrying."
-        : "The request encountered an error. Check the account status before retrying."
-    });
+    return sendError(
+      res,
+      500,
+      "The request encountered an error. Check the account status before retrying."
+    );
   }
 }
