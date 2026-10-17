@@ -2,519 +2,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#4f46e5">
-    <title>My Profile - Grade 12 Hub</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            margin: 0;
-            background: #f4f6f8;
-            color: #222;
-        }
-
-        header {
-            background: #4f46e5;
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-        }
-
-        header h1 {
-            font-size: 30px;
-            margin-bottom: 8px;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 16px;
-            margin-bottom: 18px;
-            box-shadow: 0 3px 10px #0000000d;
-        }
-
-        .profile {
-            text-align: center;
-        }
-
-        .profile-icon {
-            width: 90px;
-            height: 90px;
-            background: #4f46e5;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 45px;
-            margin: 0 auto 15px;
-        }
-
-        .profile h2 {
-            margin-bottom: 8px;
-        }
-
-        .profile p {
-            color: #666;
-            overflow-wrap: anywhere;
-        }
-
-        h3 {
-            color: #4f46e5;
-            margin: 0 0 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-top: 12px;
-            margin-bottom: 6px;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-            background: white;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 90px;
-        }
-
-        .subjects {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .subject-option {
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .subject-option input {
-            width: auto;
-        }
-
-        .subject-option label {
-            display: inline;
-            margin: 0;
-            font-weight: normal;
-        }
-
-        button {
-            width: 100%;
-            border: none;
-            background: #4f46e5;
-            color: white;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 15px;
-            cursor: pointer;
-        }
-
-        button:disabled {
-            background: #999;
-            cursor: wait;
-        }
-
-        .info {
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-            overflow-wrap: anywhere;
-        }
-
-        .info:last-child {
-            border-bottom: none;
-        }
-
-        .info strong {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .info span {
-            color: #666;
-            line-height: 1.5;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 15px;
-            background: #e5e7eb;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress {
-            width: 0%;
-            height: 100%;
-            background: #4f46e5;
-            transition: width .3s ease;
-        }
-
-        .back {
-            display: block;
-            color: #4f46e5;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .message, .error-message {
-            text-align: center;
-            font-weight: bold;
-            margin-top: 12px;
-            display: none;
-            line-height: 1.5;
-        }
-
-        .message {
-            color: #16a34a;
-        }
-
-        .error-message {
-            color: #dc2626;
-        }
-
-        .subjects-note, .muted {
-            color: #666;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-
-        .empty {
-            color: #666;
-            line-height: 1.6;
-            padding: 8px 0;
-        }
-
-        .danger-zone {
-            border: 1px solid #fecaca;
-        }
-
-        .danger-zone h3 {
-            color: #dc2626;
-        }
-
-        .danger-zone button {
-            background: #dc2626;
-        }
-
-        .danger-zone button:hover:not(:disabled) {
-            background: #b91c1c;
-        }
-
-        .safe-test-button {
-            background: #2563eb !important;
-        }
-
-        .safe-test-button:hover:not(:disabled) {
-            background: #1d4ed8 !important;
-        }
-
-        .delete-status {
-            display: none;
-            margin-top: 12px;
-            line-height: 1.5;
-            overflow-wrap: anywhere;
-            font-weight: bold;
-        }
-
-        #testDeleteApiResult {
-            line-height: 1.5;
-            overflow-wrap: anywhere;
-            font-weight: bold;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-            .subjects {
-                grid-template-columns: 1fr;
-            }
-
-            .container {
-                padding: 14px;
-            }
-
-            .card {
-                padding: 17px;
-            }
-
-            header h1 {
-                font-size: 26px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#4f46e5">
+<title>My Profile - Grade 12 Hub</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#f4f6f8;color:#222}
+header{background:#4f46e5;color:white;text-align:center;padding:30px 20px}
+header h1{font-size:30px;margin-bottom:8px}
+.container{max-width:700px;margin:auto;padding:20px}
+.card{background:white;padding:22px;border-radius:16px;margin-bottom:18px;box-shadow:0 3px 10px #0000000d}
+.profile{text-align:center}
+.profile-icon{width:90px;height:90px;background:#4f46e5;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:45px;margin:0 auto 15px}
+.profile p,.info span{color:#666;overflow-wrap:anywhere;line-height:1.5}
+h3{color:#4f46e5;margin:0 0 15px}
+label{display:block;font-weight:bold;margin-top:12px;margin-bottom:6px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px;background:white}
+textarea{resize:vertical;min-height:90px}
+.subjects{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.subject-option{border:1px solid #ddd;padding:10px;border-radius:8px}
+.subject-option input{width:auto}
+.subject-option label{display:inline;margin:0;font-weight:normal}
+button{width:100%;border:none;background:#4f46e5;color:white;padding:14px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:15px;cursor:pointer}
+button:disabled{background:#999;cursor:wait}
+.info{padding:12px 0;border-bottom:1px solid #eee;overflow-wrap:anywhere}
+.info:last-child{border-bottom:none}
+.info strong{display:block;margin-bottom:5px}
+.progress-bar{width:100%;height:15px;background:#e5e7eb;border-radius:10px;overflow:hidden;margin-top:10px}
+.progress{width:0;height:100%;background:#4f46e5;transition:width .3s ease}
+.back{display:block;color:#4f46e5;text-decoration:none;font-weight:bold;margin:20px 0}
+.message,.error-message{text-align:center;font-weight:bold;margin-top:12px;display:none;line-height:1.5}
+.message{color:#16a34a}.error-message{color:#dc2626}
+.subjects-note,.muted{color:#666;font-size:14px;line-height:1.5;margin-bottom:10px}
+.danger-zone{border:1px solid #fecaca}
+.danger-zone h3{color:#dc2626}
+.danger-zone button{background:#dc2626}
+.danger-zone button.safe-test-button{background:#2563eb}
+.delete-status,#testDeleteApiResult{display:block;margin-top:12px;line-height:1.5;overflow-wrap:anywhere;font-weight:bold}
+footer{text-align:center;padding:25px;color:#666;font-size:14px}
+@media(max-width:600px){.subjects{grid-template-columns:1fr}.container{padding:14px}.card{padding:17px}header h1{font-size:26px}}
+</style>
 </head>
-
 <body>
-
 <header>
-    <h1>👤 My Profile</h1>
-    <p>Your Grade 12 study profile</p>
+<h1>👤 My Profile</h1>
+<p>Your Grade 12 study profile</p>
 </header>
 
 <main class="container">
+<section class="card profile">
+<div class="profile-icon">👤</div>
+<h2 id="displayName">Grade 12 Learner</h2>
+<p id="displayGoal">Set your study goal below</p>
+</section>
 
-    <section class="card profile">
-        <div class="profile-icon">👤</div>
-        <h2 id="displayName">Grade 12 Learner</h2>
-        <p id="displayGoal">Set your study goal below</p>
-    </section>
+<section class="card">
+<h3>✏️ Edit Profile</h3>
+<form id="profileForm">
+<label for="name">Your Name</label>
+<input id="name" maxlength="100" placeholder="Enter your name">
 
-    <section class="card">
-        <h3>✏️ Edit Profile</h3>
+<label for="grade">Grade</label>
+<input id="grade" value="Grade 12" readonly>
 
-        <form id="profileForm">
-            <label for="name">Your Name</label>
-            <input type="text" id="name"
-                   placeholder="Enter your name" maxlength="100">
+<label for="province">📍 Province</label>
+<select id="province">
+<option value="">Select your province</option>
+<option>Eastern Cape</option><option>Free State</option>
+<option>Gauteng</option><option>KwaZulu-Natal</option>
+<option>Limpopo</option><option>Mpumalanga</option>
+<option>Northern Cape</option><option>North West</option>
+<option>Western Cape</option>
+</select>
 
-            <label for="grade">Grade</label>
-            <input type="text" id="grade"
-                   value="Grade 12" readonly>
+<label for="area">🏘️ Area / Town</label>
+<input id="area" maxlength="150" placeholder="Enter your area or town">
 
-            <label for="province">📍 Province</label>
-            <select id="province">
-                <option value="">Select your province</option>
-                <option>Eastern Cape</option>
-                <option>Free State</option>
-                <option>Gauteng</option>
-                <option>KwaZulu-Natal</option>
-                <option>Limpopo</option>
-                <option>Mpumalanga</option>
-                <option>Northern Cape</option>
-                <option>North West</option>
-                <option>Western Cape</option>
-            </select>
+<label for="school">🏫 School</label>
+<input id="school" maxlength="200" placeholder="Enter your school name">
 
-            <label for="area">🏘️ Area / Town</label>
-            <input type="text" id="area"
-                   placeholder="Enter your area or town" maxlength="150">
+<label>📚 My Subjects</label>
+<p class="subjects-note">Select your subjects. These are also used to find relevant quizzes and Study Groups.</p>
 
-            <label for="school">🏫 School</label>
-            <input type="text" id="school"
-                   placeholder="Enter your school name" maxlength="200">
+<div class="subjects">
+<div class="subject-option"><input type="checkbox" id="maths" value="Mathematics"><label for="maths">Mathematics</label></div>
+<div class="subject-option"><input type="checkbox" id="mathslit" value="Mathematical Literacy"><label for="mathslit">Mathematical Literacy</label></div>
+<div class="subject-option"><input type="checkbox" id="technicalmaths" value="Technical Mathematics"><label for="technicalmaths">Technical Mathematics</label></div>
+<div class="subject-option"><input type="checkbox" id="science" value="Physical Sciences"><label for="science">Physical Sciences</label></div>
+<div class="subject-option"><input type="checkbox" id="technicalscience" value="Technical Science"><label for="technicalscience">Technical Science</label></div>
+<div class="subject-option"><input type="checkbox" id="life" value="Life Sciences"><label for="life">Life Sciences</label></div>
+<div class="subject-option"><input type="checkbox" id="agricultural" value="Agricultural Sciences"><label for="agricultural">Agricultural Sciences</label></div>
+<div class="subject-option"><input type="checkbox" id="englishhl" value="English Home Language"><label for="englishhl">English Home Language</label></div>
+<div class="subject-option"><input type="checkbox" id="englishfal" value="English Additional Language"><label for="englishfal">English Additional Language</label></div>
+<div class="subject-option"><input type="checkbox" id="afrikaanshl" value="Afrikaans Home Language"><label for="afrikaanshl">Afrikaans Home Language</label></div>
+<div class="subject-option"><input type="checkbox" id="afrikaansfal" value="Afrikaans First Additional Language"><label for="afrikaansfal">Afrikaans First Additional Language</label></div>
+<div class="subject-option"><input type="checkbox" id="isizulu" value="IsiZulu"><label for="isizulu">IsiZulu</label></div>
+<div class="subject-option"><input type="checkbox" id="sesotho" value="Sesotho"><label for="sesotho">Sesotho</label></div>
+<div class="subject-option"><input type="checkbox" id="setswana" value="Setswana"><label for="setswana">Setswana</label></div>
+<div class="subject-option"><input type="checkbox" id="sepedi" value="Sepedi"><label for="sepedi">Sepedi</label></div>
+<div class="subject-option"><input type="checkbox" id="isixhosa" value="IsiXhosa"><label for="isixhosa">IsiXhosa</label></div>
+<div class="subject-option"><input type="checkbox" id="isindebele" value="IsiNdebele"><label for="isindebele">IsiNdebele</label></div>
+<div class="subject-option"><input type="checkbox" id="siswati" value="SiSwati"><label for="siswati">SiSwati</label></div>
+<div class="subject-option"><input type="checkbox" id="tshivenda" value="Tshivenda"><label for="tshivenda">Tshivenda</label></div>
+<div class="subject-option"><input type="checkbox" id="itsonga" value="itsonga"><label for="itsonga">itsonga</label></div>
+<div class="subject-option"><input type="checkbox" id="geography" value="Geography"><label for="geography">Geography</label></div>
+<div class="subject-option"><input type="checkbox" id="history" value="History"><label for="history">History</label></div>
+<div class="subject-option"><input type="checkbox" id="accounting" value="Accounting"><label for="accounting">Accounting</label></div>
+<div class="subject-option"><input type="checkbox" id="business" value="Business Studies"><label for="business">Business Studies</label></div>
+<div class="subject-option"><input type="checkbox" id="economics" value="Economics"><label for="economics">Economics</label></div>
+<div class="subject-option"><input type="checkbox" id="consumer" value="Consumer Studies"><label for="consumer">Consumer Studies</label></div>
+<div class="subject-option"><input type="checkbox" id="tourism" value="Tourism"><label for="tourism">Tourism</label></div>
+<div class="subject-option"><input type="checkbox" id="egd" value="Engineering Graphics and Design"><label for="egd">Engineering Graphics and Design</label></div>
+<div class="subject-option"><input type="checkbox" id="cat" value="CAT (Computer Applications Technology)"><label for="cat">CAT</label></div>
+<div class="subject-option"><input type="checkbox" id="lo" value="Life Orientation"><label for="lo">Life Orientation</label></div>
+</div>
 
-            <label>📚 My Subjects</label>
-            <p class="subjects-note">
-                Select your subjects. These are also used to find
-                relevant quizzes and Study Groups.
-            </p>
+<label for="goal">🎯 Study Goal</label>
+<textarea id="goal" maxlength="1000" placeholder="Example: Get 70% or higher in Mathematics"></textarea>
+<button type="submit" id="saveButton">💾 Save Profile</button>
+</form>
+<div class="message" id="message" role="status">✅ Profile saved successfully!</div>
+<div class="error-message" id="errorMessage" role="alert"></div>
+</section>
 
-            <div class="subjects">
-                <div class="subject-option"><input type="checkbox" id="maths" value="Mathematics"><label for="maths">Mathematics</label></div>
-                <div class="subject-option"><input type="checkbox" id="mathslit" value="Mathematical Literacy"><label for="mathslit">Mathematical Literacy</label></div>
-                <div class="subject-option"><input type="checkbox" id="technicalmaths" value="Technical Mathematics"><label for="technicalmaths">Technical Mathematics</label></div>
-                <div class="subject-option"><input type="checkbox" id="science" value="Physical Sciences"><label for="science">Physical Sciences</label></div>
-                <div class="subject-option"><input type="checkbox" id="technicalscience" value="Technical Science"><label for="technicalscience">Technical Science</label></div>
-                <div class="subject-option"><input type="checkbox" id="life" value="Life Sciences"><label for="life">Life Sciences</label></div>
-                <div class="subject-option"><input type="checkbox" id="agricultural" value="Agricultural Sciences"><label for="agricultural">Agricultural Sciences</label></div>
-                <div class="subject-option"><input type="checkbox" id="englishhl" value="English Home Language"><label for="englishhl">English Home Language</label></div>
-                <div class="subject-option"><input type="checkbox" id="englishfal" value="English Additional Language"><label for="englishfal">English Additional Language</label></div>
-                <div class="subject-option"><input type="checkbox" id="afrikaanshl" value="Afrikaans Home Language"><label for="afrikaanshl">Afrikaans Home Language</label></div>
-                <div class="subject-option"><input type="checkbox" id="afrikaansfal" value="Afrikaans First Additional Language"><label for="afrikaansfal">Afrikaans First Additional Language</label></div>
-                <div class="subject-option"><input type="checkbox" id="isizulu" value="IsiZulu"><label for="isizulu">IsiZulu</label></div>
-                <div class="subject-option"><input type="checkbox" id="sesotho" value="Sesotho"><label for="sesotho">Sesotho</label></div>
-                <div class="subject-option"><input type="checkbox" id="setswana" value="Setswana"><label for="setswana">Setswana</label></div>
-                <div class="subject-option"><input type="checkbox" id="sepedi" value="Sepedi"><label for="sepedi">Sepedi</label></div>
-                <div class="subject-option"><input type="checkbox" id="isixhosa" value="IsiXhosa"><label for="isixhosa">IsiXhosa</label></div>
-                <div class="subject-option"><input type="checkbox" id="isindebele" value="IsiNdebele"><label for="isindebele">IsiNdebele</label></div>
-                <div class="subject-option"><input type="checkbox" id="siswati" value="SiSwati"><label for="siswati">SiSwati</label></div>
-                <div class="subject-option"><input type="checkbox" id="tshivenda" value="Tshivenda"><label for="tshivenda">Tshivenda</label></div>
-                <div class="subject-option"><input type="checkbox" id="itsonga" value="itsonga"><label for="itsonga">itsonga</label></div>
-                <div class="subject-option"><input type="checkbox" id="geography" value="Geography"><label for="geography">Geography</label></div>
-                <div class="subject-option"><input type="checkbox" id="history" value="History"><label for="history">History</label></div>
-                <div class="subject-option"><input type="checkbox" id="accounting" value="Accounting"><label for="accounting">Accounting</label></div>
-                <div class="subject-option"><input type="checkbox" id="business" value="Business Studies"><label for="business">Business Studies</label></div>
-                <div class="subject-option"><input type="checkbox" id="economics" value="Economics"><label for="economics">Economics</label></div>
-                <div class="subject-option"><input type="checkbox" id="consumer" value="Consumer Studies"><label for="consumer">Consumer Studies</label></div>
-                <div class="subject-option"><input type="checkbox" id="tourism" value="Tourism"><label for="tourism">Tourism</label></div>
-                <div class="subject-option"><input type="checkbox" id="egd" value="Engineering Graphics and Design"><label for="egd">Engineering Graphics and Design</label></div>
-                <div class="subject-option"><input type="checkbox" id="cat" value="CAT (Computer Applications Technology)"><label for="cat">CAT</label></div>
-                <div class="subject-option"><input type="checkbox" id="lo" value="Life Orientation"><label for="lo">Life Orientation</label></div>
-            </div>
+<section class="card">
+<h3>📋 My Information</h3>
+<div class="info"><strong>Name</strong><span id="savedName">Not set</span></div>
+<div class="info"><strong>Grade</strong><span id="savedGrade">Grade 12</span></div>
+<div class="info"><strong>Province</strong><span id="savedProvince">Not set</span></div>
+<div class="info"><strong>Area / Town</strong><span id="savedArea">Not set</span></div>
+<div class="info"><strong>School</strong><span id="savedSchool">Not set</span></div>
+<div class="info"><strong>Subjects</strong><span id="savedSubjects">No subjects selected</span></div>
+<div class="info"><strong>Study Goal</strong><span id="savedGoal">Not set</span></div>
+</section>
 
-            <label for="goal">🎯 Study Goal</label>
-            <textarea id="goal" maxlength="1000"
-                placeholder="Example: Get 70% or higher in Mathematics"></textarea>
+<section class="card">
+<h3>🧠 Quiz Progress</h3>
+<div class="info"><strong>Completed Quiz Attempts</strong><span id="quizAttempts">Loading...</span></div>
+<div class="info"><strong>Average Score</strong><span id="quizAverage">Loading...</span></div>
+<div class="info"><strong>Questions Answered Correctly</strong><span id="quizCorrect">Loading...</span></div>
+<p style="margin-top:18px">Average performance: <strong id="quizPercent">0%</strong></p>
+<div class="progress-bar" id="quizProgressBar" role="progressbar" aria-label="Average quiz score" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+<div class="progress" id="quizProgress"></div>
+</div>
+<p class="muted" id="quizStatus" style="margin-top:12px">Loading your quiz progress...</p>
+</section>
 
-            <button type="submit" id="saveButton">💾 Save Profile</button>
-        </form>
+<section class="card">
+<h3>📊 Recent Quiz Results</h3>
+<div id="profileQuizHistory" aria-live="polite">Loading your results...</div>
+</section>
 
-        <div class="message" id="message" role="status">
-            ✅ Profile saved successfully!
-        </div>
-        <div class="error-message" id="errorMessage" role="alert"></div>
-    </section>
+<section class="card">
+<h3>💾 Saved Material</h3>
+<div class="info"><strong>Saved Papers</strong><span id="savedPapers">0 papers saved</span></div>
+<div class="info"><strong>Saved Notes</strong><span id="savedNotes">0 notes saved</span></div>
+</section>
 
-    <section class="card">
-        <h3>📋 My Information</h3>
-        <div class="info"><strong>Name</strong><span id="savedName">Not set</span></div>
-        <div class="info"><strong>Grade</strong><span id="savedGrade">Grade 12</span></div>
-        <div class="info"><strong>Province</strong><span id="savedProvince">Not set</span></div>
-        <div class="info"><strong>Area / Town</strong><span id="savedArea">Not set</span></div>
-        <div class="info"><strong>School</strong><span id="savedSchool">Not set</span></div>
-        <div class="info"><strong>Subjects</strong><span id="savedSubjects">No subjects selected</span></div>
-        <div class="info"><strong>Study Goal</strong><span id="savedGoal">Not set</span></div>
-    </section>
+<section class="card danger-zone">
+<h3>⚠️ Account Management</h3>
+<p class="muted">Account deletion is temporarily paused while we test the API. The safe test below never sends your real access token and does not delete an account.</p>
+<button type="button" class="safe-test-button" id="testDeleteApiBtn">🔎 Test Account API (Safe)</button>
+<p id="testDeleteApiResult" role="status" aria-live="polite"></p>
+<button type="button" id="deleteAccountBtn">🗑️ Delete My Account</button>
+<p class="delete-status" id="deleteAccountStatus" role="status" aria-live="polite"></p>
+</section>
 
-    <section class="card">
-        <h3>🧠 Quiz Progress</h3>
-
-        <div class="info"><strong>Completed Quiz Attempts</strong><span id="quizAttempts">Loading...</span></div>
-        <div class="info"><strong>Average Score</strong><span id="quizAverage">Loading...</span></div>
-        <div class="info"><strong>Questions Answered Correctly</strong><span id="quizCorrect">Loading...</span></div>
-
-        <p style="margin-top:18px;">
-            Average performance: <strong id="quizPercent">0%</strong>
-        </p>
-
-        <div class="progress-bar" role="progressbar"
-             aria-label="Average quiz score" aria-valuemin="0"
-             aria-valuemax="100" aria-valuenow="0" id="quizProgressBar">
-            <div class="progress" id="quizProgress"></div>
-        </div>
-
-        <p class="muted" id="quizStatus" style="margin-top:12px;">
-            Loading your quiz progress...
-        </p>
-    </section>
-
-    <section class="card">
-        <h3>📊 Recent Quiz Results</h3>
-        <div id="profileQuizHistory" aria-live="polite">
-            Loading your results...
-        </div>
-    </section>
-
-    <section class="card">
-        <h3>💾 Saved Material</h3>
-        <div class="info"><strong>Saved Papers</strong><span id="savedPapers">0 papers saved</span></div>
-        <div class="info"><strong>Saved Notes</strong><span id="savedNotes">0 notes saved</span></div>
-    </section>
-
-    <section class="card danger-zone" id="accountManagement">
-        <h3>⚠️ Account Management</h3>
-
-        <p class="muted">
-            Permanently delete your Grade 12 Hub account. This action
-            cannot be undone. Your profile and account-linked records
-            may be removed. Shared learning resources will remain available.
-        </p>
-
-        <!-- SAFE TEST BUTTON: does not use the real user's access token -->
-        <button type="button" id="testDeleteApiBtn"
-                class="safe-test-button">
-            🔎 Test Account API (Safe)
-        </button>
-
-        <p id="testDeleteApiResult" role="status" aria-live="polite"></p>
-
-        <button type="button" id="deleteAccountBtn">
-            🗑️ Delete My Account
-        </button>
-
-        <p class="delete-status" id="deleteAccountStatus"
-           role="status" aria-live="polite"></p>
-    </section>
-
-    <a href="index.html" class="back">← Back to Home</a>
+<a href="index.html" class="back">← Back to Home</a>
 </main>
 
 <footer>
-    <p>© 2026 Grade 12 Hub</p>
-    <p>Study smart. Stay focused. Succeed.</p>
+<p>© 2026 Grade 12 Hub</p>
+<p>Study smart. Stay focused. Succeed.</p>
 </footer>
 
 <script>
 "use strict";
 
-/* SUPABASE CONNECTION */
-
 const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
 const SUPABASE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
-
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 
-let currentUser = null;
-
-/* SUBJECT HELPERS */
-
-function getSelectedSubjects() {
-    return Array.from(
-        document.querySelectorAll(
-            '.subject-option input[type="checkbox"]:checked'
-        )
-    ).map(input => input.value);
+function getSubjects() {
+    return Array.from(document.querySelectorAll(".subject-option input:checked"))
+        .map(input => input.value);
 }
 
-function normaliseSubjects(value) {
+function parseSubjects(value) {
     if (Array.isArray(value)) return value;
-
     if (typeof value === "string") {
         try {
             const parsed = JSON.parse(value);
             return Array.isArray(parsed) ? parsed : [];
-        } catch {
-            return [];
-        }
+        } catch { return []; }
     }
-
     return [];
 }
 
-/* PROFILE DISPLAY */
+function showError(message) {
+    $("errorMessage").textContent = "❌ " + message;
+    $("errorMessage").style.display = "block";
+    $("message").style.display = "none";
+}
 
 function displayProfile() {
     const name = localStorage.getItem("grade12_name") || "";
-    const grade = localStorage.getItem("grade12_grade") || "Grade 12";
     const province = localStorage.getItem("grade12_province") || "";
     const area = localStorage.getItem("grade12_area") || "";
     const school = localStorage.getItem("grade12_school") || "";
     const goal = localStorage.getItem("grade12_goal") || "";
-
-    const subjects = normaliseSubjects(
-        localStorage.getItem("grade12_subjects") || "[]"
-    );
+    const subjects = parseSubjects(localStorage.getItem("grade12_subjects") || "[]");
 
     $("name").value = name;
-    $("grade").value = grade;
+    $("grade").value = "Grade 12";
     $("province").value = province;
     $("area").value = area;
     $("school").value = school;
@@ -522,20 +225,15 @@ function displayProfile() {
 
     $("displayName").textContent = name || "Grade 12 Learner";
     $("displayGoal").textContent = goal || "Set your study goal below";
-
     $("savedName").textContent = name || "Not set";
-    $("savedGrade").textContent = grade;
+    $("savedGrade").textContent = "Grade 12";
     $("savedProvince").textContent = province || "Not set";
     $("savedArea").textContent = area || "Not set";
     $("savedSchool").textContent = school || "Not set";
-    $("savedSubjects").textContent = subjects.length
-        ? subjects.join(", ")
-        : "No subjects selected";
+    $("savedSubjects").textContent = subjects.length ? subjects.join(", ") : "No subjects selected";
     $("savedGoal").textContent = goal || "Not set";
 
-    document.querySelectorAll(
-        '.subject-option input[type="checkbox"]'
-    ).forEach(input => {
+    document.querySelectorAll(".subject-option input").forEach(input => {
         input.checked = subjects.includes(input.value);
     });
 }
@@ -547,232 +245,151 @@ function cacheProfile(profile) {
     localStorage.setItem("grade12_area", profile.area || "");
     localStorage.setItem("grade12_school", profile.school || "");
     localStorage.setItem("grade12_goal", profile.study_goal || "");
-    localStorage.setItem(
-        "grade12_subjects",
-        JSON.stringify(normaliseSubjects(profile.subjects))
-    );
+    localStorage.setItem("grade12_subjects", JSON.stringify(parseSubjects(profile.subjects)));
 }
-
-/* LOAD PROFILE */
 
 async function loadProfile() {
     displayProfile();
 
-    try {
-        const { data, error } = await supabaseClient.auth.getUser();
-        if (error) throw error;
+    const { data, error } = await db.auth.getUser();
+    if (error) console.warn("Auth check:", error.message);
 
-        if (!data.user) {
-            showError("Please log in to load or save your profile.");
-            return;
-        }
+    if (!data?.user) return;
 
-        currentUser = data.user;
+    const { data: profile, error: profileError } = await db
+        .from("learner_profiles")
+        .select("user_id, full_name, grade, province, area, school, subjects, study_goal")
+        .eq("user_id", data.user.id)
+        .maybeSingle();
 
-        const { data: profile, error: profileError } =
-            await supabaseClient
-                .from("learner_profiles")
-                .select("user_id, full_name, grade, province, area, school, subjects, study_goal")
-                .eq("user_id", currentUser.id)
-                .maybeSingle();
+    if (profileError) {
+        console.error("Profile load:", profileError);
+        showError("Could not sync your profile. Your device copy remains visible.");
+        return;
+    }
 
-        if (profileError) throw profileError;
-
-        if (profile) {
-            cacheProfile(profile);
-            displayProfile();
-        }
-    } catch (error) {
-        console.error("Profile loading error:", error);
-        showError(
-            "Could not sync your profile. Your saved information on this device is still displayed."
-        );
+    if (profile) {
+        cacheProfile(profile);
+        displayProfile();
     }
 }
 
-/* SAVE PROFILE */
-
 $("profileForm").addEventListener("submit", async event => {
     event.preventDefault();
-
-    const saveButton = $("saveButton");
-    saveButton.disabled = true;
-    saveButton.textContent = "Saving...";
-    hideMessages();
+    $("saveButton").disabled = true;
+    $("saveButton").textContent = "Saving...";
+    $("message").style.display = "none";
+    $("errorMessage").style.display = "none";
 
     try {
-        const { data, error: authError } =
-            await supabaseClient.auth.getUser();
-
+        const { data, error: authError } = await db.auth.getUser();
         if (authError) throw authError;
+        if (!data.user) throw new Error("Please log in before saving your profile.");
 
-        if (!data.user) {
-            throw new Error("Please log in before saving your profile.");
-        }
-
-        currentUser = data.user;
-
-        const profileData = {
-            user_id: currentUser.id,
+        const profile = {
+            user_id: data.user.id,
             full_name: $("name").value.trim(),
             grade: 12,
             province: $("province").value,
             area: $("area").value.trim(),
             school: $("school").value.trim(),
-            subjects: getSelectedSubjects(),
+            subjects: getSubjects(),
             study_goal: $("goal").value.trim()
         };
 
-        const { error } = await supabaseClient
-            .from("learner_profiles")
-            .upsert(profileData, { onConflict: "user_id" });
+        const { error } = await db.from("learner_profiles")
+            .upsert(profile, { onConflict: "user_id" });
 
         if (error) throw error;
 
-        cacheProfile(profileData);
+        cacheProfile(profile);
         displayProfile();
-
         $("message").textContent = "✅ Profile saved successfully!";
         $("message").style.display = "block";
     } catch (error) {
-        console.error("Profile save error:", error);
+        console.error("Profile save:", error);
         showError(error.message || "Could not save your profile.");
     } finally {
-        saveButton.disabled = false;
-        saveButton.textContent = "💾 Save Profile";
+        $("saveButton").disabled = false;
+        $("saveButton").textContent = "💾 Save Profile";
     }
 });
 
-/* MESSAGES */
-
-function hideMessages() {
-    $("message").style.display = "none";
-    $("errorMessage").style.display = "none";
-}
-
-function showError(messageText) {
-    $("errorMessage").textContent = "❌ " + messageText;
-    $("errorMessage").style.display = "block";
-}
-
-/* QUIZ PROGRESS */
-
 async function loadQuizProgress() {
-    const attemptsElement = $("quizAttempts");
-    const averageElement = $("quizAverage");
-    const correctElement = $("quizCorrect");
-    const percentElement = $("quizPercent");
-    const progressElement = $("quizProgress");
-    const progressBar = $("quizProgressBar");
-    const statusElement = $("quizStatus");
-    const historyElement = $("profileQuizHistory");
-
     try {
-        const { data: authData, error: authError } =
-            await supabaseClient.auth.getUser();
-
+        const { data: authData, error: authError } = await db.auth.getUser();
         if (authError) throw authError;
 
         if (!authData.user) {
-            attemptsElement.textContent = "Sign in required";
-            averageElement.textContent = "—";
-            correctElement.textContent = "—";
-            percentElement.textContent = "0%";
-            progressElement.style.width = "0%";
-            progressBar.setAttribute("aria-valuenow", "0");
-            statusElement.textContent =
-                "Please log in to see your quiz progress.";
-            historyElement.textContent =
-                "Log in and complete a quiz to see your results.";
+            $("quizAttempts").textContent = "Sign in required";
+            $("quizAverage").textContent = "—";
+            $("quizCorrect").textContent = "—";
+            $("quizPercent").textContent = "0%";
+            $("quizProgress").style.width = "0%";
+            $("quizStatus").textContent = "Please log in to see your quiz progress.";
+            $("profileQuizHistory").textContent = "Log in and complete a quiz to see your results.";
             return;
         }
 
-        const { data: attempts, error } = await supabaseClient
-            .from("quiz_attempts")
+        const { data: attempts, error } = await db.from("quiz_attempts")
             .select("id, quiz_id, score, total_questions, completed_at")
             .eq("user_id", authData.user.id)
             .order("completed_at", { ascending: false });
 
         if (error) throw error;
 
-        const results = attempts || [];
-
-        if (!results.length) {
-            attemptsElement.textContent = "0";
-            averageElement.textContent = "—";
-            correctElement.textContent = "0 / 0";
-            percentElement.textContent = "0%";
-            progressElement.style.width = "0%";
-            progressBar.setAttribute("aria-valuenow", "0");
-            statusElement.textContent =
-                "Complete your first quiz to start tracking progress.";
-            historyElement.textContent =
-                "No quiz results yet. Visit Quiz Centre to get started.";
+        const rows = attempts || [];
+        if (!rows.length) {
+            $("quizAttempts").textContent = "0";
+            $("quizAverage").textContent = "—";
+            $("quizCorrect").textContent = "0 / 0";
+            $("quizPercent").textContent = "0%";
+            $("quizProgress").style.width = "0%";
+            $("quizProgressBar").setAttribute("aria-valuenow", "0");
+            $("quizStatus").textContent = "Complete your first quiz to start tracking progress.";
+            $("profileQuizHistory").textContent = "No quiz results yet. Visit Quiz Centre to get started.";
             return;
         }
 
-        let totalCorrect = 0;
-        let totalQuestions = 0;
+        let correct = 0;
+        let total = 0;
 
-        results.forEach(attempt => {
-            const score = Number(attempt.score);
-            const total = Number(attempt.total_questions);
-
-            if (
-                Number.isFinite(score) &&
-                Number.isFinite(total) &&
-                total > 0 &&
-                score >= 0 &&
-                score <= total
-            ) {
-                totalCorrect += score;
-                totalQuestions += total;
+        rows.forEach(row => {
+            const score = Number(row.score);
+            const count = Number(row.total_questions);
+            if (Number.isFinite(score) && Number.isFinite(count) &&
+                count > 0 && score >= 0 && score <= count) {
+                correct += score;
+                total += count;
             }
         });
 
-        const percentage = totalQuestions > 0
-            ? Math.round(totalCorrect / totalQuestions * 100)
-            : 0;
+        const percentage = total ? Math.round(correct / total * 100) : 0;
+        $("quizAttempts").textContent = String(rows.length);
+        $("quizAverage").textContent = total ? percentage + "%" : "—";
+        $("quizCorrect").textContent = correct + " / " + total;
+        $("quizPercent").textContent = percentage + "%";
+        $("quizProgress").style.width = percentage + "%";
+        $("quizProgressBar").setAttribute("aria-valuenow", String(percentage));
+        $("quizStatus").textContent = "Average calculated from saved quiz attempts.";
 
-        attemptsElement.textContent = String(results.length);
-        averageElement.textContent =
-            totalQuestions > 0 ? percentage + "%" : "—";
-        correctElement.textContent =
-            totalCorrect + " / " + totalQuestions;
-        percentElement.textContent = percentage + "%";
-        progressElement.style.width = percentage + "%";
-        progressBar.setAttribute("aria-valuenow", String(percentage));
+        const ids = [...new Set(rows.map(row => row.quiz_id).filter(Boolean))];
+        let quizMap = {};
 
-        statusElement.textContent =
-            "Your average is calculated from all valid saved quiz attempts.";
+        if (ids.length) {
+            const { data: quizzes, error: quizError } = await db
+                .from("quizzes").select("id, title, subject").in("id", ids);
 
-        const quizIds = [
-            ...new Set(
-                results.map(item => item.quiz_id).filter(id => id != null)
-            )
-        ];
-
-        const quizMap = {};
-
-        if (quizIds.length) {
-            const { data: quizzes, error: quizError } = await supabaseClient
-                .from("quizzes")
-                .select("id, title, subject")
-                .in("id", quizIds);
-
-            if (quizError) {
-                console.warn("Could not load quiz names:", quizError);
-            } else {
-                (quizzes || []).forEach(quiz => {
-                    quizMap[String(quiz.id)] = quiz;
-                });
+            if (!quizError) {
+                (quizzes || []).forEach(quiz => quizMap[String(quiz.id)] = quiz);
             }
         }
 
-        historyElement.replaceChildren();
+        const history = $("profileQuizHistory");
+        history.replaceChildren();
 
-        results.slice(0, 5).forEach(attempt => {
-            const quiz = quizMap[String(attempt.quiz_id)];
+        rows.slice(0, 5).forEach(row => {
+            const quiz = quizMap[String(row.quiz_id)];
             const item = document.createElement("div");
             item.className = "info";
 
@@ -780,140 +397,101 @@ async function loadQuizProgress() {
             title.textContent = quiz?.title || "Quiz";
 
             const details = document.createElement("span");
-            const score = Number(attempt.score) || 0;
-            const total = Number(attempt.total_questions) || 0;
-            const subject = quiz?.subject ? " · " + quiz.subject : "";
-            const date = attempt.completed_at
-                ? new Date(attempt.completed_at).toLocaleDateString()
+            const date = row.completed_at
+                ? new Date(row.completed_at).toLocaleDateString()
                 : "Date unavailable";
 
             details.textContent =
-                score + " / " + total + " correct" +
-                subject + " · " + date;
+                (Number(row.score) || 0) + " / " +
+                (Number(row.total_questions) || 0) + " correct" +
+                (quiz?.subject ? " · " + quiz.subject : "") +
+                " · " + date;
 
             item.append(title, details);
-            historyElement.appendChild(item);
+            history.appendChild(item);
         });
     } catch (error) {
-        console.error("Quiz progress error:", error);
-        statusElement.textContent =
-            "Could not load quiz progress. Check your database tables and permissions.";
-        historyElement.textContent =
-            "Your quiz history could not be loaded.";
+        console.error("Quiz progress:", error);
+        $("quizStatus").textContent = "Could not load quiz progress. Check your table names and permissions.";
+        $("profileQuizHistory").textContent = "Quiz history could not be loaded.";
     }
 }
-
-/* SAVED MATERIAL COUNTS */
 
 function loadSavedMaterialCounts() {
     try {
-        const papers = JSON.parse(
-            localStorage.getItem("grade12_saved_papers") || "[]"
-        );
-        const notes = JSON.parse(
-            localStorage.getItem("grade12_saved_notes") || "[]"
-        );
-
-        $("savedPapers").textContent =
-            (Array.isArray(papers) ? papers.length : 0) + " papers saved";
-
-        $("savedNotes").textContent =
-            (Array.isArray(notes) ? notes.length : 0) + " notes saved";
+        const papers = JSON.parse(localStorage.getItem("grade12_saved_papers") || "[]");
+        const notes = JSON.parse(localStorage.getItem("grade12_saved_notes") || "[]");
+        $("savedPapers").textContent = (Array.isArray(papers) ? papers.length : 0) + " papers saved";
+        $("savedNotes").textContent = (Array.isArray(notes) ? notes.length : 0) + " notes saved";
     } catch (error) {
-        console.warn("Saved material counts unavailable:", error);
+        console.warn("Saved material counts:", error);
     }
 }
 
-/* SAFE API CONNECTION TEST */
-
+/* SAFE TEST: invalid token only; never sends the real user's session. */
 $("testDeleteApiBtn").addEventListener("click", async () => {
     const button = $("testDeleteApiBtn");
     const output = $("testDeleteApiResult");
-
     button.disabled = true;
     output.style.color = "#222";
-    output.textContent = "Testing connection safely...";
+    output.textContent = "Testing API safely...";
 
     try {
-        // This deliberately invalid token must be rejected by the server.
-        // Never replace it with the real user's token.
         const response = await fetch("/api/delete-account", {
             method: "POST",
             headers: {
                 "Authorization": "Bearer invalid-test-token",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                confirmation: "TEST_ONLY"
-            })
+            body: JSON.stringify({ confirmation: "TEST_ONLY" })
         });
 
         let result = {};
-
         try {
             result = await response.json();
         } catch {
-            throw new Error(
-                "The API response was not valid JSON. Check the Vercel logs."
-            );
+            throw new Error("API did not return JSON. Check the Vercel logs.");
         }
 
         if (response.status === 401) {
             output.style.color = "#166534";
-            output.textContent =
-                "✅ Connection works. The API correctly rejected the invalid test token. No account was deleted.";
+            output.textContent = "✅ API is reachable and rejects invalid tokens. No account was deleted. This does not yet verify a real session.";
         } else if (response.status === 403) {
             output.style.color = "#dc2626";
-            output.textContent =
-                "The API rejected this website's origin. Check the allowedOrigins list in api/delete-account.js.";
+            output.textContent = "❌ The API rejected this website's origin. Check allowedOrigins in api/delete-account.js.";
         } else {
             output.style.color = "#b45309";
-            output.textContent =
-                "Received HTTP " + response.status + ": " +
+            output.textContent = "API returned HTTP " + response.status + ": " +
                 (result.error || "Unexpected response.") +
-                " No valid user token was sent. Do not test real deletion yet.";
+                ". No real access token was sent.";
         }
     } catch (error) {
-        console.error("Safe API diagnostic failed:", error);
+        console.error("API safe test:", error);
         output.style.color = "#dc2626";
-        output.textContent =
-            "❌ The browser could not complete the API request. Check that this page is on grade12-app.vercel.app, then inspect the Vercel logs.";
+        output.textContent = "❌ Could not reach the API. Open the deployed Vercel site and check your deployment and function logs.";
     } finally {
         button.disabled = false;
     }
 });
 
-/* DELETE ACCOUNT */
-
-const deleteAccountBtn = $("deleteAccountBtn");
-const deleteAccountStatus = $("deleteAccountStatus");
-
-function showDeleteAccountStatus(message, isError = false) {
-    deleteAccountStatus.textContent = message;
-    deleteAccountStatus.style.display = "block";
-    deleteAccountStatus.style.color = isError ? "#dc2626" : "#166534";
-}
-
-deleteAccountBtn.addEventListener("click", async () => {
-    // Real deletion is intentionally disabled during troubleshooting.
-    // Do not enable this until the server has a tested dry-run mode,
-    // validates confirmation itself, and the cleanup has been reviewed.
-    showDeleteAccountStatus(
-        "Account deletion is temporarily paused while the connection and cleanup process are being tested.",
-        true
-    );
+/* REAL ACCOUNT DELETION IS PAUSED DURING TESTING. */
+$("deleteAccountBtn").addEventListener("click", () => {
+    $("deleteAccountStatus").style.color = "#dc2626";
+    $("deleteAccountStatus").textContent =
+        "Account deletion is temporarily paused. Complete and verify the safe API and database cleanup tests before enabling deletion.";
 });
-
-/* INITIALISE PAGE */
 
 displayProfile();
 loadSavedMaterialCounts();
 
-(async function initialiseProfile() {
-    await loadProfile();
+(async function init() {
+    try {
+        await loadProfile();
+    } catch (error) {
+        console.error("Profile initialisation:", error);
+    }
     await loadQuizProgress();
 })();
 </script>
-
 </body>
 </html>
