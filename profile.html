@@ -44,6 +44,10 @@ button:disabled{background:#999;cursor:wait}
 .danger-zone button.safe-test-button{background:#2563eb}
 .delete-status,#testDeleteApiResult{display:block;margin-top:12px;line-height:1.5;overflow-wrap:anywhere;font-weight:bold}
 #testDeleteApiResult{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;font-family:Arial,sans-serif}
+.signout-card{border:1px solid #c7d2fe}
+.signout-card h3{color:#4f46e5}
+.signout-button{background:#374151}
+.signout-status{display:block;margin-top:10px;line-height:1.5;overflow-wrap:anywhere}
 footer{text-align:center;padding:25px;color:#666;font-size:14px}
 @media(max-width:600px){.subjects{grid-template-columns:1fr}.container{padding:14px}.card{padding:17px}header h1{font-size:26px}}
 </style>
@@ -173,9 +177,16 @@ footer{text-align:center;padding:25px;color:#666;font-size:14px}
 <div class="info"><strong>Saved Notes</strong><span id="savedNotes">0 notes saved</span></div>
 </section>
 
+<section class="card signout-card">
+<h3>🚪 Sign Out</h3>
+<p class="muted">Sign out of your current learner account on this device. This will not delete your account or saved information.</p>
+<button type="button" class="signout-button" id="signOutBtn">🚪 Sign Out</button>
+<p class="signout-status" id="signOutStatus" role="status" aria-live="polite"></p>
+</section>
+
 <section class="card danger-zone">
-<h3></h3>⚠️ Account Management</h3>
-<p class="muted">Account deletion is paused during testing. The safe test uses an intentionally invalid token and does not delete an account or change database records.</p>
+<h3>⚠️ Account Management</h3>
+<p class="muted">Account deletion is paused during testing. The safe test checks authentication and administrator protection without deleting records.</p>
 <button type="button" class="safe-test-button" id="testDeleteApiBtn">🔎 Test Account API (Safe)</button>
 <p id="testDeleteApiResult" role="status" aria-live="polite"></p>
 <button type="button" id="deleteAccountBtn">🗑️ Delete My Account</button>
@@ -470,12 +481,43 @@ function loadSavedMaterialCounts() {
     }
 }
 
-/*
- * SAFE API DIAGNOSTIC
- * Tests the current signed-in learner's session.
- * Sends dryRun: true, so no database records are changed.
- * Actual account deletion remains disabled on the server.
- */
+/* SIGN OUT: ends the Supabase session; does not delete account data. */
+$("signOutBtn").addEventListener("click", async () => {
+    const button = $("signOutBtn");
+    const status = $("signOutStatus");
+
+    button.disabled = true;
+    status.style.color = "#374151";
+    status.textContent = "Signing out...";
+
+    try {
+        const { error } = await db.auth.signOut();
+        if (error) throw error;
+
+        // Clear only cached profile display data for this browser.
+        // This does not delete any database records.
+        [
+            "grade12_name",
+            "grade12_grade",
+            "grade12_province",
+            "grade12_area",
+            "grade12_school",
+            "grade12_goal",
+            "grade12_subjects"
+        ].forEach(key => localStorage.removeItem(key));
+
+        status.textContent = "Signed out successfully. Returning to the home page...";
+        window.location.replace("index.html");
+    } catch (error) {
+        console.error("Sign out failed:", error);
+        status.style.color = "#dc2626";
+        status.textContent =
+            error?.message || "Sign out failed. Please try again.";
+        button.disabled = false;
+    }
+});
+
+/* SAFE ACCOUNT API TEST: no database records are changed. */
 $("testDeleteApiBtn").addEventListener("click", async () => {
     const button = $("testDeleteApiBtn");
     const output = $("testDeleteApiResult");
@@ -485,9 +527,7 @@ $("testDeleteApiBtn").addEventListener("click", async () => {
     output.textContent = "Checking your login and API safely...";
 
     try {
-        // Get the current signed-in session.
         const { data, error } = await db.auth.getSession();
-
         if (error) throw error;
 
         const session = data?.session;
@@ -495,26 +535,20 @@ $("testDeleteApiBtn").addEventListener("click", async () => {
         if (!session?.access_token) {
             output.style.color = "#b45309";
             output.textContent =
-                "You are not signed in. Please log in to Grade 12 Hub, " +
-                "return to My Profile, and try again.";
+                "You are not signed in. Please log in and try again.";
             return;
         }
 
-        // This request validates the real session.
-        // dryRun prevents database changes.
         const response = await fetch("/api/delete-account", {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + session.access_token,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                dryRun: true
-            })
+            body: JSON.stringify({ dryRun: true })
         });
 
         const responseText = await response.text();
-
         let result;
 
         try {
@@ -537,33 +571,26 @@ $("testDeleteApiBtn").addEventListener("click", async () => {
             output.style.color = "#166534";
         } else {
             output.style.color =
-                response.status === 401 ||
-                response.status === 403
+                response.status === 401 || response.status === 403
                     ? "#dc2626"
                     : "#b45309";
         }
     } catch (error) {
         console.error("Safe account API test failed:", error);
-
         output.style.color = "#dc2626";
         output.textContent =
             "The safe test could not finish: " +
-            (error?.message || "Unknown error") +
-            "\n\nCheck your connection and sign-in status.";
+            (error?.message || "Unknown error");
     } finally {
         button.disabled = false;
     }
 });
 
-
-
-        
-
-/* REAL ACCOUNT DELETION REMAINS DISABLED */
+/* ACTUAL ACCOUNT DELETION IS STILL DISABLED. */
 $("deleteAccountBtn").addEventListener("click", () => {
     $("deleteAccountStatus").style.color = "#dc2626";
     $("deleteAccountStatus").textContent =
-        "Account deletion is temporarily paused. Finish the API and database tests before enabling deletion.";
+        "Account deletion is temporarily paused. No account was deleted.";
 });
 
 displayProfile();
