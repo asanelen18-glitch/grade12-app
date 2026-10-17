@@ -8,6 +8,7 @@ const SUPABASE_SERVICE_ROLE_KEY =
 const ALLOWED_ORIGINS = new Set([
   "https://grade12-app.vercel.app",
   "https://asanelen18-glitch.github.io"
+  "https://grade12-ibdm8h9qv-grade-12-hub.vercel.app
 ]);
 
 // Keep false during testing. Do not enable until reviewed.
