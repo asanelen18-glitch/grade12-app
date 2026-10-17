@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "grade12-hub-v3";
+const CACHE_NAME = "grade12-hub-v1";
 
 const FILES_TO_CACHE = [
     "/",
