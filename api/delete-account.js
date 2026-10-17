@@ -1,34 +1,23 @@
 
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY =
+  process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const allowedOrigins = new Set([
+const ALLOWED_ORIGINS = new Set([
   "https://grade12-app.vercel.app",
   "https://asanelen18-glitch.github.io"
 ]);
 
+// Keep actual account deletion disabled until the database
+// cleanup has been verified against the real schema.
+const REAL_DELETION_ENABLED = false;
+
 export default async function handler(req, res) {
   const origin = req.headers.origin;
 
-  // Check the request origin before processing anything.
-  
-if (origin && !allowedOrigins.has(origin)) {
-  return res.status(403).json({
-    error: "This website is not allowed to use this endpoint.",
-    receivedOrigin: origin,
-    allowedOrigins: Array.from(allowedOrigins),
-    deletionPerformed: false
-  });
-}
-
-
-  if (origin) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader("Vary", "Origin");
-  }
-
+  res.setHeader("Cache-Control", "no-store");
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS"
@@ -37,24 +26,39 @@ if (origin && !allowedOrigins.has(origin)) {
     "Access-Control-Allow-Headers",
     "Authorization, Content-Type"
   );
-  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Vary", "Origin");
 
-  // CORS preflight: no data is changed.
+  // Reject browser requests from unapproved origins.
+  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+    return res.status(403).json({
+      success: false,
+      error: "This website is not allowed to use this endpoint.",
+      deletionPerformed: false
+    });
+  }
+
+  if (origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+
+  // CORS preflight does not access or change account data.
   if (req.method === "OPTIONS") {
     return res.status(204).end();
   }
 
-  // Safe endpoint health check.
+  // Safe deployment health check only.
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
       endpoint: "delete-account",
+      realDeletionEnabled: REAL_DELETION_ENABLED,
       deletionPerformed: false
     });
   }
 
   if (req.method !== "POST") {
     res.setHeader("Allow", "GET, POST, OPTIONS");
+
     return res.status(405).json({
       success: false,
       error: "Method not allowed.",
@@ -62,8 +66,8 @@ if (origin && !allowedOrigins.has(origin)) {
     });
   }
 
-  // Verify server configuration.
-  if (!supabaseUrl || !serviceRoleKey) {
+  // Validate server configuration.
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     return res.status(500).json({
       success: false,
       error: "Account deletion is not configured on the server.",
@@ -71,17 +75,18 @@ if (origin && !allowedOrigins.has(origin)) {
     });
   }
 
-  const projectUrl = supabaseUrl.trim();
+  const projectUrl = SUPABASE_URL.trim();
 
   if (!/^https:\/\/[^/]+\/?$/.test(projectUrl)) {
     return res.status(500).json({
       success: false,
-      error: "SUPABASE_URL must be the project base URL without an API path.",
+      error:
+        "SUPABASE_URL must be the project base URL without an API path.",
       deletionPerformed: false
     });
   }
 
-  // Require the signed-in user's access token.
+  // Require the signed-in learner's access token.
   const authorization = req.headers.authorization || "";
   const token = authorization.startsWith("Bearer ")
     ? authorization.slice(7).trim()
@@ -97,7 +102,7 @@ if (origin && !allowedOrigins.has(origin)) {
 
   const supabase = createClient(
     projectUrl.replace(/\/$/, ""),
-    serviceRoleKey,
+    SUPABASE_SERVICE_ROLE_KEY,
     {
       auth: {
         persistSession: false,
@@ -107,126 +112,66 @@ if (origin && !allowedOrigins.has(origin)) {
   );
 
   try {
-    // Verify the token with Supabase.
-    const { data: userData, error: userError } =
-      await supabase.auth.getUser(token);
+    // Verify the access token with Supabase Auth.
+    const { data, error } = await supabase.auth.getUser(token);
 
-    if (userError || !userData?.user?.id) {
+    if (error || !data?.user?.id) {
       return res.status(401).json({
         success: false,
-        error: "Your session has expired. Please sign in again.",
+        error: "Your session is invalid or expired. Please sign in again.",
         deletionPerformed: false
       });
     }
 
-    const userId = userData.user.id;
+    // Do not accept a user ID supplied by the browser.
+    // The account ID always comes from the verified token.
+    const userId = data.user.id;
 
-    // SAFE TEST:
-    // POST {"dryRun":true} validates the authenticated session.
-    // It does not delete, update, or insert any database records.
+    // Safe test: validates authentication without changing data.
     if (req.body?.dryRun === true) {
       return res.status(200).json({
         success: true,
         dryRun: true,
         authenticated: true,
         deletionPerformed: false,
-        message: "API connection and authentication test passed. No data was changed."
+        message:
+          "Authentication test passed. No account or database records were changed."
       });
     }
 
-    // Require explicit confirmation for real deletion.
-    if (req.body?.confirmation !== "DELETE") {
-      return res.status(400).json({
+    // Keep destructive actions blocked until every table,
+    // column, relationship and cleanup rule has been verified.
+    if (!REAL_DELETION_ENABLED) {
+      return res.status(409).json({
         success: false,
-        error: "Explicit account deletion confirmation is required.",
-        deletionPerformed: false
-      });
-    }
-
-    async function deleteOwnRows(table, column = "user_id") {
-      const { error } = await supabase
-        .from(table)
-        .delete()
-        .eq(column, userId);
-
-      if (error) {
-        console.error(
-          `Account cleanup failed for ${table}:`,
-          error.message
-        );
-        throw new Error(`Could not clean up ${table}.`);
-      }
-    }
-
-    async function anonymiseRows(table, column) {
-      const { error } = await supabase
-        .from(table)
-        .update({ [column]: null })
-        .eq(column, userId);
-
-      if (error) {
-        console.error(
-          `Anonymisation failed for ${table}.${column}:`,
-          error.message
-        );
-        throw new Error(`Could not anonymise ${table}.${column}.`);
-      }
-    }
-
-    // Preserve reports but remove links to this account.
-    await anonymiseRows("user_reports", "reporter_id");
-    await anonymiseRows("user_reports", "reported_user_id");
-
-    // Preserve moderation history without this account link.
-    await anonymiseRows("moderation_actions", "user_id");
-
-    // Remove this user's personal records and activity.
-    await deleteOwnRows("study_messages");
-    await deleteOwnRows("study_group_members");
-    await deleteOwnRows("quiz_attempts");
-    await deleteOwnRows("study_planner_items");
-    await deleteOwnRows("study_plans");
-    await deleteOwnRows("study_sessions");
-    await deleteOwnRows("push_subscriptions");
-    await deleteOwnRows("terms_acceptance");
-    await deleteOwnRows("user_moderation_status");
-    await deleteOwnRows("admin_users");
-
-    // Tables using different account ID columns.
-    await deleteOwnRows("profiles", "id");
-    await deleteOwnRows("learner_profiles", "user_id");
-
-    // Delete the login account last.
-    const { error: deleteError } =
-      await supabase.auth.admin.deleteUser(userId);
-
-    if (deleteError) {
-      console.error(
-        "Auth account deletion failed:",
-        deleteError.message
-      );
-
-      return res.status(500).json({
-        success: false,
-        deletionPerformed: "partial",
+        deletionEnabled: false,
+        deletionPerformed: false,
         error:
-          "Some personal records may already have been changed, but the login account could not be deleted. Do not retry immediately; review the account and database first."
+          "Account deletion is temporarily unavailable while the database cleanup is being verified. No records were changed."
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      deletionPerformed: true,
-      message: "Your account and personal records have been deleted."
+    // Intentionally no destructive operations here yet.
+    // Do not enable REAL_DELETION_ENABLED until a verified,
+    // safe cleanup implementation has been added.
+
+    return res.status(409).json({
+      success: false,
+      deletionPerformed: false,
+      error:
+        "The account deletion procedure has not been configured."
     });
   } catch (error) {
-    console.error("Account deletion failed:", error.message);
+    // Do not send secrets, tokens or internal error details to the browser.
+    console.error(
+      "Account deletion endpoint error:",
+      error?.message || "Unknown error"
+    );
 
     return res.status(500).json({
       success: false,
-      deletionPerformed: "unknown",
-      error:
-        "Account cleanup did not finish. Some records may already have been changed. Review the database before retrying."
+      error: "The request could not be completed. No deletion was attempted.",
+      deletionPerformed: false
     });
   }
 }
