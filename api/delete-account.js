@@ -10,11 +10,13 @@ const ALLOWED_ORIGINS = new Set([
   "https://asanelen18-glitch.github.io"
 ]);
 
-// Keep actual account deletion disabled until the database
-// cleanup has been verified against the real schema.
+// Keep false during testing. Do not enable until reviewed.
 const REAL_DELETION_ENABLED = false;
 
 export default async function handler(req, res) {
+  let profileRemoved = false;
+  let authAccountDeleted = false;
+
   const origin = req.headers.origin;
 
   res.setHeader("Cache-Control", "no-store");
@@ -28,7 +30,6 @@ export default async function handler(req, res) {
   );
   res.setHeader("Vary", "Origin");
 
-  // Reject browser requests from unapproved origins.
   if (origin && !ALLOWED_ORIGINS.has(origin)) {
     return res.status(403).json({
       success: false,
@@ -41,12 +42,10 @@ export default async function handler(req, res) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
-  // CORS preflight does not access or change account data.
   if (req.method === "OPTIONS") {
     return res.status(204).end();
   }
 
-  // Safe deployment health check only.
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
@@ -66,7 +65,6 @@ export default async function handler(req, res) {
     });
   }
 
-  // Validate server configuration.
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
     return res.status(500).json({
       success: false,
@@ -86,7 +84,6 @@ export default async function handler(req, res) {
     });
   }
 
-  // Require the signed-in learner's access token.
   const authorization = req.headers.authorization || "";
   const token = authorization.startsWith("Bearer ")
     ? authorization.slice(7).trim()
@@ -112,8 +109,9 @@ export default async function handler(req, res) {
   );
 
   try {
-    // Verify the access token with Supabase Auth.
-    const { data, error } = await supabase.auth.getUser(token);
+    // Verify the signed-in learner.
+    const { data, error } =
+      await supabase.auth.getUser(token);
 
     if (error || !data?.user?.id) {
       return res.status(401).json({
@@ -123,46 +121,136 @@ export default async function handler(req, res) {
       });
     }
 
-    // Do not accept a user ID supplied by the browser.
-    // The account ID always comes from the verified token.
+    // Only use the ID from the verified Supabase session.
     const userId = data.user.id;
 
-    // Safe test: validates authentication without changing data.
+    // Fail closed if administrator status cannot be checked.
+    const { data: admin, error: adminError } =
+      await supabase
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", userId)
+        .maybeSingle();
+
+    if (adminError) {
+      console.error(
+        "Administrator protection check failed:",
+        adminError.message
+      );
+
+      return res.status(500).json({
+        success: false,
+        error:
+          "We could not verify account permissions. No deletion was attempted.",
+        deletionPerformed: false
+      });
+    }
+
+    if (admin) {
+      return res.status(403).json({
+        success: false,
+        error:
+          "Administrator accounts cannot be deleted through this feature.",
+        deletionPerformed: false
+      });
+    }
+
+    // Safe test: no database records are changed.
     if (req.body?.dryRun === true) {
       return res.status(200).json({
         success: true,
         dryRun: true,
         authenticated: true,
+        administratorCheckPassed: true,
         deletionPerformed: false,
         message:
-          "Authentication test passed. No account or database records were changed."
+          "Authentication and administrator checks passed. No records were changed."
       });
     }
 
-    // Keep destructive actions blocked until every table,
-    // column, relationship and cleanup rule has been verified.
+    // Destructive operations remain blocked.
     if (!REAL_DELETION_ENABLED) {
       return res.status(409).json({
         success: false,
         deletionEnabled: false,
         deletionPerformed: false,
         error:
-          "Account deletion is temporarily unavailable while the database cleanup is being verified. No records were changed."
+          "Account deletion is not enabled yet. No records were changed."
       });
     }
 
-    // Intentionally no destructive operations here yet.
-    // Do not enable REAL_DELETION_ENABLED until a verified,
-    // safe cleanup implementation has been added.
+    // Require an explicit confirmation from the learner.
+    if (req.body?.confirmDelete !== "DELETE_MY_ACCOUNT") {
+      return res.status(400).json({
+        success: false,
+        deletionPerformed: false,
+        error:
+          "Explicit account-deletion confirmation is required."
+      });
+    }
 
-    return res.status(409).json({
-      success: false,
-      deletionPerformed: false,
-      error:
-        "The account deletion procedure has not been configured."
+    // Remove the standalone profile row first.
+    // This table has no verified foreign key to auth.users.
+    const { data: removedProfiles, error: profileError } =
+      await supabase
+        .from("profiles")
+        .delete()
+        .eq("id", userId)
+        .select("id");
+
+    if (profileError) {
+      console.error(
+        "Profile cleanup failed:",
+        profileError.message
+      );
+
+      return res.status(500).json({
+        success: false,
+        deletionPerformed: false,
+        profileRemoved: false,
+        authAccountDeleted: false,
+        error:
+          "Profile cleanup failed. The account was not deleted."
+      });
+    }
+
+    profileRemoved =
+      Array.isArray(removedProfiles) &&
+      removedProfiles.length > 0;
+
+    // Delete the verified Auth account.
+    // Verified foreign-key rules handle related database rows.
+    const { error: deleteAuthError } =
+      await supabase.auth.admin.deleteUser(userId);
+
+    if (deleteAuthError) {
+      console.error(
+        "Auth account deletion failed:",
+        deleteAuthError.message
+      );
+
+      return res.status(500).json({
+        success: false,
+        deletionPerformed: profileRemoved,
+        profileRemoved,
+        authAccountDeleted: false,
+        error: profileRemoved
+          ? "The profile record was removed, but the account was not deleted. Please contact support before trying again."
+          : "The account was not deleted. Please try again later."
+      });
+    }
+
+    authAccountDeleted = true;
+
+    return res.status(200).json({
+      success: true,
+      deletionPerformed: true,
+      profileRemoved,
+      authAccountDeleted: true,
+      message:
+        "Your account was deleted. You can register again with a new account."
     });
   } catch (error) {
-    // Do not send secrets, tokens or internal error details to the browser.
     console.error(
       "Account deletion endpoint error:",
       error?.message || "Unknown error"
@@ -170,8 +258,12 @@ export default async function handler(req, res) {
 
     return res.status(500).json({
       success: false,
-      error: "The request could not be completed. No deletion was attempted.",
-      deletionPerformed: false
+      deletionPerformed:
+        profileRemoved || authAccountDeleted,
+      profileRemoved,
+      authAccountDeleted,
+      error:
+        "The request encountered an error. Check the result before retrying."
     });
   }
 }
