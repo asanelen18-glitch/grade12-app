@@ -10,7 +10,7 @@ const ALLOWED_ORIGINS = new Set([
   "https://asanelen18-glitch.github.io"
 ]);
 
-// Keep disabled until the trigger and deployment are verified.
+// Real deletion is enabled. Test with a separate learner account only.
 const REAL_DELETION_ENABLED = true;
 
 function sendError(res, status, error, extra = {}) {
@@ -123,7 +123,7 @@ export default async function handler(req, res) {
   );
 
   try {
-    // Verify the actual Supabase session.
+    // Verify the actual signed-in Supabase user.
     const { data: authData, error: authError } =
       await supabase.auth.getUser(token);
 
@@ -137,7 +137,7 @@ export default async function handler(req, res) {
 
     const userId = authData.user.id;
 
-    // Fail closed if administrator status cannot be checked.
+    // Never allow administrator accounts to be deleted here.
     const { data: admin, error: adminError } =
       await supabase
         .from("admin_users")
@@ -166,7 +166,7 @@ export default async function handler(req, res) {
       );
     }
 
-    // Dry run never changes database records.
+    // Safe test mode: no records are changed.
     if (body.dryRun === true) {
       return res.status(200).json({
         success: true,
@@ -180,15 +180,14 @@ export default async function handler(req, res) {
     }
 
     if (!REAL_DELETION_ENABLED) {
-      return res.status(409).json({
-        success: false,
-        deletionEnabled: false,
-        deletionPerformed: false,
-        error:
-          "Account deletion is temporarily disabled. No records were changed."
-      });
+      return sendError(
+        res,
+        409,
+        "Account deletion is temporarily disabled. No records were changed."
+      );
     }
 
+    // Require an explicit confirmation from the client.
     if (body.confirmDelete !== "DELETE_MY_ACCOUNT") {
       return sendError(
         res,
@@ -198,10 +197,9 @@ export default async function handler(req, res) {
     }
 
     /*
-     * The database trigger must already be installed and verified.
-     * It removes public.profiles for this user as part of the Auth
-     * deletion transaction. Foreign-key cascade rules handle the
-     * other verified dependent records.
+     * Delete only the authenticated user's Auth account.
+     * The verified database trigger cleans up public.profiles.
+     * Other dependent records rely on their configured foreign keys.
      */
     const { error: deleteError } =
       await supabase.auth.admin.deleteUser(userId);
@@ -215,7 +213,7 @@ export default async function handler(req, res) {
       return sendError(
         res,
         500,
-        "Account deletion failed. No successful deletion was confirmed. Check the account status before retrying."
+        "Account deletion failed. Check the account status before retrying."
       );
     }
 
@@ -225,7 +223,7 @@ export default async function handler(req, res) {
       authAccountDeleted: true,
       profileCleanup: "handled_by_database_trigger",
       message:
-        "The account deletion request succeeded. The database trigger handled standalone profile cleanup."
+        "The account deletion request succeeded."
     });
   } catch (error) {
     console.error(
