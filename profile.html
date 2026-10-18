@@ -41,9 +41,7 @@ button:disabled{background:#999;cursor:wait}
 .danger-zone{border:1px solid #fecaca}
 .danger-zone h3{color:#dc2626}
 .danger-zone button{background:#dc2626}
-.danger-zone button.safe-test-button{background:#2563eb}
-.delete-status,#testDeleteApiResult{display:block;margin-top:12px;line-height:1.5;overflow-wrap:anywhere;font-weight:bold}
-#testDeleteApiResult{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;font-family:Arial,sans-serif}
+.delete-status{display:block;margin-top:12px;line-height:1.5;overflow-wrap:anywhere;font-weight:bold}
 .signout-card{border:1px solid #c7d2fe}
 .signout-card h3{color:#4f46e5}
 .signout-button{background:#374151}
@@ -186,9 +184,8 @@ footer{text-align:center;padding:25px;color:#666;font-size:14px}
 
 <section class="card danger-zone">
 <h3>⚠️ Account Management</h3>
-<p class="muted">Account deletion is paused during testing. The safe test checks authentication and administrator protection without deleting records.</p>
-<button type="button" class="safe-test-button" id="testDeleteApiBtn">🔎 Test Account API (Safe)</button>
-<p id="testDeleteApiResult" role="status" aria-live="polite"></p>
+<p class="muted">Permanently delete your learner account. This action cannot be undone. Your account must not be an administrator account.</p>
+<p class="muted">Before continuing, make sure you have saved anything you need. You will be asked to confirm the deletion.</p>
 <button type="button" id="deleteAccountBtn">🗑️ Delete My Account</button>
 <p class="delete-status" id="deleteAccountStatus" role="status" aria-live="polite"></p>
 </section>
@@ -206,6 +203,7 @@ footer{text-align:center;padding:25px;color:#666;font-size:14px}
 
 const SUPABASE_URL = "https://hdlhhbnawltisszzsbvw.supabase.co";
 const SUPABASE_KEY = "sb_publishable_Z3kWBySaIHiFDJdIGFhC_Q_a9SPPRlK";
+const DELETE_ACCOUNT_API = "https://grade12-app.vercel.app/api/delete-account";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const $ = id => document.getElementById(id);
 
@@ -494,8 +492,6 @@ $("signOutBtn").addEventListener("click", async () => {
         const { error } = await db.auth.signOut();
         if (error) throw error;
 
-        // Clear only cached profile display data for this browser.
-        // This does not delete any database records.
         [
             "grade12_name",
             "grade12_grade",
@@ -517,35 +513,59 @@ $("signOutBtn").addEventListener("click", async () => {
     }
 });
 
-/* SAFE ACCOUNT API TEST: no database records are changed. */
-$("testDeleteApiBtn").addEventListener("click", async () => {
-    const button = $("testDeleteApiBtn");
-    const output = $("testDeleteApiResult");
+/*
+ * REAL ACCOUNT DELETION
+ * This calls the Vercel backend. The backend must independently verify
+ * the signed-in user and block administrator accounts.
+ */
+$("deleteAccountBtn").addEventListener("click", async () => {
+    const button = $("deleteAccountBtn");
+    const status = $("deleteAccountStatus");
+
+    const firstConfirmation = window.confirm(
+        "WARNING: This permanently deletes your account. This action cannot be undone. Do you want to continue?"
+    );
+
+    if (!firstConfirmation) {
+        status.style.color = "#374151";
+        status.textContent = "Account deletion cancelled. No request was sent.";
+        return;
+    }
+
+    const typedConfirmation = window.prompt(
+        'To confirm, type DELETE exactly. Otherwise, cancel.'
+    );
+
+    if (typedConfirmation !== "DELETE") {
+        status.style.color = "#374151";
+        status.textContent = "Confirmation did not match. No deletion request was sent.";
+        return;
+    }
 
     button.disabled = true;
-    output.style.color = "#222";
-    output.textContent = "Checking your login and API safely...";
+    button.textContent = "Deleting account...";
+    status.style.color = "#374151";
+    status.textContent = "Verifying your session and sending the request...";
 
     try {
-        const { data, error } = await db.auth.getSession();
-        if (error) throw error;
+        const { data, error: sessionError } = await db.auth.getSession();
+        if (sessionError) throw sessionError;
 
         const session = data?.session;
 
         if (!session?.access_token) {
-            output.style.color = "#b45309";
-            output.textContent =
-                "You are not signed in. Please log in and try again.";
-            return;
+            throw new Error("You are not signed in. Please sign in again before deleting your account.");
         }
 
-        const response = await fetch("/api/delete-account", {
+        const response = await fetch(DELETE_ACCOUNT_API, {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + session.access_token,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ dryRun: true })
+            body: JSON.stringify({
+                confirmDelete: "DELETE_MY_ACCOUNT"
+            })
         });
 
         const responseText = await response.text();
@@ -554,43 +574,59 @@ $("testDeleteApiBtn").addEventListener("click", async () => {
         try {
             result = JSON.parse(responseText);
         } catch {
-            result = { responseText };
+            throw new Error(
+                "The account API returned an unreadable response (HTTP " +
+                response.status + "). No successful deletion was confirmed."
+            );
         }
-
-        output.textContent =
-            "HTTP status: " + response.status + "\n\n" +
-            JSON.stringify(result, null, 2);
 
         if (
-            response.ok &&
-            result.success === true &&
-            result.dryRun === true &&
-            result.authenticated === true &&
-            result.deletionPerformed === false
+            !response.ok ||
+            result.success !== true ||
+            result.deletionPerformed !== true
         ) {
-            output.style.color = "#166534";
-        } else {
-            output.style.color =
-                response.status === 401 || response.status === 403
-                    ? "#dc2626"
-                    : "#b45309";
+            throw new Error(
+                result.error ||
+                result.message ||
+                "Account deletion was not confirmed. Your account may still exist."
+            );
         }
-    } catch (error) {
-        console.error("Safe account API test failed:", error);
-        output.style.color = "#dc2626";
-        output.textContent =
-            "The safe test could not finish: " +
-            (error?.message || "Unknown error");
-    } finally {
-        button.disabled = false;
-    }
-});
 
-/* ACTUAL ACCOUNT DELETION IS STILL DISABLED. */
-$("deleteAccountBtn").addEventListener("click", () => {
-    $("deleteAccountStatus").style.color = "#dc2626";
-    $("deleteAccountStatus").textContent =
-        "Account deletion is temporarily paused. No account was deleted.";
+        status.style.color = "#166534";
+        status.textContent =
+            "The server confirmed that your account was deleted. Signing out on this device...";
+
+        /*
+         * The backend has confirmed deletion. Clear the local session and
+         * cached profile data, then return to the home page.
+         */
+        try {
+            await db.auth.signOut({ scope: "local" });
+        } catch (signOutError) {
+            console.warn("Local sign-out after deletion:", signOutError);
+        }
+
+        [
+            "grade12_name",
+            "grade12_grade",
+            "grade12_province",
+            "grade12_area",
+            "grade12_school",
+            "grade12_goal",
+            "grade12_subjects"
+        ].forEach(key => localStorage.removeItem(key));
+
+        window.location.replace("index.html");
+    } catch (error) {
+        console.error("Account deletion request failed:", error);
+        status.style.color = "#dc2626";
+        status.textContent =
+            "Deletion was not confirmed: " +
+            (error?.message || "An unexpected error occurred.") +
+            " Check the account status before trying again.";
+        button.disabled = false;
+        button.textContent = "🗑️ Delete My Account";
+    }
 });
 
 displayProfile();
