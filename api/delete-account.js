@@ -10,15 +10,13 @@ const ALLOWED_ORIGINS = new Set([
   "https://asanelen18-glitch.github.io"
 ]);
 
-// Real deletion is enabled. Test with a separate learner account only.
 const REAL_DELETION_ENABLED = true;
 
-function sendError(res, status, error, extra = {}) {
+function sendError(res, status, error) {
   return res.status(status).json({
     success: false,
     deletionPerformed: false,
-    error,
-    ...extra
+    error
   });
 }
 
@@ -27,7 +25,7 @@ export default async function handler(req, res) {
   res.setHeader("Vary", "Origin");
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS"
+    "POST, OPTIONS"
   );
   res.setHeader(
     "Access-Control-Allow-Headers",
@@ -52,18 +50,17 @@ export default async function handler(req, res) {
     return res.status(204).end();
   }
 
-  if (req.method === "GET") {
-    return res.status(200).json({
-      ok: true,
-      endpoint: "delete-account",
-      realDeletionEnabled: REAL_DELETION_ENABLED,
-      deletionPerformed: false
-    });
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST, OPTIONS");
+    return sendError(res, 405, "Method not allowed.");
   }
 
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "GET, POST, OPTIONS");
-    return sendError(res, 405, "Method not allowed.");
+  if (!REAL_DELETION_ENABLED) {
+    return sendError(
+      res,
+      503,
+      "Account deletion is currently unavailable."
+    );
   }
 
   if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
@@ -93,7 +90,7 @@ export default async function handler(req, res) {
     return sendError(
       res,
       401,
-      "Please sign in again before continuing."
+      "Please sign in again before deleting your account."
     );
   }
 
@@ -111,6 +108,15 @@ export default async function handler(req, res) {
     );
   }
 
+  // Require deliberate confirmation from the signed-in user.
+  if (body.confirmDelete !== "DELETE_MY_ACCOUNT") {
+    return sendError(
+      res,
+      400,
+      "Explicit account-deletion confirmation is required."
+    );
+  }
+
   const supabase = createClient(
     projectUrl.replace(/\/$/, ""),
     SUPABASE_SERVICE_ROLE_KEY,
@@ -123,7 +129,7 @@ export default async function handler(req, res) {
   );
 
   try {
-    // Verify the actual signed-in Supabase user.
+    // Verify the user's actual Supabase access token.
     const { data: authData, error: authError } =
       await supabase.auth.getUser(token);
 
@@ -137,7 +143,7 @@ export default async function handler(req, res) {
 
     const userId = authData.user.id;
 
-    // Never allow administrator accounts to be deleted here.
+    // Protect administrator accounts.
     const { data: admin, error: adminError } =
       await supabase
         .from("admin_users")
@@ -154,7 +160,7 @@ export default async function handler(req, res) {
       return sendError(
         res,
         500,
-        "We could not verify account permissions. No deletion was attempted."
+        "Account permissions could not be verified. No deletion was attempted."
       );
     }
 
@@ -166,40 +172,11 @@ export default async function handler(req, res) {
       );
     }
 
-    // Safe test mode: no records are changed.
-    if (body.dryRun === true) {
-      return res.status(200).json({
-        success: true,
-        dryRun: true,
-        authenticated: true,
-        administratorCheckPassed: true,
-        deletionPerformed: false,
-        message:
-          "Authentication and administrator checks passed. No records were changed."
-      });
-    }
-
-    if (!REAL_DELETION_ENABLED) {
-      return sendError(
-        res,
-        409,
-        "Account deletion is temporarily disabled. No records were changed."
-      );
-    }
-
-    // Require an explicit confirmation from the client.
-    if (body.confirmDelete !== "DELETE_MY_ACCOUNT") {
-      return sendError(
-        res,
-        400,
-        "Explicit account-deletion confirmation is required."
-      );
-    }
-
     /*
-     * Delete only the authenticated user's Auth account.
-     * The verified database trigger cleans up public.profiles.
-     * Other dependent records rely on their configured foreign keys.
+     * Delete only the user verified by the access token.
+     * The database trigger cleans up public.profiles.
+     * Related records depend on configured foreign keys
+     * and any additional database cleanup triggers.
      */
     const { error: deleteError } =
       await supabase.auth.admin.deleteUser(userId);
@@ -213,7 +190,7 @@ export default async function handler(req, res) {
       return sendError(
         res,
         500,
-        "Account deletion failed. Check the account status before retrying."
+        "Supabase did not confirm account deletion. Check the account status before retrying."
       );
     }
 
@@ -223,7 +200,7 @@ export default async function handler(req, res) {
       authAccountDeleted: true,
       profileCleanup: "handled_by_database_trigger",
       message:
-        "The account deletion request succeeded."
+        "Supabase confirmed deletion of the account. Related data cleanup depends on the database configuration."
     });
   } catch (error) {
     console.error(
@@ -234,7 +211,7 @@ export default async function handler(req, res) {
     return sendError(
       res,
       500,
-      "The request encountered an error. Check the account status before retrying."
+      "The request failed. Check the account status before retrying."
     );
   }
 }
