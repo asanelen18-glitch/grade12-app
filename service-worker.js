@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "grade12-hub-v3";
+const CACHE_NAME = "grade12-hub-v4";
 
 const FILES_TO_CACHE = [
     "/",
@@ -8,13 +8,14 @@ const FILES_TO_CACHE = [
     "/maths.html",
     "/past-papers.html",
     "/maths-2025.html",
+    "/study-planner.html",
     "/manifest.json",
     "/icon-192.png",
     "/icon-512.png"
 ];
 
-// Install: cache available app files without failing the
-// entire installation if one optional file is unavailable.
+// INSTALL: Cache app files without failing if an optional
+// file is unavailable.
 self.addEventListener("install", event => {
     event.waitUntil(
         (async () => {
@@ -31,7 +32,7 @@ self.addEventListener("install", event => {
                             await cache.put(file, response);
                         }
                     } catch (error) {
-                        console.warn("Could not cache:", file);
+                        console.warn("Could not cache:", file, error);
                     }
                 })
             );
@@ -41,7 +42,7 @@ self.addEventListener("install", event => {
     );
 });
 
-// Activate: remove older Grade 12 Hub caches only.
+// ACTIVATE: Remove only older Grade 12 Hub caches.
 self.addEventListener("activate", event => {
     event.waitUntil(
         (async () => {
@@ -61,7 +62,7 @@ self.addEventListener("activate", event => {
     );
 });
 
-// Fetch: never intercept API requests, non-GET requests,
+// FETCH: Do not intercept API requests, non-GET requests,
 // or requests to other origins.
 self.addEventListener("fetch", event => {
     const request = event.request;
@@ -75,8 +76,7 @@ self.addEventListener("fetch", event => {
         return;
     }
 
-    // For page navigation, try the network first.
-    // If offline, use a cached page when available.
+    // Page navigation: network first, cached page if offline.
     if (request.mode === "navigate") {
         event.respondWith(
             (async () => {
@@ -92,11 +92,15 @@ self.addEventListener("fetch", event => {
                 } catch (error) {
                     const cachedPage = await caches.match(request);
 
-                    if (cachedPage) return cachedPage;
+                    if (cachedPage) {
+                        return cachedPage;
+                    }
 
                     const homePage = await caches.match("/index.html");
 
-                    if (homePage) return homePage;
+                    if (homePage) {
+                        return homePage;
+                    }
 
                     return new Response("You are offline.", {
                         status: 503,
@@ -111,76 +115,126 @@ self.addEventListener("fetch", event => {
         return;
     }
 
-    // For other same-origin GET requests, use the cache
-    // first and fetch from the network if not cached.
+    // Other same-origin GET requests: cache first.
     event.respondWith(
         (async () => {
             const cached = await caches.match(request);
 
-            if (cached) return cached;
+            if (cached) {
+                return cached;
+            }
 
             return fetch(request);
         })()
     );
 });
 
-// Push: display reminders even when the page is closed,
-// provided the browser and operating system deliver the push.
+// PUSH: Display a notification when the browser delivers
+// a push message to this service worker.
 self.addEventListener("push", event => {
-    let data = {};
-
-    try {
-        data = event.data ? event.data.json() : {};
-    } catch (error) {
-        data = {
-            body: event.data
-                ? event.data.text()
-                : "You have a study reminder."
-        };
-    }
-
-    const title = data.title || "Grade 12 Hub reminder";
-
-    const options = {
-        body: data.body || "Check your Study Planner.",
-        icon: "/icon-192.png",
-        badge: "/icon-192.png",
-        tag: data.itemId
-            ? `planner-${data.itemId}`
-            : "grade12-reminder",
-        data: {
-            url: data.url || "/study-planner.html"
-        }
-    };
-
     event.waitUntil(
-        self.registration.showNotification(title, options)
+        (async () => {
+            let data = {};
+
+            try {
+                if (event.data) {
+                    const raw = event.data.text();
+
+                    try {
+                        data = JSON.parse(raw);
+                    } catch (parseError) {
+                        data = {
+                            body: raw
+                        };
+                    }
+                }
+            } catch (error) {
+                data = {};
+            }
+
+            const title =
+                typeof data.title === "string" && data.title.trim()
+                    ? data.title.trim()
+                    : "Grade 12 Hub reminder";
+
+            const body =
+                typeof data.body === "string" && data.body.trim()
+                    ? data.body.trim()
+                    : "You have a study reminder. Open your Study Planner.";
+
+            // Only allow links to this website.
+            let target = "/study-planner.html";
+
+            if (
+                typeof data.url === "string" &&
+                data.url.startsWith("/") &&
+                !data.url.startsWith("//")
+            ) {
+                target = data.url;
+            }
+
+            const options = {
+                body,
+                icon: "/icon-192.png",
+                badge: "/icon-192.png",
+                tag: data.itemId
+                    ? `grade12-planner-${data.itemId}`
+                    : "grade12-hub-reminder",
+                renotify: false,
+                timestamp: Date.now(),
+                data: {
+                    url: target
+                }
+            };
+
+            await self.registration.showNotification(title, options);
+        })()
     );
 });
 
-// Notification click: open or focus Grade 12 Hub.
+// NOTIFICATION CLICK: Close the notification and open
+// or focus the relevant Grade 12 Hub page.
 self.addEventListener("notificationclick", event => {
     event.notification.close();
 
-    const target = new URL(
-        event.notification.data?.url || "/study-planner.html",
-        self.location.origin
-    ).href;
-
     event.waitUntil(
         (async () => {
+            let target = "/study-planner.html";
+            const savedUrl = event.notification.data?.url;
+
+            if (
+                typeof savedUrl === "string" &&
+                savedUrl.startsWith("/") &&
+                !savedUrl.startsWith("//")
+            ) {
+                target = savedUrl;
+            }
+
+            const targetUrl = new URL(
+                target,
+                self.location.origin
+            ).href;
+
             const windows = await self.clients.matchAll({
                 type: "window",
                 includeUncontrolled: true
             });
 
+            // Focus an existing Grade 12 Hub window if possible.
             for (const client of windows) {
                 if (
                     client.url.startsWith(self.location.origin) &&
                     "focus" in client
                 ) {
-                    if ("navigate" in client) {
-                        await client.navigate(target);
+                    if (client.url !== targetUrl && "navigate" in client) {
+                        try {
+                            await client.navigate(targetUrl);
+                        } catch (error) {
+                            console.warn(
+                                "Could not navigate existing window:",
+                                error
+                            );
+                        }
                     }
 
                     await client.focus();
@@ -188,9 +242,18 @@ self.addEventListener("notificationclick", event => {
                 }
             }
 
+            // Otherwise, open a new window.
             if (self.clients.openWindow) {
-                await self.clients.openWindow(target);
+                await self.clients.openWindow(targetUrl);
             }
         })()
     );
+});
+
+// OPTIONAL: Allow a message from the app to activate this worker.
+// This does not send a notification by itself.
+self.addEventListener("message", event => {
+    if (event.data === "SKIP_WAITING") {
+        event.waitUntil(self.skipWaiting());
+    }
 });
